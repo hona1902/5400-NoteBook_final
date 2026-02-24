@@ -31,16 +31,17 @@ import {
 } from 'lucide-react'
 import { useTranslation } from '@/lib/hooks/use-translation'
 import { TranslationKeys } from '@/lib/locales'
+import { useRoleGuard } from '@/lib/hooks/use-role-guard'
 
 const getNavigationItems = (t: TranslationKeys) => [
   { name: t.navigation.sources, href: '/sources', icon: FileText, keywords: ['files', 'documents', 'upload'] },
   { name: t.navigation.notebooks, href: '/notebooks', icon: Book, keywords: ['notes', 'research', 'projects'] },
   { name: t.navigation.askAndSearch, href: '/search', icon: Search, keywords: ['find', 'query'] },
   { name: t.navigation.podcasts, href: '/podcasts', icon: Mic, keywords: ['audio', 'episodes', 'generate'] },
-  { name: t.navigation.models, href: '/settings/api-keys', icon: Bot, keywords: ['ai', 'llm', 'providers', 'openai', 'anthropic'] },
-  { name: t.navigation.transformations, href: '/transformations', icon: Shuffle, keywords: ['prompts', 'templates', 'actions'] },
-  { name: t.navigation.settings, href: '/settings', icon: Settings, keywords: ['preferences', 'config', 'options'] },
-  { name: t.navigation.advanced, href: '/advanced', icon: Wrench, keywords: ['debug', 'system', 'tools'] },
+  { name: t.navigation.models, href: '/settings/api-keys', icon: Bot, keywords: ['ai', 'llm', 'providers', 'openai', 'anthropic'], adminOnly: true },
+  { name: t.navigation.transformations, href: '/transformations', icon: Shuffle, keywords: ['prompts', 'templates', 'actions'], adminOnly: true },
+  { name: t.navigation.settings, href: '/settings', icon: Settings, keywords: ['preferences', 'config', 'options'], adminOnly: true },
+  { name: t.navigation.advanced, href: '/advanced', icon: Wrench, keywords: ['debug', 'system', 'tools'], adminOnly: true },
 ]
 
 const getCreateItems = (t: TranslationKeys) => [
@@ -57,11 +58,12 @@ const getThemeItems = (t: TranslationKeys) => [
 
 export function CommandPalette() {
   const { t } = useTranslation()
+  const { isAdmin } = useRoleGuard()
   const commandInputId = useId()
-  const navigationItems = useMemo(() => getNavigationItems(t), [t])
-  const createItems = useMemo(() => getCreateItems(t), [t])
-  const themeItems = useMemo(() => getThemeItems(t), [t])
-  
+  const navigationItems = useMemo(() => getNavigationItems(t).filter(item => isAdmin || !item.adminOnly), [t, isAdmin])
+  const createItems = useMemo(() => isAdmin ? getCreateItems(t) : [], [t, isAdmin])
+  const themeItems = useMemo(() => isAdmin ? getThemeItems(t) : [], [t, isAdmin])
+
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
   const router = useRouter()
@@ -236,32 +238,36 @@ export function CommandPalette() {
         </CommandGroup>
 
         {/* Create */}
-        <CommandGroup heading={t.navigation.create}>
-          {createItems.map((item) => (
-            <CommandItem
-              key={item.action}
-              value={`create ${item.name}`}
-              onSelect={() => handleCreate(item.action)}
-            >
-              <Plus className="h-4 w-4" />
-              <span>{item.name}</span>
-            </CommandItem>
-          ))}
-        </CommandGroup>
+        {createItems.length > 0 && (
+          <CommandGroup heading={t.navigation.create}>
+            {createItems.map((item) => (
+              <CommandItem
+                key={item.action}
+                value={`create ${item.name}`}
+                onSelect={() => handleCreate(item.action)}
+              >
+                <Plus className="h-4 w-4" />
+                <span>{item.name}</span>
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        )}
 
         {/* Theme */}
-        <CommandGroup heading={t.navigation.theme}>
-          {themeItems.map((item) => (
-            <CommandItem
-              key={item.value}
-              value={`theme ${item.name} ${item.keywords.join(' ')}`}
-              onSelect={() => handleTheme(item.value)}
-            >
-              <item.icon className="h-4 w-4" />
-              <span>{item.name}</span>
-            </CommandItem>
-          ))}
-        </CommandGroup>
+        {themeItems.length > 0 && (
+          <CommandGroup heading={t.navigation.theme}>
+            {themeItems.map((item) => (
+              <CommandItem
+                key={item.value}
+                value={`theme ${item.name} ${item.keywords.join(' ')}`}
+                onSelect={() => handleTheme(item.value)}
+              >
+                <item.icon className="h-4 w-4" />
+                <span>{item.name}</span>
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        )}
 
         {/* Search/Ask - show at bottom when there IS a command match */}
         {query.trim() && hasCommandMatch && (
