@@ -1,26 +1,14 @@
-import { zhCN } from './zh-CN';
 import { enUS } from './en-US';
-import { zhTW } from './zh-TW';
-import { ptBR } from './pt-BR';
-import { jaJP } from './ja-JP';
-import { itIT } from './it-IT';
-import { frFR } from './fr-FR';
-import { ruRU } from './ru-RU';
+import { viVN } from './vi-VN';
 
 export const resources = {
-  'zh-CN': { translation: zhCN },
   'en-US': { translation: enUS },
-  'zh-TW': { translation: zhTW },
-  'pt-BR': { translation: ptBR },
-  'ja-JP': { translation: jaJP },
-  'it-IT': { translation: itIT },
-  'fr-FR': { translation: frFR },
-  'ru-RU': { translation: ruRU },
+  'vi-VN': { translation: viVN },
 } as const;
 
 export type TranslationKeys = typeof enUS;
 
-export type LanguageCode = 'zh-CN' | 'en-US' | 'zh-TW' | 'pt-BR' | 'ja-JP' | 'it-IT' | 'fr-FR' | 'ru-RU';
+export type LanguageCode = 'en-US' | 'vi-VN';
 
 export type Language = {
   code: LanguageCode;
@@ -28,14 +16,8 @@ export type Language = {
 };
 
 export const languages: Language[] = [
+  { code: 'vi-VN', label: 'Tiếng Việt' },
   { code: 'en-US', label: 'English' },
-  { code: 'zh-CN', label: '简体中文' },
-  { code: 'zh-TW', label: '繁體中文' },
-  { code: 'pt-BR', label: 'Português' },
-  { code: 'ja-JP', label: '日本語' },
-  { code: 'it-IT', label: 'Italiano' },
-  { code: 'fr-FR', label: 'Français' },
-  { code: 'ru-RU', label: 'Русский' },
 ];
 
-export { zhCN, enUS, zhTW, ptBR, jaJP, itIT, frFR, ruRU };
+export { enUS, viVN };
