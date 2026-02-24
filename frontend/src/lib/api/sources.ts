@@ -1,18 +1,19 @@
 import type { AxiosResponse } from 'axios'
 
 import apiClient from './client'
-import { 
-  SourceListResponse, 
-  SourceDetailResponse, 
+import {
+  SourceListResponse,
+  SourceDetailResponse,
   SourceResponse,
   SourceStatusResponse,
-  CreateSourceRequest, 
-  UpdateSourceRequest 
+  CreateSourceRequest,
+  UpdateSourceRequest
 } from '@/lib/types/api'
 
 export const sourcesApi = {
   list: async (params?: {
     notebook_id?: string
+    title?: string
     limit?: number
     offset?: number
     sort_by?: 'created' | 'updated'
@@ -30,10 +31,10 @@ export const sourcesApi = {
   create: async (data: CreateSourceRequest & { file?: File }) => {
     // Always use FormData to match backend expectations
     const formData = new FormData()
-    
+
     // Add basic fields
     formData.append('type', data.type)
-    
+
     if (data.notebooks !== undefined) {
       formData.append('notebooks', JSON.stringify(data.notebooks))
     }
@@ -52,16 +53,16 @@ export const sourcesApi = {
     if (data.transformations !== undefined) {
       formData.append('transformations', JSON.stringify(data.transformations))
     }
-    
+
     const dataWithFile = data as CreateSourceRequest & { file?: File }
     if (dataWithFile.file instanceof File) {
       formData.append('file', dataWithFile.file)
     }
-    
+
     formData.append('embed', String(data.embed ?? false))
     formData.append('delete_source', String(data.delete_source ?? false))
     formData.append('async_processing', String(data.async_processing ?? false))
-    
+
     const response = await apiClient.post<SourceResponse>('/sources', formData)
     return response.data
   },
@@ -86,7 +87,7 @@ export const sourcesApi = {
     formData.append('notebook_id', notebook_id)
     formData.append('type', 'upload')
     formData.append('async_processing', 'true')
-    
+
     const response = await apiClient.post<SourceResponse>('/sources', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',

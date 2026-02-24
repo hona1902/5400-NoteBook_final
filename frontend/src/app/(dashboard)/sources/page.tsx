@@ -8,8 +8,9 @@ import { LoadingSpinner } from '@/components/common/LoadingSpinner'
 import { EmptyState } from '@/components/common/EmptyState'
 import { AppShell } from '@/components/layout/AppShell'
 import { ConfirmDialog } from '@/components/common/ConfirmDialog'
-import { FileText, Link as LinkIcon, Upload, AlignLeft, Trash2, ArrowUpDown } from 'lucide-react'
+import { FileText, Link as LinkIcon, Upload, AlignLeft, Trash2, ArrowUpDown, X } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
+import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { useTranslation } from '@/lib/hooks/use-translation'
@@ -18,14 +19,20 @@ import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import { getApiErrorKey } from '@/lib/utils/error-handler'
 import { useRoleGuard } from '@/lib/hooks/use-role-guard'
+import { useNotebooks } from '@/lib/hooks/use-notebooks'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 export default function SourcesPage() {
   const { t, language } = useTranslation()
   const { isAdmin } = useRoleGuard()
+  const { data: notebooks, isLoading: notebooksLoading } = useNotebooks(false)
+  const [selectedNotebookId, setSelectedNotebookId] = useState<string>('all')
   const [sources, setSources] = useState<SourceListResponse[]>([])
   const [loading, setLoading] = useState(true)
   const [loadingMore, setLoadingMore] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [searchTitle, setSearchTitle] = useState('')
+  const [debouncedSearch, setDebouncedSearch] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [sortBy, setSortBy] = useState<'created' | 'updated'>('updated')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
@@ -40,6 +47,12 @@ export default function SourcesPage() {
   const loadingMoreRef = useRef(false)
   const hasMoreRef = useRef(true)
   const PAGE_SIZE = 30
+  const fetchIdRef = useRef(0)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(searchTitle), 300)
+    return () => clearTimeout(timer)
+  }, [searchTitle])
 
   const fetchSources = useCallback(async (reset = false) => {
     try {
@@ -51,24 +64,36 @@ export default function SourcesPage() {
       if (reset) {
         setLoading(true)
         offsetRef.current = 0
-        setSources([])
         hasMoreRef.current = true
       } else {
         loadingMoreRef.current = true
         setLoadingMore(true)
       }
 
+      const currentFetchId = ++fetchIdRef.current;
+
       const data = await sourcesApi.list({
         limit: PAGE_SIZE,
         offset: offsetRef.current,
         sort_by: sortBy,
         sort_order: sortOrder,
+        title: debouncedSearch || undefined,
+        notebook_id: selectedNotebookId === 'all' ? undefined : selectedNotebookId,
       })
+
+      // If another fetch was started after this one, ignore this result
+      if (currentFetchId !== fetchIdRef.current) {
+        return;
+      }
 
       if (reset) {
         setSources(data)
       } else {
-        setSources(prev => [...prev, ...data])
+        setSources(prev => {
+          const existingIds = new Set(prev.map(s => s.id));
+          const newSources = data.filter(s => !existingIds.has(s.id));
+          return [...prev, ...newSources];
+        })
       }
 
       // Check if we have more data
@@ -84,18 +109,21 @@ export default function SourcesPage() {
       setLoadingMore(false)
       loadingMoreRef.current = false
     }
-  }, [sortBy, sortOrder, t.sources.failedToLoad])
+  }, [sortBy, sortOrder, debouncedSearch, selectedNotebookId, t.sources.failedToLoad])
 
-  // Initial load and when sort changes
+  // Initial load and when sort/search/notebook changes
   useEffect(() => {
     fetchSources(true)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortBy, sortOrder])
+  }, [sortBy, sortOrder, debouncedSearch, selectedNotebookId])
 
   useEffect(() => {
     // Focus the table when component mounts or sources change
     if (sources.length > 0 && tableRef.current) {
-      tableRef.current.focus()
+      const activeTag = document.activeElement?.tagName
+      if (activeTag !== 'INPUT' && activeTag !== 'TEXTAREA') {
+        tableRef.current.focus()
+      }
     }
   }, [sources])
 
@@ -187,7 +215,7 @@ export default function SourcesPage() {
         const distanceFromBottom = scrollHeight - scrollTop - clientHeight
 
         // Load more when within 200px of the bottom
-        if (distanceFromBottom < 200 && !loadingMoreRef.current && hasMoreRef.current) {
+        if (distanceFromBottom < 200 && !loadingMoreRef.current && hasMoreRef.current && !loading) {
           fetchSources(false)
         }
       }, 100)
@@ -202,7 +230,7 @@ export default function SourcesPage() {
         clearTimeout(scrollTimeout)
       }
     }
-  }, [fetchSources, sources.length])
+  }, [fetchSources, loading])
 
   const toggleSort = (field: 'created' | 'updated') => {
     if (sortBy === field) {
@@ -253,38 +281,6 @@ export default function SourcesPage() {
     }
   }
 
-  if (loading) {
-    return (
-      <AppShell>
-        <div className="flex h-full items-center justify-center">
-          <LoadingSpinner />
-        </div>
-      </AppShell>
-    )
-  }
-
-  if (error) {
-    return (
-      <AppShell>
-        <div className="flex h-full items-center justify-center">
-          <p className="text-red-500">{error}</p>
-        </div>
-      </AppShell>
-    )
-  }
-
-  if (sources.length === 0) {
-    return (
-      <AppShell>
-        <EmptyState
-          icon={FileText}
-          title={t.sources.noSourcesYet}
-          description={t.sources.allSourcesDescShort}
-        />
-      </AppShell>
-    )
-  }
-
   return (
     <AppShell>
       <div className="flex flex-col h-full w-full max-w-none px-6 py-6">
@@ -295,134 +291,213 @@ export default function SourcesPage() {
           </p>
         </div>
 
-        <div ref={scrollContainerRef} className="flex-1 rounded-md border overflow-auto">
-          <table
-            ref={tableRef}
-            tabIndex={0}
-            className="w-full min-w-[800px] outline-none table-fixed"
-          >
-            <colgroup>
-              <col className="w-[120px]" />
-              <col className="w-auto" />
-              <col className="w-[140px]" />
-              <col className="w-[100px]" />
-              <col className="w-[100px]" />
-              {isAdmin && <col className="w-[100px]" />}
-            </colgroup>
-            <thead className="sticky top-0 bg-background z-10">
-              <tr className="border-b bg-muted/50">
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
-                  {t.common.type}
-                </th>
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
-                  {t.common.title}
-                </th>
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground hidden sm:table-cell">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => toggleSort('created')}
-                    className="h-8 px-2 hover:bg-muted"
-                  >
-                    {t.common.created_label}
-                    <ArrowUpDown className={cn(
-                      "ml-2 h-3 w-3",
-                      sortBy === 'created' ? 'opacity-100' : 'opacity-30'
-                    )} />
-                    {sortBy === 'created' && (
-                      <span className="ml-1 text-xs">
-                        {sortOrder === 'asc' ? '↑' : '↓'}
-                      </span>
-                    )}
-                  </Button>
-                </th>
-                <th className="h-12 px-4 text-center align-middle font-medium text-muted-foreground hidden md:table-cell">
-                  {t.sources.insights}
-                </th>
-                <th className="h-12 px-4 text-center align-middle font-medium text-muted-foreground hidden lg:table-cell">
-                  {t.sources.embedded}
-                </th>
-                {isAdmin && (
-                  <th className="h-12 px-4 text-right align-middle font-medium text-muted-foreground">
-                    {t.common.actions}
+        <div className="mb-4 flex flex-col sm:flex-row gap-4">
+          <div className="relative w-full md:w-[300px]">
+            <Input
+              placeholder={t.common.search || "Search by title..."}
+              value={searchTitle}
+              onChange={(e) => setSearchTitle(e.target.value)}
+              className="w-full pr-8"
+            />
+            {searchTitle && (
+              <button
+                type="button"
+                onClick={() => setSearchTitle('')}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+          <div className="w-full md:w-[250px]">
+            <Select
+              value={selectedNotebookId}
+              onValueChange={setSelectedNotebookId}
+              disabled={notebooksLoading}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder={t.notebooks?.title || "Notebooks"} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All</SelectItem>
+                {notebooks?.map((notebook) => (
+                  <SelectItem key={notebook.id} value={notebook.id}>
+                    {notebook.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        {error ? (
+          <div className="flex-1 flex items-center justify-center">
+            <p className="text-destructive">{error}</p>
+          </div>
+        ) : loading && sources.length === 0 ? (
+          <div className="flex-1 flex items-center justify-center">
+            <LoadingSpinner />
+          </div>
+        ) : sources.length === 0 ? (
+          <div className="flex-1">
+            <EmptyState
+              icon={FileText}
+              title={t.sources.noSourcesYet}
+              description={t.sources.allSourcesDescShort}
+            />
+          </div>
+        ) : (
+          <div ref={scrollContainerRef} className="flex-1 rounded-md border overflow-auto relative">
+            {loading && (
+              <div className="absolute inset-0 bg-background/50 z-20 flex items-center justify-center">
+                <LoadingSpinner />
+              </div>
+            )}
+            <table
+              ref={tableRef}
+              tabIndex={0}
+              className="w-full min-w-[800px] outline-none table-fixed"
+            >
+              <colgroup>
+                <col className="w-[120px]" />
+                <col className="w-[30%]" />
+                <col className="w-[20%]" />
+                <col className="w-[140px]" />
+                <col className="w-[100px]" />
+                <col className="w-[100px]" />
+                {isAdmin && <col className="w-[100px]" />}
+              </colgroup>
+              <thead className="sticky top-0 bg-background z-10">
+                <tr className="border-b bg-muted/50">
+                  <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                    {t.common.type}
                   </th>
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              {sources.map((source, index) => (
-                <tr
-                  key={source.id}
-                  onClick={() => handleRowClick(index, source.id)}
-                  onMouseEnter={() => setSelectedIndex(index)}
-                  className={cn(
-                    "border-b transition-colors cursor-pointer",
-                    selectedIndex === index
-                      ? "bg-accent"
-                      : "hover:bg-muted/50"
-                  )}
-                >
-                  <td className="h-12 px-4">
-                    <div className="flex items-center gap-2">
-                      {getSourceIcon(source)}
-                      <Badge variant="secondary" className="text-xs">
-                        {getSourceType(source)}
-                      </Badge>
-                    </div>
-                  </td>
-                  <td className="h-12 px-4">
-                    <div className="flex flex-col overflow-hidden">
-                      <span className="font-medium truncate">
-                        {source.title || t.sources.untitledSource}
-                      </span>
-                      {source.asset?.url && (
-                        <span className="text-xs text-muted-foreground truncate">
-                          {source.asset.url}
+                  <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                    {t.common.title}
+                  </th>
+                  <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground hidden sm:table-cell">
+                    {t.notebooks.title}
+                  </th>
+                  <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground hidden sm:table-cell">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => toggleSort('created')}
+                      className="h-8 px-2 hover:bg-muted"
+                    >
+                      {t.common.created_label}
+                      <ArrowUpDown className={cn(
+                        "ml-2 h-3 w-3",
+                        sortBy === 'created' ? 'opacity-100' : 'opacity-30'
+                      )} />
+                      {sortBy === 'created' && (
+                        <span className="ml-1 text-xs">
+                          {sortOrder === 'asc' ? '↑' : '↓'}
                         </span>
                       )}
-                    </div>
-                  </td>
-                  <td className="h-12 px-4 text-muted-foreground text-sm hidden sm:table-cell">
-                    {formatDistanceToNow(new Date(source.created), {
-                      addSuffix: true,
-                      locale: getDateLocale(language)
-                    })}
-                  </td>
-                  <td className="h-12 px-4 text-center hidden md:table-cell">
-                    <span className="text-sm font-medium">{source.insights_count || 0}</span>
-                  </td>
-                  <td className="h-12 px-4 text-center hidden lg:table-cell">
-                    <Badge variant={source.embedded ? "default" : "secondary"} className="text-xs">
-                      {source.embedded ? t.sources.yes : t.sources.no}
-                    </Badge>
-                  </td>
+                    </Button>
+                  </th>
+                  <th className="h-12 px-4 text-center align-middle font-medium text-muted-foreground hidden md:table-cell">
+                    {t.sources.insights}
+                  </th>
+                  <th className="h-12 px-4 text-center align-middle font-medium text-muted-foreground hidden lg:table-cell">
+                    {t.sources.embedded}
+                  </th>
                   {isAdmin && (
-                    <td className="h-12 px-4 text-right">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={(e) => handleDeleteClick(e, source)}
-                        className="text-destructive hover:text-destructive"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </td>
+                    <th className="h-12 px-4 text-right align-middle font-medium text-muted-foreground">
+                      {t.common.actions}
+                    </th>
                   )}
                 </tr>
-              ))}
-              {loadingMore && (
-                <tr>
-                  <td colSpan={6} className="h-16 text-center">
-                    <div className="flex items-center justify-center">
-                      <LoadingSpinner />
-                      <span className="ml-2 text-muted-foreground">{t.sources.loadingMore}</span>
-                    </div>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {sources.map((source, index) => (
+                  <tr
+                    key={source.id}
+                    onClick={() => handleRowClick(index, source.id)}
+                    onMouseEnter={() => setSelectedIndex(index)}
+                    className={cn(
+                      "border-b transition-colors cursor-pointer",
+                      selectedIndex === index
+                        ? "bg-accent"
+                        : "hover:bg-muted/50"
+                    )}
+                  >
+                    <td className="h-12 px-4">
+                      <div className="flex items-center gap-2">
+                        {getSourceIcon(source)}
+                        <Badge variant="secondary" className="text-xs">
+                          {getSourceType(source)}
+                        </Badge>
+                      </div>
+                    </td>
+                    <td className="h-12 px-4">
+                      <div className="flex flex-col overflow-hidden">
+                        <span className="font-medium truncate">
+                          {source.title || t.sources.untitledSource}
+                        </span>
+                        {source.asset?.url && (
+                          <span className="text-xs text-muted-foreground truncate">
+                            {source.asset.url}
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                    <td className="h-12 px-4 hidden sm:table-cell">
+                      <div className="flex flex-wrap gap-1">
+                        {source.notebooks && source.notebooks.length > 0 ? (
+                          source.notebooks.map((nb) => (
+                            <Badge key={nb.id} variant="outline" className="text-xs font-normal">
+                              {nb.name}
+                            </Badge>
+                          ))
+                        ) : (
+                          <span className="text-xs text-muted-foreground">-</span>
+                        )}
+                      </div>
+                    </td>
+                    <td className="h-12 px-4 text-muted-foreground text-sm hidden sm:table-cell">
+                      {formatDistanceToNow(new Date(source.created), {
+                        addSuffix: true,
+                        locale: getDateLocale(language)
+                      })}
+                    </td>
+                    <td className="h-12 px-4 text-center hidden md:table-cell">
+                      <span className="text-sm font-medium">{source.insights_count || 0}</span>
+                    </td>
+                    <td className="h-12 px-4 text-center hidden lg:table-cell">
+                      <Badge variant={source.embedded ? "default" : "secondary"} className="text-xs">
+                        {source.embedded ? t.sources.yes : t.sources.no}
+                      </Badge>
+                    </td>
+                    {isAdmin && (
+                      <td className="h-12 px-4 text-right">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={(e) => handleDeleteClick(e, source)}
+                          className="text-destructive hover:text-destructive"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </td>
+                    )}
+                  </tr>
+                ))}
+                {loadingMore && (
+                  <tr>
+                    <td colSpan={6} className="h-16 text-center">
+                      <div className="flex items-center justify-center">
+                        <LoadingSpinner />
+                        <span className="ml-2 text-muted-foreground">{t.sources.loadingMore}</span>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       {isAdmin && (

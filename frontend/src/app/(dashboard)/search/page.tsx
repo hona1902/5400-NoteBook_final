@@ -14,7 +14,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
-import { Search, ChevronDown, AlertCircle, Settings, Save, MessageCircleQuestion } from 'lucide-react'
+import { Search, ChevronDown, AlertCircle, Settings, Save, MessageCircleQuestion, X } from 'lucide-react'
 import { useSearch } from '@/lib/hooks/use-search'
 import { useAsk } from '@/lib/hooks/use-ask'
 import { useModelDefaults, useModels } from '@/lib/hooks/use-models'
@@ -323,18 +323,30 @@ export default function SearchPage() {
                     {t.searchPage.search}
                   </Label>
                   <div className="flex flex-col sm:flex-row gap-2">
-                    <Input
-                      id="search-query"
-                      name="search-query"
-                      placeholder={t.searchPage.enterSearchPlaceholder}
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      onKeyPress={handleKeyPress}
-                      disabled={searchMutation.isPending}
-                      className="flex-1"
-                      aria-label={t.common.accessibility.enterSearch}
-                      autoComplete="off"
-                    />
+                    <div className="relative flex-1">
+                      <Input
+                        id="search-query"
+                        name="search-query"
+                        placeholder={t.searchPage.enterSearchPlaceholder}
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        disabled={searchMutation.isPending}
+                        className="w-full pr-8"
+                        aria-label={t.common.accessibility.enterSearch}
+                        autoComplete="off"
+                      />
+                      {searchQuery && (
+                        <button
+                          type="button"
+                          onClick={() => setSearchQuery('')}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none"
+                          disabled={searchMutation.isPending}
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      )}
+                    </div>
                     <Button
                       onClick={handleSearch}
                       disabled={searchMutation.isPending || !searchQuery.trim()}
@@ -452,40 +464,41 @@ export default function SearchPage() {
                           const modalType = type === 'source_insight' ? 'insight' : type as 'source' | 'note' | 'insight'
 
                           return (
-                          <Card key={index}>
-                            <CardContent className="pt-4">
-                              <div className="flex items-start justify-between gap-4">
-                                <div className="flex-1">
-                                  <button
-                                    onClick={() => openModal(modalType, id)}
-                                    className="text-primary hover:underline font-medium"
-                                  >
-                                    {result.title}
-                                  </button>
-                                  <Badge variant="secondary" className="ml-2">
-                                    {result.final_score.toFixed(2)}
-                                  </Badge>
+                            <Card key={index}>
+                              <CardContent className="pt-4">
+                                <div className="flex items-start justify-between gap-4">
+                                  <div className="flex-1">
+                                    <button
+                                      onClick={() => openModal(modalType, id)}
+                                      className="text-primary hover:underline font-medium"
+                                    >
+                                      {result.title}
+                                    </button>
+                                    <Badge variant="secondary" className="ml-2">
+                                      {result.final_score.toFixed(2)}
+                                    </Badge>
+                                  </div>
                                 </div>
-                              </div>
 
-                              {result.matches && result.matches.length > 0 && (
-                                <Collapsible className="mt-3">
-                                  <CollapsibleTrigger className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
-                                    <ChevronDown className="h-4 w-4" />
-                                    {t.searchPage.matches.replace('{count}', result.matches.length.toString())}
-                                  </CollapsibleTrigger>
-                                  <CollapsibleContent className="mt-2 space-y-1">
-                                    {result.matches.map((match, i) => (
-                                      <div key={i} className="text-sm pl-6 py-1 border-l-2 border-muted">
-                                        {match}
-                                      </div>
-                                    ))}
-                                  </CollapsibleContent>
-                                </Collapsible>
-                              )}
-                            </CardContent>
-                          </Card>
-                        )})}
+                                {result.matches && result.matches.length > 0 && (
+                                  <Collapsible className="mt-3">
+                                    <CollapsibleTrigger className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+                                      <ChevronDown className="h-4 w-4" />
+                                      {t.searchPage.matches.replace('{count}', result.matches.length.toString())}
+                                    </CollapsibleTrigger>
+                                    <CollapsibleContent className="mt-2 space-y-1">
+                                      {result.matches.map((match, i) => (
+                                        <div key={i} className="text-sm pl-6 py-1 border-l-2 border-muted">
+                                          {match}
+                                        </div>
+                                      ))}
+                                    </CollapsibleContent>
+                                  </Collapsible>
+                                )}
+                              </CardContent>
+                            </Card>
+                          )
+                        })}
                       </div>
                     )}
                   </div>

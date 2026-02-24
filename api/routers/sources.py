@@ -153,6 +153,7 @@ def parse_source_form_data(
 @router.get("/sources", response_model=List[SourceListResponse])
 async def get_sources(
     notebook_id: Optional[str] = Query(None, description="Filter by notebook ID"),
+    title: Optional[str] = Query(None, description="Filter by source title"),
     limit: int = Query(
         50, ge=1, le=100, description="Number of sources to return (1-100)"
     ),
@@ -176,6 +177,11 @@ async def get_sources(
 
         # Build ORDER BY clause
         order_clause = f"ORDER BY {sort_by} {sort_order.upper()}"
+        
+        # Build FILTER clause
+        filter_clause = ""
+        if title:
+            filter_clause = f"WHERE title ~ $title"
 
         # Build the query
         if notebook_id:
@@ -184,12 +190,16 @@ async def get_sources(
             if not notebook:
                 raise HTTPException(status_code=404, detail="Notebook not found")
 
+            inner_where = f" AND title ~ $title" if title else ""
+            
             # Query sources for specific notebook - include command field with FETCH
             query = f"""
                 SELECT id, asset, created, title, updated, topics, command,
                 (SELECT VALUE count() FROM source_insight WHERE source = $parent.id GROUP ALL)[0].count OR 0 AS insights_count,
-                (SELECT VALUE id FROM source_embedding WHERE source = $parent.id LIMIT 1) != [] AS embedded
+                (SELECT VALUE id FROM source_embedding WHERE source = $parent.id LIMIT 1) != [] AS embedded,
+                (SELECT out.id as id, out.name as name FROM reference WHERE in = $parent.id) as notebooks
                 FROM (select value in from reference where out=$notebook_id)
+                {f'WHERE title ~ $title' if title else ''}
                 {order_clause}
                 LIMIT $limit START $offset
                 FETCH command
@@ -200,6 +210,7 @@ async def get_sources(
                     "notebook_id": ensure_record_id(notebook_id),
                     "limit": limit,
                     "offset": offset,
+                    **({"title": title} if title else {})
                 },
             )
         else:
@@ -207,13 +218,19 @@ async def get_sources(
             query = f"""
                 SELECT id, asset, created, title, updated, topics, command,
                 (SELECT VALUE count() FROM source_insight WHERE source = $parent.id GROUP ALL)[0].count OR 0 AS insights_count,
-                (SELECT VALUE id FROM source_embedding WHERE source = $parent.id LIMIT 1) != [] AS embedded
+                (SELECT VALUE id FROM source_embedding WHERE source = $parent.id LIMIT 1) != [] AS embedded,
+                (SELECT out.id as id, out.name as name FROM reference WHERE in = $parent.id) as notebooks
                 FROM source
+                {filter_clause}
                 {order_clause}
                 LIMIT $limit START $offset
                 FETCH command
             """
-            result = await repo_query(query, {"limit": limit, "offset": offset})
+            result = await repo_query(query, {
+                "limit": limit, 
+                "offset": offset,
+                **({"title": title} if title else {})
+            })
 
         # Convert result to response model
         # Command data is already fetched via FETCH command clause
@@ -267,6 +284,7 @@ async def get_sources(
                     command_id=command_id,
                     status=status,
                     processing_info=processing_info,
+                    notebooks=[{"id": str(nb.get("id", "")), "name": nb.get("name", "")} for nb in row.get("notebooks", [])] if row.get("notebooks") else []
                 )
             )
 

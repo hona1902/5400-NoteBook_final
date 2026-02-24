@@ -364,6 +364,7 @@ class SourceListResponse(BaseModel):
     command_id: Optional[str] = None
     status: Optional[str] = None
     processing_info: Optional[Dict[str, Any]] = None
+    notebooks: Optional[List[Dict[str, str]]] = None
 
 
 # Context API models

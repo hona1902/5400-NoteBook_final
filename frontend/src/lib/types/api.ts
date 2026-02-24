@@ -36,9 +36,10 @@ export interface SourceListResponse {
   command_id?: string
   status?: string
   processing_info?: Record<string, unknown>
+  notebooks?: Array<{ id: string; name: string }>
 }
 
-export interface SourceDetailResponse extends SourceListResponse {
+export interface SourceDetailResponse extends Omit<SourceListResponse, 'notebooks'> {
   full_text: string
   notebooks?: string[]  // List of notebook IDs this source is linked to
 }

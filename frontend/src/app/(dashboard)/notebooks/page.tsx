@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react'
 import { AppShell } from '@/components/layout/AppShell'
 import { NotebookList } from './components/NotebookList'
 import { Button } from '@/components/ui/button'
-import { Plus, RefreshCw } from 'lucide-react'
+import { Plus, RefreshCw, X } from 'lucide-react'
 import { useNotebooks } from '@/lib/hooks/use-notebooks'
 import { CreateNotebookDialog } from '@/components/notebooks/CreateNotebookDialog'
 import { Input } from '@/components/ui/input'
@@ -61,16 +61,27 @@ export default function NotebooksPage() {
               </Button>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-              <Input
-                id="notebook-search"
-                name="notebook-search"
-                value={searchTerm}
-                onChange={(event) => setSearchTerm(event.target.value)}
-                placeholder={t.notebooks.searchPlaceholder}
-                autoComplete="off"
-                aria-label={t.common.accessibility?.searchNotebooks || "Search notebooks"}
-                className="w-full sm:w-64"
-              />
+              <div className="relative w-full sm:w-64">
+                <Input
+                  id="notebook-search"
+                  name="notebook-search"
+                  value={searchTerm}
+                  onChange={(event) => setSearchTerm(event.target.value)}
+                  placeholder={t.notebooks.searchPlaceholder}
+                  autoComplete="off"
+                  aria-label={t.common.accessibility?.searchNotebooks || "Search notebooks"}
+                  className="w-full pr-8"
+                />
+                {searchTerm && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchTerm('')}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
               {isAdmin && (
                 <Button onClick={() => setCreateDialogOpen(true)}>
                   <Plus className="h-4 w-4 mr-2" />
