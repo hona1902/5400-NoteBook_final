@@ -1,0 +1,3 @@
+-- Migration 16 down: Remove user_id from chat_session
+REMOVE INDEX chat_session_user ON chat_session;
+REMOVE FIELD user_id ON chat_session;

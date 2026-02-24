@@ -1,0 +1,5 @@
+-- Migration 16: Add user_id to chat_session for per-user chat isolation
+-- Each user will have their own chat sessions per notebook/source
+
+DEFINE FIELD user_id ON chat_session TYPE option<string>;
+DEFINE INDEX chat_session_user ON chat_session FIELDS user_id;

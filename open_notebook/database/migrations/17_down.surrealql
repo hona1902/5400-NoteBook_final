@@ -1,0 +1,4 @@
+-- Migration 17 Down: Remove user_id from note
+
+REMOVE INDEX note_user ON note;
+REMOVE FIELD user_id ON note;

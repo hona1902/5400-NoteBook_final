@@ -17,9 +17,11 @@ import { getDateLocale } from '@/lib/utils/date-locale'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import { getApiErrorKey } from '@/lib/utils/error-handler'
+import { useRoleGuard } from '@/lib/hooks/use-role-guard'
 
 export default function SourcesPage() {
   const { t, language } = useTranslation()
+  const { isAdmin } = useRoleGuard()
   const [sources, setSources] = useState<SourceListResponse[]>([])
   const [loading, setLoading] = useState(true)
   const [loadingMore, setLoadingMore] = useState(false)
@@ -305,7 +307,7 @@ export default function SourcesPage() {
               <col className="w-[140px]" />
               <col className="w-[100px]" />
               <col className="w-[100px]" />
-              <col className="w-[100px]" />
+              {isAdmin && <col className="w-[100px]" />}
             </colgroup>
             <thead className="sticky top-0 bg-background z-10">
               <tr className="border-b bg-muted/50">
@@ -340,9 +342,11 @@ export default function SourcesPage() {
                 <th className="h-12 px-4 text-center align-middle font-medium text-muted-foreground hidden lg:table-cell">
                   {t.sources.embedded}
                 </th>
-                <th className="h-12 px-4 text-right align-middle font-medium text-muted-foreground">
-                  {t.common.actions}
-                </th>
+                {isAdmin && (
+                  <th className="h-12 px-4 text-right align-middle font-medium text-muted-foreground">
+                    {t.common.actions}
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -379,7 +383,7 @@ export default function SourcesPage() {
                     </div>
                   </td>
                   <td className="h-12 px-4 text-muted-foreground text-sm hidden sm:table-cell">
-                    {formatDistanceToNow(new Date(source.created), { 
+                    {formatDistanceToNow(new Date(source.created), {
                       addSuffix: true,
                       locale: getDateLocale(language)
                     })}
@@ -392,16 +396,18 @@ export default function SourcesPage() {
                       {source.embedded ? t.sources.yes : t.sources.no}
                     </Badge>
                   </td>
-                  <td className="h-12 px-4 text-right">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={(e) => handleDeleteClick(e, source)}
-                      className="text-destructive hover:text-destructive"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </td>
+                  {isAdmin && (
+                    <td className="h-12 px-4 text-right">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={(e) => handleDeleteClick(e, source)}
+                        className="text-destructive hover:text-destructive"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </td>
+                  )}
                 </tr>
               ))}
               {loadingMore && (
@@ -419,15 +425,17 @@ export default function SourcesPage() {
         </div>
       </div>
 
-      <ConfirmDialog
-        open={deleteDialog.open}
-        onOpenChange={(open) => setDeleteDialog({ open, source: deleteDialog.source })}
-        title={t.sources.delete}
-        description={t.sources.deleteConfirmWithTitle.replace('{title}', deleteDialog.source?.title || t.sources.untitledSource)}
-        confirmText={t.common.delete}
-        confirmVariant="destructive"
-        onConfirm={handleDeleteConfirm}
-      />
+      {isAdmin && (
+        <ConfirmDialog
+          open={deleteDialog.open}
+          onOpenChange={(open) => setDeleteDialog({ open, source: deleteDialog.source })}
+          title={t.sources.delete}
+          description={t.sources.deleteConfirmWithTitle.replace('{title}', deleteDialog.source?.title || t.sources.untitledSource)}
+          confirmText={t.common.delete}
+          confirmVariant="destructive"
+          onConfirm={handleDeleteConfirm}
+        />
+      )}
     </AppShell>
   )
 }

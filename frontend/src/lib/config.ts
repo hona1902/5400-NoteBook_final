@@ -56,9 +56,21 @@ export async function getConfig(): Promise<AppConfig> {
 /**
  * Fetch configuration from the API or use defaults.
  */
+async function fetchWithTimeout(url: string, options: RequestInit = {}, timeoutMs: number = 8000): Promise<Response> {
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
+  try {
+    const response = await fetch(url, { ...options, signal: controller.signal })
+    return response
+  } finally {
+    clearTimeout(timeoutId)
+  }
+}
+
 async function fetchConfig(): Promise<AppConfig> {
   const isDev = process.env.NODE_ENV === 'development'
-  
+  const isBrowser = typeof window !== 'undefined'
+
   if (isDev) {
     console.log('🔧 [Config] Starting configuration detection...')
     console.log('🔧 [Config] Build time:', BUILD_TIME)
@@ -70,7 +82,7 @@ async function fetchConfig(): Promise<AppConfig> {
   let runtimeApiUrl: string | null = null
   try {
     if (isDev) console.log('🔧 [Config] Attempting to fetch runtime config from /config endpoint...')
-    const runtimeResponse = await fetch('/config', {
+    const runtimeResponse = await fetchWithTimeout('/config', {
       cache: 'no-store',
     })
     if (runtimeResponse.ok) {
@@ -96,31 +108,37 @@ async function fetchConfig(): Promise<AppConfig> {
   // This avoids CORS issues and port mapping complexities by proxying through Next.js
   const defaultApiUrl = ''
 
-  if (typeof window !== 'undefined' && isDev) {
-      console.log('🔧 [Config] Using relative path (rewrites) as default')
+  if (isBrowser && isDev) {
+    console.log('🔧 [Config] Using relative path (rewrites) as default')
   }
 
   // Priority: Runtime config > Build-time env var > Smart default
-  // Note: runtimeApiUrl must be checked against null explicitly as empty string might be valid if intended (though we treat '' as null above)
-  const baseUrl = runtimeApiUrl !== null && runtimeApiUrl !== undefined ? runtimeApiUrl : (envApiUrl || defaultApiUrl)
+  // IMPORTANT: In browser context, if runtimeApiUrl is a cross-origin URL (like http://localhost:5055),
+  // prefer using empty string (relative path) to go through Next.js proxy and avoid CORS issues.
+  let baseUrl: string
+  if (isBrowser && runtimeApiUrl && runtimeApiUrl.includes(':5055')) {
+    // In browser: use relative path to proxy through Next.js, avoiding CORS
+    baseUrl = ''
+    if (isDev) console.log('🔧 [Config] Browser detected cross-origin API URL, using relative path (proxy) instead')
+  } else {
+    baseUrl = runtimeApiUrl !== null && runtimeApiUrl !== undefined ? runtimeApiUrl : (envApiUrl || defaultApiUrl)
+  }
+
   if (isDev) {
-    console.log('🔧 [Config] Final base URL to try:', baseUrl)
-    console.log('🔧 [Config] Selection priority: runtime=' + (runtimeApiUrl ? '✅' : '❌') +
-                ', build-time=' + (envApiUrl ? '✅' : '❌') +
-                ', smart-default=' + (!runtimeApiUrl && !envApiUrl ? '✅' : '❌'))
+    console.log('🔧 [Config] Final base URL to try:', baseUrl || '(relative)')
   }
 
   try {
     if (isDev) console.log('🔧 [Config] Fetching backend config from:', `${baseUrl}/api/config`)
-    // Try to fetch runtime config from backend API
-    const response = await fetch(`${baseUrl}/api/config`, {
+    // Try to fetch runtime config from backend API (with timeout to prevent hanging)
+    const response = await fetchWithTimeout(`${baseUrl}/api/config`, {
       cache: 'no-store',
     })
 
     if (response.ok) {
       const data: BackendConfigResponse = await response.json()
       config = {
-        apiUrl: baseUrl, // Use baseUrl from runtime-config (Python no longer returns this)
+        apiUrl: baseUrl, // Use baseUrl (may be empty for proxy mode)
         version: data.version || 'unknown',
         buildTime: BUILD_TIME,
         latestVersion: data.latestVersion || null,
@@ -130,11 +148,10 @@ async function fetchConfig(): Promise<AppConfig> {
       if (isDev) console.log('✅ [Config] Successfully loaded API config:', config)
       return config
     } else {
-      // Don't log error here - ConnectionGuard will display it
       throw new Error(`API config endpoint returned status ${response.status}`)
     }
   } catch (error) {
-    // Don't log error here - ConnectionGuard will display it with proper UI
+    if (isDev) console.error('❌ [Config] Failed to fetch backend config:', error)
     throw error
   }
 }

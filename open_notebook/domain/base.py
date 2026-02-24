@@ -161,11 +161,15 @@ class ObjectModel(BaseModel):
 
     def _prepare_save_data(self) -> Dict[str, Any]:
         data = self.model_dump()
-        return {
-            key: value
-            for key, value in data.items()
-            if value is not None or key in self.__class__.nullable_fields
-        }
+        result = {}
+        for key, value in data.items():
+            if value is not None or key in self.__class__.nullable_fields:
+                if value is not None and key in getattr(self.__class__, "record_fields", set()):
+                    from open_notebook.database.repository import ensure_record_id
+                    result[key] = ensure_record_id(value)
+                else:
+                    result[key] = value
+        return result
 
     async def delete(self) -> bool:
         if self.id is None:

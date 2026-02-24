@@ -7,11 +7,19 @@ import { Button } from '@/components/ui/button'
 import { ShieldAlert, AlertTriangle, ArrowRight, ExternalLink } from 'lucide-react'
 import { useTranslation } from '@/lib/hooks/use-translation'
 import { useCredentialStatus, useEnvStatus } from '@/lib/hooks/use-credentials'
+import { useAuthStore } from '@/lib/stores/auth-store'
 
 export function SetupBanner() {
   const { t } = useTranslation()
+  const user = useAuthStore((s) => s.user)
+  const isAdmin = user?.role === 'admin'
+
+  // Only fetch credential/env status for admin users (these are admin-only APIs)
   const { data: credentialStatus } = useCredentialStatus()
   const { data: envStatus } = useEnvStatus()
+
+  // Non-admin users should not see setup banners
+  if (!isAdmin) return null
 
   const encryptionReady = credentialStatus?.encryption_configured ?? true
 

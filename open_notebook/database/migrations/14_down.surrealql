@@ -1,0 +1,4 @@
+-- Migration 14 Down: Remove users table
+-- Rollback for user authentication table
+
+DROP TABLE user;

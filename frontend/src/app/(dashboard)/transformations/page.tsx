@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { AppShell } from '@/components/layout/AppShell'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -11,12 +12,21 @@ import { useTransformations } from '@/lib/hooks/use-transformations'
 import { Transformation } from '@/lib/types/transformations'
 import { Wand2, Play, RefreshCw } from 'lucide-react'
 import { useTranslation } from '@/lib/hooks/use-translation'
+import { useRoleGuard } from '@/lib/hooks/use-role-guard'
 
 export default function TransformationsPage() {
   const { t } = useTranslation()
+  const { isAdmin } = useRoleGuard()
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState('transformations')
   const [selectedTransformation, setSelectedTransformation] = useState<Transformation | undefined>()
   const { data: transformations, isLoading, refetch } = useTransformations()
+
+  useEffect(() => {
+    if (!isAdmin) router.replace('/notebooks')
+  }, [isAdmin, router])
+
+  if (!isAdmin) return null
 
   const handlePlayground = (transformation: Transformation) => {
     setSelectedTransformation(transformation)
@@ -32,47 +42,47 @@ export default function TransformationsPage() {
               <h1 className="text-2xl font-bold">{t.transformations.title}</h1>
               <Button variant="outline" size="sm" onClick={() => refetch()}>
                 <RefreshCw className="h-4 w-4" />
-            </Button>
+              </Button>
+            </div>
           </div>
-        </div>
 
-        <div className="max-w-5xl">
-          <p className="text-muted-foreground">
-            {t.transformations.desc}
-          </p>
-        </div>
-
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t.transformations.workspace}</p>
-            <TabsList aria-label={t.common.accessibility.transformationViews} className="w-full max-w-xl">
-              <TabsTrigger value="transformations" className="flex items-center gap-2">
-                <Wand2 className="h-4 w-4" />
-                {t.transformations.title}
-              </TabsTrigger>
-              <TabsTrigger value="playground" className="flex items-center gap-2">
-                <Play className="h-4 w-4" />
-                {t.transformations.playground}
-              </TabsTrigger>
-            </TabsList>
+          <div className="max-w-5xl">
+            <p className="text-muted-foreground">
+              {t.transformations.desc}
+            </p>
           </div>
-          
-          <TabsContent value="transformations" className="space-y-6">
-            <DefaultPromptEditor />
-            <TransformationsList 
-              transformations={transformations} 
-              isLoading={isLoading}
-              onPlayground={handlePlayground}
-            />
-          </TabsContent>
-          
-          <TabsContent value="playground">
-            <TransformationPlayground 
-              transformations={transformations}
-              selectedTransformation={selectedTransformation}
-            />
-          </TabsContent>
-        </Tabs>
+
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+            <div className="space-y-2">
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t.transformations.workspace}</p>
+              <TabsList aria-label={t.common.accessibility.transformationViews} className="w-full max-w-xl">
+                <TabsTrigger value="transformations" className="flex items-center gap-2">
+                  <Wand2 className="h-4 w-4" />
+                  {t.transformations.title}
+                </TabsTrigger>
+                <TabsTrigger value="playground" className="flex items-center gap-2">
+                  <Play className="h-4 w-4" />
+                  {t.transformations.playground}
+                </TabsTrigger>
+              </TabsList>
+            </div>
+
+            <TabsContent value="transformations" className="space-y-6">
+              <DefaultPromptEditor />
+              <TransformationsList
+                transformations={transformations}
+                isLoading={isLoading}
+                onPlayground={handlePlayground}
+              />
+            </TabsContent>
+
+            <TabsContent value="playground">
+              <TransformationPlayground
+                transformations={transformations}
+                selectedTransformation={selectedTransformation}
+              />
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </AppShell>

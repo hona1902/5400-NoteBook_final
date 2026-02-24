@@ -2,7 +2,7 @@ import asyncio
 import traceback
 from typing import Any, Dict, List, Optional
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 from langchain_core.runnables import RunnableConfig
 from loguru import logger
 from pydantic import BaseModel, Field
@@ -14,6 +14,8 @@ from open_notebook.exceptions import (
 )
 from open_notebook.graphs.chat import graph as chat_graph
 from open_notebook.utils.graph_utils import get_session_message_count
+
+from api.auth import CurrentUser, get_current_user
 
 router = APIRouter()
 
@@ -94,20 +96,27 @@ class SuccessResponse(BaseModel):
 
 
 @router.get("/chat/sessions", response_model=List[ChatSessionResponse])
-async def get_sessions(notebook_id: str = Query(..., description="Notebook ID")):
-    """Get all chat sessions for a notebook."""
+async def get_sessions(
+    notebook_id: str = Query(..., description="Notebook ID"),
+    user: CurrentUser = Depends(get_current_user),
+):
+    """Get all chat sessions for a notebook (filtered by current user)."""
     try:
         # Get notebook to verify it exists
         notebook = await Notebook.get(notebook_id)
         if not notebook:
             raise HTTPException(status_code=404, detail="Notebook not found")
 
-        # Get sessions for this notebook
-        sessions_list = await notebook.get_chat_sessions()
+        # Get sessions for this notebook filtered by current user
+        sessions_list = await notebook.get_chat_sessions(user_id=user.id)
 
         results = []
         for session in sessions_list:
             session_id = str(session.id)
+            
+            # Python-level strict filter to ensure no leakage
+            if session.user_id != user.id:
+                continue
 
             # Get message count from LangGraph state
             msg_count = await get_session_message_count(chat_graph, session_id)
@@ -135,7 +144,10 @@ async def get_sessions(notebook_id: str = Query(..., description="Notebook ID"))
 
 
 @router.post("/chat/sessions", response_model=ChatSessionResponse)
-async def create_session(request: CreateSessionRequest):
+async def create_session(
+    request: CreateSessionRequest,
+    user: CurrentUser = Depends(get_current_user),
+):
     """Create a new chat session."""
     try:
         # Verify notebook exists
@@ -143,11 +155,12 @@ async def create_session(request: CreateSessionRequest):
         if not notebook:
             raise HTTPException(status_code=404, detail="Notebook not found")
 
-        # Create new session
+        # Create new session with user_id
         session = ChatSession(
             title=request.title
             or f"Chat Session {asyncio.get_event_loop().time():.0f}",
             model_override=request.model_override,
+            user_id=user.id,
         )
         await session.save()
 
@@ -175,7 +188,10 @@ async def create_session(request: CreateSessionRequest):
 @router.get(
     "/chat/sessions/{session_id}", response_model=ChatSessionWithMessagesResponse
 )
-async def get_session(session_id: str):
+async def get_session(
+    session_id: str,
+    user: CurrentUser = Depends(get_current_user),
+):
     """Get a specific session with its messages."""
     try:
         # Get session
@@ -188,6 +204,10 @@ async def get_session(session_id: str):
         session = await ChatSession.get(full_session_id)
         if not session:
             raise HTTPException(status_code=404, detail="Session not found")
+
+        # Ownership check: only allow access to own sessions (or unowned legacy sessions)
+        if session.user_id != user.id:
+            raise HTTPException(status_code=403, detail="Access denied")
 
         # Get session state from LangGraph to retrieve messages
         # Use sync get_state() in a thread since SqliteSaver doesn't support async
@@ -248,7 +268,11 @@ async def get_session(session_id: str):
 
 
 @router.put("/chat/sessions/{session_id}", response_model=ChatSessionResponse)
-async def update_session(session_id: str, request: UpdateSessionRequest):
+async def update_session(
+    session_id: str,
+    request: UpdateSessionRequest,
+    user: CurrentUser = Depends(get_current_user),
+):
     """Update session title."""
     try:
         # Ensure session_id has proper table prefix
@@ -260,6 +284,10 @@ async def update_session(session_id: str, request: UpdateSessionRequest):
         session = await ChatSession.get(full_session_id)
         if not session:
             raise HTTPException(status_code=404, detail="Session not found")
+
+        # Ownership check
+        if session.user_id != user.id:
+            raise HTTPException(status_code=403, detail="Access denied")
 
         update_data = request.model_dump(exclude_unset=True)
 
@@ -304,7 +332,10 @@ async def update_session(session_id: str, request: UpdateSessionRequest):
 
 
 @router.delete("/chat/sessions/{session_id}", response_model=SuccessResponse)
-async def delete_session(session_id: str):
+async def delete_session(
+    session_id: str,
+    user: CurrentUser = Depends(get_current_user),
+):
     """Delete a chat session."""
     try:
         # Ensure session_id has proper table prefix
@@ -317,6 +348,10 @@ async def delete_session(session_id: str):
         if not session:
             raise HTTPException(status_code=404, detail="Session not found")
 
+        # Ownership check
+        if session.user_id != user.id:
+            raise HTTPException(status_code=403, detail="Access denied")
+
         await session.delete()
 
         return SuccessResponse(success=True, message="Session deleted successfully")
@@ -328,7 +363,10 @@ async def delete_session(session_id: str):
 
 
 @router.post("/chat/execute", response_model=ExecuteChatResponse)
-async def execute_chat(request: ExecuteChatRequest):
+async def execute_chat(
+    request: ExecuteChatRequest,
+    user: CurrentUser = Depends(get_current_user),
+):
     """Execute a chat request and get AI response."""
     try:
         # Verify session exists
@@ -341,6 +379,10 @@ async def execute_chat(request: ExecuteChatRequest):
         session = await ChatSession.get(full_session_id)
         if not session:
             raise HTTPException(status_code=404, detail="Session not found")
+
+        # Ownership check
+        if session.user_id != user.id:
+            raise HTTPException(status_code=403, detail="Access denied")
 
         # Determine model override (per-request override takes precedence over session-level)
         model_override = (
@@ -409,7 +451,10 @@ async def execute_chat(request: ExecuteChatRequest):
 
 
 @router.post("/chat/context", response_model=BuildContextResponse)
-async def build_context(request: BuildContextRequest):
+async def build_context(
+    request: BuildContextRequest,
+    user: CurrentUser = Depends(get_current_user),
+):
     """Build context for a notebook based on context configuration."""
     try:
         # Verify notebook exists
@@ -465,6 +510,9 @@ async def build_context(request: BuildContextRequest):
                     note = await Note.get(full_note_id)
                     if not note:
                         continue
+                    
+                    if str(note.user_id or "") != str(user.id or ""):
+                        continue
 
                     if "full content" in status:
                         note_context = note.get_context(context_size="long")
@@ -487,6 +535,8 @@ async def build_context(request: BuildContextRequest):
 
             notes = await notebook.get_notes()
             for note in notes:
+                if str(note.user_id or "") != str(user.id or ""):
+                    continue
                 try:
                     note_context = note.get_context(context_size="short")
                     context_data["notes"].append(note_context)

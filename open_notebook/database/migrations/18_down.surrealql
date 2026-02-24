@@ -1,0 +1,9 @@
+-- Migration 18 Down: Revert user_id field type changes
+
+REMOVE FIELD user_id ON note;
+DEFINE FIELD user_id ON note TYPE option<string>;
+DEFINE INDEX note_user ON note FIELDS user_id;
+
+REMOVE FIELD user_id ON chat_session;
+DEFINE FIELD user_id ON chat_session TYPE option<string>;
+DEFINE INDEX chat_session_user ON chat_session FIELDS user_id;

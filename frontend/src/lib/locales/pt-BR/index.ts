@@ -214,6 +214,7 @@ export const ptBR = {
     language: "Alternar idioma",
     theme: "Tema",
     ask: "Perguntar",
+    users: "Usuários",
   },
   notebooks: {
     title: "Cadernos",

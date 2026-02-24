@@ -1,0 +1,5 @@
+-- Migration 17: Add user_id to note for per-user note isolation
+-- Each user will only see their own notes within a notebook
+
+DEFINE FIELD user_id ON note TYPE option<string>;
+DEFINE INDEX note_user ON note FIELDS user_id;

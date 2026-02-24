@@ -8,6 +8,7 @@ import {
   UpdateTransformationRequest,
   ExecuteTransformationRequest
 } from '@/lib/types/transformations'
+import { useAuthStore } from '@/lib/stores/auth-store'
 
 // Add to QUERY_KEYS in query-client.ts
 export const TRANSFORMATION_QUERY_KEYS = {
@@ -17,9 +18,11 @@ export const TRANSFORMATION_QUERY_KEYS = {
 }
 
 export function useTransformations() {
+  const isAdmin = useAuthStore((s) => s.user?.role === 'admin')
   return useQuery({
     queryKey: TRANSFORMATION_QUERY_KEYS.transformations,
     queryFn: () => transformationsApi.list(),
+    enabled: isAdmin,
   })
 }
 

@@ -1,0 +1,14 @@
+-- Migration 15: Add username field, make email optional for username-based auth
+
+-- Add username field
+DEFINE FIELD username ON user TYPE string;
+
+-- Make email optional (was required before)
+REMOVE FIELD email ON user;
+DEFINE FIELD email ON user TYPE option<string>;
+
+-- Unique index on username
+DEFINE INDEX username_unique ON user FIELDS username UNIQUE;
+
+-- Remove old email unique index (email is now optional)
+REMOVE INDEX email_unique ON user;

@@ -1,0 +1,10 @@
+-- Migration 15 DOWN: Revert username field changes
+
+-- Remove username index and field
+REMOVE INDEX username_unique ON user;
+REMOVE FIELD username ON user;
+
+-- Restore email as required
+REMOVE FIELD email ON user;
+DEFINE FIELD email ON user TYPE string ASSERT string::is::email($value);
+DEFINE INDEX email_unique ON user FIELDS email UNIQUE;

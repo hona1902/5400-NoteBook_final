@@ -60,21 +60,37 @@ class Notebook(ObjectModel):
             logger.exception(e)
             raise DatabaseOperationError(e)
 
-    async def get_chat_sessions(self) -> List["ChatSession"]:
+    async def get_chat_sessions(self, user_id: Optional[str] = None) -> List["ChatSession"]:
         try:
-            srcs = await repo_query(
-                """
-                select * from (
-                    select
-                    <- chat_session as chat_session
-                    from refers_to
-                    where out=$id
-                    fetch chat_session
+            if user_id:
+                srcs = await repo_query(
+                    """
+                    select * from (
+                        select
+                        <- chat_session as chat_session
+                        from refers_to
+                        where out=$id
+                        fetch chat_session
+                    )
+                    where chat_session[0].user_id = $user_id
+                    order by chat_session.updated desc
+                """,
+                    {"id": ensure_record_id(self.id), "user_id": user_id},
                 )
-                order by chat_session.updated desc
-            """,
-                {"id": ensure_record_id(self.id)},
-            )
+            else:
+                srcs = await repo_query(
+                    """
+                    select * from (
+                        select
+                        <- chat_session as chat_session
+                        from refers_to
+                        where out=$id
+                        fetch chat_session
+                    )
+                    order by chat_session.updated desc
+                """,
+                    {"id": ensure_record_id(self.id)},
+                )
             return (
                 [ChatSession(**src["chat_session"][0]) for src in srcs] if srcs else []
             )
@@ -556,9 +572,20 @@ class Source(ObjectModel):
 
 class Note(ObjectModel):
     table_name: ClassVar[str] = "note"
+    nullable_fields: ClassVar[set[str]] = {"user_id"}
+    record_fields: ClassVar[set[str]] = {"user_id"}
     title: Optional[str] = None
     note_type: Optional[Literal["human", "ai"]] = None
     content: Optional[str] = None
+    user_id: Optional[str] = None
+
+    @field_validator("user_id", mode="before")
+    @classmethod
+    def parse_user_id(cls, value):
+        """Ensure user_id is always a string (SurrealDB may return RecordID)."""
+        if value is None:
+            return None
+        return str(value)
 
     @field_validator("content")
     @classmethod
@@ -612,9 +639,11 @@ class Note(ObjectModel):
 
 class ChatSession(ObjectModel):
     table_name: ClassVar[str] = "chat_session"
-    nullable_fields: ClassVar[set[str]] = {"model_override"}
+    nullable_fields: ClassVar[set[str]] = {"model_override", "user_id"}
+    record_fields: ClassVar[set[str]] = {"user_id"}
     title: Optional[str] = None
     model_override: Optional[str] = None
+    user_id: Optional[str] = None
 
     async def relate_to_notebook(self, notebook_id: str) -> Any:
         if not notebook_id:

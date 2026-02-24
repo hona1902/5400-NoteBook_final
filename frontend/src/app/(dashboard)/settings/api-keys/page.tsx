@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState, useEffect, useId } from 'react'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { AppShell } from '@/components/layout/AppShell'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
@@ -56,6 +57,7 @@ import { Credential, CreateCredentialRequest, UpdateCredentialRequest, Discovere
 import { Model, ModelDefaults } from '@/lib/types/models'
 import { MigrationBanner, ModelTestResultDialog } from '@/components/settings'
 import { EmbeddingModelChangeDialog } from '@/components/settings/EmbeddingModelChangeDialog'
+import { useRoleGuard } from '@/lib/hooks/use-role-guard'
 
 type ModelType = 'language' | 'embedding' | 'text_to_speech' | 'speech_to_text'
 
@@ -1201,55 +1203,55 @@ function DefaultModelSelectors({
         {/* Advanced models: Transformation, Tools, Large Context */}
         <div className="border-t pt-3">
           <p className="text-xs text-muted-foreground mb-3">{t.navigation.advanced}</p>
-            <div className="grid gap-3 sm:grid-cols-3">
-              {advancedConfigs.map(config => {
-                const available = getModelsForType(config.modelType)
-                const currentValue = watch(config.key) || undefined
-                const isValid = currentValue && available.some(m => m.id === currentValue)
+          <div className="grid gap-3 sm:grid-cols-3">
+            {advancedConfigs.map(config => {
+              const available = getModelsForType(config.modelType)
+              const currentValue = watch(config.key) || undefined
+              const isValid = currentValue && available.some(m => m.id === currentValue)
 
-                return (
-                  <div key={config.key} className="space-y-1">
-                    <Label htmlFor={config.id} className="text-xs">
-                      {config.label}
-                      {config.required && <span className="text-destructive ml-0.5">*</span>}
-                    </Label>
-                    <div className="flex gap-1">
-                      <Select
-                        value={currentValue || ""}
-                        onValueChange={(v) => handleChange(config.key, v)}
+              return (
+                <div key={config.key} className="space-y-1">
+                  <Label htmlFor={config.id} className="text-xs">
+                    {config.label}
+                    {config.required && <span className="text-destructive ml-0.5">*</span>}
+                  </Label>
+                  <div className="flex gap-1">
+                    <Select
+                      value={currentValue || ""}
+                      onValueChange={(v) => handleChange(config.key, v)}
+                    >
+                      <SelectTrigger
+                        id={config.id}
+                        className={`h-8 text-xs ${config.required && !isValid && available.length > 0 ? 'border-destructive' : ''}`}
                       >
-                        <SelectTrigger
-                          id={config.id}
-                          className={`h-8 text-xs ${config.required && !isValid && available.length > 0 ? 'border-destructive' : ''}`}
-                        >
-                          <SelectValue placeholder={
-                            config.required && !isValid && available.length > 0
-                              ? t.models.requiredModelPlaceholder
-                              : t.models.selectModelPlaceholder
-                          } />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {available.sort((a, b) => a.name.localeCompare(b.name)).map(model => (
-                            <SelectItem key={model.id} value={model.id}>
-                              <div className="flex items-center justify-between w-full">
-                                <span>{model.name}</span>
-                                <span className="text-xs text-muted-foreground ml-2">{model.provider}</span>
-                              </div>
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      {!config.required && currentValue && (
-                        <Button variant="ghost" size="icon" onClick={() => handleChange(config.key, "")} className="h-8 w-8 shrink-0">
-                          <X className="h-3 w-3" />
-                        </Button>
-                      )}
-                    </div>
-                    <p className="text-[10px] text-muted-foreground leading-tight">{config.description}</p>
+                        <SelectValue placeholder={
+                          config.required && !isValid && available.length > 0
+                            ? t.models.requiredModelPlaceholder
+                            : t.models.selectModelPlaceholder
+                        } />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {available.sort((a, b) => a.name.localeCompare(b.name)).map(model => (
+                          <SelectItem key={model.id} value={model.id}>
+                            <div className="flex items-center justify-between w-full">
+                              <span>{model.name}</span>
+                              <span className="text-xs text-muted-foreground ml-2">{model.provider}</span>
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    {!config.required && currentValue && (
+                      <Button variant="ghost" size="icon" onClick={() => handleChange(config.key, "")} className="h-8 w-8 shrink-0">
+                        <X className="h-3 w-3" />
+                      </Button>
+                    )}
                   </div>
-                )
-              })}
-            </div>
+                  <p className="text-[10px] text-muted-foreground leading-tight">{config.description}</p>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </CardContent>
 
@@ -1270,6 +1272,14 @@ function DefaultModelSelectors({
 
 export default function ApiKeysPage() {
   const { t } = useTranslation()
+  const { isAdmin } = useRoleGuard()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!isAdmin) router.replace('/notebooks')
+  }, [isAdmin, router])
+
+  if (!isAdmin) return null
 
   // Data
   const { data: credentials, isLoading: credentialsLoading } = useCredentials()

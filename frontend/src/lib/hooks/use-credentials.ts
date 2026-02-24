@@ -11,6 +11,7 @@ import { useToast } from '@/lib/hooks/use-toast'
 import { useTranslation } from '@/lib/hooks/use-translation'
 import { getApiErrorKey } from '@/lib/utils/error-handler'
 import { MODEL_QUERY_KEYS } from '@/lib/hooks/use-models'
+import { useAuthStore } from '@/lib/stores/auth-store'
 
 export const CREDENTIAL_QUERY_KEYS = {
   all: ['credentials'] as const,
@@ -24,9 +25,11 @@ export const CREDENTIAL_QUERY_KEYS = {
  * Hook to get the configuration status of all providers
  */
 export function useCredentialStatus() {
+  const isAdmin = useAuthStore((s) => s.user?.role === 'admin')
   return useQuery({
     queryKey: CREDENTIAL_QUERY_KEYS.status,
     queryFn: () => credentialsApi.getStatus(),
+    enabled: isAdmin,
   })
 }
 
@@ -34,9 +37,11 @@ export function useCredentialStatus() {
  * Hook to get the environment variable status
  */
 export function useEnvStatus() {
+  const isAdmin = useAuthStore((s) => s.user?.role === 'admin')
   return useQuery({
     queryKey: CREDENTIAL_QUERY_KEYS.envStatus,
     queryFn: () => credentialsApi.getEnvStatus(),
+    enabled: isAdmin,
   })
 }
 

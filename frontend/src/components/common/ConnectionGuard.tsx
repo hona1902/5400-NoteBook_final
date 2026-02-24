@@ -18,12 +18,12 @@ export function ConnectionGuard({ children }: ConnectionGuardProps) {
   const checkConnection = useCallback(async () => {
     // Prevent re-entry if already checking
     if (isCheckingRef.current) {
-       return
+      return
     }
-    
+
     isCheckingRef.current = true
     setIsChecking(true)
-    
+
     setError(null)
 
     // Reset config cache to force a fresh fetch
@@ -68,7 +68,7 @@ export function ConnectionGuard({ children }: ConnectionGuardProps) {
           attemptedUrl,
         },
       }
-      
+
       setError(apiError)
       isCheckingRef.current = false
       setIsChecking(false)
@@ -98,9 +98,13 @@ export function ConnectionGuard({ children }: ConnectionGuardProps) {
     return <ConnectionErrorOverlay error={error} onRetry={checkConnection} />
   }
 
-  // Show nothing while checking (prevents flash of content)
+  // Show loading indicator while checking connection
   if (isChecking) {
-    return null
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    )
   }
 
   // Render children if connection is good

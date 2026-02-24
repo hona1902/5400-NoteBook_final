@@ -214,6 +214,7 @@ export const jaJP = {
     language: "言語を切り替え",
     theme: "テーマ",
     ask: "質問",
+    users: "ユーザー",
   },
   notebooks: {
     title: "ノートブック",

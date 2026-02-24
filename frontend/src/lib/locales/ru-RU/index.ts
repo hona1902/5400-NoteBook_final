@@ -214,6 +214,7 @@ export const ruRU = {
     language: "Переключить язык",
     theme: "Тема",
     ask: "Запрос",
+    users: "Пользователи",
   },
   notebooks: {
     title: "Блокноты",

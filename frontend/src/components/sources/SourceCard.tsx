@@ -31,6 +31,7 @@ import { TranslationKeys } from '@/lib/locales'
 import { cn } from '@/lib/utils'
 import { ContextToggle } from '@/components/common/ContextToggle'
 import { ContextMode } from '@/app/(dashboard)/notebooks/[id]/page'
+import { useRoleGuard } from '@/lib/hooks/use-role-guard'
 
 interface SourceCardProps {
   source: SourceListResponse
@@ -120,8 +121,9 @@ export function SourceCard({
   onContextModeChange
 }: SourceCardProps) {
   const { t } = useTranslation()
+  const { isAdmin } = useRoleGuard()
   const statusConfigMap = getStatusConfig(t)
-  
+
   // Only fetch status for sources that might have async processing
   const sourceWithStatus = source as SourceListResponse & { command_id?: string; status?: string }
 
@@ -158,7 +160,7 @@ export function SourceCard({
 
     // If we were processing and now completed/failed, trigger refresh and stop polling
     if (wasProcessing &&
-        (currentStatusFromData === 'completed' || currentStatusFromData === 'failed')) {
+      (currentStatusFromData === 'completed' || currentStatusFromData === 'failed')) {
       setWasProcessing(false) // Stop polling
 
       if (onRefresh) {
@@ -166,13 +168,13 @@ export function SourceCard({
       }
     }
   }, [statusData, sourceWithStatus.status, wasProcessing, onRefresh, source.id])
-  
+
   const statusConfig = statusConfigMap[currentStatus] || statusConfigMap.completed
   const StatusIcon = statusConfig.icon
   const sourceType = getSourceType(source)
   const SourceTypeIcon = SOURCE_TYPE_ICONS[sourceType]
-  
-   const title = source.title || t.sources.untitledSource
+
+  const title = source.title || t.sources.untitledSource
 
   const handleRetry = () => {
     if (onRetry) {
@@ -295,64 +297,66 @@ export function SourceCard({
               />
             )}
 
-            {/* Actions dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <MoreVertical className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              {showRemoveFromNotebook && (
-                <>
+            {/* Actions dropdown - only show for admin */}
+            {isAdmin && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <MoreVertical className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  {showRemoveFromNotebook && (
+                    <>
+                      <DropdownMenuItem
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleRemoveFromNotebook()
+                        }}
+                        disabled={!onRemoveFromNotebook}
+                      >
+                        <Unlink className="h-4 w-4 mr-2" />
+                        {t.sources.removeFromNotebook}
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                    </>
+                  )}
+
+                  {isFailed && (
+                    <>
+                      <DropdownMenuItem
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleRetry()
+                        }}
+                        disabled={!onRetry}
+                      >
+                        <RefreshCw className="h-4 w-4 mr-2" />
+                        {t.sources.retryProcessing}
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                    </>
+                  )}
+
                   <DropdownMenuItem
                     onClick={(e) => {
                       e.stopPropagation()
-                      handleRemoveFromNotebook()
+                      handleDelete()
                     }}
-                    disabled={!onRemoveFromNotebook}
+                    disabled={!onDelete}
+                    className="text-red-600 focus:text-red-600"
                   >
-                    <Unlink className="h-4 w-4 mr-2" />
-                    {t.sources.removeFromNotebook}
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    {t.sources.deleteSource}
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                </>
-              )}
-
-              {isFailed && (
-                <>
-                  <DropdownMenuItem
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      handleRetry()
-                    }}
-                    disabled={!onRetry}
-                  >
-                    <RefreshCw className="h-4 w-4 mr-2" />
-                    {t.sources.retryProcessing}
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                </>
-              )}
-
-              <DropdownMenuItem
-                onClick={(e) => {
-                  e.stopPropagation()
-                  handleDelete()
-                }}
-                disabled={!onDelete}
-                className="text-red-600 focus:text-red-600"
-              >
-                <Trash2 className="h-4 w-4 mr-2" />
-                {t.sources.deleteSource}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
         </div>
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
@@ -375,7 +379,7 @@ export function SourceCard({
         {isProcessing && statusData?.processing_info?.progress && (
           <div className="mt-3 pt-2 border-t">
             <div className="flex justify-between items-center mb-1">
-            <span className="text-xs text-gray-600">{t.common.progress}</span>
+              <span className="text-xs text-gray-600">{t.common.progress}</span>
               <span className="text-xs text-gray-600">
                 {Math.round(statusData.processing_info.progress as number)}%
               </span>

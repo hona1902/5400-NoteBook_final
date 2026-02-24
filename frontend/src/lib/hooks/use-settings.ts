@@ -5,11 +5,14 @@ import { useToast } from '@/lib/hooks/use-toast'
 import { useTranslation } from '@/lib/hooks/use-translation'
 import { getApiErrorKey } from '@/lib/utils/error-handler'
 import { SettingsResponse } from '@/lib/types/api'
+import { useAuthStore } from '@/lib/stores/auth-store'
 
 export function useSettings() {
+  const isAdmin = useAuthStore((s) => s.user?.role === 'admin')
   return useQuery({
     queryKey: QUERY_KEYS.settings,
     queryFn: () => settingsApi.get(),
+    enabled: isAdmin,
   })
 }
 

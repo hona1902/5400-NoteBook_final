@@ -1,12 +1,23 @@
 'use client'
 
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { AppShell } from '@/components/layout/AppShell'
 import { RebuildEmbeddings } from './components/RebuildEmbeddings'
 import { SystemInfo } from './components/SystemInfo'
 import { useTranslation } from '@/lib/hooks/use-translation'
+import { useRoleGuard } from '@/lib/hooks/use-role-guard'
 
 export default function AdvancedPage() {
   const { t } = useTranslation()
+  const { isAdmin } = useRoleGuard()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!isAdmin) router.replace('/notebooks')
+  }, [isAdmin, router])
+
+  if (!isAdmin) return null
   return (
     <AppShell>
       <div className="flex-1 overflow-y-auto">

@@ -214,6 +214,7 @@ export const itIT = {
     language: "Cambia lingua",
     theme: "Tema",
     ask: "Chiedi",
+    users: "Utenti",
   },
   notebooks: {
     title: "Quaderni",

@@ -34,6 +34,7 @@ from open_notebook.database.repository import ensure_record_id, repo_query
 from open_notebook.domain.notebook import Notebook, Source
 from open_notebook.domain.transformation import Transformation
 from open_notebook.exceptions import InvalidInputError
+from api.auth import CurrentUser, require_admin
 
 router = APIRouter()
 
@@ -918,7 +919,7 @@ async def retry_source_processing(source_id: str):
 
 
 @router.delete("/sources/{source_id}")
-async def delete_source(source_id: str):
+async def delete_source(source_id: str, admin: CurrentUser = Depends(require_admin)):
     """Delete a source."""
     try:
         source = await Source.get(source_id)

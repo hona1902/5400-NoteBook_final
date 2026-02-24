@@ -1,15 +1,26 @@
 'use client'
 
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { AppShell } from '@/components/layout/AppShell'
 import { SettingsForm } from './components/SettingsForm'
 import { useSettings } from '@/lib/hooks/use-settings'
 import { Button } from '@/components/ui/button'
 import { RefreshCw } from 'lucide-react'
 import { useTranslation } from '@/lib/hooks/use-translation'
+import { useRoleGuard } from '@/lib/hooks/use-role-guard'
 
 export default function SettingsPage() {
   const { t } = useTranslation()
   const { refetch } = useSettings()
+  const { isAdmin } = useRoleGuard()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!isAdmin) router.replace('/notebooks')
+  }, [isAdmin, router])
+
+  if (!isAdmin) return null
 
   return (
     <AppShell>

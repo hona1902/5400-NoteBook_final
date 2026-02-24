@@ -1,0 +1,19 @@
+-- Migration 14: Add users table for multi-user authentication
+-- This migration creates the user table for storing user accounts with role-based access control
+
+DEFINE TABLE user SCHEMAFULL;
+
+-- User fields
+DEFINE FIELD email ON user TYPE string ASSERT string::is::email($value);
+DEFINE FIELD password_hash ON user TYPE string;
+DEFINE FIELD role ON user TYPE string ASSERT $value IN ["admin", "user"] DEFAULT "user";
+DEFINE FIELD is_active ON user TYPE bool DEFAULT true;
+DEFINE FIELD theme_preference ON user TYPE option<string>;
+DEFINE FIELD created ON user TYPE datetime DEFAULT time::now();
+DEFINE FIELD updated ON user TYPE datetime DEFAULT time::now();
+
+-- Unique index on email for fast lookups and preventing duplicates
+DEFINE INDEX email_unique ON user FIELDS email UNIQUE;
+
+-- Index on role for filtering users by role
+DEFINE INDEX role_idx ON user FIELDS role;

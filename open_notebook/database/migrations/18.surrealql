@@ -1,0 +1,12 @@
+-- Migration 18: Fix user_id field type on note and chat_session
+-- The SurrealDB Python SDK auto-converts "user:xxx" strings to RecordID objects.
+-- But fields typed as option<string> silently reject RecordID values and store NULL.
+-- Changing to option<record<user>> to correctly store the record reference.
+
+REMOVE FIELD user_id ON note;
+DEFINE FIELD user_id ON note TYPE option<record<user>>;
+DEFINE INDEX note_user ON note FIELDS user_id;
+
+REMOVE FIELD user_id ON chat_session;
+DEFINE FIELD user_id ON chat_session TYPE option<record<user>>;
+DEFINE INDEX chat_session_user ON chat_session FIELDS user_id;

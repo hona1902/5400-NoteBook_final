@@ -67,6 +67,7 @@ import { toast } from 'sonner'
 import { useTranslation } from '@/lib/hooks/use-translation'
 import { SourceInsightDialog } from '@/components/source/SourceInsightDialog'
 import { NotebookAssociations } from '@/components/source/NotebookAssociations'
+import { useAuthStore } from '@/lib/stores/auth-store'
 
 interface SourceDetailContentProps {
   sourceId: string
@@ -83,6 +84,7 @@ export function SourceDetailContent({
 }: SourceDetailContentProps) {
   const { t, language } = useTranslation()
   const queryClient = useQueryClient()
+  const isAdmin = useAuthStore((s) => s.user?.role === 'admin')
   const [source, setSource] = useState<SourceDetailResponse | null>(null)
   const [insights, setInsights] = useState<SourceInsightResponse[]>([])
   const [transformations, setTransformations] = useState<Transformation[]>([])
@@ -144,9 +146,11 @@ export function SourceDetailContent({
     if (sourceId) {
       void fetchSource()
       void fetchInsights()
-      void fetchTransformations()
+      if (isAdmin) {
+        void fetchTransformations()
+      }
     }
-  }, [fetchInsights, fetchSource, fetchTransformations, sourceId])
+  }, [fetchInsights, fetchSource, fetchTransformations, sourceId, isAdmin])
 
   const createInsight = async () => {
     if (!selectedTransformation) {
@@ -565,52 +569,54 @@ export function SourceDetailContent({
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                {/* Create New Insight */}
-                <div className="rounded-lg border bg-muted/30 p-4">
-                  <Label 
-                    htmlFor="transformation-select"
-                    className="mb-3 text-sm font-semibold flex items-center gap-2"
-                  >
-                    <Sparkles className="h-4 w-4" />
-                    {t.sources.generateNewInsight}
-                  </Label>
-                  <div className="flex gap-2">
-                    <Select
-                      name="transformation"
-                      value={selectedTransformation}
-                      onValueChange={setSelectedTransformation}
-                      disabled={creatingInsight}
+                {/* Create New Insight - admin only */}
+                {isAdmin && (
+                  <div className="rounded-lg border bg-muted/30 p-4">
+                    <Label
+                      htmlFor="transformation-select"
+                      className="mb-3 text-sm font-semibold flex items-center gap-2"
                     >
-                      <SelectTrigger id="transformation-select" className="flex-1">
-                        <SelectValue placeholder={t.sources.selectTransformation} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {transformations.map((trans) => (
-                          <SelectItem key={trans.id} value={trans.id}>
-                            {trans.title || trans.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <Button
-                      size="sm"
-                      onClick={createInsight}
-                      disabled={!selectedTransformation || creatingInsight}
-                    >
-                      {creatingInsight ? (
-                        <>
-                          <LoadingSpinner className="mr-2 h-3 w-3" />
-                          {t.common.creating}
-                        </>
-                      ) : (
-                        <>
-                          <Plus className="mr-2 h-4 w-4" />
-                          {t.common.create}
-                        </>
-                      )}
-                    </Button>
+                      <Sparkles className="h-4 w-4" />
+                      {t.sources.generateNewInsight}
+                    </Label>
+                    <div className="flex gap-2">
+                      <Select
+                        name="transformation"
+                        value={selectedTransformation}
+                        onValueChange={setSelectedTransformation}
+                        disabled={creatingInsight}
+                      >
+                        <SelectTrigger id="transformation-select" className="flex-1">
+                          <SelectValue placeholder={t.sources.selectTransformation} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {transformations.map((trans) => (
+                            <SelectItem key={trans.id} value={trans.id}>
+                              {trans.title || trans.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <Button
+                        size="sm"
+                        onClick={createInsight}
+                        disabled={!selectedTransformation || creatingInsight}
+                      >
+                        {creatingInsight ? (
+                          <>
+                            <LoadingSpinner className="mr-2 h-3 w-3" />
+                            {t.common.creating}
+                          </>
+                        ) : (
+                          <>
+                            <Plus className="mr-2 h-4 w-4" />
+                            {t.common.create}
+                          </>
+                        )}
+                      </Button>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Insights List */}
                 {loadingInsights ? (
