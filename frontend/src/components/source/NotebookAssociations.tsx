@@ -9,6 +9,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { useNotebooks } from '@/lib/hooks/use-notebooks'
 import { useAddSourcesToNotebook, useRemoveSourceFromNotebook } from '@/lib/hooks/use-sources'
 import { useTranslation } from '@/lib/hooks/use-translation'
+import { useAuthStore } from '@/lib/stores/auth-store'
 
 interface NotebookAssociationsProps {
   sourceId: string
@@ -22,6 +23,7 @@ export function NotebookAssociations({
   onSave,
 }: NotebookAssociationsProps) {
   const { t } = useTranslation()
+  const isAdmin = useAuthStore((s) => s.user?.role === 'admin')
   const [selectedNotebookIds, setSelectedNotebookIds] = useState<string[]>(currentNotebookIds)
   const [isSaving, setIsSaving] = useState(false)
 
@@ -164,18 +166,21 @@ export function NotebookAssociations({
                 const isSelected = selectedNotebookIds.includes(notebook.id)
                 const isCurrentlyLinked = currentNotebookIds.includes(notebook.id)
 
+                if (!isAdmin && !isCurrentlyLinked) return null
+
                 return (
                   <div
                     key={notebook.id}
-                    className={`flex items-start gap-3 p-3 rounded-lg border transition-colors ${
-                      isSelected ? 'bg-accent border-accent-foreground/20' : 'hover:bg-accent/50'
-                    }`}
+                    className={`flex items-start gap-3 p-3 rounded-lg border transition-colors ${isSelected ? 'bg-accent border-accent-foreground/20' : isAdmin ? 'hover:bg-accent/50' : ''
+                      }`}
                   >
-                    <Checkbox
-                      checked={isSelected}
-                      onCheckedChange={() => handleToggleNotebook(notebook.id)}
-                      className="mt-0.5"
-                    />
+                    {isAdmin && (
+                      <Checkbox
+                        checked={isSelected}
+                        onCheckedChange={() => handleToggleNotebook(notebook.id)}
+                        className="mt-0.5"
+                      />
+                    )}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
                         <h4 className="font-medium text-sm truncate">
