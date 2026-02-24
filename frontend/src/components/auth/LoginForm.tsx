@@ -149,7 +149,7 @@ export function LoginForm() {
             <div>
               <Input
                 type="text"
-                placeholder="Username"
+                placeholder={t.auth.usernamePlaceholder}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 disabled={isLoading}

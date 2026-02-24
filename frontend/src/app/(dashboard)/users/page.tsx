@@ -33,6 +33,7 @@ import {
 import { useAuthStore } from '@/lib/stores/auth-store'
 import { useRoleGuard } from '@/lib/hooks/use-role-guard'
 import { useToast } from '@/lib/hooks/use-toast'
+import { useTranslation } from '@/lib/hooks/use-translation'
 import { getApiUrl } from '@/lib/config'
 import {
     Users,
@@ -57,6 +58,7 @@ export default function UsersPage() {
     const { accessToken } = useAuthStore()
     const { isAdmin } = useRoleGuard()
     const { toast } = useToast()
+    const { t } = useTranslation()
     const [users, setUsers] = useState<UserData[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
@@ -95,7 +97,7 @@ export default function UsersPage() {
         try {
             const apiUrl = await getApiUrl()
             const res = await fetch(`${apiUrl}/api/auth/users`, { headers: getHeaders() })
-            if (!res.ok) throw new Error('Failed to fetch users')
+            if (!res.ok) throw new Error(t.users.failedToLoadUsers)
             const data = await res.json()
             setUsers(data)
         } catch (err: any) {
@@ -103,7 +105,7 @@ export default function UsersPage() {
         } finally {
             setLoading(false)
         }
-    }, [getHeaders, isAdmin])
+    }, [getHeaders, isAdmin, t])
 
     useEffect(() => {
         fetchUsers()
@@ -125,16 +127,16 @@ export default function UsersPage() {
             })
             if (!res.ok) {
                 const data = await res.json()
-                throw new Error(data.detail || 'Failed to create user')
+                throw new Error(data.detail || t.users.failedToCreateUser)
             }
-            toast({ title: 'User Created', description: `User "${newUsername}" created successfully` })
+            toast({ title: t.users.createUser, description: t.users.userCreated.replace('{name}', newUsername) })
             setShowAddDialog(false)
             setNewUsername('')
             setNewPassword('')
             setNewRole('user')
             fetchUsers()
         } catch (err: any) {
-            toast({ title: 'Error', description: err.message, variant: 'destructive' })
+            toast({ title: t.common.error, description: err.message, variant: 'destructive' })
         } finally {
             setActionLoading(false)
         }
@@ -152,14 +154,14 @@ export default function UsersPage() {
             })
             if (!res.ok) {
                 const data = await res.json()
-                throw new Error(data.detail || 'Failed to delete user')
+                throw new Error(data.detail || t.users.failedToDeleteUser)
             }
-            toast({ title: 'User Deleted', description: `User "${selectedUser.username}" deleted` })
+            toast({ title: t.users.deleteUser, description: t.users.userDeleted.replace('{name}', selectedUser.username) })
             setShowDeleteDialog(false)
             setSelectedUser(null)
             fetchUsers()
         } catch (err: any) {
-            toast({ title: 'Error', description: err.message, variant: 'destructive' })
+            toast({ title: t.common.error, description: err.message, variant: 'destructive' })
         } finally {
             setActionLoading(false)
         }
@@ -178,14 +180,14 @@ export default function UsersPage() {
             })
             if (!res.ok) {
                 const data = await res.json()
-                throw new Error(data.detail || 'Failed to change password')
+                throw new Error(data.detail || t.users.failedToChangePassword)
             }
-            toast({ title: 'Password Changed', description: `Password changed for "${selectedUser.username}"` })
+            toast({ title: t.users.changePassword, description: t.users.passwordChanged.replace('{name}', selectedUser.username) })
             setShowPasswordDialog(false)
             setChangePassword('')
             setSelectedUser(null)
         } catch (err: any) {
-            toast({ title: 'Error', description: err.message, variant: 'destructive' })
+            toast({ title: t.common.error, description: err.message, variant: 'destructive' })
         } finally {
             setActionLoading(false)
         }
@@ -204,14 +206,14 @@ export default function UsersPage() {
             })
             if (!res.ok) {
                 const data = await res.json()
-                throw new Error(data.detail || 'Failed to change role')
+                throw new Error(data.detail || t.users.failedToChangeRole)
             }
-            toast({ title: 'Role Updated', description: `Role updated for "${selectedUser.username}" → ${changeRole}` })
+            toast({ title: t.users.changeRole, description: t.users.roleUpdated.replace('{name}', selectedUser.username).replace('{role}', changeRole) })
             setShowRoleDialog(false)
             setSelectedUser(null)
             fetchUsers()
         } catch (err: any) {
-            toast({ title: 'Error', description: err.message, variant: 'destructive' })
+            toast({ title: t.common.error, description: err.message, variant: 'destructive' })
         } finally {
             setActionLoading(false)
         }
@@ -227,10 +229,10 @@ export default function UsersPage() {
                             <div>
                                 <h1 className="text-2xl font-bold flex items-center gap-2">
                                     <Users className="h-6 w-6" />
-                                    User Management
+                                    {t.users.userManagement}
                                 </h1>
                                 <p className="text-muted-foreground mt-1">
-                                    Manage user accounts, roles, and passwords
+                                    {t.users.manageAccountsRolesPasswords}
                                 </p>
                             </div>
                             <div className="flex items-center gap-2">
@@ -239,7 +241,7 @@ export default function UsersPage() {
                                 </Button>
                                 <Button onClick={() => setShowAddDialog(true)} size="sm">
                                     <UserPlus className="h-4 w-4 mr-2" />
-                                    Add User
+                                    {t.users.addUser}
                                 </Button>
                             </div>
                         </div>
@@ -254,18 +256,18 @@ export default function UsersPage() {
                         {/* Users List */}
                         <Card>
                             <CardHeader>
-                                <CardTitle className="text-lg">Users ({users.length})</CardTitle>
-                                <CardDescription>All registered user accounts</CardDescription>
+                                <CardTitle className="text-lg">{t.users.usersCount.replace('{count}', String(users.length))}</CardTitle>
+                                <CardDescription>{t.users.allRegisteredAccounts}</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 {loading ? (
                                     <div className="flex items-center justify-center py-8 text-muted-foreground">
                                         <RefreshCw className="h-5 w-5 animate-spin mr-2" />
-                                        Loading users...
+                                        {t.users.loadingUsers}
                                     </div>
                                 ) : users.length === 0 ? (
                                     <div className="text-center py-8 text-muted-foreground">
-                                        No users found. Click "Add User" to create one.
+                                        {t.users.noUsersFoundAddHint}
                                     </div>
                                 ) : (
                                     <div className="divide-y">
@@ -292,9 +294,9 @@ export default function UsersPage() {
                                                         className="min-w-[60px] justify-center"
                                                     >
                                                         {user.role === 'admin' ? (
-                                                            <><Shield className="h-3 w-3 mr-1" /> Admin</>
+                                                            <><Shield className="h-3 w-3 mr-1" /> {t.users.roleAdmin}</>
                                                         ) : (
-                                                            'User'
+                                                            t.users.roleUser
                                                         )}
                                                     </Badge>
 
@@ -313,7 +315,7 @@ export default function UsersPage() {
                                                                 }}
                                                             >
                                                                 <KeyRound className="h-4 w-4 mr-2" />
-                                                                Change Password
+                                                                {t.users.changePassword}
                                                             </DropdownMenuItem>
                                                             <DropdownMenuItem
                                                                 onClick={() => {
@@ -323,7 +325,7 @@ export default function UsersPage() {
                                                                 }}
                                                             >
                                                                 <Shield className="h-4 w-4 mr-2" />
-                                                                Change Role
+                                                                {t.users.changeRole}
                                                             </DropdownMenuItem>
                                                             <DropdownMenuSeparator />
                                                             <DropdownMenuItem
@@ -334,7 +336,7 @@ export default function UsersPage() {
                                                                 }}
                                                             >
                                                                 <Trash2 className="h-4 w-4 mr-2" />
-                                                                Delete User
+                                                                {t.users.deleteUser}
                                                             </DropdownMenuItem>
                                                         </DropdownMenuContent>
                                                     </DropdownMenu>
@@ -353,53 +355,53 @@ export default function UsersPage() {
             <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Add New User</DialogTitle>
-                        <DialogDescription>Create a new user account</DialogDescription>
+                        <DialogTitle>{t.users.addNewUser}</DialogTitle>
+                        <DialogDescription>{t.users.createNewAccount}</DialogDescription>
                     </DialogHeader>
                     <div className="space-y-4 py-2">
                         <div className="space-y-2">
-                            <Label htmlFor="add-username">Username</Label>
+                            <Label htmlFor="add-username">{t.users.username}</Label>
                             <Input
                                 id="add-username"
                                 value={newUsername}
                                 onChange={(e) => setNewUsername(e.target.value)}
-                                placeholder="Enter username"
+                                placeholder={t.users.enterUsername}
                                 autoComplete="off"
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="add-password">Password</Label>
+                            <Label htmlFor="add-password">{t.users.password}</Label>
                             <Input
                                 id="add-password"
                                 type="password"
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
-                                placeholder="Min 8 characters"
+                                placeholder={t.users.minChars}
                                 autoComplete="new-password"
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="add-role">Role</Label>
+                            <Label htmlFor="add-role">{t.users.role}</Label>
                             <Select value={newRole} onValueChange={(v: 'admin' | 'user') => setNewRole(v)}>
                                 <SelectTrigger>
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="user">User</SelectItem>
-                                    <SelectItem value="admin">Admin</SelectItem>
+                                    <SelectItem value="user">{t.users.roleUser}</SelectItem>
+                                    <SelectItem value="admin">{t.users.roleAdmin}</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
                     </div>
                     <DialogFooter>
                         <Button variant="outline" onClick={() => setShowAddDialog(false)}>
-                            Cancel
+                            {t.common.cancel}
                         </Button>
                         <Button
                             onClick={handleAddUser}
                             disabled={actionLoading || !newUsername.trim() || newPassword.length < 8}
                         >
-                            {actionLoading ? 'Creating...' : 'Create User'}
+                            {actionLoading ? t.users.creatingUser : t.users.createUser}
                         </Button>
                     </DialogFooter>
                 </DialogContent>
@@ -411,19 +413,18 @@ export default function UsersPage() {
                     <DialogHeader>
                         <DialogTitle className="flex items-center gap-2 text-red-600">
                             <AlertTriangle className="h-5 w-5" />
-                            Delete User
+                            {t.users.deleteUser}
                         </DialogTitle>
                         <DialogDescription>
-                            Are you sure you want to delete <strong>{selectedUser?.username}</strong>?
-                            This action cannot be undone.
+                            {t.users.deleteUserConfirm.replace('{name}', selectedUser?.username || '')}
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
                         <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
-                            Cancel
+                            {t.common.cancel}
                         </Button>
                         <Button variant="destructive" onClick={handleDeleteUser} disabled={actionLoading}>
-                            {actionLoading ? 'Deleting...' : 'Delete User'}
+                            {actionLoading ? t.users.deletingUser : t.users.deleteUser}
                         </Button>
                     </DialogFooter>
                 </DialogContent>
@@ -433,33 +434,33 @@ export default function UsersPage() {
             <Dialog open={showPasswordDialog} onOpenChange={setShowPasswordDialog}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Change Password</DialogTitle>
+                        <DialogTitle>{t.users.changePassword}</DialogTitle>
                         <DialogDescription>
-                            Set new password for <strong>{selectedUser?.username}</strong>
+                            {t.users.changePasswordDesc.replace('{name}', selectedUser?.username || '')}
                         </DialogDescription>
                     </DialogHeader>
                     <div className="space-y-4 py-2">
                         <div className="space-y-2">
-                            <Label htmlFor="change-password">New Password</Label>
+                            <Label htmlFor="change-password">{t.users.newPassword}</Label>
                             <Input
                                 id="change-password"
                                 type="password"
                                 value={changePassword}
                                 onChange={(e) => setChangePassword(e.target.value)}
-                                placeholder="Min 8 characters"
+                                placeholder={t.users.minChars}
                                 autoComplete="new-password"
                             />
                         </div>
                     </div>
                     <DialogFooter>
                         <Button variant="outline" onClick={() => setShowPasswordDialog(false)}>
-                            Cancel
+                            {t.common.cancel}
                         </Button>
                         <Button
                             onClick={handleChangePassword}
                             disabled={actionLoading || changePassword.length < 8}
                         >
-                            {actionLoading ? 'Changing...' : 'Change Password'}
+                            {actionLoading ? t.users.changingPassword : t.users.changePassword}
                         </Button>
                     </DialogFooter>
                 </DialogContent>
@@ -469,31 +470,31 @@ export default function UsersPage() {
             <Dialog open={showRoleDialog} onOpenChange={setShowRoleDialog}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Change Role</DialogTitle>
+                        <DialogTitle>{t.users.changeRole}</DialogTitle>
                         <DialogDescription>
-                            Change role for <strong>{selectedUser?.username}</strong>
+                            {t.users.changeRoleDesc.replace('{name}', selectedUser?.username || '')}
                         </DialogDescription>
                     </DialogHeader>
                     <div className="space-y-4 py-2">
                         <div className="space-y-2">
-                            <Label>New Role</Label>
+                            <Label>{t.users.newRole}</Label>
                             <Select value={changeRole} onValueChange={(v: 'admin' | 'user') => setChangeRole(v)}>
                                 <SelectTrigger>
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="user">User</SelectItem>
-                                    <SelectItem value="admin">Admin</SelectItem>
+                                    <SelectItem value="user">{t.users.roleUser}</SelectItem>
+                                    <SelectItem value="admin">{t.users.roleAdmin}</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
                     </div>
                     <DialogFooter>
                         <Button variant="outline" onClick={() => setShowRoleDialog(false)}>
-                            Cancel
+                            {t.common.cancel}
                         </Button>
                         <Button onClick={handleChangeRole} disabled={actionLoading}>
-                            {actionLoading ? 'Updating...' : 'Update Role'}
+                            {actionLoading ? t.users.updatingRole : t.users.updateRole}
                         </Button>
                     </DialogFooter>
                 </DialogContent>
