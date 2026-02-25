@@ -81,7 +81,8 @@ async def get_feedback(
             params["date_to"] = f"{date_to}T23:59:59Z"
 
         where_clause = " AND ".join(conditions) if conditions else ""
-        query = "SELECT * FROM feedback"
+        # Use FETCH to resolve user_id in a single query
+        query = "SELECT *, user_id.username as username FROM feedback"
         if where_clause:
             query += f" WHERE {where_clause}"
         query += " ORDER BY created DESC"
@@ -92,21 +93,11 @@ async def get_feedback(
 
         result = await repo_query(query, params if params else None)
 
-        # Resolve usernames
         feedback_list = []
         for row in result:
-            username = None
             uid = row.get("user_id")
-            if uid:
-                try:
-                    user_result = await repo_query(
-                        "SELECT username FROM $uid",
-                        {"uid": uid},
-                    )
-                    if user_result:
-                        username = user_result[0].get("username")
-                except Exception:
-                    pass
+            # username is resolved via user_id.username in the SELECT
+            username = row.get("username")
 
             feedback_list.append(
                 FeedbackResponse(

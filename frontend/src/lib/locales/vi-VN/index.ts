@@ -150,6 +150,8 @@ export const viVN = {
     filters: "Bộ lọc",
     feedbackDetail: "Chi tiết phản hồi",
     noReportContent: "Không có nội dung báo cáo",
+    userPerformed: "Người dùng",
+    unknownUser: "Không xác định",
   },
   apiErrors: {
     notebookNotFound: "Không tìm thấy sổ tay",

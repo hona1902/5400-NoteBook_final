@@ -150,6 +150,8 @@ export const enUS = {
     filters: "Filters",
     feedbackDetail: "Feedback Detail",
     noReportContent: "No report content",
+    userPerformed: "User",
+    unknownUser: "Unknown user",
   },
   apiErrors: {
     notebookNotFound: "Notebook not found",

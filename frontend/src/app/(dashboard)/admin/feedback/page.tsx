@@ -30,6 +30,7 @@ interface FeedbackItem {
     question: string
     answer: string
     report_content?: string
+    username?: string
     created: string
 }
 
@@ -66,6 +67,8 @@ export default function FeedbackStatsPage() {
     const dateLbl = t.common.date || 'Date'
     const feedbackDetailLbl = t.common.feedbackDetail || 'Feedback Detail'
     const noReportContentLbl = t.common.noReportContent || 'No report content'
+    const userLbl = t.common.userPerformed || 'User'
+    const unknownUserLbl = t.common.unknownUser || 'Unknown user'
 
     return (
         <AppShell>
@@ -122,10 +125,10 @@ export default function FeedbackStatsPage() {
                                     <tr className="border-b bg-muted/50">
                                         <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground w-16">{stt}</th>
                                         <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground w-24">{typeLbl}</th>
+                                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground w-40">{userLbl}</th>
                                         <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">{question}</th>
                                         <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">{answer}</th>
                                         <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">{reportContent}</th>
-                                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground w-32">{dateLbl}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -157,6 +160,14 @@ export default function FeedbackStatsPage() {
                                                         {item.feedback_type}
                                                     </Badge>
                                                 </td>
+                                                <td className="p-4 align-middle">
+                                                    <div className="flex flex-col gap-0.5">
+                                                        <span className="font-mono text-xs bg-muted px-1.5 py-0.5 rounded w-fit">{item.username || unknownUserLbl}</span>
+                                                        <span className="text-xs text-muted-foreground whitespace-nowrap">
+                                                            {format(new Date(item.created), 'dd/MM/yyyy HH:mm', { locale: dateLocale })}
+                                                        </span>
+                                                    </div>
+                                                </td>
                                                 <td className="p-4 align-middle max-w-xs truncate" title={item.question}>
                                                     {item.question}
                                                 </td>
@@ -165,9 +176,6 @@ export default function FeedbackStatsPage() {
                                                 </td>
                                                 <td className="p-4 align-middle max-w-xs truncate text-muted-foreground" title={item.report_content || ''}>
                                                     {item.report_content || '-'}
-                                                </td>
-                                                <td className="p-4 align-middle whitespace-nowrap text-xs text-muted-foreground">
-                                                    {format(new Date(item.created), 'PPp', { locale: dateLocale })}
                                                 </td>
                                             </tr>
                                         ))
@@ -224,13 +232,22 @@ export default function FeedbackStatsPage() {
                                 </div>
                             </div>
 
-                            <div className="text-xs text-muted-foreground pt-1 border-t">
-                                {dateLbl}: {format(new Date(selectedItem.created), 'PPpp', { locale: dateLocale })}
+                            <div className="flex flex-col gap-1 text-xs text-muted-foreground pt-1 border-t">
+                                <div>
+                                    <span className="font-semibold">{userLbl}:</span>{' '}
+                                    <span className="font-mono bg-muted px-1.5 py-0.5 rounded">
+                                        {selectedItem.username || unknownUserLbl}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span className="font-semibold">{dateLbl}:</span>{' '}
+                                    {format(new Date(selectedItem.created), 'dd/MM/yyyy HH:mm:ss', { locale: dateLocale })}
+                                </div>
                             </div>
                         </div>
                     )}
                 </DialogContent>
             </Dialog>
-        </AppShell>
+        </AppShell >
     )
 }
