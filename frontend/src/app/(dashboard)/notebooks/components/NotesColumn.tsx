@@ -51,7 +51,7 @@ export function NotesColumn({
   // Collapsible column state
   const { notesCollapsed, toggleNotes } = useNotebookColumnsStore()
   const collapseButton = useMemo(
-    () => createCollapseButton(toggleNotes, t.common.notes),
+    () => createCollapseButton(toggleNotes, t.common.notes, 'right'),
     [toggleNotes, t.common.notes]
   )
 
@@ -79,11 +79,15 @@ export function NotesColumn({
         onToggle={toggleNotes}
         collapsedIcon={StickyNote}
         collapsedLabel={t.common.notes}
+        direction="right"
       >
         <Card className="h-full flex flex-col flex-1 overflow-hidden">
           <CardHeader className="pb-3 flex-shrink-0">
             <div className="flex items-center justify-between gap-2">
-              <CardTitle className="text-lg">{t.common.notes}</CardTitle>
+              <div className="flex items-center gap-2">
+                {collapseButton}
+                <CardTitle className="text-lg">{t.common.notes}</CardTitle>
+              </div>
               <div className="flex items-center gap-2">
                 <Button
                   size="sm"
@@ -95,7 +99,6 @@ export function NotesColumn({
                   <Plus className="h-4 w-4 mr-2" />
                   {t.common.writeNote}
                 </Button>
-                {collapseButton}
               </div>
             </div>
           </CardHeader>
@@ -133,7 +136,7 @@ export function NotesColumn({
 
                       <div className="flex items-center gap-2">
                         <span className="text-xs text-muted-foreground">
-                          {formatDistanceToNow(new Date(note.updated), { 
+                          {formatDistanceToNow(new Date(note.updated), {
                             addSuffix: true,
                             locale: getDateLocale(language)
                           })}

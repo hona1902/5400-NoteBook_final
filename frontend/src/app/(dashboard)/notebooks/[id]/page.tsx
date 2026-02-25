@@ -199,7 +199,7 @@ export default function NotebookPage() {
             {/* Sources Column */}
             <div className={cn(
               'transition-all duration-150',
-              sourcesCollapsed ? 'w-12 flex-shrink-0' : 'flex-none basis-1/3'
+              sourcesCollapsed ? 'w-12 flex-shrink-0' : 'flex-none basis-1/4'
             )}>
               <SourcesColumn
                 sources={sources}
@@ -215,10 +215,18 @@ export default function NotebookPage() {
               />
             </div>
 
-            {/* Notes Column */}
+            {/* Chat Column - center, widest, takes remaining space */}
+            <div className="transition-all duration-150 flex-1 min-w-0">
+              <ChatColumn
+                notebookId={notebookId}
+                contextSelections={contextSelections}
+              />
+            </div>
+
+            {/* Notes Column - right side */}
             <div className={cn(
               'transition-all duration-150',
-              notesCollapsed ? 'w-12 flex-shrink-0' : 'flex-none basis-1/3'
+              notesCollapsed ? 'w-12 flex-shrink-0' : 'flex-none basis-1/4'
             )}>
               <NotesColumn
                 notes={notes}
@@ -226,14 +234,6 @@ export default function NotebookPage() {
                 notebookId={notebookId}
                 contextSelections={contextSelections.notes}
                 onContextModeChange={(noteId, mode) => handleContextModeChange(noteId, mode, 'note')}
-              />
-            </div>
-
-            {/* Chat Column - always expanded, takes remaining space */}
-            <div className="transition-all duration-150 flex-1 min-w-0 lg:pr-6 lg:-mr-6">
-              <ChatColumn
-                notebookId={notebookId}
-                contextSelections={contextSelections}
               />
             </div>
           </div>

@@ -3,7 +3,7 @@
 import { ReactNode } from 'react'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { ChevronLeft, LucideIcon } from 'lucide-react'
+import { ChevronLeft, ChevronRight, LucideIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface CollapsibleColumnProps {
@@ -12,6 +12,7 @@ interface CollapsibleColumnProps {
   collapsedIcon: LucideIcon
   collapsedLabel: string
   children: ReactNode
+  direction?: 'left' | 'right'
 }
 
 export function CollapsibleColumn({
@@ -20,6 +21,7 @@ export function CollapsibleColumn({
   collapsedIcon: CollapsedIcon,
   collapsedLabel,
   children,
+  direction = 'left',
 }: CollapsibleColumnProps) {
   if (isCollapsed) {
     return (
@@ -48,7 +50,7 @@ export function CollapsibleColumn({
               </div>
             </button>
           </TooltipTrigger>
-          <TooltipContent side="right">
+          <TooltipContent side={direction === 'left' ? 'right' : 'left'}>
             <p>Expand {collapsedLabel}</p>
           </TooltipContent>
         </Tooltip>
@@ -64,7 +66,8 @@ export function CollapsibleColumn({
 }
 
 // Factory function to create a collapse button for card headers
-export function createCollapseButton(onToggle: () => void, label: string) {
+export function createCollapseButton(onToggle: () => void, label: string, direction: 'left' | 'right' = 'left') {
+  const Icon = direction === 'left' ? ChevronLeft : ChevronRight
   return (
     <div className="hidden lg:block">
       <TooltipProvider>
@@ -80,7 +83,7 @@ export function createCollapseButton(onToggle: () => void, label: string) {
               className="h-7 w-7 hover:bg-accent"
               aria-label={`Collapse ${label}`}
             >
-              <ChevronLeft className="h-4 w-4" />
+              <Icon className="h-4 w-4" />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
