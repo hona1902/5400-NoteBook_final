@@ -31,7 +31,7 @@ export const viVN = {
     podcast: "Podcast",
     quickActions: "Thao tác nhanh",
     quickActionsDesc: "Điều hướng, tìm kiếm, hỏi đáp, giao diện",
-    appName: "Open Notebook",
+    appName: "ChatBot 5400",
     add: "Thêm",
     remove: "Xóa",
     confirm: "Xác nhận",

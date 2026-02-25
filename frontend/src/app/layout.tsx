@@ -12,8 +12,8 @@ import { I18nProvider } from "@/components/providers/I18nProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Open Notebook",
-  description: "Privacy-focused research and knowledge management",
+  title: "Chatbot nội bộ 5400",
+  description: "Chatbot nội bộ 5400",
 };
 
 export default function RootLayout({

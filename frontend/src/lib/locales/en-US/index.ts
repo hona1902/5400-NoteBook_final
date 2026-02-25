@@ -31,7 +31,7 @@ export const enUS = {
     podcast: "Podcast",
     quickActions: "Quick actions",
     quickActionsDesc: "Navigation, search, ask, theme",
-    appName: "Open Notebook",
+    appName: "ChatBot 5400",
     add: "Add",
     remove: "Remove",
     confirm: "Confirm",
