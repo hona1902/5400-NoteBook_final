@@ -637,6 +637,25 @@ class Note(ObjectModel):
             )
 
 
+class Feedback(ObjectModel):
+    table_name: ClassVar[str] = "feedback"
+    nullable_fields: ClassVar[set[str]] = {"report_content", "user_id"}
+    record_fields: ClassVar[set[str]] = {"user_id"}
+    feedback_type: Literal["like", "dislike", "report"]
+    question: str
+    answer: str
+    report_content: Optional[str] = None
+    user_id: Optional[str] = None
+
+    @field_validator("user_id", mode="before")
+    @classmethod
+    def parse_user_id(cls, value):
+        """Ensure user_id is always a string (SurrealDB may return RecordID)."""
+        if value is None:
+            return None
+        return str(value)
+
+
 class ChatSession(ObjectModel):
     table_name: ClassVar[str] = "chat_session"
     nullable_fields: ClassVar[set[str]] = {"model_override", "user_id"}

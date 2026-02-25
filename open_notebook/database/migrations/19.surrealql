@@ -1,0 +1,14 @@
+-- Migration 19: Create feedback table for like/dislike/report on AI responses
+DEFINE TABLE feedback SCHEMAFULL;
+
+DEFINE FIELD feedback_type ON feedback TYPE string ASSERT $value IN ["like", "dislike", "report"];
+DEFINE FIELD question ON feedback TYPE string;
+DEFINE FIELD answer ON feedback TYPE string;
+DEFINE FIELD report_content ON feedback TYPE option<string>;
+DEFINE FIELD user_id ON feedback TYPE option<record<user>>;
+DEFINE FIELD created ON feedback TYPE option<datetime>;
+DEFINE FIELD updated ON feedback TYPE option<datetime>;
+
+DEFINE INDEX feedback_user ON feedback FIELDS user_id;
+DEFINE INDEX feedback_type_idx ON feedback FIELDS feedback_type;
+DEFINE INDEX feedback_created ON feedback FIELDS created;

@@ -684,3 +684,28 @@ class NotebookDeleteResponse(BaseModel):
     unlinked_sources: int = Field(
         ..., description="Number of sources unlinked from notebook"
     )
+
+
+# Feedback API models
+class FeedbackCreate(BaseModel):
+    feedback_type: Literal["like", "dislike", "report"] = Field(
+        ..., description="Type of feedback"
+    )
+    question: str = Field(..., description="The user's question")
+    answer: str = Field(..., description="The AI response content")
+    report_content: Optional[str] = Field(
+        None, description="Report details (required for report type)"
+    )
+
+
+class FeedbackResponse(BaseModel):
+    id: str
+    feedback_type: str
+    question: str
+    answer: str
+    report_content: Optional[str] = None
+    user_id: Optional[str] = None
+    username: Optional[str] = None
+    created: str
+    updated: str
+

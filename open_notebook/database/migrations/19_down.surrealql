@@ -1,0 +1,2 @@
+-- Migration 19 Down: Remove feedback table
+REMOVE TABLE feedback;

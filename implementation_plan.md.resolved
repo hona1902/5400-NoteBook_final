@@ -1,0 +1,127 @@
+# Like / Dislike / Report Feature
+
+Add like, dislike, and report buttons below each AI response (next to the existing Save to Note button). Include an admin page to view/filter all feedback.
+
+## Proposed Changes
+
+### Database Migration
+
+#### [NEW] [19.surrealql](file:///d:/Project%20Web/open-notebook/open_notebook/database/migrations/19.surrealql)
+
+Create `feedback` table:
+- `feedback_type`: enum `like | dislike | report`
+- `question`: the user's question (human message before this AI response)
+- `answer`: the AI response content
+- `report_content`: optional text (only for reports)
+- [user_id](file:///d:/Project%20Web/open-notebook/open_notebook/domain/notebook.py#582-589): record reference to user
+- Indexes on [user_id](file:///d:/Project%20Web/open-notebook/open_notebook/domain/notebook.py#582-589), `feedback_type`, `created`
+
+#### [NEW] [19_down.surrealql](file:///d:/Project%20Web/open-notebook/open_notebook/database/migrations/19_down.surrealql)
+
+`REMOVE TABLE feedback;`
+
+---
+
+### Backend Domain Model
+
+#### [MODIFY] [notebook.py](file:///d:/Project%20Web/open-notebook/open_notebook/domain/notebook.py)
+
+Add `Feedback` class extending [ObjectModel](file:///d:/Project%20Web/open-notebook/open_notebook/domain/base.py#31-208):
+```python
+class Feedback(ObjectModel):
+    table_name = "feedback"
+    nullable_fields = {"report_content", "user_id"}
+    record_fields = {"user_id"}
+    feedback_type: Literal["like", "dislike", "report"]
+    question: str
+    answer: str
+    report_content: Optional[str] = None
+    user_id: Optional[str] = None
+```
+
+---
+
+### Backend API Models
+
+#### [MODIFY] [models.py](file:///d:/Project%20Web/open-notebook/api/models.py)
+
+Add request/response models:
+- `FeedbackCreate`: `feedback_type`, `question`, `answer`, `report_content` (optional)
+- `FeedbackResponse`: all fields + [id](file:///d:/Project%20Web/open-notebook/open_notebook/domain/notebook.py#324-333), `created`, `updated`, `username`
+- `FeedbackListResponse`: list wrapper with count
+
+---
+
+### Backend Router
+
+#### [NEW] [feedback.py](file:///d:/Project%20Web/open-notebook/api/routers/feedback.py)
+
+- `POST /feedback` — create feedback (any user)
+- `GET /feedback` — list all feedback (admin only), with query params:
+  - `feedback_type` filter (like/dislike/report)
+  - `date_from` / `date_to` date filters
+  - pagination (`page`, `page_size`)
+
+#### [MODIFY] [main.py](file:///d:/Project%20Web/open-notebook/api/main.py)
+
+Register the feedback router.
+
+---
+
+### Frontend – Chat Buttons
+
+#### [MODIFY] [MessageActions.tsx](file:///d:/Project%20Web/open-notebook/frontend/src/components/source/MessageActions.tsx)
+
+Add 3 new buttons after Save to Note:
+- 👍 Like button (icon: `ThumbsUp`)
+- 👎 Dislike button (icon: `ThumbsDown`)
+- 🚩 Report button (icon: `Flag`) — opens a dialog
+
+The [MessageActions](file:///d:/Project%20Web/open-notebook/frontend/src/components/source/MessageActions.tsx#16-120) component will receive an additional `question` prop (the preceding human message).
+
+#### [MODIFY] [ChatPanel.tsx](file:///d:/Project%20Web/open-notebook/frontend/src/components/source/ChatPanel.tsx)
+
+Pass the preceding human message's content as `question` prop to [MessageActions](file:///d:/Project%20Web/open-notebook/frontend/src/components/source/MessageActions.tsx#16-120).
+
+---
+
+### Frontend – Admin Statistics Page
+
+#### [NEW] [page.tsx](file:///d:/Project%20Web/open-notebook/frontend/src/app/(dashboard)/admin/feedback/page.tsx)
+
+Admin-only page with:
+- Date range filter (from/to)
+- Feedback type combobox (like / dislike / report / all)
+- Table: STT | Câu hỏi | Câu trả lời | Loại | Nội dung báo cáo | Ngày tạo
+
+#### [MODIFY] [AppSidebar.tsx](file:///d:/Project%20Web/open-notebook/frontend/src/components/layout/AppSidebar.tsx)
+
+Add "Feedback" link under Admin section alongside Users.
+
+---
+
+### Locale Files
+
+#### [MODIFY] [en-US/index.ts](file:///d:/Project%20Web/open-notebook/frontend/src/lib/locales/en-US/index.ts)
+
+Add `feedback` section with keys: `like`, `dislike`, `report`, `reportTitle`, `reportDesc`, `reportPlaceholder`, `reportSubmit`, `feedbackSubmitted`, `feedbackTitle`, `feedbackDesc`, `filterType`, `filterAll`, `filterDateFrom`, `filterDateTo`, `stt`, `question`, `answer`, `reportContent`, `createdAt`, `noFeedback`.
+
+#### [MODIFY] [vi-VN/index.ts](file:///d:/Project%20Web/open-notebook/frontend/src/lib/locales/vi-VN/index.ts)
+
+Same keys with Vietnamese translations.
+
+---
+
+## Verification Plan
+
+### Manual Verification
+
+1. Start the app (`/start` workflow), log in as a regular user
+2. Open a notebook → chat → send a question and get an AI response
+3. Verify 3 new buttons (like, dislike, report) appear below the AI answer, to the right of the existing Save/Copy buttons
+4. Click Like → toast confirms success
+5. Click Dislike → toast confirms success
+6. Click Report → dialog opens → enter report text → submit → toast confirms
+7. Log in as admin → navigate to Admin > Feedback page
+8. Verify the table shows the feedback entries with correct data
+9. Test filters: select "Like" type → only likes shown; set date range → results filtered
