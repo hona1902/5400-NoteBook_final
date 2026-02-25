@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useRef, useCallback, useEffect } from 'react'
+import { useState, useMemo, useRef, useCallback, useEffect, ChangeEvent } from 'react'
 import { SourceListResponse } from '@/lib/types/api'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -10,7 +10,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Plus, FileText, Link2, ChevronDown, Loader2 } from 'lucide-react'
+import { Plus, FileText, Link2, ChevronDown, Loader2, X, Search } from 'lucide-react'
+import { Input } from '@/components/ui/input'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
 import { EmptyState } from '@/components/common/EmptyState'
 import { AddSourceDialog } from '@/components/sources/AddSourceDialog'
@@ -59,6 +60,7 @@ export function SourcesColumn({
   const [sourceToDelete, setSourceToDelete] = useState<string | null>(null)
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false)
   const [sourceToRemove, setSourceToRemove] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
 
   const { openModal } = useModalManager()
   const deleteSource = useDeleteSource()
@@ -71,6 +73,15 @@ export function SourcesColumn({
     () => createCollapseButton(toggleSources, t.navigation.sources),
     [toggleSources, t.navigation.sources]
   )
+
+  // Filter sources by search query
+  const filteredSources = useMemo(() => {
+    if (!sources || !searchQuery.trim()) return sources
+    const query = searchQuery.toLowerCase().trim()
+    return sources.filter((source) =>
+      source.title?.toLowerCase().includes(query)
+    )
+  }, [sources, searchQuery])
 
   // Scroll container ref for infinite scroll
   const scrollContainerRef = useRef<HTMLDivElement>(null)
@@ -184,6 +195,25 @@ export function SourcesColumn({
                 {collapseButton}
               </div>
             </div>
+            {/* Search input */}
+            <div className="relative mt-2">
+              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder={t.sources.searchSources}
+                value={searchQuery}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+                className="pl-8 pr-8 h-9"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
           </CardHeader>
 
           <CardContent ref={scrollContainerRef} className="flex-1 overflow-y-auto min-h-0">
@@ -191,7 +221,7 @@ export function SourcesColumn({
               <div className="flex items-center justify-center py-8">
                 <LoadingSpinner />
               </div>
-            ) : !sources || sources.length === 0 ? (
+            ) : !filteredSources || filteredSources.length === 0 ? (
               <EmptyState
                 icon={FileText}
                 title={t.sources.noSourcesYet}
@@ -199,7 +229,7 @@ export function SourcesColumn({
               />
             ) : (
               <div className="space-y-3">
-                {sources.map((source) => (
+                {filteredSources!.map((source) => (
                   <SourceCard
                     key={source.id}
                     source={source}

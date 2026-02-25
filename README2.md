@@ -319,3 +319,4 @@ docker compose up -d surrealdb
 backend: uv run --env-file .env python run_api.py
 woker: uv run --env-file .env surreal-commands-worker --import-modules commands
 frontend: cd frontend && npm run dev
+git add . && git commit -m "Update Tiếng việt Full" && git push origin main

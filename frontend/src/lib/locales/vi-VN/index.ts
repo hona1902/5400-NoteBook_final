@@ -415,6 +415,7 @@ export const viVN = {
     processingBatchSources: "Đang xử lý {count} nguồn. Có thể mất vài phút.",
     processingSource: "Nguồn đang được xử lý. Có thể mất vài phút.",
     maxFilesAllowed: "Tối đa {count} tệp mỗi lần",
+    searchSources: "Tìm kiếm nguồn...",
   },
   chat: {
     sessions: "Phiên",

@@ -415,6 +415,7 @@ export const enUS = {
     processingBatchSources: "Processing {count} sources. This may take a few moments.",
     processingSource: "Your source is being processed. This may take a few moments.",
     maxFilesAllowed: "Maximum {count} files allowed per batch",
+    searchSources: "Search sources...",
   },
   chat: {
     sessions: "Sessions",
