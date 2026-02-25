@@ -31,6 +31,7 @@ export function useNotebookChat({ notebookId, sources, notes, contextSelections 
   const [isSending, setIsSending] = useState(false)
   const [tokenCount, setTokenCount] = useState<number>(0)
   const [charCount, setCharCount] = useState<number>(0)
+  const [contentMap, setContentMap] = useState<Map<string, string>>(new Map())
   // Pending model override for when user changes model before a session exists
   const [pendingModelOverride, setPendingModelOverride] = useState<string | null>(null)
 
@@ -168,6 +169,44 @@ export function useNotebookChat({ notebookId, sources, notes, contextSelections 
     // Store token and char counts
     setTokenCount(response.token_count)
     setCharCount(response.char_count)
+
+    // Build contentMap from context response for citation tooltips
+    const newContentMap = new Map<string, string>()
+    const ctx = response.context as { sources?: Array<{ id?: string; title?: string; insights?: Array<{ content?: string; insight_type?: string }>; full_text?: string }>; notes?: Array<{ id?: string; title?: string; content?: string }> }
+    if (ctx.sources) {
+      for (const src of ctx.sources) {
+        if (!src.id) continue
+        // Extract raw ID without table prefix
+        const rawId = src.id.startsWith('source:') ? src.id.substring(7) : src.id
+        let snippetParts: string[] = []
+        if (src.insights && src.insights.length > 0) {
+          snippetParts = src.insights
+            .filter((ins) => ins.content)
+            .map((ins) => ins.content!)
+        } else if (src.full_text) {
+          snippetParts = [src.full_text.substring(0, 500)]
+        }
+        const snippet = snippetParts.join('\n\n')
+        if (snippet) {
+          newContentMap.set(src.id, snippet)
+          newContentMap.set(rawId, snippet)
+          newContentMap.set(`source:${rawId}`, snippet)
+        }
+      }
+    }
+    if (ctx.notes) {
+      for (const note of ctx.notes) {
+        if (!note.id) continue
+        const rawId = note.id.startsWith('note:') ? note.id.substring(5) : note.id
+        const snippet = note.content || ''
+        if (snippet) {
+          newContentMap.set(note.id, snippet)
+          newContentMap.set(rawId, snippet)
+          newContentMap.set(`note:${rawId}`, snippet)
+        }
+      }
+    }
+    setContentMap(newContentMap)
 
     return response.context
   }, [notebookId, sources, notes, contextSelections])
@@ -309,6 +348,7 @@ export function useNotebookChat({ notebookId, sources, notes, contextSelections 
     loadingSessions,
     tokenCount,
     charCount,
+    contentMap,
     pendingModelOverride,
 
     // Actions

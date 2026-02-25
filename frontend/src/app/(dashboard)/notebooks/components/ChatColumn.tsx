@@ -118,6 +118,7 @@ export function ChatColumn({ notebookId, contextSelections }: ChatColumnProps) {
       notebookContextStats={contextStats}
       notebookId={notebookId}
       titleMap={titleMap}
+      contentMap={chat.contentMap}
     />
   )
 }

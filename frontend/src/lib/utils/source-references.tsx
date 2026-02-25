@@ -280,7 +280,8 @@ export function convertReferencesToMarkdownLinks(text: string, titleMap?: Map<st
  */
 export function createReferenceLinkComponent(
   onReferenceClick: (type: ReferenceType, id: string) => void,
-  titleMap?: Map<string, string>
+  titleMap?: Map<string, string>,
+  contentMap?: Map<string, string>
 ) {
   const ReferenceLinkComponent = ({
     href,
@@ -305,9 +306,10 @@ export function createReferenceLinkComponent(
 
       const key = `${type}:${id}`
       const title = titleMap?.get(key) || titleMap?.get(id)
+      const content = contentMap?.get(key) || contentMap?.get(id)
 
       return (
-        <CitationHoverCard type={type} id={id} title={title}>
+        <CitationHoverCard type={type} id={id} title={title} content={content}>
           <button
             onClick={(e) => {
               e.preventDefault()
@@ -454,7 +456,8 @@ export function convertReferencesToCompactMarkdown(text: string, referencesLabel
  */
 export function createCompactReferenceLinkComponent(
   onReferenceClick: (type: ReferenceType, id: string) => void,
-  titleMap?: Map<string, string>
+  titleMap?: Map<string, string>,
+  contentMap?: Map<string, string>
 ) {
   const CompactReferenceLinkComponent = ({
     href,
@@ -473,9 +476,10 @@ export function createCompactReferenceLinkComponent(
 
       const key = `${type}:${id}`
       const title = titleMap?.get(key) || titleMap?.get(id)
+      const content = contentMap?.get(key) || contentMap?.get(id)
 
       return (
-        <CitationHoverCard type={type} id={id} title={title}>
+        <CitationHoverCard type={type} id={id} title={title} content={content}>
           <button
             onClick={(e) => {
               e.preventDefault()

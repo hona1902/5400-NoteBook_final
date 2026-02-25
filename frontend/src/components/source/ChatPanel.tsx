@@ -56,6 +56,8 @@ interface ChatPanelProps {
   notebookId?: string
   // Title map for displaying source titles in references
   titleMap?: Map<string, string>
+  // Content map for displaying retrieved content in citation tooltips
+  contentMap?: Map<string, string>
 }
 
 export function ChatPanel({
@@ -76,7 +78,8 @@ export function ChatPanel({
   contextType = 'source',
   notebookContextStats,
   notebookId,
-  titleMap
+  titleMap,
+  contentMap
 }: ChatPanelProps) {
   const { t } = useTranslation()
   const chatInputId = useId()
@@ -203,6 +206,7 @@ export function ChatPanel({
                             content={message.content}
                             onReferenceClick={handleReferenceClick}
                             titleMap={titleMap}
+                            contentMap={contentMap}
                           />
                         ) : (
                           <p className="text-sm break-all">{message.content}</p>
@@ -331,18 +335,20 @@ export function ChatPanel({
 function AIMessageContent({
   content,
   onReferenceClick,
-  titleMap
+  titleMap,
+  contentMap
 }: {
   content: string
   onReferenceClick: (type: string, id: string) => void
   titleMap?: Map<string, string>
+  contentMap?: Map<string, string>
 }) {
   const { t } = useTranslation()
   // Convert references to compact markdown with numbered citations
   const markdownWithCompactRefs = convertReferencesToCompactMarkdown(content, t.common.references, titleMap)
 
   // Create custom link component for compact references
-  const LinkComponent = createCompactReferenceLinkComponent(onReferenceClick, titleMap)
+  const LinkComponent = createCompactReferenceLinkComponent(onReferenceClick, titleMap, contentMap)
 
   return (
     <div className="prose prose-sm prose-neutral dark:prose-invert max-w-none break-words prose-headings:font-semibold prose-a:text-blue-600 prose-a:break-all prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-p:mb-4 prose-p:leading-7 prose-li:mb-2">

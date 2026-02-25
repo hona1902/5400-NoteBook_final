@@ -2,6 +2,7 @@
 
 import { useRouter, useParams } from 'next/navigation'
 import { useCallback, useMemo } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft } from 'lucide-react'
 import { useSourceChat } from '@/lib/hooks/useSourceChat'
@@ -10,6 +11,7 @@ import { ChatPanel } from '@/components/source/ChatPanel'
 import { useNavigation } from '@/lib/hooks/use-navigation'
 import { SourceDetailContent } from '@/components/source/SourceDetailContent'
 import { useTranslation } from '@/lib/hooks/use-translation'
+import { insightsApi } from '@/lib/api/insights'
 
 export default function SourceDetailPage() {
   const router = useRouter()
@@ -30,6 +32,41 @@ export default function SourceDetailPage() {
     }
     return map
   }, [sourceData])
+
+  // Fetch source insights for contentMap
+  const { data: insights = [] } = useQuery({
+    queryKey: ['sourceInsights', sourceId],
+    queryFn: () => insightsApi.listForSource(sourceId),
+    enabled: !!sourceId
+  })
+
+  // Build contentMap from insights for citation tooltips
+  const contentMap = useMemo(() => {
+    const map = new Map<string, string>()
+    // Map source ID to all insights joined
+    if (insights.length > 0) {
+      const rawSourceId = sourceId.startsWith('source:') ? sourceId.substring(7) : sourceId
+      const allContent = insights.map(i => i.content).join('\n\n')
+      map.set(sourceId, allContent)
+      map.set(rawSourceId, allContent)
+      map.set(`source:${rawSourceId}`, allContent)
+      // Map each insight ID to its own content
+      for (const insight of insights) {
+        const rawInsightId = insight.id.startsWith('source_insight:') ? insight.id.substring(15) : insight.id
+        map.set(insight.id, insight.content)
+        map.set(rawInsightId, insight.content)
+        map.set(`source_insight:${rawInsightId}`, insight.content)
+      }
+    } else if (sourceData?.full_text) {
+      // Fallback to full_text if no insights
+      const rawSourceId = sourceId.startsWith('source:') ? sourceId.substring(7) : sourceId
+      const snippet = sourceData.full_text.substring(0, 500)
+      map.set(sourceId, snippet)
+      map.set(rawSourceId, snippet)
+      map.set(`source:${rawSourceId}`, snippet)
+    }
+    return map
+  }, [sourceId, insights, sourceData])
 
   const handleBack = useCallback(() => {
     const returnPath = navigation.getReturnPath()
@@ -87,6 +124,7 @@ export default function SourceDetailPage() {
             onDeleteSession={chat.deleteSession}
             loadingSessions={chat.loadingSessions}
             titleMap={titleMap}
+            contentMap={contentMap}
           />
         </div>
       </div>
