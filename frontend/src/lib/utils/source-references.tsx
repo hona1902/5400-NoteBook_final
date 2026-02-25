@@ -1,6 +1,17 @@
 import React from 'react'
 import { FileText, Lightbulb, FileEdit } from 'lucide-react'
 
+/**
+ * Strip common file extensions from a title string.
+ * Removes extensions for documents, media, images, and archives.
+ */
+export function stripFileExtension(title: string): string {
+  return title.replace(
+    /\.(pdf|docx?|pptx?|xlsx?|epub|txt|md|mp[34]|wav|m4a|jpe?g|png|gif|bmp|webp|zip|rar|7z)$/i,
+    ''
+  )
+}
+
 export type ReferenceType = 'source' | 'note' | 'source_insight'
 
 export interface ParsedReference {
@@ -171,7 +182,7 @@ export function convertSourceReferences(
  * @param text - Original text with references
  * @returns Text with references converted to markdown links
  */
-export function convertReferencesToMarkdownLinks(text: string): string {
+export function convertReferencesToMarkdownLinks(text: string, titleMap?: Map<string, string>): string {
   // Step 1: Find ALL references using simple greedy pattern
   const refPattern = /(source_insight|note|source):([a-zA-Z0-9_]+)/g
   const references: Array<{ type: string; id: string; index: number; length: number }> = []
@@ -213,37 +224,40 @@ export function convertReferencesToMarkdownLinks(text: string): string {
     const contextAfter = result.substring(refEnd, Math.min(result.length, refEnd + 50))
 
     // Determine display text by checking immediate surroundings
-    let displayText = refText
+    // Use title from titleMap if available, stripping file extension
+    const rawTitle = titleMap?.get(refText)
+    const baseDisplayText = rawTitle ? stripFileExtension(rawTitle) : refText
+    let displayText = baseDisplayText
     let replaceStart = refStart
     let replaceEnd = refEnd
 
     // Check for double brackets [[ref]]
     if (contextBefore.endsWith('[[') && contextAfter.startsWith(']]')) {
-      displayText = `[[${refText}]]`
+      displayText = `[[${baseDisplayText}]]`
       replaceStart = refStart - 2
       replaceEnd = refEnd + 2
     }
     // Check for single brackets [ref]
     else if (contextBefore.endsWith('[') && contextAfter.startsWith(']')) {
-      displayText = `[${refText}]`
+      displayText = `[${baseDisplayText}]`
       replaceStart = refStart - 1
       replaceEnd = refEnd + 1
     }
     // Check for bold with brackets [**ref**]
     else if (contextBefore.endsWith('[**') && contextAfter.startsWith('**]')) {
-      displayText = `[**${refText}**]`
+      displayText = `[**${baseDisplayText}**]`
       replaceStart = refStart - 3
       replaceEnd = refEnd + 3
     }
     // Check for just bold **ref**
     else if (contextBefore.endsWith('**') && contextAfter.startsWith('**')) {
-      displayText = `**${refText}**`
+      displayText = `**${baseDisplayText}**`
       replaceStart = refStart - 2
       replaceEnd = refEnd + 2
     }
     // Plain reference (no brackets)
     else {
-      displayText = refText
+      displayText = baseDisplayText
     }
 
     // Step 4: Build the markdown link
@@ -284,8 +298,8 @@ export function createReferenceLinkComponent(
       // Select appropriate icon based on reference type
       const IconComponent =
         type === 'source' ? FileText :
-        type === 'source_insight' ? Lightbulb :
-        FileEdit // note
+          type === 'source_insight' ? Lightbulb :
+            FileEdit // note
 
       return (
         <button
@@ -336,7 +350,7 @@ export function createReferenceLinkComponent(
  * Input: "See [source:abc] and [note:xyz]. Also [source:abc] again."
  * Output: "See [1] and [2]. Also [1] again.\n\nReferences:\n[1] - [source:abc]\n[2] - [note:xyz]"
  */
-export function convertReferencesToCompactMarkdown(text: string, referencesLabel: string = 'References'): string {
+export function convertReferencesToCompactMarkdown(text: string, referencesLabel: string = 'References', titleMap?: Map<string, string>): string {
   // Step 1: Parse all references using existing function
   const references = parseSourceReferences(text)
 
@@ -401,7 +415,10 @@ export function convertReferencesToCompactMarkdown(text: string, referencesLabel
 
   // Iterate through reference map in insertion order (Map preserves order)
   for (const [, refData] of referenceMap) {
-    const refListItem = `[${refData.number}] - [${refData.type}:${refData.id}](#ref-${refData.type}-${refData.id})`
+    const key = `${refData.type}:${refData.id}`
+    const rawTitle = titleMap?.get(key)
+    const displayName = rawTitle ? stripFileExtension(rawTitle) : key
+    const refListItem = `[${refData.number}] - [${displayName}](#ref-${refData.type}-${refData.id})`
     refListLines.push(refListItem)
   }
 

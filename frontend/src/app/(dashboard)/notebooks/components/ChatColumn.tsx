@@ -23,6 +23,14 @@ export function ChatColumn({ notebookId, contextSelections }: ChatColumnProps) {
   const { data: sources = [], isLoading: sourcesLoading } = useSources(notebookId)
   const { data: notes = [], isLoading: notesLoading } = useNotes(notebookId)
 
+  // Build a title lookup map for displaying source/note titles in references
+  const titleMap = useMemo(() => {
+    const map = new Map<string, string>()
+    sources.forEach(s => { if (s.title) map.set(s.id, s.title) })
+    notes.forEach(n => { if (n.title) map.set(n.id, n.title) })
+    return map
+  }, [sources, notes])
+
   // Initialize notebook chat hook
   const chat = useNotebookChat({
     notebookId,
@@ -109,6 +117,7 @@ export function ChatColumn({ notebookId, contextSelections }: ChatColumnProps) {
       loadingSessions={chat.loadingSessions}
       notebookContextStats={contextStats}
       notebookId={notebookId}
+      titleMap={titleMap}
     />
   )
 }

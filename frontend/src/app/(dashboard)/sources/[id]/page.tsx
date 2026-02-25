@@ -1,10 +1,11 @@
 'use client'
 
 import { useRouter, useParams } from 'next/navigation'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft } from 'lucide-react'
 import { useSourceChat } from '@/lib/hooks/useSourceChat'
+import { useSource } from '@/lib/hooks/use-sources'
 import { ChatPanel } from '@/components/source/ChatPanel'
 import { useNavigation } from '@/lib/hooks/use-navigation'
 import { SourceDetailContent } from '@/components/source/SourceDetailContent'
@@ -19,6 +20,16 @@ export default function SourceDetailPage() {
 
   // Initialize source chat
   const chat = useSourceChat(sourceId)
+
+  // Fetch source data for title map
+  const { data: sourceData } = useSource(sourceId)
+  const titleMap = useMemo(() => {
+    const map = new Map<string, string>()
+    if (sourceData?.title) {
+      map.set(sourceData.id, sourceData.title)
+    }
+    return map
+  }, [sourceData])
 
   const handleBack = useCallback(() => {
     const returnPath = navigation.getReturnPath()
@@ -75,6 +86,7 @@ export default function SourceDetailPage() {
             onUpdateSession={(sessionId, title) => chat.updateSession(sessionId, { title })}
             onDeleteSession={chat.deleteSession}
             loadingSessions={chat.loadingSessions}
+            titleMap={titleMap}
           />
         </div>
       </div>

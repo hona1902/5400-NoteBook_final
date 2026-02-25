@@ -23,13 +23,15 @@ interface StreamingResponseProps {
   strategy: StrategyData | null
   answers: string[]
   finalAnswer: string | null
+  titleMap?: Map<string, string>
 }
 
 export function StreamingResponse({
   isStreaming,
   strategy,
   answers,
-  finalAnswer
+  finalAnswer,
+  titleMap
 }: StreamingResponseProps) {
   const [strategyOpen, setStrategyOpen] = useState(false)
   const [answersOpen, setAnswersOpen] = useState(false)
@@ -142,6 +144,7 @@ export function StreamingResponse({
             <FinalAnswerContent
               content={finalAnswer}
               onReferenceClick={handleReferenceClick}
+              titleMap={titleMap}
             />
           </CardContent>
         </Card>
@@ -161,13 +164,15 @@ export function StreamingResponse({
 // Helper component to render final answer with clickable references
 function FinalAnswerContent({
   content,
-  onReferenceClick
+  onReferenceClick,
+  titleMap
 }: {
   content: string
   onReferenceClick: (type: string, id: string) => void
+  titleMap?: Map<string, string>
 }) {
   // Convert references to markdown links
-  const markdownWithLinks = convertReferencesToMarkdownLinks(content)
+  const markdownWithLinks = convertReferencesToMarkdownLinks(content, titleMap)
 
   // Create custom link component
   const LinkComponent = createReferenceLinkComponent(onReferenceClick)

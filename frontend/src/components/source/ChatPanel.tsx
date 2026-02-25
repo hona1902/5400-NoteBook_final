@@ -54,6 +54,8 @@ interface ChatPanelProps {
   notebookContextStats?: NotebookContextStats
   // Notebook ID for saving notes
   notebookId?: string
+  // Title map for displaying source titles in references
+  titleMap?: Map<string, string>
 }
 
 export function ChatPanel({
@@ -73,7 +75,8 @@ export function ChatPanel({
   title,
   contextType = 'source',
   notebookContextStats,
-  notebookId
+  notebookId,
+  titleMap
 }: ChatPanelProps) {
   const { t } = useTranslation()
   const chatInputId = useId()
@@ -191,14 +194,15 @@ export function ChatPanel({
                     <div className="flex flex-col gap-2 max-w-[80%]">
                       <div
                         className={`rounded-lg px-4 py-2 ${message.type === 'human'
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-muted'
+                          ? 'bg-primary text-primary-foreground'
+                          : 'bg-muted'
                           }`}
                       >
                         {message.type === 'ai' ? (
                           <AIMessageContent
                             content={message.content}
                             onReferenceClick={handleReferenceClick}
+                            titleMap={titleMap}
                           />
                         ) : (
                           <p className="text-sm break-all">{message.content}</p>
@@ -326,14 +330,16 @@ export function ChatPanel({
 // Helper component to render AI messages with clickable references
 function AIMessageContent({
   content,
-  onReferenceClick
+  onReferenceClick,
+  titleMap
 }: {
   content: string
   onReferenceClick: (type: string, id: string) => void
+  titleMap?: Map<string, string>
 }) {
   const { t } = useTranslation()
   // Convert references to compact markdown with numbered citations
-  const markdownWithCompactRefs = convertReferencesToCompactMarkdown(content, t.common.references)
+  const markdownWithCompactRefs = convertReferencesToCompactMarkdown(content, t.common.references, titleMap)
 
   // Create custom link component for compact references
   const LinkComponent = createCompactReferenceLinkComponent(onReferenceClick)
