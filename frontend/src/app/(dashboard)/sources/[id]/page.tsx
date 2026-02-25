@@ -8,12 +8,14 @@ import { useSourceChat } from '@/lib/hooks/useSourceChat'
 import { ChatPanel } from '@/components/source/ChatPanel'
 import { useNavigation } from '@/lib/hooks/use-navigation'
 import { SourceDetailContent } from '@/components/source/SourceDetailContent'
+import { useTranslation } from '@/lib/hooks/use-translation'
 
 export default function SourceDetailPage() {
   const router = useRouter()
   const params = useParams()
   const sourceId = params?.id ? decodeURIComponent(params.id as string) : ''
   const navigation = useNavigation()
+  const { t } = useTranslation()
 
   // Initialize source chat
   const chat = useSourceChat(sourceId)
@@ -23,6 +25,9 @@ export default function SourceDetailPage() {
     router.push(returnPath)
     navigation.clearReturnTo()
   }, [navigation, router])
+
+  // Use custom label if set, otherwise use translated default
+  const backLabel = navigation.returnTo?.label || t.navigation.backToSources
 
   return (
     <div className="flex flex-col h-screen">
@@ -35,7 +40,7 @@ export default function SourceDetailPage() {
           className="mb-4"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          {navigation.getReturnLabel()}
+          {backLabel}
         </Button>
       </div>
 
