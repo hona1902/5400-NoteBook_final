@@ -14,7 +14,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
-import { Search, ChevronDown, AlertCircle, Settings, Save, MessageCircleQuestion, X } from 'lucide-react'
+import { Search, ChevronDown, AlertCircle, Settings, Save, MessageCircleQuestion, X, ThumbsUp, ThumbsDown, Flag } from 'lucide-react'
 import { useSearch } from '@/lib/hooks/use-search'
 import { useAsk } from '@/lib/hooks/use-ask'
 import { useModelDefaults, useModels } from '@/lib/hooks/use-models'
@@ -23,6 +23,9 @@ import { LoadingSpinner } from '@/components/common/LoadingSpinner'
 import { StreamingResponse } from '@/components/search/StreamingResponse'
 import { AdvancedModelsDialog } from '@/components/search/AdvancedModelsDialog'
 import { SaveToNotebooksDialog } from '@/components/search/SaveToNotebooksDialog'
+import { ReportModal } from '@/components/search/ReportModal'
+import { useCreateFeedback } from '@/lib/hooks/use-feedback'
+import { useToast } from '@/lib/hooks/use-toast'
 
 export default function SearchPage() {
   const { t } = useTranslation()
@@ -57,12 +60,18 @@ export default function SearchPage() {
   // Save to notebooks dialog
   const [showSaveDialog, setShowSaveDialog] = useState(false)
 
+  // Feedback state
+  const [showReportModal, setShowReportModal] = useState(false)
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState<'like' | 'dislike' | 'report' | null>(null)
+
   // Hooks
   const searchMutation = useSearch()
   const ask = useAsk()
   const { data: modelDefaults, isLoading: modelsLoading } = useModelDefaults()
   const { data: availableModels } = useModels()
   const { openModal } = useModalManager()
+  const feedbackMutation = useCreateFeedback()
+  const { toast } = useToast()
 
   const modelNameById = useMemo(() => {
     if (!availableModels) {
@@ -104,6 +113,8 @@ export default function SearchPage() {
   const handleAsk = useCallback(() => {
     if (!askQuestion.trim() || !modelDefaults?.default_chat_model) return
 
+    setFeedbackSubmitted(null) // Reset feedback for a new question
+
     const models = customModels || {
       strategy: modelDefaults.default_chat_model,
       answer: modelDefaults.default_chat_model,
@@ -112,6 +123,27 @@ export default function SearchPage() {
 
     ask.sendAsk(askQuestion, models)
   }, [askQuestion, modelDefaults, customModels, ask])
+
+  const handleFeedback = (type: 'like' | 'dislike') => {
+    if (!ask.finalAnswer) return
+
+    feedbackMutation.mutate(
+      {
+        feedback_type: type,
+        question: askQuestion,
+        answer: ask.finalAnswer
+      },
+      {
+        onSuccess: () => {
+          setFeedbackSubmitted(type)
+          toast({
+            title: t.common?.success || 'Success',
+            description: type === 'like' ? (t.common?.feedbackLikeDesc || 'Glad you liked this answer!') : (t.common?.feedbackDislikeDesc || 'Thanks for your feedback.'),
+          })
+        }
+      }
+    )
+  }
 
   // Auto-trigger search/ask when arriving with URL params
   useEffect(() => {
@@ -262,14 +294,48 @@ export default function SearchPage() {
                       </Button>
 
                       {ask.finalAnswer && (
-                        <Button
-                          variant="outline"
-                          onClick={() => setShowSaveDialog(true)}
-                          className="w-full"
-                        >
-                          <Save className="h-4 w-4 mr-2" />
-                          {t.searchPage.saveToNotebooks}
-                        </Button>
+                        <div className="flex flex-col sm:flex-row gap-2 w-full">
+                          <Button
+                            variant="outline"
+                            onClick={() => setShowSaveDialog(true)}
+                            className="flex-1"
+                          >
+                            <Save className="h-4 w-4 mr-2" />
+                            {t.searchPage.saveToNotebooks}
+                          </Button>
+                          <div className="flex gap-2">
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              onClick={() => handleFeedback('like')}
+                              disabled={feedbackSubmitted !== null || feedbackMutation.isPending}
+                              title={t.common?.like || "Like"}
+                              className={feedbackSubmitted === 'like' ? "bg-green-100 dark:bg-green-900/30 text-green-600" : ""}
+                            >
+                              <ThumbsUp className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              onClick={() => handleFeedback('dislike')}
+                              disabled={feedbackSubmitted !== null || feedbackMutation.isPending}
+                              title={t.common?.dislike || "Dislike"}
+                              className={feedbackSubmitted === 'dislike' ? "bg-red-100 dark:bg-red-900/30 text-red-600" : ""}
+                            >
+                              <ThumbsDown className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              onClick={() => setShowReportModal(true)}
+                              disabled={feedbackSubmitted !== null || feedbackMutation.isPending}
+                              title={t.common?.report || "Report"}
+                              className={feedbackSubmitted === 'report' ? "bg-amber-100 dark:bg-amber-900/30 text-amber-600" : ""}
+                            >
+                              <Flag className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
                       )}
                     </div>
                   </>
@@ -302,6 +368,17 @@ export default function SearchPage() {
                     onOpenChange={setShowSaveDialog}
                     question={askQuestion}
                     answer={ask.finalAnswer}
+                  />
+                )}
+
+                {/* Report Modal */}
+                {ask.finalAnswer && (
+                  <ReportModal
+                    open={showReportModal}
+                    onOpenChange={setShowReportModal}
+                    question={askQuestion}
+                    answer={ask.finalAnswer}
+                    onReportSubmitted={() => setFeedbackSubmitted('report')}
                   />
                 )}
               </CardContent>

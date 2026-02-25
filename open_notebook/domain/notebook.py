@@ -62,38 +62,30 @@ class Notebook(ObjectModel):
 
     async def get_chat_sessions(self, user_id: Optional[str] = None) -> List["ChatSession"]:
         try:
-            if user_id:
-                srcs = await repo_query(
-                    """
-                    select * from (
-                        select
-                        <- chat_session as chat_session
-                        from refers_to
-                        where out=$id
-                        fetch chat_session
-                    )
-                    where chat_session[0].user_id = $user_id
-                    order by chat_session.updated desc
-                """,
-                    {"id": ensure_record_id(self.id), "user_id": user_id},
-                )
-            else:
-                srcs = await repo_query(
-                    """
-                    select * from (
-                        select
-                        <- chat_session as chat_session
-                        from refers_to
-                        where out=$id
-                        fetch chat_session
-                    )
-                    order by chat_session.updated desc
-                """,
-                    {"id": ensure_record_id(self.id)},
-                )
-            return (
-                [ChatSession(**src["chat_session"][0]) for src in srcs] if srcs else []
+            relations = await repo_query(
+                "SELECT in FROM refers_to WHERE out = $id",
+                {"id": ensure_record_id(self.id)}
             )
+
+            sessions = []
+            for relation in relations:
+                session_id_raw = relation.get("in")
+                if session_id_raw:
+                    session_id = str(session_id_raw)
+
+                    session_result = await repo_query(f"SELECT * FROM {session_id}")
+                    if session_result and len(session_result) > 0:
+                        session_data = session_result[0]
+
+                        # Filter by user_id
+                        if user_id and session_data.get("user_id") != user_id:
+                            continue
+                            
+                        sessions.append(ChatSession(**session_data))
+
+            # Sort sessions by updated date (newest first) to match desc order behavior
+            sessions.sort(key=lambda x: str(x.updated) if x.updated else "", reverse=True)
+            return sessions
         except Exception as e:
             logger.error(
                 f"Error fetching chat sessions for notebook {self.id}: {str(e)}"

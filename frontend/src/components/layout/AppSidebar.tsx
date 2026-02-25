@@ -42,6 +42,7 @@ import {
   Wrench,
   Command,
   Users,
+  BarChart,
 } from 'lucide-react'
 import { useRoleGuard } from '@/lib/hooks/use-role-guard'
 
@@ -76,6 +77,7 @@ const getNavigation = (t: TranslationKeys) => [
       { name: t.navigation.transformations, href: '/transformations', icon: Shuffle },
       { name: t.navigation.settings, href: '/settings', icon: Settings },
       { name: t.navigation.advanced, href: '/advanced', icon: Wrench },
+      { name: t.common.feedbackStats || 'Feedback Stats', href: '/admin/feedback', icon: BarChart },
     ],
   },
 ]

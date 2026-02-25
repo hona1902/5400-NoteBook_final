@@ -3,20 +3,50 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { Save, Copy, Loader2, Check } from 'lucide-react'
+import { Save, Copy, Loader2, Check, ThumbsUp, ThumbsDown, Flag } from 'lucide-react'
 import { useCreateNote } from '@/lib/hooks/use-notes'
 import { toast } from 'sonner'
 import { useTranslation } from '@/lib/hooks/use-translation'
+import { useCreateFeedback } from '@/lib/hooks/use-feedback'
+import { ReportModal } from '@/components/search/ReportModal'
 
 interface MessageActionsProps {
   content: string
+  question?: string
   notebookId?: string
 }
 
-export function MessageActions({ content, notebookId }: MessageActionsProps) {
+export function MessageActions({ content, question, notebookId }: MessageActionsProps) {
   const { t } = useTranslation()
   const [copySuccess, setCopySuccess] = useState(false)
   const createNote = useCreateNote()
+  const [showReportModal, setShowReportModal] = useState(false)
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState<'like' | 'dislike' | 'report' | null>(null)
+  const feedbackMutation = useCreateFeedback()
+
+  const handleFeedback = (type: 'like' | 'dislike') => {
+    if (!question) return;
+
+    setFeedbackSubmitted(type)
+
+    feedbackMutation.mutate({
+      feedback_type: type,
+      question: question,
+      answer: content,
+    }, {
+      onSuccess: () => {
+        if (type === 'like') {
+          toast.success(t.common.feedbackLikeDesc || 'Glad you liked this answer!')
+        } else {
+          toast.success(t.common.feedbackDislikeDesc || 'Thanks for your feedback.')
+        }
+      },
+      onError: () => {
+        setFeedbackSubmitted(null)
+        toast.error(t.common.error)
+      }
+    })
+  }
 
   const handleSaveToNote = () => {
     if (!notebookId) {
@@ -113,6 +143,69 @@ export function MessageActions({ content, notebookId }: MessageActionsProps) {
             <p>{t.common.copyToClipboard}</p>
           </TooltipContent>
         </Tooltip>
+
+        {question && (
+          <>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={`h-7 px-2 ${feedbackSubmitted === 'like' ? 'text-green-500 bg-green-50 dark:bg-green-500/10' : ''}`}
+                  onClick={() => handleFeedback('like')}
+                  disabled={feedbackMutation.isPending || feedbackSubmitted !== null}
+                >
+                  <ThumbsUp className="h-3.5 w-3.5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{t.common.like || 'Like'}</p>
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={`h-7 px-2 ${feedbackSubmitted === 'dislike' ? 'text-red-500 bg-red-50 dark:bg-red-500/10' : ''}`}
+                  onClick={() => handleFeedback('dislike')}
+                  disabled={feedbackMutation.isPending || feedbackSubmitted !== null}
+                >
+                  <ThumbsDown className="h-3.5 w-3.5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{t.common.dislike || 'Dislike'}</p>
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={`h-7 px-2 ${feedbackSubmitted === 'report' ? 'text-orange-500 bg-orange-50 dark:bg-orange-500/10' : ''}`}
+                  onClick={() => setShowReportModal(true)}
+                  disabled={feedbackMutation.isPending || feedbackSubmitted !== null}
+                >
+                  <Flag className="h-3.5 w-3.5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{t.common.report || 'Report'}</p>
+              </TooltipContent>
+            </Tooltip>
+
+            <ReportModal
+              open={showReportModal}
+              onOpenChange={setShowReportModal}
+              question={question}
+              answer={content}
+              onReportSubmitted={() => setFeedbackSubmitted('report')}
+            />
+          </>
+        )}
       </div>
     </TooltipProvider>
   )
