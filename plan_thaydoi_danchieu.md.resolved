@@ -1,0 +1,102 @@
+# Citation Hover Popup Feature
+
+When AI responds in chat, it includes numbered citation references (1, 2, 3...). Currently, clicking these numbers opens a full modal. This change adds a **hover popup** that appears when the user hovers over a citation number, showing a preview of the referenced source content.
+
+## Proposed Changes
+
+### Component: HoverCard UI Component
+
+#### [NEW] [hover-card.tsx](file:///d:/Project%20Web/open-notebook/frontend/src/components/ui/hover-card.tsx)
+
+Create a Radix UI HoverCard component (shadcn/ui pattern) that shows content on hover. This will be used to wrap citation buttons.
+
+- Install `@radix-ui/react-hover-card` if not present
+- Standard shadcn/ui component with `HoverCard`, `HoverCardTrigger`, `HoverCardContent`
+
+---
+
+### Component: Citation Reference System
+
+#### [MODIFY] [source-references.tsx](file:///d:/Project%20Web/open-notebook/frontend/src/lib/utils/source-references.tsx)
+
+**Changes to [createCompactReferenceLinkComponent](file:///d:/Project%20Web/open-notebook/frontend/src/lib/utils/source-references.tsx#431-492)** (used in [ChatPanel.tsx](file:///d:/Project%20Web/open-notebook/frontend/src/components/source/ChatPanel.tsx) for notebook chat):
+
+- Add an optional `contentMap` parameter: `Map<string, string>` mapping `"type:id"` → content text
+- Wrap each citation button in a `HoverCard` component
+- On hover, display a preview popup showing:
+  - Title (from existing `children` text)
+  - Content excerpt (first ~300 chars from `contentMap`, truncated with "...")
+  - A small footer saying "Click to view full content"
+- If no content is available in `contentMap` for a reference, show just the title with "Click to view"
+
+**Changes to [createReferenceLinkComponent](file:///d:/Project%20Web/open-notebook/frontend/src/lib/utils/source-references.tsx#274-331)** (used in [StreamingResponse.tsx](file:///d:/Project%20Web/open-notebook/frontend/src/components/search/StreamingResponse.tsx) for search page):
+
+- Same hover popup behavior as above
+
+---
+
+### Component: Content Map Building
+
+#### [MODIFY] [ChatColumn.tsx](file:///d:/Project%20Web/open-notebook/frontend/src/app/(dashboard)/notebooks/components/ChatColumn.tsx)
+
+- Build a `contentMap: Map<string, string>` alongside the existing `titleMap`
+- For sources: map `"source:{id}"` → `source.full_text` (need to fetch via `sourcesApi.get()` or use data already available)
+- For notes: map `"note:{id}"` → `note.content`
+- Pass `contentMap` down to [ChatPanel](file:///d:/Project%20Web/open-notebook/frontend/src/components/source/ChatPanel.tsx#61-329)
+
+**Approach**: Since `useSources` returns `SourceListResponse[]` (which doesn't include `full_text`), and `useNotes` returns `NoteResponse[]` (which includes `content`), we need a strategy:
+
+- For **notes**: `content` is already available from `useNotes()` → use directly
+- For **sources**: The [SourceListResponse](file:///d:/Project%20Web/open-notebook/frontend/src/lib/types/api.ts#21-41) doesn't include `full_text`. Instead of fetching every source's full text upfront (expensive), we'll extract unique source IDs from messages, then fetch content lazily using React Query.
+- For **insights**: Use `insightsApi.get()` lazily.
+
+**Revised approach — Lazy fetching in the HoverCard component itself**:
+
+Rather than building a full `contentMap` upfront, the hover popup component will fetch content on-demand when the user hovers. This avoids unnecessary API calls and works well with React Query caching.
+
+#### [MODIFY] [ChatPanel.tsx](file:///d:/Project%20Web/open-notebook/frontend/src/components/source/ChatPanel.tsx)
+
+- Pass `titleMap` to the link component factory (already done)
+- No additional changes needed if we use lazy fetching
+
+#### [NEW] [CitationHoverCard.tsx](file:///d:/Project%20Web/open-notebook/frontend/src/components/common/CitationHoverCard.tsx)
+
+A reusable component that wraps a citation button and adds hover popup behavior:
+
+```tsx
+interface CitationHoverCardProps {
+  type: ReferenceType   // 'source' | 'note' | 'source_insight'
+  id: string
+  children: React.ReactNode  // The citation button
+}
+```
+
+- Uses `HoverCard` from Radix UI
+- On hover (open state change), fetches content via:
+  - `sourcesApi.get(id)` → `full_text` (for sources)
+  - `insightsApi.get(id)` → `content` (for insights)
+  - `notesApi.get(id)` → `content` (for notes)
+- Uses React Query with `enabled: isOpen` to fetch only on hover
+- Shows loading spinner while fetching
+- Displays first ~300 characters of content as preview
+- Caches results so subsequent hovers are instant
+
+#### [MODIFY] [StreamingResponse.tsx](file:///d:/Project%20Web/open-notebook/frontend/src/components/search/StreamingResponse.tsx)
+
+- Same pattern: wrap reference links with `CitationHoverCard`
+
+---
+
+## Verification Plan
+
+### Manual Verification
+
+1. Start the dev server: `cd d:\Project Web\open-notebook\frontend && npm run dev`
+2. Open a notebook with chat messages that contain citation references (numbered 1, 2, 3...)
+3. **Hover test**: Hover over a citation number → A popup should appear showing:
+   - Content preview text (first ~300 chars)
+   - "Click to view full content" hint
+4. **Click test**: Click the citation number → The existing modal should still open normally
+5. **Multiple hovers**: Hover different citations → Each should show different content
+6. **Hover then leave**: Move mouse away → Popup should close smoothly
+7. **Cache test**: Hover the same citation again → Should appear instantly (no loading)

@@ -342,7 +342,7 @@ function AIMessageContent({
   const markdownWithCompactRefs = convertReferencesToCompactMarkdown(content, t.common.references, titleMap)
 
   // Create custom link component for compact references
-  const LinkComponent = createCompactReferenceLinkComponent(onReferenceClick)
+  const LinkComponent = createCompactReferenceLinkComponent(onReferenceClick, titleMap)
 
   return (
     <div className="prose prose-sm prose-neutral dark:prose-invert max-w-none break-words prose-headings:font-semibold prose-a:text-blue-600 prose-a:break-all prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-p:mb-4 prose-p:leading-7 prose-li:mb-2">

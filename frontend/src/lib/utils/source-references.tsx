@@ -1,5 +1,6 @@
 import React from 'react'
 import { FileText, Lightbulb, FileEdit } from 'lucide-react'
+import { CitationHoverCard } from '@/components/common/CitationHoverCard'
 
 /**
  * Strip common file extensions from a title string.
@@ -225,7 +226,7 @@ export function convertReferencesToMarkdownLinks(text: string, titleMap?: Map<st
 
     // Determine display text by checking immediate surroundings
     // Use title from titleMap if available, stripping file extension
-    const rawTitle = titleMap?.get(refText)
+    const rawTitle = titleMap?.get(refText) || titleMap?.get(ref.id)
     const baseDisplayText = rawTitle ? stripFileExtension(rawTitle) : refText
     let displayText = baseDisplayText
     let replaceStart = refStart
@@ -278,7 +279,8 @@ export function convertReferencesToMarkdownLinks(text: string, titleMap?: Map<st
  * @returns React component for rendering links
  */
 export function createReferenceLinkComponent(
-  onReferenceClick: (type: ReferenceType, id: string) => void
+  onReferenceClick: (type: ReferenceType, id: string) => void,
+  titleMap?: Map<string, string>
 ) {
   const ReferenceLinkComponent = ({
     href,
@@ -301,19 +303,24 @@ export function createReferenceLinkComponent(
           type === 'source_insight' ? Lightbulb :
             FileEdit // note
 
+      const key = `${type}:${id}`
+      const title = titleMap?.get(key) || titleMap?.get(id)
+
       return (
-        <button
-          onClick={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            onReferenceClick(type, id)
-          }}
-          className="text-primary hover:underline cursor-pointer inline font-medium"
-          type="button"
-        >
-          <IconComponent className="h-3 w-3 inline mr-1" aria-hidden="true" />
-          {children}
-        </button>
+        <CitationHoverCard type={type} id={id} title={title}>
+          <button
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              onReferenceClick(type, id)
+            }}
+            className="text-primary hover:underline cursor-pointer inline font-medium"
+            type="button"
+          >
+            <IconComponent className="h-3 w-3 inline mr-1" aria-hidden="true" />
+            {children}
+          </button>
+        </CitationHoverCard>
       )
     }
 
@@ -416,7 +423,7 @@ export function convertReferencesToCompactMarkdown(text: string, referencesLabel
   // Iterate through reference map in insertion order (Map preserves order)
   for (const [, refData] of referenceMap) {
     const key = `${refData.type}:${refData.id}`
-    const rawTitle = titleMap?.get(key)
+    const rawTitle = titleMap?.get(key) || titleMap?.get(refData.id)
     const displayName = rawTitle ? stripFileExtension(rawTitle) : key
     const refListItem = `[${refData.number}] - [${displayName}](#ref-${refData.type}-${refData.id})`
     refListLines.push(refListItem)
@@ -446,7 +453,8 @@ export function convertReferencesToCompactMarkdown(text: string, referencesLabel
  * <ReactMarkdown components={{ a: LinkComponent }}>...</ReactMarkdown>
  */
 export function createCompactReferenceLinkComponent(
-  onReferenceClick: (type: ReferenceType, id: string) => void
+  onReferenceClick: (type: ReferenceType, id: string) => void,
+  titleMap?: Map<string, string>
 ) {
   const CompactReferenceLinkComponent = ({
     href,
@@ -463,18 +471,23 @@ export function createCompactReferenceLinkComponent(
       const type = parts[0] as ReferenceType
       const id = parts.slice(1).join('-') // Rejoin in case ID has dashes
 
+      const key = `${type}:${id}`
+      const title = titleMap?.get(key) || titleMap?.get(id)
+
       return (
-        <button
-          onClick={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            onReferenceClick(type, id)
-          }}
-          className="text-primary hover:underline cursor-pointer inline font-medium"
-          type="button"
-        >
-          {children}
-        </button>
+        <CitationHoverCard type={type} id={id} title={title}>
+          <button
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              onReferenceClick(type, id)
+            }}
+            className="text-primary hover:underline cursor-pointer inline font-medium"
+            type="button"
+          >
+            {children}
+          </button>
+        </CitationHoverCard>
       )
     }
 

@@ -162,6 +162,7 @@ export const enUS = {
     noContextMessage: "No sources or notes included in context. Toggle icons on cards to include them.",
     tokensLabel: "tokens",
     charsLabel: "chars",
+    clickToViewFull: "Click to view full content",
   },
   apiErrors: {
     notebookNotFound: "Notebook not found",

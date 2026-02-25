@@ -175,7 +175,7 @@ function FinalAnswerContent({
   const markdownWithLinks = convertReferencesToMarkdownLinks(content, titleMap)
 
   // Create custom link component
-  const LinkComponent = createReferenceLinkComponent(onReferenceClick)
+  const LinkComponent = createReferenceLinkComponent(onReferenceClick, titleMap)
 
   return (
     <div className="prose prose-sm max-w-none dark:prose-invert break-words prose-a:break-all prose-p:leading-relaxed prose-headings:mt-4 prose-headings:mb-2">

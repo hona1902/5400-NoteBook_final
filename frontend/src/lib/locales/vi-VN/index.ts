@@ -162,6 +162,7 @@ export const viVN = {
     noContextMessage: "Không có nguồn hoặc ghi chú nào trong ngữ cảnh. Nhấn icon trên thẻ để thêm vào.",
     tokensLabel: "token",
     charsLabel: "ký tự",
+    clickToViewFull: "Nhấn để xem toàn bộ nội dung",
   },
   apiErrors: {
     notebookNotFound: "Không tìm thấy sổ tay",
