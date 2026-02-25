@@ -395,14 +395,20 @@ export function SourceDetailContent({
       <div className="pb-4 px-2">
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <InlineEdit
-              value={source.title || ''}
-              onSave={handleUpdateTitle}
-              className="text-2xl font-bold"
-              inputClassName="text-2xl font-bold"
-              placeholder={t.sources.titlePlaceholder}
-              emptyText={t.sources.untitledSource}
-            />
+            {isAdmin ? (
+              <InlineEdit
+                value={source.title || ''}
+                onSave={handleUpdateTitle}
+                className="text-2xl font-bold"
+                inputClassName="text-2xl font-bold"
+                placeholder={t.sources.titlePlaceholder}
+                emptyText={t.sources.untitledSource}
+              />
+            ) : (
+              <h1 className="text-2xl font-bold px-2 py-1">
+                {source.title || <span className="text-muted-foreground">{t.sources.untitledSource}</span>}
+              </h1>
+            )}
             <p className="mt-1 text-sm text-muted-foreground">
               {t.sources.id}: {source.id}
             </p>
