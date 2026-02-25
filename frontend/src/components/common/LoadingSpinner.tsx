@@ -1,4 +1,3 @@
-import { Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface LoadingSpinnerProps {
@@ -14,9 +13,14 @@ export function LoadingSpinner({ className, size = 'md' }: LoadingSpinnerProps) 
   }
 
   return (
-    <Loader2 
+    <div
       data-testid="loading-spinner"
-      className={cn('animate-spin', sizeClasses[size], className)} 
-    />
+      className={cn('relative flex-shrink-0', sizeClasses[size], className)}
+    >
+      {/* Outer ring - faded primary */}
+      <div className="absolute inset-0 rounded-full border-2 border-[#AE1C3F]/20" />
+      {/* Spinning ring - primary color */}
+      <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-[#AE1C3F] animate-spin" />
+    </div>
   )
 }

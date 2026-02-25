@@ -101,8 +101,13 @@ export function ConnectionGuard({ children }: ConnectionGuardProps) {
   // Show loading indicator while checking connection
   if (isChecking) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="relative h-12 w-12">
+          {/* Outer ring - muted primary */}
+          <div className="absolute inset-0 rounded-full border-4 border-[#AE1C3F]/20" />
+          {/* Inner spinning ring - primary color */}
+          <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-[#AE1C3F] animate-spin" />
+        </div>
       </div>
     )
   }

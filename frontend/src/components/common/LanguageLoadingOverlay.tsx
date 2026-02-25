@@ -83,7 +83,10 @@ export function LanguageLoadingOverlay() {
       style={{ opacity: isChanging ? 1 : 0 }}
     >
       <div className="flex flex-col items-center gap-3">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <div className="relative h-8 w-8">
+          <div className="absolute inset-0 rounded-full border-2 border-[#AE1C3F]/20" />
+          <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-[#AE1C3F] animate-spin" />
+        </div>
         <span className="text-sm text-muted-foreground">{loadingText}</span>
       </div>
     </div>
