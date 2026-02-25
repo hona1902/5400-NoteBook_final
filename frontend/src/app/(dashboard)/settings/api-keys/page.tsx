@@ -2,6 +2,7 @@
 
 import { useMemo, useState, useEffect, useId } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { AppShell } from '@/components/layout/AppShell'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
@@ -1389,14 +1390,12 @@ export default function ApiKeysPage() {
 
           {/* Help link */}
           <div className="border-t pt-4">
-            <a
-              href="https://github.com/lfnovo/open-notebook/blob/main/docs/5-CONFIGURATION/ai-providers.md"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/settings/ai-providers"
               className="text-sm text-primary hover:underline"
             >
               {t.apiKeys.learnMore}
-            </a>
+            </Link>
           </div>
         </div>
       </div>
