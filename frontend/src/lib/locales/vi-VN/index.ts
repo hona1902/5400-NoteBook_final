@@ -147,6 +147,9 @@ export const viVN = {
     date: "Ngày",
     feedbackLikeDesc: "Rất vui vì bạn thích câu trả lời này!",
     feedbackDislikeDesc: "Cảm ơn phản hồi của bạn.",
+    filters: "Bộ lọc",
+    feedbackDetail: "Chi tiết phản hồi",
+    noReportContent: "Không có nội dung báo cáo",
   },
   apiErrors: {
     notebookNotFound: "Không tìm thấy sổ tay",

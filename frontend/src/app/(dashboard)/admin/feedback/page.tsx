@@ -17,6 +17,21 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog'
+
+interface FeedbackItem {
+    id: string
+    feedback_type: 'like' | 'dislike' | 'report'
+    question: string
+    answer: string
+    report_content?: string
+    created: string
+}
 
 export default function FeedbackStatsPage() {
     const { t, language } = useTranslation()
@@ -25,6 +40,7 @@ export default function FeedbackStatsPage() {
     const [feedbackType, setFeedbackType] = useState<string>('all')
     const [dateFrom, setDateFrom] = useState<string>('')
     const [dateTo, setDateTo] = useState<string>('')
+    const [selectedItem, setSelectedItem] = useState<FeedbackItem | null>(null)
 
     const parsedType = feedbackType === 'all' ? undefined : (feedbackType as 'like' | 'dislike' | 'report')
 
@@ -38,6 +54,7 @@ export default function FeedbackStatsPage() {
 
     // English fallback if translation keys don't exist
     const title = t.common.feedbackStats || 'Feedback Statistics'
+    const filtersLbl = t.common.filters || 'Filters'
     const filterType = t.common.filterType || 'Filter by Type'
     const dateFromLbl = t.common.dateFrom || 'Date From'
     const dateToLbl = t.common.dateTo || 'Date To'
@@ -47,6 +64,8 @@ export default function FeedbackStatsPage() {
     const reportContent = t.common.reportContent || 'Report Content'
     const typeLbl = t.common.type || 'Type'
     const dateLbl = t.common.date || 'Date'
+    const feedbackDetailLbl = t.common.feedbackDetail || 'Feedback Detail'
+    const noReportContentLbl = t.common.noReportContent || 'No report content'
 
     return (
         <AppShell>
@@ -57,7 +76,7 @@ export default function FeedbackStatsPage() {
 
                 <Card>
                     <CardHeader>
-                        <CardTitle className="text-lg">Filters</CardTitle>
+                        <CardTitle className="text-lg">{filtersLbl}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -120,7 +139,12 @@ export default function FeedbackStatsPage() {
                                         </tr>
                                     ) : (
                                         feedbackList.map((item, idx) => (
-                                            <tr key={item.id} className="border-b hover:bg-muted/50 transition-colors">
+                                            <tr
+                                                key={item.id}
+                                                className="border-b hover:bg-muted/50 transition-colors cursor-pointer select-none"
+                                                onDoubleClick={() => setSelectedItem(item as FeedbackItem)}
+                                                title="Double-click to view full details"
+                                            >
                                                 <td className="p-4 align-middle font-medium">{idx + 1}</td>
                                                 <td className="p-4 align-middle">
                                                     <Badge
@@ -154,6 +178,59 @@ export default function FeedbackStatsPage() {
                     </CardContent>
                 </Card>
             </div>
+
+            {/* Detail Dialog on double-click */}
+            <Dialog open={!!selectedItem} onOpenChange={(open) => { if (!open) setSelectedItem(null) }}>
+                <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                            {feedbackDetailLbl}
+                            {selectedItem && (
+                                <Badge
+                                    variant={
+                                        selectedItem.feedback_type === 'like' ? 'default' :
+                                            selectedItem.feedback_type === 'dislike' ? 'destructive' : 'secondary'
+                                    }
+                                    className={selectedItem.feedback_type === 'like' ? 'bg-green-500 hover:bg-green-600' : ''}
+                                >
+                                    {selectedItem.feedback_type}
+                                </Badge>
+                            )}
+                        </DialogTitle>
+                    </DialogHeader>
+
+                    {selectedItem && (
+                        <div className="space-y-4">
+                            <div>
+                                <p className="text-sm font-semibold text-muted-foreground mb-1">{question}</p>
+                                <div className="rounded-md border bg-muted/30 p-3 text-sm whitespace-pre-wrap break-words">
+                                    {selectedItem.question}
+                                </div>
+                            </div>
+
+                            <div>
+                                <p className="text-sm font-semibold text-muted-foreground mb-1">{answer}</p>
+                                <div className="rounded-md border bg-muted/30 p-3 text-sm whitespace-pre-wrap break-words max-h-64 overflow-y-auto">
+                                    {selectedItem.answer}
+                                </div>
+                            </div>
+
+                            <div>
+                                <p className="text-sm font-semibold text-muted-foreground mb-1">{reportContent}</p>
+                                <div className="rounded-md border bg-muted/30 p-3 text-sm whitespace-pre-wrap break-words">
+                                    {selectedItem.report_content || (
+                                        <span className="italic text-muted-foreground">{noReportContentLbl}</span>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="text-xs text-muted-foreground pt-1 border-t">
+                                {dateLbl}: {format(new Date(selectedItem.created), 'PPpp', { locale: dateLocale })}
+                            </div>
+                        </div>
+                    )}
+                </DialogContent>
+            </Dialog>
         </AppShell>
     )
 }

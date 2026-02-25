@@ -147,6 +147,9 @@ export const enUS = {
     date: "Date",
     feedbackLikeDesc: "Glad you liked this answer!",
     feedbackDislikeDesc: "Thanks for your feedback.",
+    filters: "Filters",
+    feedbackDetail: "Feedback Detail",
+    noReportContent: "No report content",
   },
   apiErrors: {
     notebookNotFound: "Notebook not found",
