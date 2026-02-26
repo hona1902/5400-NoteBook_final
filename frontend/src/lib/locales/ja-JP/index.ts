@@ -60,6 +60,7 @@ export const jaJP = {
     actions: "アクション",
     noResults: "結果なし",
     references: "参照",
+    viewDetail: "詳細を見る",
     refreshPage: "ページを更新してください",
     refresh: "更新",
     aiGenerated: "AI生成",

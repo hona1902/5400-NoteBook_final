@@ -70,6 +70,52 @@ export function ChatColumn({ notebookId, contextSelections }: ChatColumnProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sources, notes, insightQueries, t.common.insight])
 
+  // Build insight content map for hover popups on citations
+  const insightContentMap = useMemo(() => {
+    const map = new Map<string, string>()
+    insightQueries.forEach((query, idx) => {
+      const source = sourcesWithInsights[idx]
+      if (query.data && source) {
+        // Collect all insight content for this source
+        const allInsightContent: string[] = []
+
+        query.data.forEach(insight => {
+          if (insight.content) {
+            // Map insight ID → content (for source_insight:xxx references)
+            map.set(insight.id, insight.content)
+            if (!insight.id.includes(':')) {
+              map.set(`source_insight:${insight.id}`, insight.content)
+            }
+            allInsightContent.push(insight.content)
+          }
+        })
+
+        // Also map source ID → combined insight content (for source:xxx references)
+        // This is important because LLM often references sources, not individual insights
+        if (allInsightContent.length > 0) {
+          const combined = allInsightContent.join('\n\n---\n\n')
+          map.set(source.id, combined)
+          if (!source.id.includes(':')) {
+            map.set(`source:${source.id}`, combined)
+          }
+        }
+      }
+    })
+
+    // Also add note content if available
+    notes.forEach(n => {
+      if (n.content) {
+        map.set(n.id, n.content)
+        if (!n.id.includes(':')) {
+          map.set(`note:${n.id}`, n.content)
+        }
+      }
+    })
+
+    return map
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [insightQueries, notes])
+
   // Initialize notebook chat hook
   const chat = useNotebookChat({
     notebookId,
@@ -158,6 +204,7 @@ export function ChatColumn({ notebookId, contextSelections }: ChatColumnProps) {
       notebookId={notebookId}
       titleMap={titleMap}
       labels={{ insight: t.common.insight, note: t.common.note }}
+      insightContentMap={insightContentMap}
     />
   )
 }

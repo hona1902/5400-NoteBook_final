@@ -60,6 +60,7 @@ export const frFR = {
     actions: "Actions",
     noResults: "Aucun résultat",
     references: "Références",
+    viewDetail: "Voir le détail",
     refreshPage: "Veuillez essayer de rafraîchir la page",
     refresh: "Rafraîchir",
     aiGenerated: "Généré par IA",

@@ -60,6 +60,7 @@ export const ptBR = {
     actions: "Ações",
     noResults: "Sem resultados",
     references: "Referências",
+    viewDetail: "Ver detalhes",
     refreshPage: "Por favor, tente atualizar a página",
     refresh: "Atualizar",
     aiGenerated: "Gerado por IA",

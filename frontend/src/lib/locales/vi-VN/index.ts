@@ -61,6 +61,7 @@ export const viVN = {
     actions: "Hành động",
     noResults: "Không có kết quả",
     references: "Tham chiếu",
+    viewDetail: "Xem chi tiết",
     refreshPage: "Vui lòng thử tải lại trang",
     refresh: "Tải lại",
     aiGenerated: "AI tạo",

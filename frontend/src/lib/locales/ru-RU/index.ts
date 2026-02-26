@@ -60,6 +60,7 @@ export const ruRU = {
     actions: "Действия",
     noResults: "Нет результатов",
     references: "Ссылки",
+    viewDetail: "Подробнее",
     refreshPage: "Попробуйте обновить страницу",
     refresh: "Обновить",
     aiGenerated: "Сгенерировано ИИ",

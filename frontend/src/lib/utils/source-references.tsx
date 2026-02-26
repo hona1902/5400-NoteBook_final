@@ -1,5 +1,6 @@
-import React from 'react'
-import { FileText, Lightbulb, FileEdit } from 'lucide-react'
+import React, { useState } from 'react'
+import { FileText, Lightbulb, FileEdit, ExternalLink } from 'lucide-react'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 /**
  * Strip common file extensions from a title string.
@@ -456,16 +457,23 @@ export function convertReferencesToCompactMarkdown(text: string, referencesLabel
  *
  * Both use the same href format: #ref-{type}-{id}
  * The component extracts the type and id from the href and triggers the click handler.
+ * When titleMap and insightContentMap are provided, hovering over numbered citations
+ * shows a popup with the source title and insight content.
  *
  * @param onReferenceClick - Callback for when a reference link is clicked
+ * @param titleMap - Optional map of reference keys to display titles
+ * @param insightContentMap - Optional map of reference keys to insight content
  * @returns React component for rendering links in ReactMarkdown
  *
  * @example
- * const LinkComponent = createCompactReferenceLinkComponent((type, id) => openModal(type, id))
+ * const LinkComponent = createCompactReferenceLinkComponent((type, id) => openModal(type, id), titleMap, contentMap)
  * <ReactMarkdown components={{ a: LinkComponent }}>...</ReactMarkdown>
  */
 export function createCompactReferenceLinkComponent(
-  onReferenceClick: (type: ReferenceType, id: string) => void
+  onReferenceClick: (type: ReferenceType, id: string) => void,
+  titleMap?: Map<string, string>,
+  insightContentMap?: Map<string, string>,
+  viewDetailLabel?: string
 ) {
   const CompactReferenceLinkComponent = ({
     href,
@@ -482,7 +490,13 @@ export function createCompactReferenceLinkComponent(
       const type = parts[0] as ReferenceType
       const id = parts.slice(1).join('-') // Rejoin in case ID has dashes
 
-      return (
+      // Build the lookup key for titleMap and insightContentMap
+      const lookupKey = `${type}:${id}`
+      const title = titleMap?.get(lookupKey) || titleMap?.get(id)
+      const insightContent = insightContentMap?.get(lookupKey) || insightContentMap?.get(id)
+      const hasPopupContent = title || insightContent
+
+      const buttonElement = (
         <button
           onClick={(e) => {
             e.preventDefault()
@@ -495,6 +509,22 @@ export function createCompactReferenceLinkComponent(
           {children}
         </button>
       )
+
+      // Wrap with hover popup if content is available
+      if (hasPopupContent) {
+        return (
+          <CitationHoverPopup
+            title={title}
+            content={insightContent}
+            onViewDetail={() => onReferenceClick(type, id)}
+            viewDetailLabel={viewDetailLabel}
+          >
+            {buttonElement}
+          </CitationHoverPopup>
+        )
+      }
+
+      return buttonElement
     }
 
     // Regular link - open in new tab
@@ -507,6 +537,92 @@ export function createCompactReferenceLinkComponent(
 
   CompactReferenceLinkComponent.displayName = 'CompactReferenceLinkComponent'
   return CompactReferenceLinkComponent
+}
+
+/**
+ * Hover popup component for citation references.
+ * Shows source title as a header and insight content below when hovering.
+ */
+function CitationHoverPopup({
+  title,
+  content,
+  onViewDetail,
+  viewDetailLabel,
+  children
+}: {
+  title?: string
+  content?: string
+  onViewDetail?: () => void
+  viewDetailLabel?: string
+  children: React.ReactNode
+}) {
+  const [open, setOpen] = useState(false)
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    setOpen(true)
+  }
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => setOpen(false), 200)
+  }
+
+  // Strip file extension from title for display
+  const displayTitle = title ? stripFileExtension(title) : undefined
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <span
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          className="inline"
+        >
+          {children}
+        </span>
+      </PopoverTrigger>
+      <PopoverContent
+        className="w-150 max-h-110 p-0 flex flex-col overflow-hidden"
+        side="top"
+        align="start"
+        sideOffset={8}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onOpenAutoFocus={(e) => e.preventDefault()}
+      >
+        {/* Sticky header */}
+        {displayTitle && (
+          <div className="px-3 py-2 border-b bg-muted/50 font-medium text-sm flex items-center gap-2 flex-shrink-0">
+            <FileText className="h-4 w-4 flex-shrink-0 text-primary" aria-hidden="true" />
+            <span className="truncate">{displayTitle}</span>
+          </div>
+        )}
+        {/* Scrollable content */}
+        {content && (
+          <div className="px-3 py-2 text-sm text-muted-foreground whitespace-pre-wrap leading-relaxed overflow-y-auto flex-1 min-h-0">
+            {content}
+          </div>
+        )}
+        {/* Sticky footer */}
+        {onViewDetail && (
+          <div className="px-3 py-2 border-t bg-muted/30 flex-shrink-0">
+            <button
+              onClick={() => {
+                setOpen(false)
+                onViewDetail()
+              }}
+              className="text-xs text-primary hover:underline cursor-pointer flex items-center gap-1 font-medium"
+              type="button"
+            >
+              <ExternalLink className="h-3 w-3" aria-hidden="true" />
+              {viewDetailLabel || 'View detail'}
+            </button>
+          </div>
+        )}
+      </PopoverContent>
+    </Popover>
+  )
 }
 
 /**

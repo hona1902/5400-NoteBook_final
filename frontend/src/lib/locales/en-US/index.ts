@@ -61,6 +61,7 @@ export const enUS = {
     actions: "Actions",
     noResults: "No results",
     references: "References",
+    viewDetail: "View detail",
     refreshPage: "Please try refreshing the page",
     refresh: "Refresh",
     aiGenerated: "AI Generated",

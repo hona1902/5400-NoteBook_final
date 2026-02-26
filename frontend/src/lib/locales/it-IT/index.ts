@@ -60,6 +60,7 @@ export const itIT = {
     actions: "Azioni",
     noResults: "Nessun risultato",
     references: "Riferimenti",
+    viewDetail: "Vedi dettagli",
     refreshPage: "Prova ad aggiornare la pagina",
     refresh: "Aggiorna",
     aiGenerated: "Generato da IA",
