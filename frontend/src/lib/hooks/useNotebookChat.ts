@@ -171,22 +171,56 @@ export function useNotebookChat({ notebookId, sources, notes, contextSelections 
     setCharCount(response.char_count)
 
     // Build contentMap from context response for citation tooltips
+    // Maps individual insight/note IDs to their specific content (NotebookLM-like)
     const newContentMap = new Map<string, string>()
-    const ctx = response.context as { sources?: Array<{ id?: string; title?: string; insights?: Array<{ content?: string; insight_type?: string }>; full_text?: string }>; notes?: Array<{ id?: string; title?: string; content?: string }> }
+    const ctx = response.context as {
+      sources?: Array<{
+        id?: string; title?: string;
+        insights?: Array<{ id?: string; content?: string; insight_type?: string }>;
+        full_text?: string
+      }>;
+      notes?: Array<{ id?: string; title?: string; content?: string }>
+    }
+
+    // source_chunks is a separate field: { "source:xxx": [{id, content}, ...] }
+    const sourceChunks = response.source_chunks
+
     if (ctx.sources) {
       for (const src of ctx.sources) {
         if (!src.id) continue
         // Extract raw ID without table prefix
         const rawId = src.id.startsWith('source:') ? src.id.substring(7) : src.id
-        let snippetParts: string[] = []
+
+        // Map individual insight IDs to their specific content (for source_insight:xxx references)
         if (src.insights && src.insights.length > 0) {
-          snippetParts = src.insights
-            .filter((ins) => ins.content)
-            .map((ins) => ins.content!)
-        } else if (src.full_text) {
-          snippetParts = [src.full_text.substring(0, 500)]
+          for (const ins of src.insights) {
+            if (ins.id && ins.content) {
+              const insRawId = ins.id.startsWith('source_insight:') ? ins.id.substring(15) : ins.id
+              newContentMap.set(ins.id, ins.content)
+              newContentMap.set(insRawId, ins.content)
+              newContentMap.set(`source_insight:${insRawId}`, ins.content)
+            }
+          }
         }
-        const snippet = snippetParts.join('\n\n')
+
+        // Source-level content: use embedding chunks (original document passages) from separate field
+        let snippet = ''
+        const chunks = sourceChunks?.[src.id]
+        if (chunks && chunks.length > 0) {
+          snippet = chunks
+            .filter(c => c.content)
+            .map(c => c.content!)
+            .join('\n\n---\n\n')
+        } else if (src.full_text) {
+          snippet = (src.full_text as string).substring(0, 800)
+        } else if (src.insights && src.insights.length > 0) {
+          // Fallback to insights if no chunks available
+          snippet = src.insights
+            .filter((ins: { content?: string }) => ins.content)
+            .map((ins: { content?: string }) => ins.content!)
+            .join('\n\n')
+        }
+
         if (snippet) {
           newContentMap.set(src.id, snippet)
           newContentMap.set(rawId, snippet)
@@ -208,6 +242,7 @@ export function useNotebookChat({ notebookId, sources, notes, contextSelections 
     }
     setContentMap(newContentMap)
 
+    // Return context directly — chunks are in a separate field, never in context
     return response.context
   }, [notebookId, sources, notes, contextSelections])
 

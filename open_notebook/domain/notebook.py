@@ -381,6 +381,19 @@ class Source(ObjectModel):
         else:
             return dict(id=self.id, title=self.title, insights=insights)
 
+    async def get_embedding_chunks_content(self) -> List[Dict[str, str]]:
+        """Fetch embedding chunk contents (original document passages) for this source."""
+        try:
+            result = await repo_query(
+                "SELECT id, content FROM source_embedding WHERE source=$id ORDER BY id",
+                {"id": ensure_record_id(self.id)},
+            )
+            return [{"id": str(r["id"]), "content": r["content"]} for r in result]
+        except Exception as e:
+            logger.error(f"Error fetching embedding chunks for source {self.id}: {str(e)}")
+            logger.exception(e)
+            return []
+
     async def get_embedded_chunks(self) -> int:
         try:
             result = await repo_query(

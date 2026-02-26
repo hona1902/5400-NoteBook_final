@@ -239,4 +239,5 @@ export interface BuildContextResponse {
   }
   token_count: number
   char_count: number
+  source_chunks?: Record<string, Array<{ id?: string; content?: string }>>
 }

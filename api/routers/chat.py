@@ -88,6 +88,10 @@ class BuildContextResponse(BaseModel):
     context: Dict[str, Any] = Field(..., description="Built context data")
     token_count: int = Field(..., description="Estimated token count")
     char_count: int = Field(..., description="Character count")
+    source_chunks: Dict[str, List[Dict[str, str]]] = Field(
+        default_factory=dict,
+        description="Embedding chunks per source ID for citation hover cards (not sent to LLM)"
+    )
 
 
 class SuccessResponse(BaseModel):
@@ -556,8 +560,26 @@ async def build_context(
             # Fallback to simple estimation
             estimated_tokens = char_count // 4
 
+        # Fetch embedding chunks separately for citation hover cards
+        # These are NOT included in context (which goes to LLM) — only for frontend hover display
+        source_chunks: Dict[str, list] = {}
+        for src_data in context_data["sources"]:
+            src_id = src_data.get("id", "")
+            if src_id:
+                try:
+                    full_src_id = src_id if src_id.startswith("source:") else f"source:{src_id}"
+                    source_obj = await Source.get(full_src_id)
+                    chunks = await source_obj.get_embedding_chunks_content()
+                    if chunks:
+                        source_chunks[src_id] = chunks
+                except Exception as e:
+                    logger.warning(f"Error fetching chunks for source {src_id}: {str(e)}")
+
         return BuildContextResponse(
-            context=context_data, token_count=estimated_tokens, char_count=char_count
+            context=context_data,
+            token_count=estimated_tokens,
+            char_count=char_count,
+            source_chunks=source_chunks,
         )
     except HTTPException:
         raise

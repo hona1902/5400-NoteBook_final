@@ -40,7 +40,7 @@ export function CitationHoverCard({ type, id, title, content, children }: Citati
     }
 
     // Truncate very long content for tooltip display
-    const maxContentLength = 800
+    const maxContentLength = 1200
     const displayContent = content && content.length > maxContentLength
         ? content.substring(0, maxContentLength) + '...'
         : content
