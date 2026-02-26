@@ -19,7 +19,7 @@ import { ModelSelector } from './ModelSelector'
 import { ContextIndicator } from '@/components/common/ContextIndicator'
 import { SessionManager } from '@/components/source/SessionManager'
 import { MessageActions } from '@/components/source/MessageActions'
-import { convertReferencesToCompactMarkdown, createCompactReferenceLinkComponent } from '@/lib/utils/source-references'
+import { convertReferencesToCompactMarkdown, createCompactReferenceLinkComponent, ReferenceLabels } from '@/lib/utils/source-references'
 import { useModalManager } from '@/lib/hooks/use-modal-manager'
 import { toast } from 'sonner'
 import { useTranslation } from '@/lib/hooks/use-translation'
@@ -56,6 +56,8 @@ interface ChatPanelProps {
   notebookId?: string
   // Title map for displaying source titles in references
   titleMap?: Map<string, string>
+  // Labels for reference types (for localization)
+  labels?: ReferenceLabels
 }
 
 export function ChatPanel({
@@ -76,7 +78,8 @@ export function ChatPanel({
   contextType = 'source',
   notebookContextStats,
   notebookId,
-  titleMap
+  titleMap,
+  labels
 }: ChatPanelProps) {
   const { t } = useTranslation()
   const chatInputId = useId()
@@ -203,6 +206,7 @@ export function ChatPanel({
                             content={message.content}
                             onReferenceClick={handleReferenceClick}
                             titleMap={titleMap}
+                            labels={labels}
                           />
                         ) : (
                           <p className="text-sm break-all">{message.content}</p>
@@ -331,15 +335,17 @@ export function ChatPanel({
 function AIMessageContent({
   content,
   onReferenceClick,
-  titleMap
+  titleMap,
+  labels
 }: {
   content: string
   onReferenceClick: (type: string, id: string) => void
   titleMap?: Map<string, string>
+  labels?: ReferenceLabels
 }) {
   const { t } = useTranslation()
   // Convert references to compact markdown with numbered citations
-  const markdownWithCompactRefs = convertReferencesToCompactMarkdown(content, t.common.references, titleMap)
+  const markdownWithCompactRefs = convertReferencesToCompactMarkdown(content, t.common.references, titleMap, labels)
 
   // Create custom link component for compact references
   const LinkComponent = createCompactReferenceLinkComponent(onReferenceClick)

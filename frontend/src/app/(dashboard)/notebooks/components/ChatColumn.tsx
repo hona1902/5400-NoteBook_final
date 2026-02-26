@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
+import { useQueries } from '@tanstack/react-query'
 import { useNotebookChat } from '@/lib/hooks/useNotebookChat'
 import { useSources } from '@/lib/hooks/use-sources'
 import { useNotes } from '@/lib/hooks/use-notes'
@@ -10,6 +11,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { AlertCircle } from 'lucide-react'
 import { ContextSelections } from '../[id]/page'
 import { useTranslation } from '@/lib/hooks/use-translation'
+import { insightsApi } from '@/lib/api/insights'
 
 interface ChatColumnProps {
   notebookId: string
@@ -24,12 +26,49 @@ export function ChatColumn({ notebookId, contextSelections }: ChatColumnProps) {
   const { data: notes = [], isLoading: notesLoading } = useNotes(notebookId)
 
   // Build a title lookup map for displaying source/note titles in references
+  // Also fetch insights for sources that have them, to show "[InsightLabel] - [SourceTitle]"
+  const sourcesWithInsights = useMemo(
+    () => sources.filter(s => s.insights_count > 0),
+    [sources]
+  )
+
+  // Fetch insights for all sources that have insights_count > 0
+  const insightQueries = useQueries({
+    queries: sourcesWithInsights.map(s => ({
+      queryKey: ['insights', 'source', s.id],
+      queryFn: () => insightsApi.listForSource(s.id),
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      enabled: s.insights_count > 0,
+    }))
+  })
+
   const titleMap = useMemo(() => {
     const map = new Map<string, string>()
     sources.forEach(s => { if (s.title) map.set(s.id, s.title) })
     notes.forEach(n => { if (n.title) map.set(n.id, n.title) })
+
+    // Add insight → source title mappings
+    // SurrealDB IDs may come as "source_insight:xxx" or just "xxx"
+    // Map both formats to ensure lookup works regardless
+    const insightLabel = t.common.insight
+    insightQueries.forEach((query, idx) => {
+      const source = sourcesWithInsights[idx]
+      if (query.data && source?.title) {
+        query.data.forEach(insight => {
+          const displayTitle = `${insightLabel} - ${source.title}`
+          // Map full ID as-is (e.g., "source_insight:xxx")
+          map.set(insight.id, displayTitle)
+          // Also map without prefix in case ID is just "xxx"
+          if (!insight.id.includes(':')) {
+            map.set(`source_insight:${insight.id}`, displayTitle)
+          }
+        })
+      }
+    })
+
     return map
-  }, [sources, notes])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sources, notes, insightQueries, t.common.insight])
 
   // Initialize notebook chat hook
   const chat = useNotebookChat({
@@ -118,6 +157,7 @@ export function ChatColumn({ notebookId, contextSelections }: ChatColumnProps) {
       notebookContextStats={contextStats}
       notebookId={notebookId}
       titleMap={titleMap}
+      labels={{ insight: t.common.insight, note: t.common.note }}
     />
   )
 }

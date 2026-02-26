@@ -12,6 +12,25 @@ export function stripFileExtension(title: string): string {
   )
 }
 
+/**
+ * Labels for reference types used in fallback display.
+ * Pass localized strings to support different languages.
+ */
+export interface ReferenceLabels {
+  insight?: string  // Label for source_insight references (default: 'Insight')
+  note?: string     // Label for note references (default: 'Note')
+}
+
+/**
+ * Get a friendly display label for a reference key when no title is found in titleMap.
+ * Converts raw reference keys (source_insight:xxx, note:xxx, source:xxx) to readable labels.
+ */
+function getFriendlyLabel(key: string, labels?: ReferenceLabels): string {
+  if (key.startsWith('source_insight:')) return labels?.insight ?? 'Insight'
+  if (key.startsWith('note:')) return labels?.note ?? 'Note'
+  return key
+}
+
 export type ReferenceType = 'source' | 'note' | 'source_insight'
 
 export interface ParsedReference {
@@ -182,7 +201,7 @@ export function convertSourceReferences(
  * @param text - Original text with references
  * @returns Text with references converted to markdown links
  */
-export function convertReferencesToMarkdownLinks(text: string, titleMap?: Map<string, string>): string {
+export function convertReferencesToMarkdownLinks(text: string, titleMap?: Map<string, string>, labels?: ReferenceLabels): string {
   // Step 1: Find ALL references using simple greedy pattern
   const refPattern = /(source_insight|note|source):([a-zA-Z0-9_]+)/g
   const references: Array<{ type: string; id: string; index: number; length: number }> = []
@@ -226,7 +245,7 @@ export function convertReferencesToMarkdownLinks(text: string, titleMap?: Map<st
     // Determine display text by checking immediate surroundings
     // Use title from titleMap if available, stripping file extension
     const rawTitle = titleMap?.get(refText)
-    const baseDisplayText = rawTitle ? stripFileExtension(rawTitle) : refText
+    const baseDisplayText = rawTitle ? stripFileExtension(rawTitle) : getFriendlyLabel(refText, labels)
     let displayText = baseDisplayText
     let replaceStart = refStart
     let replaceEnd = refEnd
@@ -350,7 +369,7 @@ export function createReferenceLinkComponent(
  * Input: "See [source:abc] and [note:xyz]. Also [source:abc] again."
  * Output: "See [1] and [2]. Also [1] again.\n\nReferences:\n[1] - [source:abc]\n[2] - [note:xyz]"
  */
-export function convertReferencesToCompactMarkdown(text: string, referencesLabel: string = 'References', titleMap?: Map<string, string>): string {
+export function convertReferencesToCompactMarkdown(text: string, referencesLabel: string = 'References', titleMap?: Map<string, string>, labels?: ReferenceLabels): string {
   // Step 1: Parse all references using existing function
   const references = parseSourceReferences(text)
 
@@ -417,7 +436,7 @@ export function convertReferencesToCompactMarkdown(text: string, referencesLabel
   for (const [, refData] of referenceMap) {
     const key = `${refData.type}:${refData.id}`
     const rawTitle = titleMap?.get(key)
-    const displayName = rawTitle ? stripFileExtension(rawTitle) : key
+    const displayName = rawTitle ? stripFileExtension(rawTitle) : getFriendlyLabel(key, labels)
     const refListItem = `[${refData.number}] - [${displayName}](#ref-${refData.type}-${refData.id})`
     refListLines.push(refListItem)
   }

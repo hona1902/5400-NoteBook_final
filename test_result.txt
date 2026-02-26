@@ -1,0 +1,3 @@
+Health: {'status': 'healthy'}
+Sessions count: 1
+  - chat_session:wmlg0x3t8kzavamcoz59 | Xin chào bạn là ai

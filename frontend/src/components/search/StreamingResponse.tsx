@@ -8,7 +8,7 @@ import { CheckCircle, Sparkles, Lightbulb, ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { convertReferencesToMarkdownLinks, createReferenceLinkComponent } from '@/lib/utils/source-references'
+import { convertReferencesToMarkdownLinks, createReferenceLinkComponent, ReferenceLabels } from '@/lib/utils/source-references'
 import { useModalManager } from '@/lib/hooks/use-modal-manager'
 import { useTranslation } from '@/lib/hooks/use-translation'
 import { toast } from 'sonner'
@@ -145,6 +145,7 @@ export function StreamingResponse({
               content={finalAnswer}
               onReferenceClick={handleReferenceClick}
               titleMap={titleMap}
+              labels={{ insight: t.common.insight, note: t.common.note }}
             />
           </CardContent>
         </Card>
@@ -165,14 +166,16 @@ export function StreamingResponse({
 function FinalAnswerContent({
   content,
   onReferenceClick,
-  titleMap
+  titleMap,
+  labels
 }: {
   content: string
   onReferenceClick: (type: string, id: string) => void
   titleMap?: Map<string, string>
+  labels?: ReferenceLabels
 }) {
   // Convert references to markdown links
-  const markdownWithLinks = convertReferencesToMarkdownLinks(content, titleMap)
+  const markdownWithLinks = convertReferencesToMarkdownLinks(content, titleMap, labels)
 
   // Create custom link component
   const LinkComponent = createReferenceLinkComponent(onReferenceClick)
