@@ -1,429 +1,429 @@
-# Adding Sources - Getting Content Into Your Notebook
+# Thêm Nguồn - Đưa Nội Dung Vào Notebook
 
-Sources are the raw materials of your research. This guide covers how to add different types of content.
-
----
-
-## Quick-Start: Add Your First Source
-
-### Option 1: Upload a File (PDF, Word, etc.)
-
-```
-1. In your notebook, click "Add Source"
-2. Select "Upload File"
-3. Choose a file from your computer
-4. Click "Upload"
-5. Wait 30-60 seconds for processing
-6. Done! Source appears in your notebook
-```
-
-### Option 2: Add a Web Link
-
-```
-1. Click "Add Source"
-2. Select "Web Link"
-3. Paste URL: https://example.com/article
-4. Click "Add"
-5. Wait for processing (usually faster than files)
-6. Done!
-```
-
-### Option 3: Paste Text
-
-```
-1. Click "Add Source"
-2. Select "Text"
-3. Paste or type your content
-4. Click "Save"
-5. Done! Immediately available
-```
+Nguồn là nguyên liệu thô cho nghiên cứu của bạn. Hướng dẫn này bao gồm cách thêm các loại nội dung khác nhau.
 
 ---
 
-## Supported File Types
+## Bắt Đầu Nhanh: Thêm Nguồn Đầu Tiên
 
-### Documents
-- **PDF** (.pdf) — Best support, including scanned PDFs with OCR
-- **Word** (.docx, .doc) — Full support
-- **PowerPoint** (.pptx) — Slides converted to text
-- **Excel** (.xlsx, .xls) — Spreadsheet data
-- **EPUB** (.epub) — eBook files
-- **Markdown** (.md, .txt) — Plain text formats
-- **HTML** (.html, .htm) — Web page files
-
-**File size limits:** Up to ~100MB (varies by system)
-
-**Processing time:** 10 seconds - 2 minutes (depending on length and file type)
-
-### Audio & Video
-- **Audio**: MP3, WAV, M4A, OGG, FLAC (~30 seconds - 3 minutes per hour)
-- **Video**: MP4, AVI, MOV, MKV, WebM (~3-10 minutes per hour)
-- **YouTube**: Direct URL support
-- **Podcasts**: RSS feed URL
-
-**Automatic transcription**: Audio/video is transcribed to text automatically. This requires enabling speech-to-text in settings.
-
-### Web Content
-- **Articles**: Blog posts, news articles, Medium
-- **YouTube**: Full videos or playlists
-- **PDFs online**: Direct PDF links
-- **News**: News site articles
-
-**Just paste the URL** in "Web Link" section.
-
-### What Doesn't Work
-- Paywalled content (WSJ, FT, etc.) — Can't extract
-- Password-protected PDFs — Can't open
-- Pure image files (.jpg, .png) — Except scanned PDFs which have OCR
-- Very large files (>100MB) — Timeout
-
----
-
-## What Happens When You Add a Source
-
-The system automatically does four things:
+### Tùy chọn 1: Tải lên File (PDF, Word, v.v.)
 
 ```
-1. EXTRACT TEXT
-   File/URL → Readable text
-   (PDFs get OCR if scanned)
-   (Videos get transcribed if enabled)
-
-2. BREAK INTO CHUNKS
-   Long text → ~500-word pieces
-   (So search finds specific parts, not whole document)
-
-3. CREATE EMBEDDINGS
-   Each chunk → Vector representation
-   (Enables semantic/concept search)
-
-4. INDEX & STORE
-   Everything → Database
-   (Ready to search and retrieve)
+1. Trong notebook, nhấn "Thêm Nguồn"
+2. Chọn "Tải lên File"
+3. Chọn file từ máy tính
+4. Nhấn "Tải lên"
+5. Chờ 30-60 giây để xử lý
+6. Xong! Nguồn xuất hiện trong notebook
 ```
 
-**Time to use:** After the progress bar completes, the source is ready immediately. Embeddings are created in the background.
+### Tùy chọn 2: Thêm Liên Kết Web
 
----
-
-## Step-by-Step for Different Types
-
-### PDFs
-
-**Best practices:**
 ```
-Clean PDFs:
-  1. Upload → Done
-  2. Processing time: ~30-60 seconds
-
-Scanned/Image PDFs:
-  1. Upload same way
-  2. System auto-detects and uses OCR
-  3. Processing time: ~2-3 minutes
-  4. (Higher, due to OCR overhead)
-
-Large PDFs (50+ pages):
-  1. Consider splitting into smaller files
-  2. Or upload as-is (system handles it)
-  3. Processing time scales with size
+1. Nhấn "Thêm Nguồn"
+2. Chọn "Liên Kết Web"
+3. Dán URL: https://example.com/bai-viet
+4. Nhấn "Thêm"
+5. Chờ xử lý (thường nhanh hơn file)
+6. Xong!
 ```
 
-**Common issues:**
-- "Can't extract text" → PDF is corrupted or has copy protection
-- Solution: Try opening in Adobe. If it won't, the PDF is likely protected.
+### Tùy chọn 3: Dán Văn Bản
 
-### Web Links / Articles
-
-**Best practices:**
 ```
-1. Copy full URL from browser: https://example.com/article-title
-2. Paste in "Web Link"
-3. Click Add
-4. Wait for extraction
-
-Processing time: Usually 5-15 seconds
-```
-
-**What works:**
-- Standard web articles
-- Blog posts
-- News articles
-- Wikipedia pages
-- Medium posts
-- Substack articles
-
-**What doesn't work:**
-- Twitter threads (unreliable)
-- Paywalled articles (can't access)
-- JavaScript-heavy sites (content not extracted)
-
-**Pro tip:** If it doesn't work, copy the article text and paste as "Text" instead.
-
-### Audio Files
-
-**Best practices:**
-```
-1. Ensure speech-to-text is enabled in Settings
-2. Upload MP3, WAV, or M4A file
-3. System automatically transcribes to text
-4. Processing time: ~1 minute per 5 minutes of audio
-
-Example:
-  - 1-hour podcast → 12 minutes processing
-  - 10-minute recording → 2 minutes processing
-```
-
-**Quality matters:**
-- Clear audio: Fast transcription
-- Muffled/noisy audio: Slower, less accurate transcription
-- Background noise: Try to minimize before uploading
-
-**Tip:** If audio quality is poor, the AI might misinterpret content. You can manually correct transcription if needed.
-
-### YouTube Videos
-
-**Best practices:**
-```
-Two ways to add:
-
-Method 1: Direct URL
-  1. Copy YouTube URL: https://www.youtube.com/watch?v=...
-  2. Paste in "Web Link"
-  3. Click Add
-  4. System extracts captions (if available) + transcript
-
-Method 2: Playlist
-  1. Paste playlist URL
-  2. System adds all videos as separate sources
-  3. Each video processed separately
-  4. Takes longer (multiple videos)
-```
-
-**What's extracted:**
-- Captions/subtitles (if available)
-- Transcription (if captions aren't available)
-- Basic metadata (title, channel, length)
-
-**Processing:**
-- 10-minute video: ~2-3 minutes
-- 1-hour video: ~10-15 minutes
-
-### Text / Paste Content
-
-**Best practices:**
-```
-1. Select "Text" when adding source
-2. Paste or type content
-3. System processes immediately
-4. No wait time needed
-
-Good for:
-  - Notes you want to reference
-  - Quotes from books
-  - Transcripts you have handy
-  - Quick research snippets
+1. Nhấn "Thêm Nguồn"
+2. Chọn "Văn Bản"
+3. Dán hoặc nhập nội dung
+4. Nhấn "Lưu"
+5. Xong! Có thể dùng ngay
 ```
 
 ---
 
-## Managing Your Sources
+## Các Loại File Được Hỗ Trợ
 
-### Viewing Source Details
+### Tài Liệu
+- **PDF** (.pdf) — Hỗ trợ tốt nhất, kể cả PDF được quét với OCR
+- **Word** (.docx, .doc) — Hỗ trợ đầy đủ
+- **PowerPoint** (.pptx) — Slide được chuyển thành văn bản
+- **Excel** (.xlsx, .xls) — Dữ liệu bảng tính
+- **EPUB** (.epub) — File sách điện tử
+- **Markdown** (.md, .txt) — Định dạng văn bản thuần
+- **HTML** (.html, .htm) — File trang web
+
+**Giới hạn kích thước file:** Tối đa ~100MB (tùy hệ thống)
+
+**Thời gian xử lý:** 10 giây - 2 phút (tùy độ dài và loại file)
+
+### Âm Thanh & Video
+- **Âm thanh**: MP3, WAV, M4A, OGG, FLAC (~30 giây - 3 phút mỗi giờ)
+- **Video**: MP4, AVI, MOV, MKV, WebM (~3-10 phút mỗi giờ)
+- **YouTube**: Hỗ trợ URL trực tiếp
+- **Podcast**: URL RSS feed
+
+**Phiên âm tự động**: Âm thanh/video được phiên âm thành văn bản tự động. Cần bật speech-to-text trong cài đặt.
+
+### Nội Dung Web
+- **Bài viết**: Blog, bài báo, Medium
+- **YouTube**: Video đầy đủ hoặc danh sách phát
+- **PDF online**: Liên kết PDF trực tiếp
+- **Tin tức**: Bài báo của các trang tin
+
+**Chỉ cần dán URL** vào phần "Liên Kết Web".
+
+### Những Gì Không Hoạt Động
+- Nội dung có paywall (WSJ, FT, v.v.) — Không thể trích xuất
+- PDF được bảo vệ mật khẩu — Không thể mở
+- File ảnh thuần (.jpg, .png) — Ngoại trừ PDF được quét có OCR
+- File rất lớn (>100MB) — Timeout
+
+---
+
+## Điều Gì Xảy Ra Khi Thêm Nguồn
+
+Hệ thống tự động thực hiện bốn việc:
 
 ```
-Click on source → See:
-  - Original file name/title
-  - When it was added
-  - Size and format
-  - Processing status
-  - Number of chunks
+1. TRÍCH XUẤT VĂN BẢN
+   File/URL → Văn bản có thể đọc
+   (PDF được OCR nếu là ảnh scan)
+   (Video được phiên âm nếu đã bật)
+
+2. CHIA THÀNH ĐOẠN
+   Văn bản dài → Đoạn ~500 từ
+   (Để tìm kiếm phần cụ thể, không phải toàn bộ tài liệu)
+
+3. TẠO NHÚNG
+   Mỗi đoạn → Biểu diễn vector
+   (Cho phép tìm kiếm ngữ nghĩa/khái niệm)
+
+4. LẬP CHỈ MỤC & LƯU TRỮ
+   Tất cả → Cơ sở dữ liệu
+   (Sẵn sàng tìm kiếm và truy xuất)
 ```
 
-### Organizing with Metadata
+**Thời gian sử dụng:** Sau khi thanh tiến trình hoàn thành, nguồn có thể dùng ngay. Nhúng được tạo trong nền.
 
-You can add to each source:
-- **Title**: Better name than original filename
-- **Tags**: Category labels ("primary research", "background", "competitor analysis")
-- **Description**: A few notes about what it contains
+---
 
-**Why this matters:**
-- Makes sources easier to find
-- Helps when contextualizing for Chat
-- Useful for organizing large notebooks
+## Hướng Dẫn Từng Bước Cho Các Loại Khác Nhau
 
-### Searching Within Sources
+### PDF
 
+**Thực hành tốt nhất:**
 ```
-After sources are added, you can:
+PDF sạch:
+  1. Tải lên → Xong
+  2. Thời gian xử lý: ~30-60 giây
 
-Text search: "Find exact phrase"
-Vector search: "Find conceptually similar"
+PDF được quét/ảnh:
+  1. Tải lên cùng cách
+  2. Hệ thống tự phát hiện và dùng OCR
+  3. Thời gian xử lý: ~2-3 phút
+  4. (Cao hơn, do chi phí OCR)
 
-Both search across all sources in notebook.
-Results show:
-  - Which source
-  - Which section
-  - Relevance score
+PDF lớn (50+ trang):
+  1. Cân nhắc chia thành file nhỏ hơn
+  2. Hoặc tải lên nguyên (hệ thống xử lý được)
+  3. Thời gian xử lý tăng theo kích thước
+```
+
+**Lỗi phổ biến:**
+- "Không thể trích xuất văn bản" → PDF bị hỏng hoặc có bảo vệ sao chép
+- Giải pháp: Thử mở trong Adobe. Nếu không được, PDF có thể bị khóa.
+
+### Liên Kết Web / Bài Viết
+
+**Thực hành tốt nhất:**
+```
+1. Sao chép URL đầy đủ từ trình duyệt: https://example.com/ten-bai-viet
+2. Dán vào "Liên Kết Web"
+3. Nhấn Thêm
+4. Chờ trích xuất
+
+Thời gian xử lý: Thường 5-15 giây
+```
+
+**Hoạt động:**
+- Bài viết web tiêu chuẩn
+- Blog
+- Bài báo tin tức
+- Trang Wikipedia
+- Bài Medium
+- Bài Substack
+
+**Không hoạt động:**
+- Thread Twitter (không ổn định)
+- Bài có paywall (không thể truy cập)
+- Trang nặng JavaScript (nội dung không được trích xuất)
+
+**Mẹo:** Nếu không hoạt động, sao chép nội dung bài viết và dán như "Văn Bản" thay thế.
+
+### File Âm Thanh
+
+**Thực hành tốt nhất:**
+```
+1. Đảm bảo speech-to-text được bật trong Cài đặt
+2. Tải lên file MP3, WAV, hoặc M4A
+3. Hệ thống tự phiên âm thành văn bản
+4. Thời gian xử lý: ~1 phút cho mỗi 5 phút âm thanh
+
+Ví dụ:
+  - Podcast 1 giờ → 12 phút xử lý
+  - Ghi âm 10 phút → 2 phút xử lý
+```
+
+**Chất lượng quan trọng:**
+- Âm thanh rõ: Phiên âm nhanh
+- Âm thanh nhỏ/ồn: Phiên âm chậm hơn, kém chính xác hơn
+- Tiếng ồn nền: Cố gắng giảm thiểu trước khi tải lên
+
+**Mẹo:** Nếu chất lượng âm thanh kém, AI có thể hiểu sai nội dung. Bạn có thể sửa phiên âm thủ công nếu cần.
+
+### Video YouTube
+
+**Thực hành tốt nhất:**
+```
+Hai cách thêm:
+
+Cách 1: URL Trực Tiếp
+  1. Sao chép URL YouTube: https://www.youtube.com/watch?v=...
+  2. Dán vào "Liên Kết Web"
+  3. Nhấn Thêm
+  4. Hệ thống trích xuất phụ đề (nếu có) + phiên âm
+
+Cách 2: Danh Sách Phát
+  1. Dán URL danh sách phát
+  2. Hệ thống thêm tất cả video thành nguồn riêng biệt
+  3. Mỗi video được xử lý riêng
+  4. Mất nhiều thời gian hơn (nhiều video)
+```
+
+**Những gì được trích xuất:**
+- Phụ đề/caption (nếu có)
+- Phiên âm (nếu không có phụ đề)
+- Metadata cơ bản (tiêu đề, kênh, độ dài)
+
+**Xử lý:**
+- Video 10 phút: ~2-3 phút
+- Video 1 giờ: ~10-15 phút
+
+### Văn Bản / Nội Dung Dán
+
+**Thực hành tốt nhất:**
+```
+1. Chọn "Văn Bản" khi thêm nguồn
+2. Dán hoặc nhập nội dung
+3. Hệ thống xử lý ngay
+4. Không cần thời gian chờ
+
+Tốt cho:
+  - Ghi chú bạn muốn tham chiếu
+  - Trích dẫn từ sách
+  - Bản ghi bạn có sẵn
+  - Đoạn nghiên cứu nhanh
 ```
 
 ---
 
-## Context Management: How Sources Get Used
+## Quản Lý Nguồn
 
-You control how AI accesses sources:
-
-### Three Levels (for Chat)
-
-**Full Content:**
-```
-AI sees: Complete source text
-Cost: 100% of tokens
-Use when: Analyzing in detail, need precise citations
-Example: "Analyze this methodology paper closely"
-```
-
-**Summary Only:**
-```
-AI sees: AI-generated summary (not full text)
-Cost: ~10-20% of tokens
-Use when: Background material, reference context
-Example: "Use this as context but focus on the main source"
-```
-
-**Not in Context:**
-```
-AI sees: Nothing (excluded)
-Cost: 0 tokens
-Use when: Confidential, not relevant, or archived
-Example: "Keep this in notebook but don't use in this conversation"
-```
-
-### How to Set Context (in Chat)
+### Xem Chi Tiết Nguồn
 
 ```
-1. Go to Chat
-2. Click "Select Context Sources"
-3. For each source:
-   - Toggle ON/OFF (include/exclude)
-   - Choose level (Full/Summary/Excluded)
-4. Click "Save"
-5. Now chat uses these settings
+Nhấp vào nguồn → Xem:
+  - Tên/tiêu đề file gốc
+  - Khi nào được thêm
+  - Kích thước và định dạng
+  - Trạng thái xử lý
+  - Số lượng đoạn
+```
+
+### Tổ Chức Với Metadata
+
+Bạn có thể thêm cho mỗi nguồn:
+- **Tiêu đề**: Tên tốt hơn tên file gốc
+- **Thẻ**: Nhãn danh mục ("nghiên cứu chính", "nền tảng", "phân tích đối thủ")
+- **Mô tả**: Vài ghi chú về nội dung chứa
+
+**Tại sao quan trọng:**
+- Làm nguồn dễ tìm hơn
+- Giúp khi cung cấp ngữ cảnh cho Chat
+- Hữu ích để tổ chức notebook lớn
+
+### Tìm Kiếm Trong Nguồn
+
+```
+Sau khi thêm nguồn, bạn có thể:
+
+Tìm kiếm văn bản: "Tìm cụm từ chính xác"
+Tìm kiếm vector: "Tìm tương tự về khái niệm"
+
+Cả hai tìm kiếm qua tất cả nguồn trong notebook.
+Kết quả hiển thị:
+  - Nguồn nào
+  - Phần nào
+  - Điểm liên quan
 ```
 
 ---
 
-## Common Mistakes
+## Quản Lý Ngữ Cảnh: Cách Nguồn Được Sử Dụng
 
-| Mistake | What Happens | How to Fix |
-|---------|--------------|-----------|
-| Upload 200 sources at once | System gets slow, processing stalls | Add 10-20 at a time, wait for processing |
-| Use full content for all sources | Token usage skyrockets, expensive | Use "Summary" or "Excluded" for background material |
-| Add huge PDFs without splitting | Processing is slow, search results less precise | Consider splitting large PDFs into chapters |
-| Forget source titles | Can't distinguish between similar sources | Rename sources with descriptive titles right after uploading |
-| Don't tag sources | Hard to find and organize later | Add tags immediately: "primary", "background", etc. |
-| Mix languages in one source | Transcription/embedding quality drops | Keep each language in separate sources |
-| Use same source multiple times | Takes up space, creates confusion | Add once; reuse in multiple chats/notebooks |
+Bạn kiểm soát cách AI truy cập nguồn:
 
----
+### Ba Mức (cho Chat)
 
-## Processing Status & Troubleshooting
-
-### What the Status Indicators Mean
-
+**Nội Dung Đầy Đủ:**
 ```
-🟡 Processing
-  → Source is being extracted and embedded
-  → Wait 30 seconds - 3 minutes depending on size
-  → Don't use in Chat yet
-
-🟢 Ready
-  → Source is processed and searchable
-  → Can use immediately in Chat
-  → Can apply transformations
-
-🔴 Error
-  → Something went wrong
-  → Common reasons:
-    - Unsupported file format
-    - File too large or corrupted
-    - Network timeout
-
-⚪ Not in Context
-  → Source added but excluded from Chat
-  → Still searchable, not sent to AI
+AI thấy: Toàn bộ văn bản nguồn
+Chi phí: 100% token
+Dùng khi: Phân tích chi tiết, cần trích dẫn chính xác
+Ví dụ: "Phân tích kỹ bài báo về phương pháp này"
 ```
 
-### Common Errors & Solutions
+**Chỉ Tóm Tắt:**
+```
+AI thấy: Tóm tắt do AI tạo (không phải toàn văn)
+Chi phí: ~10-20% token
+Dùng khi: Tài liệu nền, ngữ cảnh tham chiếu
+Ví dụ: "Dùng cái này như ngữ cảnh nhưng tập trung vào nguồn chính"
+```
 
-**"Unsupported file type"**
-- You tried to upload a format not in the list (e.g., `.webp` image)
-- Solution: Convert to supported format (PDF for documents, MP3 for audio)
+**Không Trong Ngữ Cảnh:**
+```
+AI thấy: Không gì (loại trừ)
+Chi phí: 0 token
+Dùng khi: Bảo mật, không liên quan, hoặc lưu trữ
+Ví dụ: "Giữ trong notebook nhưng không dùng trong cuộc trò chuyện này"
+```
 
-**"Processing timeout"**
-- Very large file (>100MB) or very long audio
-- Solution: Split into smaller pieces or try uploading again
+### Cách Đặt Ngữ Cảnh (trong Chat)
 
-**"Transcription failed"**
-- Audio quality too poor or language not detected
-- Solution: Re-record with better quality, or paste text transcript manually
-
-**"Web link won't extract"**
-- Website blocks automated access or uses JavaScript for content
-- Solution: Copy the article text and paste as "Text" instead
-
----
-
-## Tips for Best Results
-
-### For PDFs
-- Clean, digital PDFs work best
-- Remove copy protection if present (legally)
-- Scanned PDFs work but take longer
-
-### For Web Articles
-- Use full URL including domain
-- Avoid cookie/popup-laden sites
-- If extraction fails, copy-paste text instead
-
-### For Audio
-- Clear, well-recorded audio transcribes better
-- Remove background noise if possible
-- YouTube videos usually have good transcriptions built-in
-
-### For Large Documents
-- Consider splitting into smaller sources
-- Gives more precise search results
-- Processing is faster for smaller pieces
-
-### For Organization
-- Name sources clearly (not "document_2.pdf")
-- Add tags immediately after uploading
-- Use descriptions for complex documents
+```
+1. Vào Chat
+2. Nhấn "Chọn Nguồn Ngữ Cảnh"
+3. Cho mỗi nguồn:
+   - Bật/tắt (bao gồm/loại trừ)
+   - Chọn mức (Đầy đủ/Tóm tắt/Loại trừ)
+4. Nhấn "Lưu"
+5. Bây giờ chat dùng cài đặt này
+```
 
 ---
 
-## What Comes After: Using Your Sources
+## Lỗi Thường Gặp
 
-Once you've added sources, you can:
-
-- **Chat** → Ask questions (see [Chat Effectively](chat-effectively.md))
-- **Search** → Find specific content (see [Search Effectively](search.md))
-- **Transformations** → Extract structured insights (see [Working with Notes](working-with-notes.md))
-- **Ask** → Get comprehensive answers (see [Search Effectively](search.md))
-- **Podcasts** → Turn into audio (see [Creating Podcasts](creating-podcasts.md))
+| Lỗi | Điều Xảy Ra | Cách Sửa |
+|-----|-------------|----------|
+| Tải lên 200 nguồn cùng lúc | Hệ thống chậm, xử lý bị đình trệ | Thêm 10-20 mỗi lần, chờ xử lý |
+| Dùng nội dung đầy đủ cho tất cả nguồn | Sử dụng token tăng vọt, tốn kém | Dùng "Tóm tắt" hoặc "Loại trừ" cho tài liệu nền |
+| Thêm PDF lớn không chia | Xử lý chậm, kết quả tìm kiếm kém chính xác | Cân nhắc chia PDF lớn thành các chương |
+| Quên tiêu đề nguồn | Không thể phân biệt nguồn tương tự | Đổi tên nguồn với tiêu đề mô tả ngay sau khi tải lên |
+| Không gắn thẻ nguồn | Khó tìm kiếm và tổ chức sau này | Thêm thẻ ngay: "chính", "nền tảng", v.v. |
+| Trộn ngôn ngữ trong một nguồn | Chất lượng phiên âm/nhúng giảm | Giữ mỗi ngôn ngữ trong nguồn riêng biệt |
+| Dùng cùng nguồn nhiều lần | Chiếm dung lượng, gây nhầm lẫn | Thêm một lần; tái sử dụng trong nhiều chat/notebook |
 
 ---
 
-## Summary Checklist
+## Trạng Thái Xử Lý & Khắc Phục Sự Cố
 
-Before adding sources, confirm:
+### Ý Nghĩa Các Chỉ Báo Trạng Thái
 
-- [ ] File is in supported format
-- [ ] File is under 100MB (or splitting large ones)
-- [ ] Web links are full URLs (not shortened)
-- [ ] Audio files have clear speech (if transcription-dependent)
-- [ ] You've named source clearly
-- [ ] You've added tags for organization
-- [ ] You understand context levels (Full/Summary/Excluded)
+```
+🟡 Đang xử lý
+  → Nguồn đang được trích xuất và nhúng
+  → Chờ 30 giây - 3 phút tùy kích thước
+  → Chưa dùng trong Chat
 
-Done! Sources are now ready for Chat, Search, Transformations, and more.
+🟢 Sẵn sàng
+  → Nguồn đã xử lý và có thể tìm kiếm
+  → Có thể dùng ngay trong Chat
+  → Có thể áp dụng biến đổi
+
+🔴 Lỗi
+  → Đã xảy ra sự cố
+  → Nguyên nhân phổ biến:
+    - Định dạng file không được hỗ trợ
+    - File quá lớn hoặc bị hỏng
+    - Timeout mạng
+
+⚪ Không Trong Ngữ Cảnh
+  → Nguồn đã thêm nhưng bị loại trừ khỏi Chat
+  → Vẫn có thể tìm kiếm, không được gửi tới AI
+```
+
+### Lỗi Phổ Biến & Giải Pháp
+
+**"Loại file không được hỗ trợ"**
+- Bạn đã cố tải lên định dạng không có trong danh sách (ví dụ: ảnh `.webp`)
+- Giải pháp: Chuyển sang định dạng được hỗ trợ (PDF cho tài liệu, MP3 cho âm thanh)
+
+**"Timeout xử lý"**
+- File rất lớn (>100MB) hoặc âm thanh rất dài
+- Giải pháp: Chia thành phần nhỏ hơn hoặc thử tải lên lại
+
+**"Phiên âm thất bại"**
+- Chất lượng âm thanh quá kém hoặc ngôn ngữ không được phát hiện
+- Giải pháp: Ghi lại với chất lượng tốt hơn, hoặc dán bản ghi văn bản thủ công
+
+**"Liên kết web không trích xuất được"**
+- Trang web chặn truy cập tự động hoặc dùng JavaScript cho nội dung
+- Giải pháp: Sao chép nội dung bài viết và dán như "Văn Bản" thay thế
+
+---
+
+## Mẹo Để Có Kết Quả Tốt Nhất
+
+### Cho PDF
+- PDF kỹ thuật số, sạch hoạt động tốt nhất
+- Xóa bảo vệ sao chép nếu có (một cách hợp pháp)
+- PDF được quét hoạt động được nhưng mất nhiều thời gian hơn
+
+### Cho Bài Viết Web
+- Dùng URL đầy đủ bao gồm tên miền
+- Tránh trang có nhiều cookie/popup
+- Nếu trích xuất thất bại, sao chép-dán văn bản thay thế
+
+### Cho Âm Thanh
+- Âm thanh rõ, được ghi tốt phiên âm tốt hơn
+- Xóa tiếng ồn nền nếu có thể
+- Video YouTube thường có phiên âm tốt sẵn có
+
+### Cho Tài Liệu Lớn
+- Cân nhắc chia thành nguồn nhỏ hơn
+- Cho kết quả tìm kiếm chính xác hơn
+- Xử lý nhanh hơn cho các phần nhỏ hơn
+
+### Cho Tổ Chức
+- Đặt tên nguồn rõ ràng (không phải "document_2.pdf")
+- Thêm thẻ ngay sau khi tải lên
+- Dùng mô tả cho tài liệu phức tạp
+
+---
+
+## Tiếp Theo: Sử Dụng Nguồn
+
+Sau khi thêm nguồn, bạn có thể:
+
+- **Chat** → Đặt câu hỏi (xem [Chat Hiệu Quả](chat-effectively.md))
+- **Tìm kiếm** → Tìm nội dung cụ thể (xem [Tìm Kiếm Hiệu Quả](search.md))
+- **Biến đổi** → Trích xuất thông tin chi tiết có cấu trúc (xem [Làm Việc Với Ghi Chú](working-with-notes.md))
+- **Hỏi** → Nhận câu trả lời toàn diện (xem [Tìm Kiếm Hiệu Quả](search.md))
+- **Podcast** → Chuyển thành âm thanh (xem [Tạo Podcast](creating-podcasts.md))
+
+---
+
+## Checklist Tóm Tắt
+
+Trước khi thêm nguồn, xác nhận:
+
+- [ ] File ở định dạng được hỗ trợ
+- [ ] File dưới 100MB (hoặc chia file lớn)
+- [ ] Liên kết web là URL đầy đủ (không rút gọn)
+- [ ] File âm thanh có giọng nói rõ (nếu phụ thuộc phiên âm)
+- [ ] Bạn đã đặt tên nguồn rõ ràng
+- [ ] Bạn đã thêm thẻ để tổ chức
+- [ ] Bạn hiểu các mức ngữ cảnh (Đầy đủ/Tóm tắt/Loại trừ)
+
+Xong! Nguồn giờ sẵn sàng cho Chat, Tìm kiếm, Biến đổi và nhiều hơn.

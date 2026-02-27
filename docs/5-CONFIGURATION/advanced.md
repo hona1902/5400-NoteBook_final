@@ -1,12 +1,14 @@
-# Advanced Configuration
+# Cấu hình nâng cao
 
-Performance tuning, debugging, and advanced features.
+Điều chỉnh hiệu suất, gỡ lỗi và các tính năng nâng cao.
 
 ---
 
-## Performance Tuning
+## Điều chỉnh hiệu suất
 
-### Concurrency Control
+### Kiểm soát đồng thời
+
+
 
 ```env
 # Max concurrent database operations (default: 5)
@@ -15,14 +17,18 @@ Performance tuning, debugging, and advanced features.
 SURREAL_COMMANDS_MAX_TASKS=5
 ```
 
-**Guidelines:**
-- CPU: 2 cores → 2-3 tasks
-- CPU: 4 cores → 5 tasks (default)
-- CPU: 8+ cores → 10-20 tasks
 
-Higher concurrency = more throughput but more database conflicts (retries handle this).
 
-### Retry Strategy
+**Hướng dẫn:**
+- CPU: 2 nhân → 2-3 tác vụ
+- CPU: 4 nhân → 5 tác vụ (mặc định)
+- CPU: 8+ nhân → 10-20 tác vụ
+
+Tính đồng thời cao hơn = thông lượng cao hơn nhưng xung đột cơ sở dữ liệu nhiều hơn (thử lại sẽ xử lý vấn đề này).
+
+### Thử lại chiến lược
+
+
 
 ```env
 # How to wait between retries
@@ -35,9 +41,13 @@ SURREAL_COMMANDS_RETRY_WAIT_STRATEGY=exponential_jitter
 # - random
 ```
 
-For high-concurrency deployments, use `exponential_jitter` to prevent thundering herd.
 
-### Timeout Tuning
+
+Để triển khai đồng thời cao, hãy sử dụng `exponential_jitter` để ngăn chặn tình trạng dồn dập.
+
+### Điều chỉnh thời gian chờ
+
+
 
 ```env
 # Client timeout (default: 300 seconds)
@@ -47,7 +57,11 @@ API_CLIENT_TIMEOUT=300
 ESPERANTO_LLM_TIMEOUT=60
 ```
 
-**Guideline:** Set `API_CLIENT_TIMEOUT` > `ESPERANTO_LLM_TIMEOUT` + buffer
+
+
+**Hướng dẫn:** Đặt `API_CLIENT_TIMEOUT` > `ESPERANTO_LLM_TIMEOUT` + bộ đệm
+
+
 
 ```
 Example:
@@ -55,32 +69,40 @@ Example:
   API_CLIENT_TIMEOUT=180  # 120 + 60 second buffer
 ```
 
+
+
 ---
 
-## Batching
+## Trộn theo mẻ
 
-### TTS Batch Size
+### Kích thước lô TTS
 
-For podcast generation, control concurrent TTS requests:
+Để tạo podcast, hãy kiểm soát các yêu cầu TTS đồng thời:
+
+
 
 ```env
 # Default: 5
 TTS_BATCH_SIZE=2
 ```
 
-**Providers and recommendations:**
-- OpenAI: 5 (can handle many concurrent)
-- Google: 4 (good concurrency)
-- ElevenLabs: 2 (limited concurrent requests)
-- Local TTS: 1 (single-threaded)
 
-Lower = slower but more stable. Higher = faster but more load on provider.
+
+**Nhà cung cấp và khuyến nghị:**
+- OpenAI: 5 (có thể xử lý nhiều tác vụ đồng thời)
+- Google: 4 (đồng thời tốt)
+- ElevenLabs: 2 (số lượng yêu cầu đồng thời có giới hạn)
+- TTS cục bộ: 1 (đơn luồng)
+
+Thấp hơn = chậm hơn nhưng ổn định hơn. Cao hơn = nhanh hơn nhưng tải nhiều hơn cho nhà cung cấp.
 
 ---
 
-## Logging & Debugging
+## Ghi nhật ký và gỡ lỗi
 
-### Enable Detailed Logging
+### Kích hoạt tính năng ghi nhật ký chi tiết
+
+
 
 ```bash
 # Start with debug logging
@@ -88,7 +110,11 @@ RUST_LOG=debug  # For Rust components
 LOGLEVEL=DEBUG  # For Python components
 ```
 
-### Debug Specific Components
+
+
+### Gỡ lỗi các thành phần cụ thể
+
+
 
 ```bash
 # Only surreal operations
@@ -101,9 +127,13 @@ LOGLEVEL=langchain:debug
 RUST_LOG=open_notebook::database=debug
 ```
 
-### LangSmith Tracing
 
-For debugging LLM workflows:
+
+### Truy tìm LangSmith
+
+Để gỡ lỗi quy trình công việc LLM:
+
+
 
 ```env
 LANGCHAIN_TRACING_V2=true
@@ -112,13 +142,17 @@ LANGCHAIN_API_KEY=your-key
 LANGCHAIN_PROJECT="Open Notebook"
 ```
 
-Then visit https://smith.langchain.com to see traces.
+
+
+Sau đó truy cập https://smith.langchain.com để xem dấu vết.
 
 ---
 
-## Port Configuration
+## Cấu hình cổng
 
-### Default Ports
+### Cổng mặc định
+
+
 
 ```
 Frontend: 8502 (Docker deployment)
@@ -127,9 +161,13 @@ API: 5055
 SurrealDB: 8000
 ```
 
-### Changing Frontend Port
 
-Edit `docker-compose.yml`:
+
+### Thay đổi cổng giao diện người dùng
+
+Chỉnh sửa `docker-compose.yml`:
+
+
 
 ```yaml
 services:
@@ -138,11 +176,15 @@ services:
       - "8001:8502"  # Change from 8502 to 8001
 ```
 
-Access at: `http://localhost:8001`
 
-API auto-detects to: `http://localhost:5055` ✓
 
-### Changing API Port
+Truy cập tại: `http://localhost:8001`
+
+API tự động phát hiện: `http://localhost:5055` ✓
+
+### Thay đổi cổng API
+
+
 
 ```yaml
 services:
@@ -154,11 +196,15 @@ services:
       - API_URL=http://localhost:5056  # Update API_URL
 ```
 
-Access API directly: `http://localhost:5056/docs`
 
-**Note:** When changing API port, you must set `API_URL` explicitly since auto-detection assumes port 5055.
 
-### Changing SurrealDB Port
+Truy cập API trực tiếp: `http://localhost:5056/docs`
+
+**Lưu ý:** Khi thay đổi cổng API, bạn phải đặt `API_URL` một cách rõ ràng vì tính năng tự động phát hiện sẽ sử dụng cổng 5055.
+
+### Thay đổi cổng SurrealDB
+
+
 
 ```yaml
 services:
@@ -169,21 +215,29 @@ services:
       - SURREAL_URL=ws://surrealdb:8001/rpc  # Update connection URL
 ```
 
-**Important:** Internal Docker network uses container name (`surrealdb`), not `localhost`.
+
+
+**Quan trọng:** Mạng Docker nội bộ sử dụng tên vùng chứa (`surrealdb`), không phải `localhost`.
 
 ---
 
-## SSL/TLS Configuration
+## Cấu hình SSL/TLS
 
-### Custom CA Certificate
+### Chứng chỉ CA tùy chỉnh
 
-For self-signed certs on local providers:
+Đối với chứng chỉ tự ký của các nhà cung cấp địa phương:
+
+
 
 ```env
 ESPERANTO_SSL_CA_BUNDLE=/path/to/ca-bundle.pem
 ```
 
-### Disable Verification (Development Only)
+
+
+### Tắt xác minh (Chỉ dành cho nhà phát triển)
+
+
 
 ```env
 # WARNING: Only for testing/development
@@ -191,33 +245,36 @@ ESPERANTO_SSL_CA_BUNDLE=/path/to/ca-bundle.pem
 ESPERANTO_SSL_VERIFY=false
 ```
 
----
 
-## Multi-Provider Setup
-
-### Use Different Providers for Different Tasks
-
-Configure multiple AI providers via **Settings → API Keys**. Each provider gets its own credential:
-
-1. Add a credential for your main language model provider (e.g., OpenAI, Anthropic)
-2. Add a credential for embeddings (e.g., Voyage AI, or use the same provider)
-3. Add a credential for TTS (e.g., ElevenLabs, or OpenAI-Compatible for local Speaches)
-4. Each credential's models are registered and available independently
-
-### Multiple Endpoints for OpenAI-Compatible
-
-When using OpenAI-Compatible providers, you can configure per-service URLs in a single credential:
-
-1. Go to **Settings** → **API Keys**
-2. Click **Add Credential** → Select **OpenAI-Compatible**
-3. Configure separate URLs for LLM, Embedding, TTS, and STT
-4. Click **Save**, then **Test Connection**
 
 ---
 
-## Security Hardening
+## Thiết lập nhiều nhà cung cấp
 
-### Change Default Credentials
+### Sử dụng các nhà cung cấp khác nhau cho các nhiệm vụ khác nhau
+
+Định cấu hình nhiều nhà cung cấp AI thông qua **Cài đặt → Khóa API**. Mỗi nhà cung cấp đều có thông tin xác thực riêng:
+
+1. Thêm thông tin xác thực cho nhà cung cấp mô hình ngôn ngữ chính của bạn (ví dụ: OpenAI, Anthropic)
+2. Thêm thông tin xác thực cho các nội dung nhúng (ví dụ: Voyage AI hoặc sử dụng cùng một nhà cung cấp)
+3. Thêm thông tin xác thực cho TTS (ví dụ: ElevenLabs hoặc OpenAI-Tương thích cho các bài giảng địa phương)
+4. Mỗi mẫu thông tin xác thực đều được đăng ký và cung cấp độc lập
+
+### Nhiều điểm cuối tương thích với OpenAI
+
+Khi sử dụng nhà cung cấp Tương thích với OpenAI, bạn có thể định cấu hình URL cho mỗi dịch vụ trong một thông tin xác thực duy nhất:
+
+1. Đi tới **Cài đặt**→**Khóa API**2. Nhấp vào**Thêm thông tin xác thực**→ Chọn**Tương thích với OpenAI**
+3. Định cấu hình các URL riêng cho LLM, Nhúng, TTS và STT
+4. Nhấp vào **Lưu**, sau đó nhấp vào **Kiểm tra kết nối**
+
+---
+
+## Tăng cường bảo mật
+
+### Thay đổi thông tin xác thực mặc định
+
+
 
 ```env
 # Don't use defaults in production
@@ -225,65 +282,87 @@ SURREAL_USER=your_secure_username
 SURREAL_PASSWORD=$(openssl rand -base64 32)  # Generate secure password
 ```
 
-### Add Password Protection
+
+
+### Thêm mật khẩu bảo vệ
+
+
 
 ```env
 # Protect your Open Notebook instance
 OPEN_NOTEBOOK_PASSWORD=your_secure_password
 ```
 
-### Use HTTPS
+
+
+### Sử dụng HTTPS
+
+
 
 ```env
 # Always use HTTPS in production
 API_URL=https://mynotebook.example.com
 ```
 
-### Firewall Rules
 
-Restrict access to your Open Notebook:
-- Port 8502 (frontend): Only from your IP
-- Port 5055 (API): Only from frontend
-- Port 8000 (SurrealDB): Never expose to internet
+
+### Quy tắc tường lửa
+
+Hạn chế quyền truy cập vào Sổ tay mở của bạn:
+- Port 8502 (frontend): Chỉ từ IP của bạn
+- Cổng 5055 (API): Chỉ từ giao diện người dùng
+- Cổng 8000 (SurrealDB): Không bao giờ tiếp xúc với internet
 
 ---
 
-## Web Scraping & Content Extraction
+## Quét web & trích xuất nội dung
 
-Open Notebook uses multiple services for content extraction:
+Open Notebook sử dụng nhiều dịch vụ để trích xuất nội dung:
 
-### Firecrawl
+### Pháo hoa
 
-For advanced web scraping:
+Để quét web nâng cao:
+
+
 
 ```env
 FIRECRAWL_API_KEY=your-key
 ```
 
-Get key from: https://firecrawl.dev/
+
+
+Nhận chìa khóa từ: https://firecrawl.dev/
 
 ### Jina AI
 
-Alternative web extraction:
+Trích xuất web thay thế:
+
+
 
 ```env
 JINA_API_KEY=your-key
 ```
 
-Get key from: https://jina.ai/
+
+
+Nhận chìa khóa từ: https://jina.ai/
 
 ---
 
-## Environment Variable Groups
+## Nhóm biến môi trường
 
-### Credential Storage (Required)
+### Bộ nhớ thông tin xác thực (Bắt buộc)
+
 ```env
 OPEN_NOTEBOOK_ENCRYPTION_KEY    # Required for storing credentials
 ```
 
-AI provider API keys are configured via **Settings → API Keys** (not environment variables).
 
-### Database
+
+Khóa API của nhà cung cấp AI được định cấu hình thông qua **Cài đặt → Khóa API** (không phải biến môi trường).
+
+### Cơ sở dữ liệu
+
 ```env
 SURREAL_URL
 SURREAL_USER
@@ -292,7 +371,10 @@ SURREAL_NAMESPACE
 SURREAL_DATABASE
 ```
 
-### Performance
+
+
+### Hiệu suất
+
 ```env
 SURREAL_COMMANDS_MAX_TASKS
 SURREAL_COMMANDS_RETRY_ENABLED
@@ -302,7 +384,10 @@ SURREAL_COMMANDS_RETRY_WAIT_MIN
 SURREAL_COMMANDS_RETRY_WAIT_MAX
 ```
 
-### API Settings
+
+
+### Cài đặt API
+
 ```env
 API_URL
 INTERNAL_API_URL
@@ -310,14 +395,20 @@ API_CLIENT_TIMEOUT
 ESPERANTO_LLM_TIMEOUT
 ```
 
-### Audio/TTS
+
+
+### Âm thanh/TTS
+
 ```env
 TTS_BATCH_SIZE
 ```
 
-> **Note:** `ELEVENLABS_API_KEY` is deprecated. Configure ElevenLabs via **Settings → API Keys**.
 
-### Debugging
+
+> **Lưu ý:**`ELEVENLABS_API_KEY` không được dùng nữa. Định cấu hình ElevenLabs thông qua**Cài đặt → Khóa API**.
+
+### Gỡ lỗi
+
 ```env
 LANGCHAIN_TRACING_V2
 LANGCHAIN_ENDPOINT
@@ -325,11 +416,15 @@ LANGCHAIN_API_KEY
 LANGCHAIN_PROJECT
 ```
 
+
+
 ---
 
-## Testing Configuration
+## Cấu hình thử nghiệm
 
-### Quick Test
+### Kiểm tra nhanh
+
+
 
 ```bash
 # Test API health
@@ -341,7 +436,11 @@ curl -X POST http://localhost:5055/api/chat \
   -d '{"message":"Hello"}'
 ```
 
-### Validate Config
+
+
+### Xác thực cấu hình
+
+
 
 ```bash
 # Check environment variables are set
@@ -351,11 +450,15 @@ env | grep OPEN_NOTEBOOK_ENCRYPTION_KEY
 python -c "import os; print(os.getenv('SURREAL_URL'))"
 ```
 
+
+
 ---
 
-## Troubleshooting Performance
+## Khắc phục sự cố về hiệu suất
 
-### High Memory Usage
+### Sử dụng bộ nhớ cao
+
+
 
 ```env
 # Reduce concurrency
@@ -365,7 +468,11 @@ SURREAL_COMMANDS_MAX_TASKS=2
 TTS_BATCH_SIZE=1
 ```
 
-### High CPU Usage
+
+
+### Mức sử dụng CPU cao
+
+
 
 ```env
 # Check worker count
@@ -375,7 +482,11 @@ SURREAL_COMMANDS_MAX_TASKS
 SURREAL_COMMANDS_MAX_TASKS=5
 ```
 
-### Slow Responses
+
+
+### Phản hồi chậm
+
+
 
 ```env
 # Check timeout settings
@@ -385,7 +496,11 @@ API_CLIENT_TIMEOUT=300
 SURREAL_COMMANDS_RETRY_MAX_ATTEMPTS=3
 ```
 
-### Database Conflicts
+
+
+### Xung đột cơ sở dữ liệu
+
+
 
 ```env
 # Reduce concurrency
@@ -395,18 +510,22 @@ SURREAL_COMMANDS_MAX_TASKS=3
 SURREAL_COMMANDS_RETRY_WAIT_STRATEGY=exponential_jitter
 ```
 
+
+
 ---
 
-## Backup & Restore
+## Sao lưu và khôi phục
 
-### Data Locations
+### Vị trí dữ liệu
 
-| Path | Contents |
+| Đường dẫn | Nội dung |
 |------|----------|
-| `./data` or `/app/data` | Uploads, podcasts, checkpoints |
-| `./surreal_data` or `/mydata` | SurrealDB database files |
+| `./data` hoặc `/app/data` | Tải lên, podcast, điểm kiểm tra |
+| `./surreal_data` hoặc `/mydata` | Tệp cơ sở dữ liệu SurrealDB |
 
-### Quick Backup
+### Sao lưu nhanh
+
+
 
 ```bash
 # Stop services (recommended for consistency)
@@ -420,7 +539,11 @@ tar -czf backup-$(date +%Y%m%d-%H%M%S).tar.gz \
 docker compose up -d
 ```
 
-### Automated Backup Script
+
+
+### Tập lệnh sao lưu tự động
+
+
 
 ```bash
 #!/bin/bash
@@ -440,13 +563,20 @@ find "$BACKUP_DIR" -name "open-notebook-*.tar.gz" -mtime +7 -delete
 echo "Backup complete: open-notebook-$DATE.tar.gz"
 ```
 
-Add to cron:
+
+
+Thêm vào cron:
+
 ```bash
 # Daily backup at 2 AM
 0 2 * * * /path/to/backup.sh >> /var/log/open-notebook-backup.log 2>&1
 ```
 
-### Restore
+
+
+### Khôi phục
+
+
 
 ```bash
 # Stop services
@@ -462,7 +592,11 @@ tar -xzf backup-20240115-120000.tar.gz
 docker compose up -d
 ```
 
-### Migration Between Servers
+
+
+### Di chuyển giữa các máy chủ
+
+
 
 ```bash
 # On source server
@@ -477,11 +611,15 @@ tar -xzf open-notebook-migration.tar.gz
 docker compose up -d
 ```
 
+
+
 ---
 
-## Container Management
+## Quản lý vùng chứa
 
-### Common Commands
+### Các lệnh thông dụng
+
+
 
 ```bash
 # Start services
@@ -511,7 +649,11 @@ docker stats
 docker compose ps
 ```
 
-### Clean Up
+
+
+### Dọn dẹp
+
+
 
 ```bash
 # Remove stopped containers
@@ -524,21 +666,23 @@ docker image prune
 docker system prune -a
 ```
 
+
+
 ---
 
-## Summary
+## Bản tóm tắt
 
-**Most deployments need:**
-- One AI provider API key
-- Default database settings
-- Default timeouts
+**Hầu hết các hoạt động triển khai đều cần:**
+- Một khóa API của nhà cung cấp AI
+- Cài đặt cơ sở dữ liệu mặc định
+- Thời gian chờ mặc định
 
-**Tune performance only if:**
-- You have specific bottlenecks
-- High-concurrency workload
-- Custom hardware (very fast or very slow)
+**Chỉ điều chỉnh hiệu suất nếu:**
+- Bạn có những trở ngại cụ thể
+- Khối lượng công việc đồng thời cao
+- Phần cứng tùy chỉnh (rất nhanh hoặc rất chậm)
 
-**Advanced features:**
-- Firecrawl for better web scraping
-- LangSmith for debugging workflows
-- Custom CA bundles for self-signed certs
+**Tính năng nâng cao:**
+- Firecrawl để quét web tốt hơn
+- LangSmith để gỡ lỗi quy trình công việc
+- Gói CA tùy chỉnh cho chứng chỉ tự ký

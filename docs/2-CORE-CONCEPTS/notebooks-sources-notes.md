@@ -1,284 +1,284 @@
-# Notebooks, Sources, and Notes - The Container Model
+# Notebook, Nguồn và Ghi Chú - Mô Hình Container
 
-Open Notebook organizes research in three connected layers. Understanding this hierarchy is key to using the system effectively.
+Open Notebook tổ chức nghiên cứu trong ba tầng kết nối. Hiểu cấu trúc phân cấp này là chìa khóa để sử dụng hiệu quả.
 
-## The Three-Layer Structure
+## Cấu Trúc Ba Tầng
 
 ```
 ┌─────────────────────────────────────┐
-│         NOTEBOOK (The Container)    │
-│     "My AI Safety Research 2026"   │
+│     NOTEBOOK (Container)            │
+│     "Nghiên Cứu An Toàn AI 2026"   │
 ├─────────────────────────────────────┤
 │                                     │
-│  SOURCES (The Raw Materials)        │
-│  ├─ safety_paper.pdf                │
-│  ├─ alignment_video.mp4             │
-│  └─ prompt_injection_article.html   │
+│  NGUỒN (Nguyên Liệu Thô)          │
+│  ├─ bai_an_toan.pdf                 │
+│  ├─ video_alignment.mp4             │
+│  └─ bai_prompt_injection.html       │
 │                                     │
-│  NOTES (The Processed Insights)     │
-│  ├─ AI Summary (auto-generated)     │
-│  ├─ Key Concepts (transformation)   │
-│  ├─ My Research Notes (manual)      │
-│  └─ Chat Insights (from conversation)
+│  GHI CHÚ (Thông Tin Đã Xử Lý)     │
+│  ├─ Tóm Tắt AI (tự động tạo)       │
+│  ├─ Khái Niệm Chính (biến đổi)     │
+│  ├─ Ghi Chú Nghiên Cứu (thủ công)  │
+│  └─ Thông Tin Chat (từ hội thoại)   │
 │                                     │
 └─────────────────────────────────────┘
 ```
 
 ---
 
-## 1. NOTEBOOKS - The Research Container
+## 1. NOTEBOOK - Container Nghiên Cứu
 
-### What Is a Notebook?
+### Notebook Là Gì?
 
-A **notebook** is a *scoped container* for a research project or topic. It's your research workspace.
+**Notebook** là *container có phạm vi* cho dự án hoặc chủ đề nghiên cứu. Đó là không gian làm việc nghiên cứu.
 
-Think of it like a physical notebook: everything inside is about the same topic, shares the same context, and builds toward the same goals.
+Hãy nghĩ như sổ ghi chép: mọi thứ bên trong về cùng chủ đề, chia sẻ cùng ngữ cảnh, và hướng tới cùng mục tiêu.
 
-### What Goes In?
+### Chứa Gì?
 
-- **A description** — "This notebook collects research on X topic"
-- **Sources** — The raw materials you add
-- **Notes** — Your insights and outputs
-- **Conversation history** — Your chats and questions
+- **Mô tả** — "Notebook này thu thập nghiên cứu về chủ đề X"
+- **Nguồn** — Nguyên liệu thô bạn thêm
+- **Ghi chú** — Thông tin chi tiết và đầu ra
+- **Lịch sử hội thoại** — Chat và câu hỏi
 
-### Why This Matters
+### Tại Sao Quan Trọng
 
-**Isolation**: Each notebook is completely separate. Sources in Notebook A never appear in Notebook B. This lets you:
-- Keep different research topics completely isolated
-- Reuse source names across notebooks without conflicts
-- Control which AI context applies to which research
+**Cách ly**: Mỗi notebook hoàn toàn tách biệt. Nguồn trong Notebook A không bao giờ xuất hiện trong Notebook B. Điều này cho phép:
+- Giữ các chủ đề nghiên cứu hoàn toàn cách ly
+- Tái sử dụng tên nguồn giữa các notebook mà không xung đột
+- Kiểm soát ngữ cảnh AI nào áp dụng cho nghiên cứu nào
 
-**Shared Context**: All sources and notes in a notebook inherit the notebook's context. If your notebook is titled "AI Safety 2026" with description "Focusing on alignment and interpretability," that context applies to all AI interactions within that notebook.
+**Ngữ Cảnh Chung**: Tất cả nguồn và ghi chú trong notebook kế thừa ngữ cảnh notebook. Nếu notebook có tiêu đề "An Toàn AI 2026" với mô tả "Tập trung vào alignment và interpretability," ngữ cảnh đó áp dụng cho tất cả tương tác AI trong notebook.
 
-**Parallel Projects**: You can have 10 notebooks running simultaneously. Each one is its own isolated research environment.
+**Dự Án Song Song**: Bạn có thể có 10 notebook chạy đồng thời. Mỗi cái là môi trường nghiên cứu cách ly riêng.
 
-### Example
-
-```
-Notebook: "Customer Research - Product Launch"
-Description: "User interviews and feedback for Q1 2026 launch"
-
-→ All sources added to this notebook are about customer feedback
-→ All notes generated are in that context
-→ When you chat, the AI knows you're analyzing product launch feedback
-→ Different from your "Market Analysis - Competitors" notebook
-```
-
----
-
-## 2. SOURCES - The Raw Materials
-
-### What Is a Source?
-
-A **source** is a *single piece of input material* — the raw content you bring in. Sources never change; they're just processed and indexed.
-
-### What Can Be a Source?
-
-- **PDFs** — Research papers, reports, documents
-- **Web links** — Articles, blog posts, web pages
-- **Audio files** — Podcasts, interviews, lectures
-- **Video files** — Tutorials, presentations, recordings
-- **Plain text** — Notes, transcripts, passages
-- **Uploaded text** — Paste content directly
-
-### What Happens When You Add a Source?
+### Ví Dụ
 
 ```
-1. EXTRACTION
-   File/URL → Extract text and metadata
-   (OCR for PDFs, web scraping for URLs, speech-to-text for audio)
+Notebook: "Nghiên Cứu Khách Hàng - Ra Mắt Sản Phẩm"
+Mô tả: "Phỏng vấn và phản hồi người dùng cho ra mắt Q1 2026"
 
-2. CHUNKING
-   Long text → Break into searchable chunks
-   (Prevents "too much context" in single query)
-
-3. EMBEDDING
-   Each chunk → Generate semantic vector
-   (Allows AI to find conceptually similar content)
-
-4. STORAGE
-   Chunks + vectors → Store in database
-   (Ready for search and retrieval)
-```
-
-### Key Properties
-
-**Immutable**: Once added, the source doesn't change. If you need a new version, add it as a new source.
-
-**Indexed**: Sources are automatically indexed for search (both text and semantic).
-
-**Scoped**: A source belongs to exactly one notebook.
-
-**Referenceable**: Other sources and notes can reference this source by citation.
-
-### Example
-
-```
-Source: "openai_charter.pdf"
-Type: PDF document
-
-What happens:
-→ PDF is uploaded
-→ Text is extracted (including images)
-→ Text is split into 50 chunks (paragraphs, sections)
-→ Each chunk gets an embedding vector
-→ Now searchable by: "OpenAI's approach to safety"
+→ Tất cả nguồn thêm vào notebook này về phản hồi khách hàng
+→ Tất cả ghi chú tạo trong ngữ cảnh đó
+→ Khi chat, AI biết bạn đang phân tích phản hồi ra mắt sản phẩm
+→ Khác biệt với notebook "Phân Tích Thị Trường - Đối Thủ"
 ```
 
 ---
 
-## 3. NOTES - The Processed Insights
+## 2. NGUỒN - Nguyên Liệu Thô
 
-### What Is a Note?
+### Nguồn Là Gì?
 
-A **note** is a *processed output* — something you created or AI created based on your sources. Notes are the "results" of your research work.
+**Nguồn** là *một phần nội dung đầu vào* — nội dung thô bạn đưa vào. Nguồn không thay đổi; chúng chỉ được xử lý và lập chỉ mục.
 
-### Types of Notes
+### Gì Có Thể Là Nguồn?
 
-#### Manual Notes
-You write them yourself. They're your original thinking, capturing:
-- What you learned from sources
-- Your analysis and interpretations
-- Your next steps and questions
+- **PDF** — Bài báo nghiên cứu, báo cáo, tài liệu
+- **Liên kết web** — Bài viết, blog, trang web
+- **File âm thanh** — Podcast, phỏng vấn, bài giảng
+- **File video** — Hướng dẫn, thuyết trình, ghi hình
+- **Văn bản thuần** — Ghi chú, bản ghi, đoạn văn
+- **Văn bản tải lên** — Dán nội dung trực tiếp
 
-#### AI-Generated Notes
-Created by applying AI processing to sources:
-- **Transformations** — Structured extraction (main points, key concepts, methodology)
-- **Chat Responses** — Answers you saved from conversations
-- **Ask Results** — Comprehensive answers saved to your notebook
-
-#### Captured Insights
-Notes you explicitly saved from interactions:
-- "Save this response as a note"
-- "Save this transformation result"
-- Convert any AI output into a permanent note
-
-### What Can Notes Contain?
-
-- **Text** — Your writing or AI-generated content
-- **Citations** — References to specific sources
-- **Metadata** — When created, how created (manual/AI), which sources influenced it
-- **Tags** — Your categorization (optional but useful)
-
-### Why Notes Matter
-
-**Knowledge Accumulation**: Notes become your actual knowledge base. They're what you take away from the research.
-
-**Searchable**: Notes are searchable along with sources. "Find everything about X" includes your notes, not just sources.
-
-**Citable**: Notes can cite sources, creating an audit trail of where insights came from.
-
-**Shareable**: Notes are your outputs. You can share them, publish them, or build on them in other projects.
-
----
-
-## How They Connect: The Data Flow
+### Điều Gì Xảy Ra Khi Thêm Nguồn?
 
 ```
-YOU
- │
- ├─→ Create Notebook ("AI Research")
- │
- ├─→ Add Sources (papers, articles, videos)
- │    └─→ System: Extract, embed, index
- │
- ├─→ Search Sources (text or semantic)
- │    └─→ System: Find relevant chunks
- │
- ├─→ Apply Transformations (extract insights)
- │    └─→ Creates Notes
- │
- ├─→ Chat with Sources (explore with context control)
- │    ├─→ Can save responses as Notes
- │    └─→ Notes include citations
- │
- ├─→ Ask Questions (automated comprehensive search)
- │    ├─→ Can save results as Notes
- │    └─→ Notes include citations
- │
- └─→ Generate Podcast (transform notebook into audio)
-     └─→ Uses all sources + notes for content
+1. TRÍCH XUẤT
+   File/URL → Trích xuất văn bản và metadata
+   (OCR cho PDF, scraping web cho URL, speech-to-text cho âm thanh)
+
+2. CHIA ĐOẠN
+   Văn bản dài → Chia thành đoạn có thể tìm kiếm
+   (Tránh "quá nhiều ngữ cảnh" trong truy vấn đơn)
+
+3. NHÚNG
+   Mỗi đoạn → Tạo vector ngữ nghĩa
+   (Cho phép AI tìm nội dung tương tự về khái niệm)
+
+4. LƯU TRỮ
+   Đoạn + vector → Lưu trong cơ sở dữ liệu
+   (Sẵn sàng tìm kiếm và truy xuất)
+```
+
+### Thuộc Tính Chính
+
+**Bất biến**: Khi đã thêm, nguồn không thay đổi. Nếu cần phiên bản mới, thêm như nguồn mới.
+
+**Đã lập chỉ mục**: Nguồn được tự động lập chỉ mục cho tìm kiếm (cả văn bản và ngữ nghĩa).
+
+**Có phạm vi**: Nguồn thuộc chính xác một notebook.
+
+**Tham chiếu được**: Nguồn và ghi chú khác có thể tham chiếu nguồn này qua trích dẫn.
+
+### Ví Dụ
+
+```
+Nguồn: "openai_charter.pdf"
+Loại: Tài liệu PDF
+
+Điều gì xảy ra:
+→ PDF được tải lên
+→ Văn bản được trích xuất (bao gồm hình ảnh)
+→ Văn bản chia thành 50 đoạn (đoạn văn, phần)
+→ Mỗi đoạn có vector nhúng
+→ Giờ có thể tìm: "Phương pháp an toàn của OpenAI"
 ```
 
 ---
 
-## Key Design Decisions
+## 3. GHI CHÚ - Thông Tin Đã Xử Lý
 
-### 1. One Notebook Per Source
+### Ghi Chú Là Gì?
 
-Each source belongs to exactly one notebook. This creates clear boundaries:
-- No ambiguity about which research project a source is in
-- Easy to isolate or export a complete project
-- Clean permissions model (if someone gets access to notebook, they get access to all its sources)
+**Ghi chú** là *đầu ra đã xử lý* — thứ bạn tạo hoặc AI tạo dựa trên nguồn. Ghi chú là "kết quả" công việc nghiên cứu.
 
-### 2. Immutable Sources, Mutable Notes
+### Các Loại Ghi Chú
 
-Sources never change (once added, always the same). But notes can be edited or deleted. Why?
-- Sources are evidence → evidence shouldn't be altered
-- Notes are your thinking → thinking evolves as you learn
+#### Ghi Chú Thủ Công
+Bạn tự viết. Chúng nắm bắt suy nghĩ gốc:
+- Bạn học được gì từ nguồn
+- Phân tích và diễn giải
+- Bước tiếp theo và câu hỏi
 
-### 3. Explicit Context Control
+#### Ghi Chú Do AI Tạo
+Được tạo bằng cách áp dụng xử lý AI cho nguồn:
+- **Biến đổi** — Trích xuất có cấu trúc (điểm chính, khái niệm, phương pháp)
+- **Phản hồi Chat** — Câu trả lời bạn lưu từ hội thoại
+- **Kết quả Hỏi** — Câu trả lời toàn diện lưu vào notebook
 
-Sources don't automatically go to AI. You decide which sources are "in context" for each interaction:
-- Chat: You manually select which sources to include
-- Ask: System automatically figures out which sources to search
-- Transformations: You choose which sources to transform
+#### Thông Tin Đã Lưu
+Ghi chú bạn lưu rõ ràng từ tương tác:
+- "Lưu phản hồi này thành ghi chú"
+- "Lưu kết quả biến đổi này"
+- Chuyển bất kỳ đầu ra AI thành ghi chú vĩnh viễn
 
-This is different from systems that always send everything to AI.
+### Ghi Chú Chứa Gì?
 
----
+- **Văn bản** — Bài viết hoặc nội dung AI tạo
+- **Trích dẫn** — Tham chiếu tới nguồn cụ thể
+- **Metadata** — Khi tạo, cách tạo (thủ công/AI), nguồn nào ảnh hưởng
+- **Thẻ** — Phân loại của bạn (tùy chọn nhưng hữu ích)
 
-## Mental Models Explained
+### Tại Sao Ghi Chú Quan Trọng
 
-### Notebook as Boundaries
-Think of a notebook like a Git repository:
-- Everything in it is about the same topic
-- You can clone/fork it (copy to new project)
-- It has clear entry/exit points
-- You know exactly what's included
+**Tích Lũy Tri Thức**: Ghi chú trở thành cơ sở tri thức thực sự. Chúng là gì bạn mang đi từ nghiên cứu.
 
-### Sources as Evidence
-Think of sources like exhibits in a legal case:
-- Once filed, they don't change
-- They can be cited and referenced
-- They're the ground truth for what you're basing claims on
-- Multiple sources can be cross-referenced
+**Tìm kiếm được**: Ghi chú có thể tìm kiếm cùng nguồn. "Tìm mọi thứ về X" bao gồm ghi chú, không chỉ nguồn.
 
-### Notes as Synthesis
-Think of notes like your case brief:
-- You write them based on evidence
-- They're your interpretation
-- You can cite which evidence supports each claim
-- They're what you actually share or act on
+**Trích dẫn được**: Ghi chú có thể trích dẫn nguồn, tạo dấu vết kiểm toán về nguồn gốc thông tin.
+
+**Chia sẻ được**: Ghi chú là đầu ra. Bạn có thể chia sẻ, xuất bản, hoặc phát triển trong dự án khác.
 
 ---
 
-## Common Questions
+## Cách Kết Nối: Luồng Dữ Liệu
 
-### Can I move a source to a different notebook?
-Not directly. Each source is tied to one notebook. If you want it in multiple notebooks, add it again (uploads are fast if it's already processed).
-
-### Can a note reference sources from a different notebook?
-No. Notes stay within their notebook and reference sources within that notebook. This keeps boundaries clean.
-
-### What if I want to group sources within a notebook?
-Use tags. You can tag sources ("primary research," "background," "methodology") and filter by tags.
-
-### Can I merge two notebooks?
-Not built-in, but you can manually copy sources from one notebook to another by re-uploading them.
+```
+BẠN
+ │
+ ├─→ Tạo Notebook ("Nghiên Cứu AI")
+ │
+ ├─→ Thêm Nguồn (bài báo, bài viết, video)
+ │    └─→ Hệ thống: Trích xuất, nhúng, lập chỉ mục
+ │
+ ├─→ Tìm Kiếm Nguồn (văn bản hoặc ngữ nghĩa)
+ │    └─→ Hệ thống: Tìm đoạn liên quan
+ │
+ ├─→ Áp Dụng Biến Đổi (trích xuất thông tin)
+ │    └─→ Tạo Ghi Chú
+ │
+ ├─→ Chat với Nguồn (khám phá với kiểm soát ngữ cảnh)
+ │    ├─→ Có thể lưu phản hồi thành Ghi Chú
+ │    └─→ Ghi Chú bao gồm trích dẫn
+ │
+ ├─→ Hỏi (tìm kiếm toàn diện tự động)
+ │    ├─→ Có thể lưu kết quả thành Ghi Chú
+ │    └─→ Ghi Chú bao gồm trích dẫn
+ │
+ └─→ Tạo Podcast (biến notebook thành âm thanh)
+     └─→ Dùng tất cả nguồn + ghi chú cho nội dung
+```
 
 ---
 
-## Summary
+## Quyết Định Thiết Kế Chính
 
-| Concept | Purpose | Lifecycle | Scope |
-|---------|---------|-----------|-------|
-| **Notebook** | Container + context | Create once, configure | All its sources + notes |
-| **Source** | Raw material | Add → Process → Store | One notebook |
-| **Note** | Processed output | Create/capture → Edit → Share | One notebook |
+### 1. Mỗi Nguồn Một Notebook
 
-This three-layer model gives you:
-- **Clear organization** (everything scoped to projects)
-- **Privacy control** (isolated notebooks)
-- **Audit trails** (notes cite sources)
-- **Flexibility** (notes can be manual or AI-generated)
+Mỗi nguồn thuộc chính xác một notebook. Tạo ranh giới rõ ràng:
+- Không nhập nhằng nguồn thuộc dự án nào
+- Dễ cách ly hoặc xuất dự án hoàn chỉnh
+- Mô hình quyền sạch (truy cập notebook = truy cập tất cả nguồn)
+
+### 2. Nguồn Bất Biến, Ghi Chú Có Thể Thay Đổi
+
+Nguồn không bao giờ thay đổi (khi thêm, luôn giữ nguyên). Nhưng ghi chú có thể chỉnh sửa hoặc xóa. Tại sao?
+- Nguồn là bằng chứng → bằng chứng không nên bị thay đổi
+- Ghi chú là suy nghĩ → suy nghĩ phát triển khi bạn học
+
+### 3. Kiểm Soát Ngữ Cảnh Rõ Ràng
+
+Nguồn không tự động đến AI. Bạn quyết định nguồn nào "trong ngữ cảnh" cho mỗi tương tác:
+- Chat: Bạn tự chọn nguồn nào bao gồm
+- Hỏi: Hệ thống tự xác định nguồn nào tìm kiếm
+- Biến đổi: Bạn chọn nguồn nào biến đổi
+
+Khác với hệ thống luôn gửi mọi thứ tới AI.
+
+---
+
+## Giải Thích Mô Hình Tư Duy
+
+### Notebook Như Ranh Giới
+Nghĩ notebook như Git repository:
+- Mọi thứ bên trong về cùng chủ đề
+- Có thể clone/fork (sao chép sang dự án mới)
+- Có điểm vào/ra rõ ràng
+- Biết chính xác gì được bao gồm
+
+### Nguồn Như Bằng Chứng
+Nghĩ nguồn như bằng chứng trong vụ án pháp lý:
+- Khi nộp, không thay đổi
+- Có thể trích dẫn và tham chiếu
+- Là sự thật nền tảng cho khẳng định
+- Nhiều nguồn có thể tham chiếu chéo
+
+### Ghi Chú Như Tổng Hợp
+Nghĩ ghi chú như bản tóm tắt vụ án:
+- Bạn viết dựa trên bằng chứng
+- Là diễn giải của bạn
+- Có thể trích dẫn bằng chứng nào hỗ trợ mỗi khẳng định
+- Là gì bạn thực sự chia sẻ hoặc hành động
+
+---
+
+## Câu Hỏi Thường Gặp
+
+### Tôi có thể di chuyển nguồn sang notebook khác?
+Không trực tiếp. Mỗi nguồn gắn với một notebook. Nếu muốn trong nhiều notebook, thêm lại (tải nhanh nếu đã xử lý).
+
+### Ghi chú có thể tham chiếu nguồn từ notebook khác?
+Không. Ghi chú nằm trong notebook và tham chiếu nguồn trong notebook đó. Giữ ranh giới sạch.
+
+### Nếu muốn nhóm nguồn trong notebook?
+Dùng thẻ. Bạn có thể gắn thẻ nguồn ("nghiên cứu chính," "nền tảng," "phương pháp") và lọc theo thẻ.
+
+### Tôi có thể gộp hai notebook?
+Không có sẵn, nhưng có thể sao chép thủ công nguồn từ notebook này sang notebook khác bằng cách tải lại.
+
+---
+
+## Tóm Tắt
+
+| Khái niệm | Mục đích | Vòng đời | Phạm vi |
+|-----------|----------|----------|---------|
+| **Notebook** | Container + ngữ cảnh | Tạo một lần, cấu hình | Tất cả nguồn + ghi chú |
+| **Nguồn** | Nguyên liệu thô | Thêm → Xử lý → Lưu | Một notebook |
+| **Ghi chú** | Đầu ra đã xử lý | Tạo/lưu → Chỉnh sửa → Chia sẻ | Một notebook |
+
+Mô hình ba tầng này cho bạn:
+- **Tổ chức rõ ràng** (mọi thứ trong phạm vi dự án)
+- **Kiểm soát quyền riêng tư** (notebook cách ly)
+- **Dấu vết kiểm toán** (ghi chú trích dẫn nguồn)
+- **Linh hoạt** (ghi chú có thể thủ công hoặc AI tạo)

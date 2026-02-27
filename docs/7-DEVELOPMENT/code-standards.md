@@ -1,21 +1,22 @@
-# Code Standards
+# Tiêu chuẩn mã
 
-This document outlines coding standards and best practices for Open Notebook contributions. All code should follow these guidelines to ensure consistency, readability, and maintainability.
+Tài liệu này phác thảo các tiêu chuẩn mã hóa và các phương pháp thực hành tốt nhất cho các đóng góp của Open Notebook. Tất cả mã phải tuân theo các nguyên tắc này để đảm bảo tính nhất quán, dễ đọc và dễ bảo trì.
 
-## Python Standards
+## Tiêu chuẩn Python
 
-### Code Formatting
+### Định dạng mã
 
-We follow **PEP 8** with some specific guidelines:
+Chúng tôi tuân theo **PEP 8** với một số nguyên tắc cụ thể:
 
-- Use **Ruff** for linting and formatting
-- Maximum line length: **88 characters**
-- Use **double quotes** for strings
-- Use **trailing commas** in multi-line structures
+- Sử dụng **Ruff** để linting và định dạng
+- Độ dài dòng tối đa: **88 ký tự**- Sử dụng**dấu ngoặc kép** cho chuỗi
+- Sử dụng **dấu phẩy** trong cấu trúc nhiều dòng
 
-### Type Hints
+### Gợi ý gõ
 
-Always use type hints for function parameters and return values:
+Luôn sử dụng gợi ý kiểu cho các tham số hàm và giá trị trả về:
+
+
 
 ```python
 from typing import List, Optional, Dict, Any
@@ -29,9 +30,13 @@ async def process_content(
     # Implementation
 ```
 
-### Async/Await Patterns
 
-Use async/await consistently throughout the codebase:
+
+### Mẫu không đồng bộ/Đang chờ
+
+Sử dụng async/await một cách nhất quán trong toàn bộ codebase:
+
+
 
 ```python
 # Good
@@ -46,9 +51,13 @@ def fetch_data(url: str) -> Dict[str, Any]:
     return loop.run_until_complete(async_fetch(url))
 ```
 
-### Error Handling
 
-Use structured error handling with custom exceptions:
+
+### Xử lý lỗi
+
+Sử dụng xử lý lỗi có cấu trúc với các ngoại lệ tùy chỉnh:
+
+
 
 ```python
 from open_notebook.exceptions import DatabaseOperationError, InvalidInputError
@@ -66,9 +75,13 @@ async def create_notebook(name: str, description: str) -> Notebook:
         raise DatabaseOperationError(f"Failed to create notebook: {str(e)}")
 ```
 
-### Documentation (Google-style Docstrings)
 
-Use Google-style docstrings for all functions, classes, and modules:
+
+### Tài liệu (Chuỗi tài liệu kiểu Google)
+
+Sử dụng chuỗi tài liệu kiểu Google cho tất cả các hàm, lớp và mô-đun:
+
+
 
 ```python
 async def vector_search(
@@ -93,7 +106,10 @@ async def vector_search(
     # Implementation
 ```
 
-#### Module Docstrings
+
+
+#### Chuỗi tài liệu mô-đun
+
 ```python
 """
 Notebook domain model and operations.
@@ -103,7 +119,10 @@ managing research notebooks within the Open Notebook system.
 """
 ```
 
-#### Class Docstrings
+
+
+#### Chuỗi tài liệu lớp
+
 ```python
 class Notebook(BaseModel):
     """A research notebook containing sources, notes, and chat sessions.
@@ -121,7 +140,10 @@ class Notebook(BaseModel):
     """
 ```
 
-#### Function Docstrings
+
+
+#### Chuỗi tài liệu hàm
+
 ```python
 async def create_notebook(
     name: str,
@@ -143,20 +165,27 @@ async def create_notebook(
         DatabaseOperationError: If creation fails
 
     Example:
-        ```python
-        notebook = await create_notebook(
-            name="AI Research",
-            description="Research on AI applications"
-        )
         ```
+
+trăn
+        sổ ghi chép = đang chờ create_notebook(
+            name="Nghiên cứu AI",
+            description="Nghiên cứu về ứng dụng AI"
+        )
+
+```
     """
 ```
 
-## FastAPI Standards
 
-### Router Organization
 
-Organize endpoints by domain:
+## Tiêu chuẩn FastAPI
+
+### Tổ chức bộ định tuyến
+
+Sắp xếp điểm cuối theo miền:
+
+
 
 ```python
 # api/routers/notebooks.py
@@ -174,9 +203,13 @@ async def get_notebooks(
     # Implementation
 ```
 
-### Request/Response Models
 
-Use Pydantic models for validation:
+
+### Mô hình yêu cầu/phản hồi
+
+Sử dụng mô hình Pydantic để xác nhận:
+
+
 
 ```python
 from pydantic import BaseModel, Field
@@ -195,9 +228,13 @@ class NotebookResponse(BaseModel):
     updated: str
 ```
 
-### Error Handling
 
-Use consistent error responses:
+
+### Xử lý lỗi
+
+Sử dụng phản hồi lỗi nhất quán:
+
+
 
 ```python
 from fastapi import HTTPException
@@ -213,9 +250,13 @@ except DatabaseOperationError as e:
     raise HTTPException(status_code=500, detail="Internal server error")
 ```
 
-### API Documentation
 
-Use FastAPI's automatic documentation features:
+
+### Tài liệu API
+
+Sử dụng các tính năng tài liệu tự động của FastAPI:
+
+
 
 ```python
 @router.post(
@@ -234,11 +275,15 @@ async def create_notebook(notebook: NotebookCreate):
     # Implementation
 ```
 
-## Database Standards
 
-### SurrealDB Patterns
 
-Use the repository pattern consistently:
+## Tiêu chuẩn cơ sở dữ liệu
+
+### Mẫu DB siêu thực
+
+Sử dụng mẫu kho lưu trữ một cách nhất quán:
+
+
 
 ```python
 from open_notebook.database.repository import repo_create, repo_query, repo_update
@@ -262,9 +307,13 @@ async def update_notebook(notebook_id: str, data: Dict[str, Any]) -> Dict[str, A
     return await repo_update("notebook", notebook_id, data)
 ```
 
-### Schema Management
 
-Use migrations for schema changes:
+
+### Quản lý lược đồ
+
+Sử dụng di chuyển để thay đổi lược đồ:
+
+
 
 ```surrealql
 -- migrations/8.surrealql
@@ -275,48 +324,52 @@ DEFINE FIELD IF NOT EXISTS created ON TABLE new_feature TYPE datetime DEFAULT ti
 DEFINE FIELD IF NOT EXISTS updated ON TABLE new_feature TYPE datetime DEFAULT time::now();
 ```
 
-## TypeScript Standards
 
-### Basic Guidelines
 
-Follow TypeScript best practices:
+## Tiêu chuẩn TypeScript
 
-- Use strict mode enabled in `tsconfig.json`
-- Use proper type annotations for all variables and functions
-- Avoid using `any` type unless absolutely necessary
-- Use `interface` for object shapes, `type` for unions and other advanced types
+### Nguyên tắc cơ bản
 
-### Component Structure
+Thực hiện theo các phương pháp hay nhất của TypeScript:
 
-- Use functional components with hooks
-- Keep components focused and single-responsibility
-- Extract reusable logic into custom hooks
-- Use proper TypeScript types for props
+- Sử dụng chế độ nghiêm ngặt được bật trong `tsconfig.json`
+- Sử dụng chú thích kiểu thích hợp cho tất cả các biến và hàm
+- Tránh sử dụng kiểu `any` trừ khi thực sự cần thiết
+- Sử dụng `giao diện` cho hình dạng đối tượng, `type` cho công đoàn và các loại nâng cao khác
 
-### Error Handling
+### Cấu trúc thành phần
 
-- Handle errors explicitly
-- Provide meaningful error messages
-- Log errors appropriately
-- Don't suppress errors silently
+- Sử dụng các thành phần chức năng có móc
+- Giữ các thành phần tập trung và chịu trách nhiệm duy nhất
+- Trích xuất logic có thể tái sử dụng vào các móc tùy chỉnh
+- Sử dụng các loại TypeScript thích hợp cho đạo cụ
 
-## Code Quality Tools
+### Xử lý lỗi
 
-We use these tools to maintain code quality:
+- Xử lý lỗi rõ ràng
+- Cung cấp thông báo lỗi có ý nghĩa
+- Ghi lại lỗi một cách thích hợp
+- Đừng âm thầm ngăn chặn lỗi
 
-- **Ruff**: Linting and code formatting
-  - Run with: `uv run ruff check . --fix`
-  - Format with: `uv run ruff format .`
+## Công cụ chất lượng mã
 
-- **MyPy**: Static type checking
-  - Run with: `uv run python -m mypy .`
+Chúng tôi sử dụng những công cụ này để duy trì chất lượng mã:
 
-- **Pytest**: Testing framework
-  - Run with: `uv run pytest`
+- **Ruff**: Linting và định dạng mã
+  - Chạy với: `uv run ruff check . --sửa`
+  - Format với: `uv run ruff format .`
 
-## Common Patterns
+- **MyPy**: Kiểm tra kiểu tĩnh
+  - Chạy với: `uv run python -m mypy .`
 
-### Async Database Operations
+- **Pytest**: Khung thử nghiệm
+  - Chạy với: `uv run pytest`
+
+## Các mẫu phổ biến
+
+### Hoạt động cơ sở dữ liệu không đồng bộ
+
+
 
 ```python
 async def get_notebook_with_sources(notebook_id: str) -> Notebook:
@@ -339,7 +392,11 @@ async def get_notebook_with_sources(notebook_id: str) -> Notebook:
     )
 ```
 
-### Model Validation
+
+
+### Xác thực mô hình
+
+
 
 ```python
 from pydantic import BaseModel, validator
@@ -355,21 +412,23 @@ class NotebookInput(BaseModel):
         return v.strip()
 ```
 
-## Code Review Checklist
 
-Before submitting code for review, ensure:
 
-- [ ] Code follows PEP 8 / TypeScript best practices
-- [ ] Type hints are present for all functions
-- [ ] Docstrings are complete and accurate
-- [ ] Error handling is appropriate
-- [ ] Tests are included and passing
-- [ ] No debug code (console.logs, print statements) left behind
-- [ ] Commit messages are clear and follow conventions
-- [ ] Documentation is updated if needed
+## Danh sách kiểm tra đánh giá mã
+
+Trước khi gửi mã để xem xét, hãy đảm bảo:
+
+- [ ] Mã tuân theo các phương pháp hay nhất về PEP 8 / TypeScript
+- [ ] Gợi ý loại có sẵn cho tất cả các chức năng
+- [] Chuỗi tài liệu đầy đủ và chính xác
+- [ ] Xử lý lỗi phù hợp
+- [ ] Các bài kiểm tra được bao gồm và vượt qua
+- [] Không để lại mã gỡ lỗi (console.logs, câu lệnh in)
+- [ ] Thông điệp cam kết rõ ràng và tuân theo các quy ước
+- [ ] Tài liệu được cập nhật nếu cần
 
 ---
 
-**See also:**
-- [Testing Guide](testing.md) - How to write tests
-- [Contributing Guide](contributing.md) - Overall contribution workflow
+**Xem thêm:**
+- [Hướng dẫn kiểm tra](testing.md) - Cách viết bài kiểm tra
+- [Hướng dẫn đóng góp](contributing.md) - Quy trình đóng góp tổng thể

@@ -1,23 +1,25 @@
-# Transformations - Batch Processing Your Sources
+# Chuyển đổi - Xử lý hàng loạt nguồn của bạn
 
-Transformations apply the same analysis to multiple sources at once. Instead of asking the same question repeatedly, define a template and run it across your content.
-
----
-
-## When to Use Transformations
-
-| Use Transformations When | Use Chat Instead When |
-|-------------------------|----------------------|
-| Same analysis on many sources | One-off questions |
-| Consistent output format needed | Exploratory conversation |
-| Batch processing | Follow-up questions needed |
-| Creating structured notes | Context changes between questions |
-
-**Example**: You have 10 papers and want a summary of each. Transformation does it in one operation.
+Các phép biến đổi áp dụng cùng một phân tích cho nhiều nguồn cùng một lúc. Thay vì hỏi đi hỏi lại cùng một câu hỏi, hãy xác định một mẫu và chạy nó trên nội dung của bạn.
 
 ---
 
-## Quick Start: Your First Transformation
+## Khi nào nên sử dụng phép biến đổi
+
+| Sử dụng các phép biến đổi khi | Thay vào đó hãy sử dụng trò chuyện khi |
+|--------------------------|----------------------|
+| Phân tích giống nhau trên nhiều nguồn | Câu hỏi một lần |
+| Cần định dạng đầu ra nhất quán | Trò chuyện khám phá |
+| Xử lý hàng loạt | Cần có câu hỏi tiếp theo |
+| Tạo ghi chú có cấu trúc | Bối cảnh thay đổi giữa các câu hỏi |
+
+**Ví dụ**: Bạn có 10 bài viết và muốn có bản tóm tắt của từng bài. Chuyển đổi thực hiện nó trong một hoạt động.
+
+---
+
+## Bắt đầu nhanh: Sự chuyển đổi đầu tiên của bạn
+
+
 
 ```
 1. Go to your notebook
@@ -29,13 +31,17 @@ Transformations apply the same analysis to multiple sources at once. Instead of 
 7. New notes appear automatically
 ```
 
+
+
 ---
 
-## Built-in Transformations
+## Biến đổi tích hợp
 
-Open Notebook includes ready-to-use templates:
+Open Notebook bao gồm các mẫu sẵn sàng sử dụng:
 
-### Summary
+### Bản tóm tắt
+
+
 
 ```
 What it does: Creates a 200-300 word overview
@@ -43,7 +49,11 @@ Output: Key points, main arguments, conclusions
 Best for: Quick reference, getting the gist
 ```
 
-### Key Concepts
+
+
+### Các khái niệm chính
+
+
 
 ```
 What it does: Extracts main ideas and terminology
@@ -51,7 +61,11 @@ Output: List of concepts with explanations
 Best for: Learning new topics, building vocabulary
 ```
 
-### Methodology
+
+
+### Phương pháp luận
+
+
 
 ```
 What it does: Extracts research approach
@@ -59,7 +73,11 @@ Output: How the study was conducted
 Best for: Academic papers, research review
 ```
 
-### Takeaways
+
+
+###Món ăn mang đi
+
+
 
 ```
 What it does: Extracts actionable insights
@@ -67,7 +85,11 @@ Output: What you should do with this information
 Best for: Business documents, practical guides
 ```
 
-### Questions
+
+
+### Câu hỏi
+
+
 
 ```
 What it does: Generates questions the source raises
@@ -75,11 +97,15 @@ Output: Open questions, gaps, follow-up research
 Best for: Literature review, research planning
 ```
 
+
+
 ---
 
-## Creating Custom Transformations
+## Tạo các chuyển đổi tùy chỉnh
 
-### Step-by-Step
+### Từng bước
+
+
 
 ```
 1. Go to "Transformations" page
@@ -102,37 +128,53 @@ Best for: Literature review, research planning
 6. Your transformation appears in the list
 ```
 
-### Prompt Template Tips
 
-**Be specific about format:**
+
+### Mẹo về mẫu nhắc nhở
+
+**Hãy cụ thể về định dạng:**
+
 ```
 Good: "List 5 key points as bullet points"
 Bad: "What are the key points?"
 ```
 
-**Request structure:**
+
+
+**Cấu trúc yêu cầu:**
+
 ```
 Good: "Create sections for: Summary, Methods, Results"
 Bad: "Tell me about this paper"
 ```
 
-**Ask for citations:**
+
+
+**Yêu cầu trích dẫn:**
+
 ```
 Good: "Cite page numbers for each claim"
 Bad: (no citation request)
 ```
 
-**Set length expectations:**
+
+
+**Đặt kỳ vọng về độ dài:**
+
 ```
 Good: "In 200-300 words, summarize..."
 Bad: "Summarize this"
 ```
 
+
+
 ---
 
-## Applying Transformations
+## Áp dụng các phép biến đổi
 
-### To a Single Source
+### Đến một nguồn duy nhất
+
+
 
 ```
 1. In Sources panel, click source menu (⋮)
@@ -142,7 +184,11 @@ Bad: "Summarize this"
 5. Note appears when done
 ```
 
-### To Multiple Sources (Batch)
+
+
+### Tới nhiều nguồn (Batch)
+
+
 
 ```
 1. Go to Transformations page
@@ -153,22 +199,26 @@ Bad: "Summarize this"
 6. One note per source created
 ```
 
-### Processing Time
 
-| Sources | Typical Time |
-|---------|--------------|
-| 1 source | 30 seconds - 1 minute |
-| 5 sources | 2-3 minutes |
-| 10 sources | 4-5 minutes |
-| 20+ sources | 8-10 minutes |
 
-Processing runs in background. You can continue working.
+### Thời gian xử lý
+
+| Nguồn | Giờ điển hình |
+|----------|--------------|
+| 1 nguồn | 30 giây - 1 phút |
+| 5 nguồn | 2-3 phút |
+| 10 nguồn | 4-5 phút |
+| Hơn 20 nguồn | 8-10 phút |
+
+Quá trình xử lý chạy ở chế độ nền. Bạn có thể tiếp tục làm việc.
 
 ---
 
-## Transformation Examples
+## Ví dụ về chuyển đổi
 
-### Literature Review Template
+### Mẫu bình luận văn học
+
+
 
 ```
 Name: Literature Review Entry
@@ -191,7 +241,11 @@ Prompt:
 Keep each section to 2-3 sentences."
 ```
 
-### Meeting Notes Template
+
+
+### Mẫu ghi chú cuộc họp
+
+
 
 ```
 Name: Meeting Summary
@@ -210,7 +264,11 @@ Prompt:
 Format as clear, scannable notes."
 ```
 
-### Competitor Analysis Template
+
+
+### Mẫu phân tích đối thủ cạnh tranh
+
+
 
 ```
 Name: Competitor Analysis
@@ -230,7 +288,11 @@ Prompt:
 Be objective and cite specific details."
 ```
 
-### Technical Documentation Template
+
+
+### Mẫu tài liệu kỹ thuật
+
+
 
 ```
 Name: API Documentation Summary
@@ -251,11 +313,15 @@ Prompt:
 Keep technical but concise."
 ```
 
+
+
 ---
 
-## Managing Transformations
+## Quản lý các chuyển đổi
 
-### Edit a Transformation
+### Chỉnh sửa một chuyển đổi
+
+
 
 ```
 1. Go to Transformations page
@@ -265,7 +331,11 @@ Keep technical but concise."
 5. Click "Save"
 ```
 
-### Delete a Transformation
+
+
+### Xóa một chuyển đổi
+
+
 
 ```
 1. Go to Transformations page
@@ -274,29 +344,37 @@ Keep technical but concise."
 4. Confirm
 ```
 
-### Reorder/Organize
 
-Built-in transformations appear first, then custom ones alphabetically.
+
+### Sắp xếp lại/Sắp xếp
+
+Các phép biến đổi tích hợp xuất hiện đầu tiên, sau đó là các phép biến đổi tùy chỉnh theo thứ tự bảng chữ cái.
 
 ---
 
-## Transformation Output
+## Đầu ra chuyển đổi
 
-### Where Results Go
+### Kết quả sẽ đi về đâu
 
-- Each source produces one note
-- Notes appear in your notebook's Notes panel
-- Notes are tagged with transformation name
-- Original source is linked
+- Mỗi nguồn tạo ra một ghi chú
+- Ghi chú xuất hiện trong bảng Ghi chú của sổ ghi chép của bạn
+- Ghi chú được gắn thẻ với tên chuyển đổi
+- Nguồn gốc được liên kết
 
-### Note Naming
+### Lưu ý Đặt tên
+
+
 
 ```
 Default: "[Transformation Name] - [Source Title]"
 Example: "Summary - Research Paper 2025.pdf"
 ```
 
-### Editing Output
+
+
+### Chỉnh sửa đầu ra
+
+
 
 ```
 1. Click the generated note
@@ -305,77 +383,81 @@ Example: "Summary - Research Paper 2025.pdf"
 4. Save
 ```
 
----
 
-## Best Practices
-
-### Template Design
-
-1. **Start specific** - Vague prompts give vague results
-2. **Use formatting** - Headings, bullets, numbered lists
-3. **Request citations** - Make results verifiable
-4. **Set length** - Prevent overly long or short output
-5. **Test first** - Run on one source before batch
-
-### Source Selection
-
-1. **Similar content** - Same transformation on similar sources
-2. **Reasonable size** - Very long sources may need splitting
-3. **Processed status** - Ensure sources are fully processed
-
-### Quality Control
-
-1. **Review samples** - Check first few outputs before trusting batch
-2. **Edit as needed** - Transformations are starting points
-3. **Iterate prompts** - Refine based on results
 
 ---
 
-## Common Issues
+## Các phương pháp hay nhất
 
-### Generic Output
+### Thiết kế mẫu
 
-**Problem**: Results are too vague
-**Solution**: Make prompt more specific, add format requirements
+1. **Bắt đầu cụ thể** - Lời nhắc mơ hồ cho kết quả mơ hồ
+2. **Sử dụng định dạng** - Tiêu đề, dấu đầu dòng, danh sách đánh số
+3. **Yêu cầu trích dẫn** - Làm cho kết quả có thể kiểm chứng được
+4. **Đặt độ dài** - Ngăn đầu ra quá dài hoặc quá ngắn
+5. **Kiểm tra trước** - Chạy trên một nguồn trước hàng loạt
 
-### Missing Information
+### Lựa chọn nguồn
 
-**Problem**: Key details not extracted
-**Solution**: Explicitly ask for what you need in prompt
+1. **Nội dung tương tự** - Chuyển đổi tương tự trên các nguồn tương tự
+2. **Kích thước hợp lý** - Các nguồn rất dài có thể cần tách
+3. **Trạng thái đã xử lý** - Đảm bảo nguồn được xử lý đầy đủ
 
-### Inconsistent Format
+### Kiểm soát chất lượng
 
-**Problem**: Each note looks different
-**Solution**: Add clear formatting instructions to prompt
-
-### Too Long/Short
-
-**Problem**: Output doesn't match expectations
-**Solution**: Specify word count or section lengths
-
-### Processing Fails
-
-**Problem**: Transformation doesn't complete
-**Solution**:
-- Check source is processed
-- Try shorter/simpler prompt
-- Process sources individually
+1. **Xem lại mẫu** - Kiểm tra một số đầu ra đầu tiên trước khi tin cậy vào lô
+2. **Chỉnh sửa khi cần** - Biến đổi là điểm khởi đầu
+3. **Lặp lại lời nhắc** - Tinh chỉnh dựa trên kết quả
 
 ---
 
-## Transformations vs. Chat vs. Ask
+## Các vấn đề thường gặp
 
-| Feature | Transformations | Chat | Ask |
-|---------|----------------|------|-----|
-| **Input** | Predefined template | Your questions | Your question |
-| **Scope** | One source at a time | Selected sources | Auto-searched |
-| **Output** | Structured note | Conversation | Comprehensive answer |
-| **Best for** | Batch processing | Exploration | One-shot answers |
-| **Follow-up** | Run again | Ask more | New query |
+### Đầu ra chung
+
+**Vấn đề**: Kết quả quá mơ hồ
+**Giải pháp**: Đưa ra lời nhắc cụ thể hơn, thêm yêu cầu về định dạng
+
+### Thiếu thông tin
+
+**Vấn đề**: Chi tiết chính không được trích xuất
+**Giải pháp**: Yêu cầu rõ ràng những gì bạn cần ngay lập tức
+
+### Định dạng không nhất quán
+
+**Vấn đề**: Mỗi nốt nhạc trông khác nhau
+**Giải pháp**: Thêm hướng dẫn định dạng rõ ràng vào lời nhắc
+
+### Quá dài/ngắn
+
+**Vấn đề**: Kết quả đầu ra không đáp ứng mong đợi
+**Giải pháp**: Chỉ định số từ hoặc độ dài phần
+
+### Xử lý không thành công
+
+**Sự cố**: Quá trình chuyển đổi không hoàn tất
+**Giải pháp**:
+- Kiểm tra nguồn đã được xử lý
+- Thử lời nhắc ngắn hơn/đơn giản hơn
+- Xử lý nguồn riêng lẻ
 
 ---
 
-## Summary
+## Chuyển đổi so với Trò chuyện và Hỏi
+
+| Tính năng | Biến đổi | Trò chuyện | Hỏi |
+|----------|-------|------|------|
+| **Đầu vào** | Mẫu được xác định trước | Câu hỏi của bạn | Câu hỏi của bạn |
+| **Phạm vi** | Một nguồn tại một thời điểm | Nguồn chọn lọc | Tự động tìm kiếm |
+| **Đầu ra** | Ghi chú có cấu trúc | Cuộc trò chuyện | Câu trả lời toàn diện |
+| **Tốt nhất cho** | Xử lý hàng loạt | Thăm dò | Câu trả lời một lần |
+| **Theo dõi** | Chạy lại | Hỏi thêm | Truy vấn mới |
+
+---
+
+## Bản tóm tắt
+
+
 
 ```
 Transformations = Batch AI Processing
@@ -399,4 +481,6 @@ Tips:
 - Edit output as needed
 ```
 
-Transformations turn repetitive analysis into one-click operations. Define once, apply many times.
+
+
+Các chuyển đổi biến phân tích lặp đi lặp lại thành các thao tác bằng một cú nhấp chuột. Xác định một lần, áp dụng nhiều lần.

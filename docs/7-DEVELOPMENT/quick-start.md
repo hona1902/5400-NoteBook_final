@@ -1,15 +1,15 @@
-# Quick Start - Development
+# Bắt đầu nhanh - Phát triển
 
-Get Open Notebook running locally in 5 minutes.
+Nhận Open Notebook chạy cục bộ trong 5 phút.
 
-## Prerequisites
+## Điều kiện tiên quyết
 
-- **Python 3.11+**
-- **Git**
-- **uv** (package manager) - install with `curl -LsSf https://astral.sh/uv/install.sh | sh`
-- **Docker** (optional, for SurrealDB)
+- **Python 3.11+**-**Git**-**uv** (trình quản lý gói) - cài đặt với `curl -LsSf https://astral.sh/uv/install.sh | sh`
+- **Docker** (tùy chọn, dành cho SurrealDB)
 
-## 1. Clone the Repository (2 min)
+## 1. Sao chép kho lưu trữ (2 phút)
+
+
 
 ```bash
 # Fork the repository on GitHub first, then clone your fork
@@ -20,7 +20,11 @@ cd open-notebook
 git remote add upstream https://github.com/lfnovo/open-notebook.git
 ```
 
-## 2. Install Dependencies (2 min)
+
+
+## 2. Cài đặt phụ thuộc (2 phút)
+
+
 
 ```bash
 # Install Python dependencies
@@ -30,9 +34,13 @@ uv sync
 uv --version
 ```
 
-## 3. Start Services (1 min)
 
-In separate terminal windows:
+
+## 3. Bắt đầu dịch vụ (1 phút)
+
+Trong các cửa sổ đầu cuối riêng biệt:
+
+
 
 ```bash
 # Terminal 1: Start SurrealDB (database)
@@ -47,28 +55,31 @@ make api
 cd frontend && npm run dev
 ```
 
-## 4. Verify Everything Works (instant)
 
-- **API Health**: http://localhost:5055/health → should return `{"status": "ok"}`
-- **API Docs**: http://localhost:5055/docs → interactive API documentation
-- **Frontend**: http://localhost:3000 → Open Notebook UI
 
-**All three show up?** ✅ You're ready to develop!
+## 4. Xác minh mọi thứ hoạt động (tức thì)
 
----
+- **API Health**: http://localhost:5055/health → sẽ trả về `{"status": "ok"}`
+- **Tài liệu API**: http://localhost:5055/docs → tài liệu API tương tác
+- **Giao diện người dùng**: http://localhost:3000 → Mở giao diện người dùng Notebook
 
-## Next Steps
-
-- **First Issue?** Pick a [good first issue](https://github.com/lfnovo/open-notebook/issues?q=label%3A%22good+first+issue%22)
-- **Understand the code?** Read [Architecture Overview](architecture.md)
-- **Make changes?** Follow [Contributing Guide](contributing.md)
-- **Setup details?** See [Development Setup](development-setup.md)
+**Cả ba đều xuất hiện?** ✅ Bạn đã sẵn sàng phát triển!
 
 ---
 
-## Troubleshooting
+## Các bước tiếp theo
 
-### "Port 5055 already in use"
+- **Số đầu tiên?** Chọn một [số đầu tiên hay](https://github.com/lfnovo/open-notebook/issues?q=label%3A%22good+first+issue%22)
+- **Hiểu mã?** Đọc [Tổng quan về kiến trúc](architecture.md)
+- **Thực hiện thay đổi?** Theo dõi [Hướng dẫn đóng góp](contributing.md)
+- **Chi tiết thiết lập?** Xem [Thiết lập phát triển]( Development-setup.md)
+
+---
+
+## Khắc phục sự cố
+
+### "Cổng 5055 đã được sử dụng"
+
 ```bash
 # Find what's using the port
 lsof -i :5055
@@ -77,7 +88,10 @@ lsof -i :5055
 uv run uvicorn api.main:app --port 5056
 ```
 
-### "Can't connect to SurrealDB"
+
+
+### "Không thể kết nối với SurrealDB"
+
 ```bash
 # Check if SurrealDB is running
 docker ps | grep surrealdb
@@ -86,7 +100,10 @@ docker ps | grep surrealdb
 make database
 ```
 
-### "Python version is too old"
+
+
+### "Phiên bản Python quá cũ"
+
 ```bash
 # Check your Python version
 python --version  # Should be 3.11+
@@ -95,16 +112,23 @@ python --version  # Should be 3.11+
 uv sync --python 3.11
 ```
 
-### "npm: command not found"
+
+
+### "npm: không tìm thấy lệnh"
+
 ```bash
 # Install Node.js from https://nodejs.org/
 # Then install frontend dependencies
 cd frontend && npm install
 ```
 
+
+
 ---
 
-## Common Development Commands
+## Các lệnh phát triển chung
+
+
 
 ```bash
 # Run tests
@@ -123,6 +147,8 @@ make start-all
 open http://localhost:5055/docs
 ```
 
+
+
 ---
 
-Need more help? See [Development Setup](development-setup.md) for details or join our [Discord](https://discord.gg/37XJPXfz2w).
+Cần thêm trợ giúp? Xem [Thiết lập phát triển](development-setup.md) để biết chi tiết hoặc tham gia [Discord](https://discord.gg/37XJPXfz2w của chúng tôi).

@@ -1,16 +1,18 @@
-# Quick Fixes - Top 11 Issues & Solutions
+# Khắc phục nhanh - 11 vấn đề & giải pháp hàng đầu
 
-Common problems with 1-minute solutions.
+Các vấn đề thường gặp với giải pháp trong 1 phút.
 
 ---
 
-## #1: "Cannot connect to server"
+## #1: "Không thể kết nối với máy chủ"
 
-**Symptom:** Browser shows error "Cannot connect to server" or "Unable to reach API"
+**Triệu chứng:** Trình duyệt hiển thị lỗi "Không thể kết nối với máy chủ" hoặc "Không thể truy cập API"
 
-**Cause:** Frontend can't reach API
+**Lý do:** Frontend không thể truy cập API
 
-**Solution (1 minute):**
+**Giải pháp (1 phút):**
+
+
 
 ```bash
 # Step 1: Check if API is running
@@ -29,19 +31,23 @@ docker compose restart
 # Open http://localhost:8502 in browser
 ```
 
-**If still broken:**
-- Check `API_URL` in .env (should match your frontend URL)
-- See [Connection Issues](connection-issues.md)
+
+
+**Nếu vẫn bị hỏng:**
+- Kiểm tra `API_URL` trong .env (phải khớp với URL giao diện người dùng của bạn)
+- Xem [Sự cố kết nối](connection-issues.md)
 
 ---
 
-## #2: "Invalid API key" or "Models not showing"
+## #2: "Khóa API không hợp lệ" hoặc "Mô hình không hiển thị"
 
-**Symptom:** Settings → Models shows "No models available"
+**Triệu chứng:** Cài đặt → Kiểu máy hiển thị "Không có kiểu máy nào"
 
-**Cause:** No credential configured, or credential has invalid API key
+**Lý do:** Không có thông tin xác thực nào được định cấu hình hoặc thông tin xác thực có khóa API không hợp lệ
 
-**Solution (1 minute):**
+**Giải pháp (1 phút):**
+
+
 
 ```
 1. Go to Settings → API Keys
@@ -52,21 +58,25 @@ docker compose restart
 6. Go to Settings → Models to verify models appear
 ```
 
-**If still broken:**
-- Make sure key has no extra spaces
-- Generate a fresh key from provider dashboard
-- Check that `OPEN_NOTEBOOK_ENCRYPTION_KEY` is set in docker-compose.yml
-- See [AI & Chat Issues](ai-chat-issues.md)
+
+
+**Nếu vẫn bị hỏng:**
+- Đảm bảo phím không có dấu cách thừa
+- Tạo khóa mới từ bảng điều khiển của nhà cung cấp
+- Kiểm tra xem `OPEN_NOTEBOOK_ENCRYPTION_KEY` đã được đặt trong docker-compose.yml chưa
+- Xem [Vấn đề về AI và trò chuyện](ai-chat-issues.md)
 
 ---
 
-## #3: "Port X already in use"
+## #3: "Cổng X đã được sử dụng"
 
-**Symptom:** Docker error "Port 8502 is already allocated"
+**Triệu chứng:** Lỗi Docker "Cổng 8502 đã được cấp phát"
 
-**Cause:** Another service using that port
+**Lý do:** Một dịch vụ khác sử dụng cổng đó
 
-**Solution (1 minute):**
+**Giải pháp (1 phút):**
+
+
 
 ```bash
 # Option 1: Stop the other service
@@ -84,15 +94,19 @@ docker compose restart
 # Access at: http://localhost:8503
 ```
 
+
+
 ---
 
-## #4: "Cannot process file" or "Unsupported format"
+## #4: "Không thể xử lý tệp" hoặc "Định dạng không được hỗ trợ"
 
-**Symptom:** Upload fails or says "File format not supported"
+**Triệu chứng:** Tải lên không thành công hoặc thông báo "Định dạng tệp không được hỗ trợ"
 
-**Cause:** File type not supported or too large
+**Lý do:** Loại tệp không được hỗ trợ hoặc quá lớn
 
-**Solution (1 minute):**
+**Giải pháp (1 phút):**
+
+
 
 ```bash
 # Check if file format is supported:
@@ -110,15 +124,19 @@ docker compose restart
 # - Try uploading again
 ```
 
+
+
 ---
 
-## #5: "Chat is very slow"
+## #5: "Trò chuyện rất chậm"
 
-**Symptom:** Chat responses take minutes or timeout
+**Triệu chứng:** Phản hồi trò chuyện mất vài phút hoặc hết thời gian chờ
 
-**Cause:** Slow AI provider, large context, or overloaded system
+**Nguyên nhân:** Nhà cung cấp AI chậm, ngữ cảnh lớn hoặc hệ thống quá tải
 
-**Solution (1 minute):**
+**Giải pháp (1 phút):**
+
+
 
 ```bash
 # Step 1: Check which model you're using
@@ -139,17 +157,21 @@ docker stats
 # Look at CPU/memory usage
 ```
 
-For deep dive: See [AI & Chat Issues](ai-chat-issues.md)
+
+
+Để tìm hiểu sâu hơn: Xem [Vấn đề về AI và trò chuyện](ai-chat-issues.md)
 
 ---
 
-## #6: "Chat gives bad responses"
+## #6: "Trò chuyện đưa ra phản hồi không tốt"
 
-**Symptom:** AI responses are generic, wrong, or irrelevant
+**Triệu chứng:** Phản hồi của AI là chung chung, sai hoặc không liên quan
 
-**Cause:** Bad context, vague question, or wrong model
+**Lý do:** Ngữ cảnh sai, câu hỏi mơ hồ hoặc mô hình sai
 
-**Solution (1 minute):**
+**Giải pháp (1 phút):**
+
+
 
 ```bash
 # Step 1: Make sure sources are in context
@@ -168,17 +190,21 @@ For deep dive: See [AI & Chat Issues](ai-chat-issues.md)
 # Click citations to verify AI actually saw those sources
 ```
 
-For detailed help: See [Chat Effectively](../3-USER-GUIDE/chat-effectively.md)
+
+
+Để được trợ giúp chi tiết: Xem [Trò chuyện hiệu quả](../3-USER-GUIDE/chat-performancely.md)
 
 ---
 
-## #7: "Search returns nothing"
+## #7: "Tìm kiếm không trả lại kết quả gì"
 
-**Symptom:** Search shows 0 results even though content exists
+**Triệu chứng:** Tìm kiếm hiển thị 0 kết quả mặc dù nội dung vẫn tồn tại
 
-**Cause:** Wrong search type or poor query
+**Nguyên nhân:** Loại tìm kiếm sai hoặc truy vấn kém
 
-**Solution (1 minute):**
+**Giải pháp (1 phút):**
+
+
 
 ```bash
 # Try a different search type:
@@ -200,17 +226,21 @@ For detailed help: See [Chat Effectively](../3-USER-GUIDE/chat-effectively.md)
 # All sources should show green "Ready" status
 ```
 
-For detailed help: See [Search Effectively](../3-USER-GUIDE/search.md)
+
+
+Để được trợ giúp chi tiết: Xem [Tìm kiếm hiệu quả](../3-USER-GUIDE/search.md)
 
 ---
 
-## #8: "Podcast generation failed"
+## #8: "Tạo podcast không thành công"
 
-**Symptom:** "Podcast generation failed" error
+**Triệu chứng:** Lỗi "Tạo podcast không thành công"
 
-**Cause:** Insufficient content, API quota, or network issue
+**Lý do:** Không đủ nội dung, hạn ngạch API hoặc sự cố mạng
 
-**Solution (1 minute):**
+**Giải pháp (1 phút):**
+
+
 
 ```bash
 # Step 1: Make sure you have content
@@ -231,17 +261,21 @@ For detailed help: See [Search Effectively](../3-USER-GUIDE/search.md)
 # instead of "ElevenLabs"
 ```
 
-For detailed help: See [FAQ](faq.md)
+
+
+Để được trợ giúp chi tiết: Xem [FAQ](faq.md)
 
 ---
 
-## #9: "Services won't start" or Docker error
+## #9: "Dịch vụ không khởi động" hoặc lỗi Docker
 
-**Symptom:** Docker error when running `docker compose up`
+**Triệu chứng:** Lỗi Docker khi chạy `docker soạn thảo`
 
-**Cause:** Corrupt configuration, permission issue, or resource issue
+**Nguyên nhân:** Cấu hình bị hỏng, vấn đề về quyền hoặc vấn đề về tài nguyên
 
-**Solution (1 minute):**
+**Giải pháp (1 phút):**
+
+
 
 ```bash
 # Step 1: Check logs
@@ -262,15 +296,19 @@ df -h
 # Docker settings → Resources → Memory: 4GB+
 ```
 
+
+
 ---
 
-## #10: "Database says 'too many connections'"
+## #10: "Cơ sở dữ liệu báo 'quá nhiều kết nối'"
 
-**Symptom:** Error about database connections
+**Triệu chứng:** Lỗi về kết nối cơ sở dữ liệu
 
-**Cause:** Too many concurrent operations
+**Nguyên nhân:** Quá nhiều thao tác đồng thời
 
-**Solution (1 minute):**
+**Giải pháp (1 phút):**
+
+
 
 ```bash
 # In .env, reduce concurrency:
@@ -282,24 +320,30 @@ docker compose restart
 # This makes it slower but more stable
 ```
 
+
+
 ---
 
-## #11: Slow Startup or Download Timeouts (China/Slow Networks)
+## #11: Hết thời gian khởi động hoặc tải xuống chậm (Trung Quốc/Mạng chậm)
 
-**Symptom:** Container crashes on startup, worker enters FATAL state, or pip/uv downloads fail
+**Triệu chứng:** Vùng chứa gặp sự cố khi khởi động, nhân viên chuyển sang trạng thái TUYỆT VỜI hoặc tải xuống pip/uv không thành công
 
-**Cause:** Slow network or restricted access to Python package repositories
+**Nguyên nhân:** Mạng chậm hoặc quyền truy cập bị hạn chế vào kho gói Python
 
-**Solution:**
+**Giải pháp:**
 
-### Increase Download Timeout
+### Tăng thời gian chờ tải xuống
+
 ```yaml
 # In docker-compose.yml environment:
 environment:
   - UV_HTTP_TIMEOUT=600  # 10 minutes (default is 30s)
 ```
 
-### Use Chinese Mirrors (if in China)
+
+
+###Sử dụng Gương Trung Quốc (nếu ở Trung Quốc)
+
 ```yaml
 environment:
   - UV_HTTP_TIMEOUT=600
@@ -307,39 +351,46 @@ environment:
   - PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
-**Alternative Chinese mirrors:**
-- Tsinghua: `https://pypi.tuna.tsinghua.edu.cn/simple`
+
+
+**Gương Trung Quốc thay thế:**
+- Thanh Hoa: `https://pypi.tuna.tsinghua.edu.cn/simple`
 - Aliyun: `https://mirrors.aliyun.com/pypi/simple/`
 - Huawei: `https://repo.huaweicloud.com/repository/pypi/simple`
 
-**Note:** First startup may take several minutes while dependencies download. Subsequent starts will be faster.
+**Lưu ý:** Lần khởi động đầu tiên có thể mất vài phút trong khi tải xuống phần phụ thuộc. Những lần khởi động tiếp theo sẽ nhanh hơn.
 
 ---
 
-## Quick Troubleshooting Checklist
+## Danh sách kiểm tra khắc phục sự cố nhanh
 
-When something breaks:
+Khi có thứ gì đó bị hỏng:
 
-- [ ] **Restart services:** `docker compose restart`
-- [ ] **Check logs:** `docker compose logs`
-- [ ] **Verify connectivity:** `curl http://localhost:5055/health`
-- [ ] **Check .env:** API keys set? API_URL correct?
-- [ ] **Check resources:** `docker stats` (CPU/memory)
-- [ ] **Clear cache:** `docker system prune` (free space)
-- [ ] **Rebuild if needed:** `docker compose up --build`
+- [ ] **Khởi động lại dịch vụ:** `docker soạn thảo khởi động lại`
+- [ ] **Kiểm tra nhật ký:** `docker soạn nhật ký`
+- [ ] **Xác minh kết nối:** `curl http://localhost:5055/health`
+- [ ] **Kiểm tra .env:** Đã đặt khóa API chưa? API_URL đúng không?
+- [ ] **Kiểm tra tài nguyên:** `docker stats` (CPU/bộ nhớ)
+- [ ] **Xóa bộ nhớ cache:** `docker system Prune` (dung lượng trống)
+- [ ] **Xây dựng lại nếu cần:** `docker soạn thảo --build`
 
 ---
 
-## Nuclear Options (Last Resort)
+## Các lựa chọn hạt nhân (Phương án cuối cùng)
 
-**Completely reset (will lose all data in Docker):**
+**Đặt lại hoàn toàn (sẽ mất tất cả dữ liệu trong Docker):**
+
+
 
 ```bash
 docker compose down -v
 docker compose up --build
 ```
 
-**Reset to defaults:**
+
+
+**Đặt lại về mặc định:**
+
 ```bash
 # Backup your .env first!
 cp .env .env.backup
@@ -352,21 +403,23 @@ cp .env.example .env
 docker compose up
 ```
 
----
 
-## Prevention Tips
-
-1. **Keep backups** — Export your notebooks regularly
-2. **Monitor logs** — Check `docker compose logs` periodically
-3. **Update regularly** — Pull latest image: `docker pull lfnovo/open_notebook:latest`
-4. **Document changes** — Keep notes on what you configured
-5. **Test after updates** — Verify everything works
 
 ---
 
-## Still Stuck?
+## Mẹo phòng ngừa
 
-- **Look up your exact error** in [Troubleshooting Index](index.md)
-- **Check the FAQ** in [FAQ](faq.md)
-- **Check logs:** `docker compose logs | head -50`
-- **Ask for help:** [Discord](https://discord.gg/37XJPXfz2w) or [GitHub Issues](https://github.com/lfnovo/open-notebook/issues)
+1. **Giữ bản sao lưu** — Xuất sổ ghi chép của bạn thường xuyên
+2. **Theo dõi nhật ký** — Kiểm tra định kỳ `docker soạn nhật ký`
+3. **Cập nhật thường xuyên** — Kéo hình ảnh mới nhất: `docker pull lfnovo/open_notebook:latest`
+4. **Thay đổi tài liệu** — Ghi chú về những gì bạn đã định cấu hình
+5. **Kiểm tra sau khi cập nhật** — Xác minh mọi thứ đều hoạt động
+
+---
+
+## Vẫn bị kẹt?
+
+- **Tra cứu lỗi chính xác của bạn** trong [Chỉ mục khắc phục sự cố](index.md)
+- **Kiểm tra Câu hỏi thường gặp** trong [FAQ](faq.md)
+- **Kiểm tra nhật ký:** `docker soạn nhật ký | đầu -50`
+- **Yêu cầu trợ giúp:** [Discord](https://discord.gg/37XJPXfz2w) hoặc [Vấn đề về GitHub](https://github.com/lfnovo/open-notebook/issues)

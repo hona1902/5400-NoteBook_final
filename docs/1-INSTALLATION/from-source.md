@@ -1,17 +1,17 @@
-# From Source Installation
+# Cài Đặt Từ Mã Nguồn
 
-Clone the repository and run locally. **For developers and contributors.**
+Clone repository và chạy cục bộ. **Dành cho nhà phát triển và người đóng góp.**
 
-## Prerequisites
+## Điều Kiện Tiên Quyết
 
-- **Python 3.11+** - [Download](https://www.python.org/)
-- **Node.js 18+** - [Download](https://nodejs.org/)
-- **Git** - [Download](https://git-scm.com/)
-- **Docker** (for SurrealDB) - [Download](https://docker.com/)
-- **uv** (Python package manager) - `curl -LsSf https://astral.sh/uv/install.sh | sh`
-- API key from OpenAI or similar (or use Ollama for free)
+- **Python 3.11+** - [Tải](https://www.python.org/)
+- **Node.js 18+** - [Tải](https://nodejs.org/)
+- **Git** - [Tải](https://git-scm.com/)
+- **Docker** (cho SurrealDB) - [Tải](https://docker.com/)
+- **uv** (trình quản lý gói Python) - `curl -LsSf https://astral.sh/uv/install.sh | sh`
+- Khóa API từ OpenAI hoặc tương tự (hoặc dùng Ollama miễn phí)
 
-## Quick Setup (10 minutes)
+## Cài Đặt Nhanh (10 phút)
 
 ### 1. Clone Repository
 
@@ -19,162 +19,162 @@ Clone the repository and run locally. **For developers and contributors.**
 git clone https://github.com/lfnovo/open-notebook.git
 cd open-notebook
 
-# If you forked it:
-git clone https://github.com/YOUR_USERNAME/open-notebook.git
+# Nếu bạn đã fork:
+git clone https://github.com/TEN_BAN/open-notebook.git
 cd open-notebook
 git remote add upstream https://github.com/lfnovo/open-notebook.git
 ```
 
-### 2. Install Python Dependencies
+### 2. Cài Đặt Phụ Thuộc Python
 
 ```bash
 uv sync
 uv pip install python-magic
 ```
 
-#### 2.1 Alternative: Conda Setup (Optional)
+#### 2.1 Thay thế: Cài Đặt Conda (Tùy chọn)
 
-If you prefer using **Conda** to manage your environments, follow these steps instead of the standard `uv sync`:
+Nếu bạn thích sử dụng **Conda** để quản lý môi trường, làm theo các bước sau thay vì `uv sync` tiêu chuẩn:
 
 ```bash
-# Create and activate the environment
+# Tạo và kích hoạt môi trường
 conda create -n open-notebook python=3.11 -y
 conda activate open-notebook
 
-# Install uv inside conda to maintain compatibility with the Makefile
+# Cài đặt uv trong conda để duy trì tương thích với Makefile
 conda install -c conda-forge uv nodejs -y
 
-# Sync dependencies
+# Đồng bộ phụ thuộc
 uv sync
 ```
 
-> **Note**: Installing `uv` inside your Conda environment ensures that commands like `make start-all` and `make api` continue to work seamlessly.
+> **Lưu ý**: Cài đặt `uv` trong môi trường Conda đảm bảo các lệnh như `make start-all` và `make api` tiếp tục hoạt động trơn tru.
 
-### 3. Start SurrealDB
+### 3. Khởi Động SurrealDB
 
 ```bash
 # Terminal 1
 make database
-# or: docker compose up surrealdb
+# hoặc: docker compose up surrealdb
 ```
 
-### 4. Set Environment Variables
+### 4. Đặt Biến Môi Trường
 
 ```bash
 cp .env.example .env
-# Edit .env and set:
-# OPEN_NOTEBOOK_ENCRYPTION_KEY=my-secret-key
+# Chỉnh sửa .env và đặt:
+# OPEN_NOTEBOOK_ENCRYPTION_KEY=khoa-bi-mat-cua-toi
 ```
 
-After starting the app, configure AI providers via the **Settings → API Keys** UI in the browser.
+Sau khi khởi động ứng dụng, cấu hình nhà cung cấp AI qua giao diện **Cài đặt → Khóa API** trên trình duyệt.
 
-### 5. Start API
+### 5. Khởi Động API
 
 ```bash
 # Terminal 2
 make api
-# or: uv run --env-file .env uvicorn api.main:app --host 0.0.0.0 --port 5055
+# hoặc: uv run --env-file .env uvicorn api.main:app --host 0.0.0.0 --port 5055
 ```
 
-### 6. Start Frontend
+### 6. Khởi Động Frontend
 
 ```bash
 # Terminal 3
 cd frontend && npm install && npm run dev
 ```
 
-### 7. Access
+### 7. Truy Cập
 
 - **Frontend**: http://localhost:3000
-- **API Docs**: http://localhost:5055/docs
-- **Database**: http://localhost:8000
+- **Tài liệu API**: http://localhost:5055/docs
+- **Cơ sở dữ liệu**: http://localhost:8000
 
-### 8. Configure AI Provider
+### 8. Cấu Hình Nhà Cung Cấp AI
 
-1. Open http://localhost:3000
-2. Go to **Settings** → **API Keys**
-3. Click **Add Credential** → Select your provider → Paste API key
-4. Click **Save**, then **Test Connection**
-5. Click **Discover Models** → **Register Models**
+1. Mở http://localhost:3000
+2. Vào **Cài đặt** → **Khóa API**
+3. Nhấn **Thêm Credential** → Chọn nhà cung cấp → Dán khóa API
+4. Nhấn **Lưu**, sau đó **Kiểm Tra Kết Nối**
+5. Nhấn **Khám Phá Mô Hình** → **Đăng Ký Mô Hình**
 
 ---
 
-## Development Workflow
+## Quy Trình Phát Triển
 
-### Code Quality
+### Chất Lượng Mã
 
 ```bash
-# Format and lint Python
+# Định dạng và lint Python
 make ruff
-# or: ruff check . --fix
+# hoặc: ruff check . --fix
 
-# Type checking
+# Kiểm tra kiểu
 make lint
-# or: uv run python -m mypy .
+# hoặc: uv run python -m mypy .
 ```
 
-### Run Tests
+### Chạy Kiểm Thử
 
 ```bash
 uv run pytest tests/
 ```
 
-### Common Commands
+### Các Lệnh Thường Dùng
 
 ```bash
-# Start everything
+# Khởi động tất cả
 make start-all
 
-# View API docs
+# Xem tài liệu API
 open http://localhost:5055/docs
 
-# Check database migrations
-# (Auto-run on API startup)
+# Kiểm tra migration cơ sở dữ liệu
+# (Tự động chạy khi khởi động API)
 
-# Clean up
+# Dọn dẹp
 make clean
 ```
 
 ---
 
-## Troubleshooting
+## Khắc Phục Sự Cố
 
-### Python version too old
+### Phiên bản Python quá cũ
 
 ```bash
-python --version  # Check version
-uv sync --python 3.11  # Use specific version
+python --version  # Kiểm tra phiên bản
+uv sync --python 3.11  # Sử dụng phiên bản cụ thể
 ```
 
 ### npm: command not found
 
-Install Node.js from https://nodejs.org/
+Cài đặt Node.js từ https://nodejs.org/
 
-### Database connection errors
+### Lỗi kết nối cơ sở dữ liệu
 
 ```bash
-docker ps  # Check SurrealDB running
-docker logs surrealdb  # View logs
+docker ps  # Kiểm tra SurrealDB đang chạy
+docker logs surrealdb  # Xem log
 ```
 
-### Port 5055 already in use
+### Cổng 5055 đã được sử dụng
 
 ```bash
-# Use different port
+# Sử dụng cổng khác
 uv run uvicorn api.main:app --port 5056
 ```
 
 ---
 
-## Next Steps
+## Bước Tiếp Theo
 
-1. Read [Development Guide](../7-DEVELOPMENT/quick-start.md)
-2. See [Architecture Overview](../7-DEVELOPMENT/architecture.md)
-3. Check [Contributing Guide](../7-DEVELOPMENT/contributing.md)
+1. Đọc [Hướng Dẫn Phát Triển](../7-DEVELOPMENT/quick-start.md)
+2. Xem [Tổng Quan Kiến Trúc](../7-DEVELOPMENT/architecture.md)
+3. Kiểm tra [Hướng Dẫn Đóng Góp](../7-DEVELOPMENT/contributing.md)
 
 ---
 
-## Getting Help
+## Nhận Trợ Giúp
 
-- **Discord**: [Community](https://discord.gg/37XJPXfz2w)
-- **Issues**: [GitHub Issues](https://github.com/lfnovo/open-notebook/issues)
+- **Discord**: [Cộng đồng](https://discord.gg/37XJPXfz2w)
+- **Issues**: [GitHub Issues](https://github.com/hona1902/5400-NoteBook_final/issues)

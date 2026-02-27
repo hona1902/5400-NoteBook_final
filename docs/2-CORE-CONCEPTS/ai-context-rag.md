@@ -1,450 +1,450 @@
-# AI Context & RAG - How Open Notebook Uses Your Research
+# Ngữ Cảnh AI & RAG - Cách Open Notebook Sử Dụng Nghiên Cứu Của Bạn
 
-Open Notebook uses different approaches to make AI models aware of your research depending on the feature. This section explains **RAG** (used in Ask) and **full-content context** (used in Chat).
-
----
-
-## The Problem: Making AI Aware of Your Data
-
-### Traditional Approaches (and their problems)
-
-**Option 1: Fine-Tuning**
-- Train the model on your data
-- Pro: Model becomes specialized
-- Con: Expensive, slow, permanent (can't unlearn)
-
-**Option 2: Send Everything to Cloud**
-- Upload all your data to ChatGPT/Claude API
-- Pro: Works well, fast
-- Con: Privacy nightmare, data leaves your control, expensive
-
-**Option 3: Ignore Your Data**
-- Just use the base model without your research
-- Pro: Private, free
-- Con: AI doesn't know anything about your specific topic
-
-### Open Notebook's Dual Approach
-
-**For Chat**: Sends the entire selected content to the LLM
-- Simple and transparent: You select sources, they're sent in full
-- Maximum context: AI sees everything you choose
-- You control which sources are included
-
-**For Ask (RAG)**: Retrieval-Augmented Generation
-- RAG = Retrieval-Augmented Generation
-- The insight: *Search your content, find relevant pieces, send only those*
-- Automatic: AI decides what's relevant based on your question
+Open Notebook sử dụng các phương pháp khác nhau để giúp mô hình AI nhận biết nghiên cứu tùy theo tính năng. Phần này giải thích **RAG** (dùng trong Hỏi) và **ngữ cảnh nội dung đầy đủ** (dùng trong Chat).
 
 ---
 
-## How RAG Works: Three Stages
+## Vấn Đề: Giúp AI Nhận Biết Dữ Liệu Của Bạn
 
-### Stage 1: Content Preparation
+### Các Phương Pháp Truyền Thống (và vấn đề của chúng)
 
-When you upload a source, Open Notebook prepares it for retrieval:
+**Cách 1: Tinh Chỉnh (Fine-Tuning)**
+- Huấn luyện mô hình trên dữ liệu của bạn
+- Ưu: Mô hình trở nên chuyên biệt
+- Nhược: Tốn kém, chậm, vĩnh viễn (không thể quên)
 
-```
-1. EXTRACT TEXT
-   PDF → text
-   URL → webpage text
-   Audio → transcribed text
-   Video → subtitles + transcription
+**Cách 2: Gửi Mọi Thứ Lên Đám Mây**
+- Tải tất cả dữ liệu lên API ChatGPT/Claude
+- Ưu: Hoạt động tốt, nhanh
+- Nhược: Ác mộng quyền riêng tư, dữ liệu rời khỏi kiểm soát, tốn kém
 
-2. CHUNK INTO PIECES
-   Long documents → break into ~500-word chunks
-   Why? AI context has limits; smaller pieces are more precise
+**Cách 3: Bỏ Qua Dữ Liệu**
+- Chỉ dùng mô hình cơ sở mà không có nghiên cứu
+- Ưu: Riêng tư, miễn phí
+- Nhược: AI không biết gì về chủ đề cụ thể
 
-3. CREATE EMBEDDINGS
-   Each chunk → semantic vector (numbers representing meaning)
-   Why? Allows finding chunks by similarity, not just keywords
+### Phương Pháp Kép Của Open Notebook
 
-4. STORE IN DATABASE
-   Chunks + embeddings + metadata → searchable storage
-```
+**Cho Chat**: Gửi toàn bộ nội dung đã chọn tới LLM
+- Đơn giản và minh bạch: Bạn chọn nguồn, chúng được gửi đầy đủ
+- Ngữ cảnh tối đa: AI thấy mọi thứ bạn chọn
+- Bạn kiểm soát nguồn nào được bao gồm
 
-**Example:**
-```
-Source: "AI Safety Research 2026" (50-page PDF)
-↓
-Extracted: 50 pages of text
-↓
-Chunked: 150 chunks (~500 words each)
-↓
-Embedded: Each chunk gets a vector (1536 numbers for OpenAI)
-↓
-Stored: Ready for search
-```
+**Cho Hỏi (RAG)**: Truy Xuất Tăng Cường Sinh
+- RAG = Retrieval-Augmented Generation (Truy Xuất Tăng Cường Sinh)
+- Ý tưởng: *Tìm kiếm nội dung, tìm phần liên quan, chỉ gửi những phần đó*
+- Tự động: AI quyết định gì liên quan dựa trên câu hỏi
 
 ---
 
-### Stage 2: Query Time (What You Search For)
+## Cách RAG Hoạt Động: Ba Giai Đoạn
 
-When you ask a question, the system finds relevant content:
+### Giai Đoạn 1: Chuẩn Bị Nội Dung
+
+Khi bạn tải nguồn lên, Open Notebook chuẩn bị cho truy xuất:
 
 ```
-1. YOU ASK A QUESTION
-   "What does the paper say about alignment?"
+1. TRÍCH XUẤT VĂN BẢN
+   PDF → văn bản
+   URL → văn bản trang web
+   Âm thanh → văn bản phiên âm
+   Video → phụ đề + phiên âm
 
-2. SYSTEM CONVERTS QUESTION TO EMBEDDING
-   Your question → vector (same way chunks are vectorized)
+2. CHIA THÀNH ĐOẠN
+   Tài liệu dài → chia thành đoạn ~500 từ
+   Tại sao? Ngữ cảnh AI có giới hạn; đoạn nhỏ chính xác hơn
 
-3. SIMILARITY SEARCH
-   Find chunks most similar to your question
-   (using vector math, not keyword matching)
+3. TẠO NHÚNG (EMBEDDING)
+   Mỗi đoạn → vector ngữ nghĩa (số đại diện ý nghĩa)
+   Tại sao? Cho phép tìm đoạn theo tương tự, không chỉ từ khóa
 
-4. RETURN TOP RESULTS
-   Usually top 5-10 most similar chunks
-
-5. YOU GET BACK
-   ✓ The relevant chunks
-   ✓ Where they came from (sources + page numbers)
-   ✓ Relevance scores
+4. LƯU TRỮ VÀO CƠ SỞ DỮ LIỆU
+   Đoạn + nhúng + metadata → lưu trữ có thể tìm kiếm
 ```
 
-**Example:**
+**Ví dụ:**
 ```
-Q: "What does the paper say about alignment?"
+Nguồn: "Nghiên Cứu An Toàn AI 2026" (PDF 50 trang)
 ↓
-Q vector: [0.23, -0.51, 0.88, ..., 0.12]
+Trích xuất: 50 trang văn bản
 ↓
-Search: Compare to all chunk vectors
+Chia đoạn: 150 đoạn (~500 từ mỗi đoạn)
 ↓
-Results:
-  - Chunk 47 (alignment section): similarity 0.94
-  - Chunk 63 (safety approaches): similarity 0.88
-  - Chunk 12 (related work): similarity 0.71
+Nhúng: Mỗi đoạn có vector (1536 số cho OpenAI)
+↓
+Lưu trữ: Sẵn sàng tìm kiếm
 ```
 
 ---
 
-### Stage 3: Augmentation (How AI Uses It)
+### Giai Đoạn 2: Thời Điểm Truy Vấn (Bạn Tìm Gì)
 
-Now you have the relevant pieces. The AI uses them:
+Khi bạn đặt câu hỏi, hệ thống tìm nội dung liên quan:
 
 ```
-SYSTEM BUILDS A PROMPT:
-  "You are an AI research assistant.
+1. BẠN ĐẶT CÂU HỎI
+   "Bài báo nói gì về alignment?"
 
-   The user has the following research materials:
-   [CHUNK 47 CONTENT]
-   [CHUNK 63 CONTENT]
+2. HỆ THỐNG CHUYỂN CÂU HỎI THÀNH NHÚNG
+   Câu hỏi → vector (cùng cách đoạn được vector hóa)
 
-   User question: 'What does the paper say about alignment?'
+3. TÌM KIẾM TƯƠNG TỰ
+   Tìm đoạn tương tự nhất với câu hỏi
+   (dùng toán vector, không phải so khớp từ khóa)
 
-   Answer based on the above materials."
+4. TRẢ VỀ KẾT QUẢ TOP
+   Thường top 5-10 đoạn tương tự nhất
 
-AI RESPONDS:
-  "Based on the research materials, the paper approaches
-   alignment through [pulls from chunks] and emphasizes
-   [pulls from chunks]..."
-
-SYSTEM ADDS CITATIONS:
-  "- See research materials page 15 for approach details
-   - See research materials page 23 for emphasis on X"
+5. BẠN NHẬN LẠI
+   ✓ Các đoạn liên quan
+   ✓ Nguồn gốc (nguồn + số trang)
+   ✓ Điểm liên quan
 ```
 
----
-
-## Two Search Modes: Exact vs. Semantic
-
-Open Notebook provides two different search strategies for different goals.
-
-### 1. Text Search (Keyword Matching)
-
-**How it works:**
-- Uses BM25 ranking (the same algorithm Google uses)
-- Finds chunks containing your keywords
-- Ranks by relevance (how often keywords appear, position, etc.)
-
-**When to use:**
-- "I remember the exact phrase 'X' and want to find it"
-- "I'm looking for a specific name or number"
-- "I need the exact quote"
-
-**Example:**
+**Ví dụ:**
 ```
-Search: "transformer architecture"
-Results:
-  1. Chunk with "transformer architecture" 3 times
-  2. Chunk with "transformer" and "architecture" separately
-  3. Chunk with "transformer-based models"
-```
-
-### 2. Vector Search (Semantic Similarity)
-
-**How it works:**
-- Converts your question to a vector (number embedding)
-- Finds chunks with similar vectors
-- No keywords needed—finds conceptually similar content
-
-**When to use:**
-- "Find content about X (without saying exact words)"
-- "I'm exploring a concept"
-- "Find similar ideas even if worded differently"
-
-**Example:**
-```
-Search: "what's the mechanism for model understanding?"
-Results (no "understanding" in any chunk):
-  1. Chunk about interpretability and mechanistic analysis
-  2. Chunk about feature analysis
-  3. Chunk about attention mechanisms
-
-Why? The vectors are semantically similar to your concept.
+H: "Bài báo nói gì về alignment?"
+↓
+Vector câu hỏi: [0.23, -0.51, 0.88, ..., 0.12]
+↓
+Tìm kiếm: So sánh với tất cả vector đoạn
+↓
+Kết quả:
+  - Đoạn 47 (phần alignment): tương tự 0.94
+  - Đoạn 63 (phương pháp an toàn): tương tự 0.88
+  - Đoạn 12 (nghiên cứu liên quan): tương tự 0.71
 ```
 
 ---
 
-## Context Management: Your Control Panel
+### Giai Đoạn 3: Tăng Cường (Cách AI Sử Dụng)
 
-Here's where Open Notebook is different: **You decide what the AI sees.**
+Bây giờ bạn có các phần liên quan. AI sử dụng chúng:
 
-### The Three Levels
+```
+HỆ THỐNG XÂY DỰNG PROMPT:
+  "Bạn là trợ lý nghiên cứu AI.
 
-| Level | What's Shared | Example Cost | Privacy | Use Case |
-|-------|---------------|--------------|---------|----------|
-| **Full Content** | Complete source text | 10,000 tokens | Low | Detailed analysis, close reading |
-| **Summary Only** | AI-generated summary | 2,000 tokens | High | Background material, references |
-| **Not in Context** | Nothing | 0 tokens | Max | Confidential, irrelevant, or archived |
+   Người dùng có tài liệu nghiên cứu sau:
+   [NỘI DUNG ĐOẠN 47]
+   [NỘI DUNG ĐOẠN 63]
 
-### How It Works
+   Câu hỏi: 'Bài báo nói gì về alignment?'
 
-**Full Content:**
-```
-You: "What's the methodology in paper A?"
-System:
-  - Searches paper A
-  - Retrieves full paper content (or large chunks)
-  - Sends to AI: "Here's paper A. Answer about methodology."
-  - AI analyzes complete content
-  - Result: Detailed, precise answer
-```
+   Trả lời dựa trên tài liệu trên."
 
-**Summary Only:**
-```
-You: "I want to chat using paper A and B"
-System:
-  - For Paper A: Sends AI-generated summary (not full text)
-  - For Paper B: Sends full content (detailed analysis)
-  - AI sees 2 sources but in different detail levels
-  - Result: Uses summaries for context, details for focused content
-```
+AI TRẢ LỜI:
+  "Dựa trên tài liệu nghiên cứu, bài báo tiếp cận
+   alignment thông qua [trích từ đoạn] và nhấn mạnh
+   [trích từ đoạn]..."
 
-**Not in Context:**
-```
-You: "I have 10 sources but only want 5 in context"
-System:
-  - Paper A-E: In context (sent to AI)
-  - Paper F-J: Not in context (AI can't see them, doesn't search them)
-  - AI never knows these 5 sources exist
-  - Result: Tight, focused context
-```
-
-### Why This Matters
-
-**Privacy**: You control what leaves your system
-```
-Scenario: Confidential company docs + public research
-Control: Public research in context → Confidential docs excluded
-Result: AI never sees confidential content
-```
-
-**Cost**: You control token usage
-```
-Scenario: 100 sources for background + 5 for detailed analysis
-Control: Full content for 5 detailed, summaries for 95 background
-Result: 80% lower token cost than sending everything
-```
-
-**Quality**: You control what the AI focuses on
-```
-Scenario: 20 sources, question requires deep analysis
-Control: Full content for relevant source, exclude others
-Result: AI doesn't get distracted; gives better answer
+HỆ THỐNG THÊM TRÍCH DẪN:
+  "- Xem tài liệu trang 15 cho chi tiết phương pháp
+   - Xem tài liệu trang 23 cho nhấn mạnh về X"
 ```
 
 ---
 
-## The Difference: Chat vs. Ask
+## Hai Chế Độ Tìm Kiếm: Chính Xác vs. Ngữ Nghĩa
 
-**IMPORTANT**: These use completely different approaches!
+Open Notebook cung cấp hai chiến lược tìm kiếm khác nhau cho mục tiêu khác nhau.
 
-### Chat: Full-Content Context (NO RAG)
+### 1. Tìm Kiếm Văn Bản (So Khớp Từ Khóa)
 
-**How it works:**
+**Cách hoạt động:**
+- Sử dụng xếp hạng BM25 (cùng thuật toán Google dùng)
+- Tìm đoạn chứa từ khóa
+- Xếp hạng theo liên quan (tần suất từ khóa, vị trí, v.v.)
+
+**Khi nào dùng:**
+- "Tôi nhớ cụm từ chính xác 'X' và muốn tìm"
+- "Tôi tìm tên hoặc số cụ thể"
+- "Tôi cần trích dẫn chính xác"
+
+**Ví dụ:**
 ```
-YOU:
-  1. Select which sources to include in context
-  2. Set context level (full/summary/excluded)
-  3. Ask question
+Tìm kiếm: "transformer architecture"
+Kết quả:
+  1. Đoạn có "transformer architecture" 3 lần
+  2. Đoạn có "transformer" và "architecture" riêng biệt
+  3. Đoạn có "transformer-based models"
+```
 
-SYSTEM:
-  - Takes ALL selected sources (respecting context levels)
-  - Sends the ENTIRE content to the LLM at once
-  - NO search, NO retrieval, NO chunking
-  - AI sees everything you selected
+### 2. Tìm Kiếm Vector (Tương Tự Ngữ Nghĩa)
+
+**Cách hoạt động:**
+- Chuyển câu hỏi thành vector (nhúng số)
+- Tìm đoạn có vector tương tự
+- Không cần từ khóa—tìm nội dung tương tự về khái niệm
+
+**Khi nào dùng:**
+- "Tìm nội dung về X (không nói từ chính xác)"
+- "Tôi đang khám phá khái niệm"
+- "Tìm ý tưởng tương tự dù diễn đạt khác"
+
+**Ví dụ:**
+```
+Tìm kiếm: "cơ chế hiểu mô hình là gì?"
+Kết quả (không có "hiểu" trong đoạn nào):
+  1. Đoạn về khả năng diễn giải và phân tích cơ chế
+  2. Đoạn về phân tích đặc trưng
+  3. Đoạn về cơ chế attention
+
+Tại sao? Vector tương tự ngữ nghĩa với khái niệm.
+```
+
+---
+
+## Quản Lý Ngữ Cảnh: Bảng Điều Khiển Của Bạn
+
+Đây là điểm khác biệt của Open Notebook: **Bạn quyết định AI thấy gì.**
+
+### Ba Mức
+
+| Mức | Chia sẻ gì | Chi phí ước tính | Riêng tư | Trường hợp sử dụng |
+|-----|-----------|-----------------|----------|---------------------|
+| **Nội Dung Đầy Đủ** | Toàn bộ văn bản nguồn | 10.000 token | Thấp | Phân tích chi tiết, đọc kỹ |
+| **Chỉ Tóm Tắt** | Tóm tắt do AI tạo | 2.000 token | Cao | Tài liệu nền, tham chiếu |
+| **Không Trong Ngữ Cảnh** | Không gì cả | 0 token | Tối đa | Bảo mật, không liên quan, lưu trữ |
+
+### Cách Hoạt Động
+
+**Nội Dung Đầy Đủ:**
+```
+Bạn: "Phương pháp trong bài A là gì?"
+Hệ thống:
+  - Tìm bài A
+  - Lấy toàn bộ nội dung (hoặc đoạn lớn)
+  - Gửi tới AI: "Đây là bài A. Trả lời về phương pháp."
+  - AI phân tích nội dung hoàn chỉnh
+  - Kết quả: Câu trả lời chi tiết, chính xác
+```
+
+**Chỉ Tóm Tắt:**
+```
+Bạn: "Tôi muốn chat dùng bài A và B"
+Hệ thống:
+  - Bài A: Gửi tóm tắt do AI tạo (không phải toàn văn)
+  - Bài B: Gửi nội dung đầy đủ (phân tích chi tiết)
+  - AI thấy 2 nguồn nhưng ở mức chi tiết khác nhau
+  - Kết quả: Dùng tóm tắt cho ngữ cảnh, chi tiết cho nội dung tập trung
+```
+
+**Không Trong Ngữ Cảnh:**
+```
+Bạn: "Tôi có 10 nguồn nhưng chỉ muốn 5 trong ngữ cảnh"
+Hệ thống:
+  - Bài A-E: Trong ngữ cảnh (gửi tới AI)
+  - Bài F-J: Không trong ngữ cảnh (AI không thấy, không tìm)
+  - AI không bao giờ biết 5 nguồn này tồn tại
+  - Kết quả: Ngữ cảnh gọn, tập trung
+```
+
+### Tại Sao Điều Này Quan Trọng
+
+**Quyền riêng tư**: Bạn kiểm soát gì rời hệ thống
+```
+Kịch bản: Tài liệu mật công ty + nghiên cứu công khai
+Kiểm soát: Nghiên cứu công khai trong ngữ cảnh → Tài liệu mật loại trừ
+Kết quả: AI không bao giờ thấy nội dung mật
+```
+
+**Chi phí**: Bạn kiểm soát sử dụng token
+```
+Kịch bản: 100 nguồn nền + 5 cho phân tích chi tiết
+Kiểm soát: Nội dung đầy đủ cho 5, tóm tắt cho 95
+Kết quả: Giảm 80% chi phí token so với gửi tất cả
+```
+
+**Chất lượng**: Bạn kiểm soát AI tập trung vào gì
+```
+Kịch bản: 20 nguồn, câu hỏi cần phân tích sâu
+Kiểm soát: Nội dung đầy đủ cho nguồn liên quan, loại trừ khác
+Kết quả: AI không bị phân tâm; cho câu trả lời tốt hơn
+```
+
+---
+
+## Sự Khác Biệt: Chat vs. Hỏi
+
+**QUAN TRỌNG**: Chúng sử dụng phương pháp hoàn toàn khác!
+
+### Chat: Ngữ Cảnh Nội Dung Đầy Đủ (KHÔNG RAG)
+
+**Cách hoạt động:**
+```
+BẠN:
+  1. Chọn nguồn nào bao gồm trong ngữ cảnh
+  2. Đặt mức ngữ cảnh (đầy đủ/tóm tắt/loại trừ)
+  3. Đặt câu hỏi
+
+HỆ THỐNG:
+  - Lấy TẤT CẢ nguồn đã chọn (theo mức ngữ cảnh)
+  - Gửi TOÀN BỘ nội dung tới LLM cùng lúc
+  - KHÔNG tìm kiếm, KHÔNG truy xuất, KHÔNG chia đoạn
+  - AI thấy mọi thứ bạn chọn
 
 AI:
-  - Responds based on the full content you provided
-  - Can reference any part of selected sources
-  - Conversational: context stays for follow-ups
+  - Trả lời dựa trên nội dung đầy đủ bạn cung cấp
+  - Có thể tham chiếu bất kỳ phần nào của nguồn đã chọn
+  - Hội thoại: ngữ cảnh duy trì cho câu hỏi tiếp theo
 ```
 
-**Use this when**:
-- You know which sources are relevant
-- You want conversational back-and-forth
-- You want AI to see the complete context
-- You're doing close reading or analysis
+**Dùng khi**:
+- Bạn biết nguồn nào liên quan
+- Bạn muốn hội thoại qua lại
+- Bạn muốn AI thấy ngữ cảnh hoàn chỉnh
+- Bạn đang đọc kỹ hoặc phân tích
 
-**Advantages:**
-- Simple and transparent
-- AI sees everything (no missed content)
-- Conversational flow
+**Ưu điểm:**
+- Đơn giản và minh bạch
+- AI thấy mọi thứ (không bỏ sót nội dung)
+- Luồng hội thoại
 
-**Limitations:**
-- Limited by LLM context window
-- You must manually select relevant sources
-- Sends more tokens (higher cost with many sources)
+**Hạn chế:**
+- Giới hạn bởi cửa sổ ngữ cảnh LLM
+- Phải tự chọn nguồn liên quan
+- Gửi nhiều token hơn (chi phí cao với nhiều nguồn)
 
 ---
 
-### Ask: RAG - Automatic Retrieval
+### Hỏi: RAG - Truy Xuất Tự Động
 
-**How it works:**
+**Cách hoạt động:**
 ```
-YOU:
-  Ask one complex question
+BẠN:
+  Đặt một câu hỏi phức tạp
 
-SYSTEM:
-  1. Analyzes your question
-  2. Searches across ALL your sources automatically
-  3. Finds relevant chunks using vector similarity
-  4. Retrieves only the most relevant pieces
-  5. Sends ONLY those chunks to the LLM
-  6. Synthesizes into comprehensive answer
+HỆ THỐNG:
+  1. Phân tích câu hỏi
+  2. Tìm kiếm TẤT CẢ nguồn tự động
+  3. Tìm đoạn liên quan qua tương tự vector
+  4. Lấy chỉ những phần liên quan nhất
+  5. Gửi CHỈ các đoạn đó tới LLM
+  6. Tổng hợp thành câu trả lời toàn diện
 
 AI:
-  - Sees ONLY the retrieved chunks (not full sources)
-  - Answers based on what was found to be relevant
-  - One-shot answer (not conversational)
+  - Thấy CHỈ đoạn được lấy (không phải toàn bộ nguồn)
+  - Trả lời dựa trên nội dung được tìm thấy liên quan
+  - Trả lời một lần (không hội thoại)
 ```
 
-**Use this when**:
-- You have many sources and don't know which are relevant
-- You want the AI to search automatically
-- You need a comprehensive answer to a complex question
-- You want to minimize tokens sent to LLM
+**Dùng khi**:
+- Bạn có nhiều nguồn và không biết nguồn nào liên quan
+- Bạn muốn AI tự tìm kiếm
+- Bạn cần câu trả lời toàn diện cho câu hỏi phức tạp
+- Bạn muốn giảm thiểu token gửi tới LLM
 
-**Advantages:**
-- Automatic search (you don't pick sources)
-- Works across many sources at once
-- Cost-effective (sends only relevant chunks)
+**Ưu điểm:**
+- Tìm kiếm tự động (bạn không chọn nguồn)
+- Hoạt động trên nhiều nguồn cùng lúc
+- Tiết kiệm chi phí (chỉ gửi đoạn liên quan)
 
-**Limitations:**
-- Not conversational (single question/answer)
-- AI only sees retrieved chunks (might miss context)
-- Search quality depends on how well question matches content
+**Hạn chế:**
+- Không hội thoại (một câu hỏi/trả lời)
+- AI chỉ thấy đoạn được lấy (có thể bỏ sót ngữ cảnh)
+- Chất lượng tìm kiếm phụ thuộc câu hỏi khớp nội dung thế nào
 
 ---
 
-## What This Means: Privacy by Design
+## Ý Nghĩa: Riêng Tư Theo Thiết Kế
 
-Open Notebook's RAG approach gives you something you don't get with ChatGPT or Claude directly:
+Phương pháp RAG của Open Notebook cho bạn điều bạn không có với ChatGPT hay Claude trực tiếp:
 
-**You control the boundary between:**
-- What stays private (on your system)
-- What goes to AI (explicitly chosen)
-- What the AI can see (context levels)
+**Bạn kiểm soát ranh giới giữa:**
+- Gì giữ riêng tư (trên hệ thống của bạn)
+- Gì đến AI (được chọn rõ ràng)
+- Gì AI có thể thấy (mức ngữ cảnh)
 
-### The Audit Trail
+### Dấu Vết Kiểm Toán
 
-Because everything is retrieved explicitly, you can ask:
-- "Which sources did the AI use for this answer?" → See citations
-- "What exactly did the AI see?" → See chunks in context level
-- "Is the AI's claim actually in my sources?" → Verify citation
+Vì mọi thứ được truy xuất rõ ràng, bạn có thể hỏi:
+- "AI dùng nguồn nào cho câu trả lời này?" → Xem trích dẫn
+- "AI thấy chính xác gì?" → Xem đoạn trong mức ngữ cảnh
+- "Khẳng định của AI có trong nguồn không?" → Xác minh trích dẫn
 
-This prevents hallucinations or misrepresentation better than most systems.
+Điều này ngăn ảo giác hoặc trình bày sai tốt hơn hầu hết hệ thống.
 
 ---
 
-## How Embeddings Work (Simplified)
+## Cách Nhúng Hoạt Động (Đơn Giản Hóa)
 
-The magic of semantic search comes from embeddings. Here's the intuition:
+Phép thuật tìm kiếm ngữ nghĩa đến từ nhúng. Đây là trực giác:
 
-### The Idea
-Instead of storing text, store it as a list of numbers (vectors) that represent "meaning."
+### Ý Tưởng
+Thay vì lưu văn bản, lưu dưới dạng danh sách số (vector) đại diện "ý nghĩa."
 
 ```
-Chunk: "The transformer uses attention mechanisms"
+Đoạn: "Transformer sử dụng cơ chế attention"
 Vector: [0.23, -0.51, 0.88, 0.12, ..., 0.34]
-        (1536 numbers for OpenAI)
+        (1536 số cho OpenAI)
 
-Another chunk: "Attention allows models to focus on relevant parts"
+Đoạn khác: "Attention cho phép mô hình tập trung vào phần liên quan"
 Vector: [0.24, -0.48, 0.87, 0.15, ..., 0.35]
-        (similar numbers = similar meaning!)
+        (số tương tự = ý nghĩa tương tự!)
 ```
 
-### Why This Works
-Words that are semantically similar produce similar vectors. So:
-- "alignment" and "interpretability" have similar vectors
-- "transformer" and "attention" have related vectors
-- "cat" and "dog" are more similar than "cat" and "radiator"
+### Tại Sao Hoạt Động
+Từ tương tự ngữ nghĩa tạo vector tương tự. Vì vậy:
+- "alignment" và "interpretability" có vector tương tự
+- "transformer" và "attention" có vector liên quan
+- "mèo" và "chó" tương tự hơn "mèo" và "máy sưởi"
 
-### How Search Works
+### Cách Tìm Kiếm Hoạt Động
 ```
-Your question: "How do models understand their decisions?"
-Question vector: [0.25, -0.50, 0.86, 0.14, ..., 0.33]
+Câu hỏi: "Mô hình hiểu quyết định thế nào?"
+Vector câu hỏi: [0.25, -0.50, 0.86, 0.14, ..., 0.33]
 
-Compare to all stored vectors. Find the most similar:
-- Chunk about interpretability: similarity 0.94
-- Chunk about explainability: similarity 0.91
-- Chunk about feature attribution: similarity 0.88
+So sánh với tất cả vector đã lưu. Tìm tương tự nhất:
+- Đoạn về interpretability: tương tự 0.94
+- Đoạn về explainability: tương tự 0.91
+- Đoạn về feature attribution: tương tự 0.88
 
-Return the top matches.
+Trả về kết quả top.
 ```
 
-This is why semantic search finds conceptually similar content even when words are different.
+Đây là lý do tìm kiếm ngữ nghĩa tìm nội dung tương tự về khái niệm ngay cả khi từ khác.
 
 ---
 
-## Key Design Decisions
+## Quyết Định Thiết Kế Chính
 
-### 1. Search, Don't Train
-**Why?** Fine-tuning is slow and permanent. Search is flexible and reversible.
+### 1. Tìm Kiếm, Không Huấn Luyện
+**Tại sao?** Tinh chỉnh chậm và vĩnh viễn. Tìm kiếm linh hoạt và có thể đảo ngược.
 
-### 2. Explicit Retrieval, Not Implicit Knowledge
-**Why?** You can verify what the AI saw. You have audit trails. You control what leaves your system.
+### 2. Truy Xuất Rõ Ràng, Không Phải Kiến Thức Ngầm
+**Tại sao?** Bạn có thể xác minh AI thấy gì. Có dấu vết kiểm toán. Bạn kiểm soát gì rời hệ thống.
 
-### 3. Multiple Search Types
-**Why?** Different questions need different search (keyword vs. semantic). Giving you both is more powerful.
+### 3. Nhiều Loại Tìm Kiếm
+**Tại sao?** Câu hỏi khác cần tìm kiếm khác (từ khóa vs. ngữ nghĩa). Cung cấp cả hai mạnh mẽ hơn.
 
-### 4. Context as a Permission System
-**Why?** Not everything you save needs to reach AI. You control granularly.
+### 4. Ngữ Cảnh Như Hệ Thống Quyền
+**Tại sao?** Không phải mọi thứ bạn lưu cần đến AI. Bạn kiểm soát chi tiết.
 
 ---
 
-## Summary
+## Tóm Tắt
 
-Open Notebook gives you **two ways** to work with AI:
+Open Notebook cho bạn **hai cách** làm việc với AI:
 
-### Chat (Full-Content)
-- Sends entire selected sources to LLM
-- Manual control: you pick sources
-- Conversational: back-and-forth dialog
-- Transparent: you know exactly what AI sees
-- Best for: focused analysis, close reading
+### Chat (Nội Dung Đầy Đủ)
+- Gửi toàn bộ nguồn đã chọn tới LLM
+- Kiểm soát thủ công: bạn chọn nguồn
+- Hội thoại: đối thoại qua lại
+- Minh bạch: bạn biết chính xác AI thấy gì
+- Phù hợp nhất cho: phân tích tập trung, đọc kỹ
 
-### Ask (RAG)
-- Searches and retrieves relevant chunks automatically
-- Automatic: AI finds what's relevant
-- One-shot: single comprehensive answer
-- Efficient: sends only relevant pieces
-- Best for: broad questions across many sources
+### Hỏi (RAG)
+- Tìm kiếm và truy xuất đoạn liên quan tự động
+- Tự động: AI tìm gì liên quan
+- Một lần: câu trả lời toàn diện đơn
+- Hiệu quả: chỉ gửi phần liên quan
+- Phù hợp nhất cho: câu hỏi rộng trên nhiều nguồn
 
-**Both approaches:**
-1. Keep your data private (doesn't leave your system by default)
-2. Give you control (you choose which features to use)
-3. Create audit trails (citations show what was used)
-4. Support multiple AI providers
+**Cả hai phương pháp:**
+1. Giữ dữ liệu riêng tư (không rời hệ thống theo mặc định)
+2. Cho bạn kiểm soát (bạn chọn tính năng nào dùng)
+3. Tạo dấu vết kiểm toán (trích dẫn cho thấy gì được dùng)
+4. Hỗ trợ nhiều nhà cung cấp AI
 
-**Coming Soon**: The community is working on adding RAG capabilities to Chat as well, giving you the best of both worlds.
+**Sắp ra mắt**: Cộng đồng đang làm việc để thêm khả năng RAG vào Chat, mang đến cho bạn điều tốt nhất của cả hai.

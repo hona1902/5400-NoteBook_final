@@ -1,8 +1,10 @@
-# Open Notebook Architecture
+# Kiến trúc Notebook mở
 
-## High-Level Overview
+## Tổng quan cấp cao
 
-Open Notebook follows a three-tier architecture with clear separation of concerns:
+Open Notebook tuân theo kiến ​​trúc ba tầng với sự phân chia rõ ràng các mối quan tâm:
+
+
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -29,75 +31,77 @@ Open Notebook follows a three-tier architecture with clear separation of concern
          └───────────────┘
 ```
 
-**Key Points:**
-- **v1.1+**: Next.js automatically proxies `/api/*` requests to the backend, simplifying reverse proxy setup
-- Your browser loads the frontend from port 8502
-- The frontend needs to know where to find the API - when accessing remotely, set: `API_URL=http://your-server-ip:5055`
-- **Behind reverse proxy?** You only need to proxy to port 8502 now! See [Reverse Proxy Configuration](../5-CONFIGURATION/reverse-proxy.md)
+
+
+**Những điểm chính:**-**v1.1+**: Next.js tự động ủy quyền các yêu cầu `/api/*` tới phần phụ trợ, đơn giản hóa việc thiết lập proxy ngược
+- Trình duyệt của bạn tải giao diện người dùng từ cổng 8502
+- Frontend cần biết tìm API ở đâu - khi truy cập từ xa, hãy đặt: `API_URL=http://your-server-ip:5055`
+- **Phía sau proxy ngược?** Bây giờ bạn chỉ cần proxy tới cổng 8502! Xem [Cấu hình proxy ngược](../5-CONFIGUration/reverse-proxy.md)
 
 ---
 
-## Detailed Architecture
+## Kiến trúc chi tiết
 
-Open Notebook is built on a **three-tier, async-first architecture** designed for scalability, modularity, and multi-provider AI flexibility. The system separates concerns across frontend, API, and database layers, with LangGraph powering intelligent workflows and Esperanto enabling seamless integration with 8+ AI providers.
+Open Notebook được xây dựng trên **kiến trúc ba tầng, không đồng bộ đầu tiên** được thiết kế cho khả năng mở rộng, tính mô-đun và tính linh hoạt AI của nhiều nhà cung cấp. Hệ thống phân tách mối quan tâm giữa các lớp giao diện người dùng, API và cơ sở dữ liệu, với LangGraph hỗ trợ quy trình làm việc thông minh và Esperanto cho phép tích hợp liền mạch với hơn 8 nhà cung cấp AI.
 
-**Core Philosophy**:
-- Privacy-first: Users control their data and AI provider choice
-- Async/await throughout: Non-blocking operations for responsive UX
-- Domain-Driven Design: Clear separation between domain models, repositories, and orchestrators
-- Multi-provider flexibility: Swap AI providers without changing application code
-- Self-hosted capable: All components deployable in isolated environments
-
----
-
-## Three-Tier Architecture
-
-### Layer 1: Frontend (React/Next.js @ port 3000)
-
-**Purpose**: Responsive, interactive user interface for research, notes, chat, and podcast management.
-
-**Technology Stack**:
-- **Framework**: Next.js 15 with React 19
-- **Language**: TypeScript with strict type checking
-- **State Management**: Zustand (lightweight store) + TanStack Query (server state)
-- **Styling**: Tailwind CSS + Shadcn/ui component library
-- **Build Tool**: Webpack (bundled via Next.js)
-
-**Key Responsibilities**:
-- Render notebooks, sources, notes, chat sessions, and podcasts
-- Handle user interactions (create, read, update, delete operations)
-- Manage complex UI state (modals, file uploads, real-time search)
-- Stream responses from API (chat, podcast generation)
-- Display embeddings, vector search results, and insights
-
-**Communication Pattern**:
-- All data fetched via REST API (async requests to port 5055)
-- Configured base URL: `http://localhost:5055` (dev) or environment-specific (prod)
-- TanStack Query handles caching, refetching, and data synchronization
-- Zustand stores global state (user, notebooks, selected context)
-- CORS enabled on API side for cross-origin requests
-
-**Component Architecture**:
-- `/src/app/`: Next.js App Router (pages, layouts)
-- `/src/components/`: Reusable React components (buttons, forms, cards)
-- `/src/hooks/`: Custom hooks (useNotebook, useChat, useSearch)
-- `/src/lib/`: Utility functions, API clients, validators
-- `/src/styles/`: Global CSS, Tailwind config
+**Triết lý cốt lõi**:
+- Ưu tiên quyền riêng tư: Người dùng kiểm soát dữ liệu của họ và lựa chọn nhà cung cấp AI
+- Không đồng bộ/chờ đợi xuyên suốt: Hoạt động không chặn cho UX đáp ứng
+- Thiết kế hướng tên miền: Sự tách biệt rõ ràng giữa các mô hình miền, kho lưu trữ và bộ điều phối
+- Tính linh hoạt của nhiều nhà cung cấp: Hoán đổi nhà cung cấp AI mà không cần thay đổi mã ứng dụng
+- Khả năng tự lưu trữ: Tất cả các thành phần có thể triển khai trong môi trường biệt lập
 
 ---
 
-### Layer 2: API (FastAPI @ port 5055)
+## Kiến trúc ba tầng
 
-**Purpose**: RESTful backend exposing operations on notebooks, sources, notes, chat sessions, and AI models.
+### Lớp 1: Giao diện người dùng (React/Next.js @ port 3000)
 
-**Technology Stack**:
-- **Framework**: FastAPI 0.104+ (async Python web framework)
-- **Language**: Python 3.11+
-- **Validation**: Pydantic v2 (request/response schemas)
-- **Logging**: Loguru (structured JSON logging)
-- **Testing**: Pytest (unit and integration tests)
+**Mục đích**: Giao diện người dùng tương tác, đáp ứng để quản lý nghiên cứu, ghi chú, trò chuyện và podcast.
 
-**Architecture**:
+**Ngăn xếp công nghệ**:
+- **Khung**: Next.js 15 với React 19
+- **Ngôn ngữ**: TypeScript với tính năng kiểm tra kiểu nghiêm ngặt
+- **Quản lý trạng thái**: Zustand (cửa hàng nhẹ) + Truy vấn TanStack (trạng thái máy chủ)
+- **Tạo kiểu**: Tailwind CSS + thư viện thành phần Shadcn/ui
+- **Công cụ xây dựng**: Webpack (được đóng gói qua Next.js)
+
+**Trách nhiệm chính**:
+- Kết xuất sổ ghi chép, nguồn, ghi chú, phiên trò chuyện và podcast
+- Xử lý các tương tác của người dùng (tạo, đọc, cập nhật, xóa thao tác)
+- Quản lý trạng thái giao diện người dùng phức tạp (phương thức, tải tệp lên, tìm kiếm theo thời gian thực)
+- Truyền phát phản hồi từ API (trò chuyện, tạo podcast)
+- Hiển thị các phần nhúng, kết quả tìm kiếm vector và thông tin chi tiết
+
+**Mẫu giao tiếp**:
+- Tất cả dữ liệu được tìm nạp qua API REST (yêu cầu không đồng bộ tới cổng 5055)
+- URL cơ sở được định cấu hình: `http://localhost:5055` (dev) hoặc dành riêng cho môi trường (prod)
+- TanStack Query xử lý bộ nhớ đệm, tìm nạp lại và đồng bộ hóa dữ liệu
+- Zustand lưu trữ trạng thái toàn cầu (người dùng, sổ ghi chép, bối cảnh đã chọn)
+- CORS được bật ở phía API cho các yêu cầu có nguồn gốc chéo
+
+**Kiến trúc thành phần**:
+- `/src/app/`: Bộ định tuyến ứng dụng Next.js (trang, bố cục)
+- `/src/comComponents/`: Các thành phần React có thể tái sử dụng (nút, biểu mẫu, thẻ)
+- `/src/hooks/`: Móc tùy chỉnh (useNotebook, useChat, useSearch)
+- `/src/lib/`: Hàm tiện ích, ứng dụng khách API, trình xác thực
+- `/src/styles/`: CSS toàn cầu, cấu hình Tailwind
+
+---
+
+### Lớp 2: API (FastAPI @ port 5055)
+
+**Mục đích**: Phần phụ trợ RESTful hiển thị các hoạt động trên sổ ghi chép, nguồn, ghi chú, phiên trò chuyện và mô hình AI.
+
+**Ngăn xếp công nghệ**:
+- **Khung**: FastAPI 0.104+ (khung web Python không đồng bộ)
+- **Ngôn ngữ**: Python 3.11+
+- **Xác thực**: Pydantic v2 (lược đồ yêu cầu/phản hồi)
+- **Ghi nhật ký**: Loguru (ghi nhật ký JSON có cấu trúc)
+- **Thử nghiệm**: Pytest (kiểm tra đơn vị và tích hợp)
+
+**Ngành kiến ​​​​trúc**:
+
 ```
 FastAPI App (main.py)
   ├── Routers (HTTP endpoints)
@@ -122,22 +126,25 @@ FastAPI App (main.py)
       └── AsyncMigrationManager (database schema migrations)
 ```
 
-**Key Responsibilities**:
-1. **HTTP Interface**: Accept REST requests, validate, return JSON responses
-2. **Business Logic**: Orchestrate domain models, repository operations, and workflows
-3. **Async Job Queue**: Submit long-running tasks (podcast generation, source processing)
-4. **Database Migrations**: Run schema updates on startup
-5. **Error Handling**: Catch exceptions, return appropriate HTTP status codes
-6. **Logging**: Track operations for debugging and monitoring
 
-**Startup Flow**:
-1. Load `.env` environment variables
-2. Initialize FastAPI app with CORS + auth middleware
-3. Run AsyncMigrationManager (creates/updates database schema)
-4. Register all routers (20+ endpoints)
-5. Server ready on port 5055
 
-**Request-Response Cycle**:
+**Trách nhiệm chính**:
+1. **Giao diện HTTP**: Chấp nhận yêu cầu REST, xác thực, trả về phản hồi JSON
+2. **Logic nghiệp vụ**: Sắp xếp các mô hình miền, hoạt động kho lưu trữ và quy trình làm việc
+3. **Hàng đợi công việc không đồng bộ**: Gửi các tác vụ chạy dài (tạo podcast, xử lý nguồn)
+4. **Di chuyển cơ sở dữ liệu**: Chạy cập nhật lược đồ khi khởi động
+5. **Xử lý lỗi**: Bắt ngoại lệ, trả về mã trạng thái HTTP thích hợp
+6. **Ghi nhật ký**: Theo dõi các hoạt động để gỡ lỗi và giám sát
+
+**Quy trình khởi động**:
+1. Tải các biến môi trường `.env`
+2. Khởi tạo ứng dụng FastAPI với phần mềm trung gian CORS + auth
+3. Chạy AsyncMigrationManager (tạo/cập nhật lược đồ cơ sở dữ liệu)
+4. Đăng ký tất cả các bộ định tuyến (hơn 20 điểm cuối)
+5. Máy chủ sẵn sàng trên cổng 5055
+
+**Chu kỳ phản hồi yêu cầu**:
+
 ```
 HTTP Request → Router → Service → Domain/Repository → SurrealDB
                                        ↓
@@ -146,33 +153,36 @@ HTTP Request → Router → Service → Domain/Repository → SurrealDB
 Response ← Pydantic serialization ← Service ← Result
 ```
 
+
+
 ---
 
-### Layer 3: Database (SurrealDB @ port 8000)
+### Lớp 3: Cơ sở dữ liệu (SurrealDB @ port 8000)
 
-**Purpose**: Graph database with built-in vector embeddings, semantic search, and relationship management.
+**Mục đích**: Cơ sở dữ liệu đồ thị có nhúng vectơ tích hợp, tìm kiếm ngữ nghĩa và quản lý mối quan hệ.
 
-**Technology Stack**:
-- **Database**: SurrealDB (multi-model, ACID transactions)
-- **Query Language**: SurrealQL (SQL-like syntax with graph operations)
-- **Async Driver**: Async Rust client for Python
-- **Migrations**: Manual `.surql` files in `/migrations/` (auto-run on API startup)
+**Ngăn xếp công nghệ**:
+- **Cơ sở dữ liệu**: SurrealDB (giao dịch đa mô hình, ACID)
+- **Ngôn ngữ truy vấn**: SurrealQL (Cú pháp giống SQL với các phép toán biểu đồ)
+- **Trình điều khiển Async**: Máy khách Async Rust dành cho Python
+- **Di chuyển**: Các tệp `.surql` thủ công trong `/migrations/` (tự động chạy khi khởi động API)
 
-**Core Tables**:
+**Bảng lõi**:
 
-| Table | Purpose | Key Fields |
-|-------|---------|-----------|
-| `notebook` | Research project container | id, name, description, archived, created, updated |
-| `source` | Content item (PDF, URL, text) | id, title, full_text, topics, asset, created, updated |
-| `source_embedding` | Vector embeddings for semantic search | id, source, embedding, chunk_text, chunk_index |
-| `note` | User-created research notes | id, title, content, note_type (human/ai), created, updated |
-| `chat_session` | Conversation session | id, notebook_id, title, messages (JSON), created, updated |
-| `transformation` | Custom transformation rules | id, name, description, prompt, created, updated |
-| `source_insight` | Transformation output | id, source_id, insight_type, content, created, updated |
-| `reference` | Relationship: source → notebook | out (source), in (notebook) |
-| `artifact` | Relationship: note → notebook | out (note), in (notebook) |
+| Bảng | Mục đích | Các trường chính |
+|-------|----------|----------|
+| `sổ tay` | Container dự án nghiên cứu | id, tên, mô tả, lưu trữ, tạo, cập nhật |
+| `nguồn` | Mục nội dung (PDF, URL, văn bản) | id, tiêu đề, full_text, chủ đề, nội dung, đã tạo, cập nhật |
+| `source_embedding` | nhúng vector cho tìm kiếm ngữ nghĩa | id, nguồn, nhúng, chunk_text, chunk_index |
+| `ghi chú` | Ghi chú nghiên cứu do người dùng tạo | id, tiêu đề, nội dung, note_type (human/ai), đã tạo, cập nhật |
+| `phiên trò chuyện` | Phiên trò chuyện | id, notebook_id, tiêu đề, tin nhắn (JSON), đã tạo, cập nhật |
+| `chuyển đổi` | Quy tắc chuyển đổi tùy chỉnh | id, tên, mô tả, lời nhắc, đã tạo, cập nhật |
+| `nguồn_insight` | Đầu ra chuyển đổi | id, source_id, cái nhìn sâu sắc_type, nội dung, đã tạo, cập nhật |
+| `tham khảo` | Mối quan hệ: nguồn → sổ ghi chép | ra (nguồn), vào (sổ tay) |
+| `hiện vật` | Mối quan hệ: ghi chú → sổ tay | ra (ghi chú), vào (sổ tay) |
 
-**Relationship Graph**:
+**Biểu đồ mối quan hệ**:
+
 ```
 Notebook
   ↓ (referenced_by)
@@ -188,94 +198,97 @@ ChatSession
   └→ Messages (stored as JSON array)
 ```
 
-**Vector Search Capability**:
-- Embeddings stored natively in SurrealDB
-- Full-text search on `source.full_text` and `note.content`
-- Cosine similarity search on embedding vectors
-- Semantic search integrates with search endpoint
 
-**Connection Management**:
-- Async connection pooling (configurable size)
-- Transaction support for multi-record operations
-- Schema auto-validation via migrations
-- Query timeout protection (prevent infinite queries)
+
+**Khả năng tìm kiếm vectơ**:
+- Các phần nhúng được lưu trữ nguyên bản trong SurrealDB
+- Tìm kiếm toàn văn trên `source.full_text` và `note.content`
+- Tìm kiếm tương tự cosine trên các vectơ nhúng
+- Tìm kiếm ngữ nghĩa tích hợp với điểm cuối tìm kiếm
+
+**Quản lý kết nối**:
+- Tổng hợp kết nối không đồng bộ (kích thước có thể định cấu hình)
+- Hỗ trợ giao dịch cho các hoạt động đa bản ghi
+- Tự động xác thực lược đồ thông qua di chuyển
+- Bảo vệ thời gian chờ truy vấn (ngăn truy vấn vô hạn)
 
 ---
 
-## Tech Stack Rationale
+## Cơ sở lý luận về ngăn xếp công nghệ
 
-### Why Python + FastAPI?
+### Tại sao phải dùng Python + FastAPI?
 
-**Python**:
-- Rich AI/ML ecosystem (LangChain, LangGraph, transformers, scikit-learn)
-- Rapid prototyping and deployment
-- Extensive async support (asyncio, async/await)
-- Strong type hints (Pydantic, mypy)
+**Trăn**:
+- Hệ sinh thái AI/ML phong phú (LangChain, LangGraph, Transformers, scikit-learn)
+- Tạo mẫu và triển khai nhanh
+- Hỗ trợ async mở rộng (asyncio, async/await)
+- Gợi ý loại mạnh (Pydantic, mypy)
 
 **FastAPI**:
-- Modern, async-first framework
-- Automatic OpenAPI documentation (Swagger UI @ /docs)
-- Built-in request validation (Pydantic)
-- Excellent performance (benchmarked near C/Rust speeds)
-- Easy middleware/dependency injection
+- Framework hiện đại, không đồng bộ đầu tiên
+- Tài liệu OpenAPI tự động (Giao diện người dùng Swagger @ /docs)
+- Xác thực yêu cầu tích hợp (Pydantic)
+- Hiệu suất tuyệt vời (đo điểm chuẩn gần tốc độ C/Rust)
+- Dễ dàng chèn phần mềm trung gian/phụ thuộc
 
-### Why Next.js + React + TypeScript?
+### Tại sao Next.js + React + TypeScript?
 
 **Next.js**:
-- Full-stack React framework with SSR/SSG
-- File-based routing (intuitive project structure)
-- Built-in API routes (optional backend co-location)
-- Optimized image/code splitting
-- Easy deployment (Vercel, Docker, self-hosted)
+- Full-stack React framework với SSR/SSG
+- Định tuyến dựa trên tệp (cấu trúc dự án trực quan)
+- Các tuyến API tích hợp (đồng vị trí phụ trợ tùy chọn)
+- Tối ưu hóa việc chia tách hình ảnh/mã
+- Dễ dàng triển khai (Vercel, Docker, self-hosted)
 
-**React 19**:
-- Component-based UI (reusable, testable)
-- Excellent tooling and community
-- Client-side state management (Zustand)
-- Server-side state sync (TanStack Query)
+**Phản ứng 19**:
+- Giao diện người dùng dựa trên thành phần (có thể tái sử dụng, có thể kiểm tra)
+- Công cụ và cộng đồng tuyệt vời
+- Quản lý trạng thái phía khách hàng (Zustand)
+- Đồng bộ trạng thái phía máy chủ (TanStack Query)
 
 **TypeScript**:
-- Type safety catches errors at compile time
-- Better IDE autocomplete and refactoring
-- Documentation via types (self-documenting code)
-- Easier onboarding for new contributors
+- Kiểu an toàn bắt lỗi lúc biên dịch
+- Tự động hoàn thiện và tái cấu trúc IDE tốt hơn
+- Tài liệu qua các loại (mã tự ghi)
+- Làm quen dễ dàng hơn với những người đóng góp mới
 
-### Why SurrealDB?
+### Tại sao là SurrealDB?
 
-**SurrealDB**:
-- Native graph database (relationships are first-class)
-- Built-in vector embeddings (no separate vector DB)
-- ACID transactions (data consistency)
-- Multi-model (relational + document + graph)
-- Full-text search + semantic search in one query
-- Self-hosted (unlike managed Pinecone/Weaviate)
-- Flexible SurrealQL (SQL-like syntax)
+**DB siêu thực**:
+- Cơ sở dữ liệu đồ thị gốc (các mối quan hệ là hạng nhất)
+- Tích hợp sẵn vectơ nhúng (không có DB vectơ riêng)
+- Giao dịch ACID (tính nhất quán của dữ liệu)
+- Đa mô hình (quan hệ + tài liệu + đồ thị)
+- Tìm kiếm toàn văn + tìm kiếm ngữ nghĩa trong một truy vấn
+- Tự lưu trữ (không giống như Pinecone/Weaviate được quản lý)
+- SurrealQL linh hoạt (cú pháp giống SQL)
 
-**Alternative Considered**: PostgreSQL + pgvector (more mature but separate extensions)
+**Giải pháp thay thế được xem xét**: PostgreSQL + pgvector (các tiện ích mở rộng hoàn thiện hơn nhưng riêng biệt)
 
-### Why Esperanto for AI Providers?
+### Tại sao dùng Esperanto cho nhà cung cấp AI?
 
-**Esperanto Library**:
-- Unified interface to 8+ LLM providers (OpenAI, Anthropic, Google, Groq, Ollama, Mistral, DeepSeek, xAI)
-- Multi-provider embeddings (OpenAI, Google, Ollama, Mistral, Voyage)
-- TTS/STT integration (OpenAI, Groq, ElevenLabs, Google)
-- Smart provider selection (fallback logic, cost optimization)
-- Per-request model override support
-- Local Ollama support (completely self-hosted option)
+**Thư viện Esperanto**:
+- Giao diện hợp nhất với hơn 8 nhà cung cấp LLM (OpenAI, Anthropic, Google, Groq, Ollama, Mistral, DeepSeek, xAI)
+- Tích hợp nhiều nhà cung cấp (OpenAI, Google, Ollama, Mistral, Voyage)
+- Tích hợp TTS/STT (OpenAI, Groq, ElevenLabs, Google)
+- Lựa chọn nhà cung cấp thông minh (logic dự phòng, tối ưu hóa chi phí)
+- Hỗ trợ ghi đè mô hình theo yêu cầu
+- Hỗ trợ Ollama địa phương (tùy chọn hoàn toàn tự lưu trữ)
 
-**Alternative Considered**: LangChain's provider abstraction (more verbose, less flexible)
+**Phương án thay thế được xem xét**: Sự trừu tượng hóa nhà cung cấp của LangChain (dài dòng hơn, kém linh hoạt hơn)
 
 ---
 
-## LangGraph Workflows
+## Quy trình làm việc của LangGraph
 
-LangGraph is a state machine library that orchestrates multi-step AI workflows. Open Notebook uses five core workflows:
+LangGraph là một thư viện máy trạng thái điều phối các quy trình công việc AI gồm nhiều bước. Open Notebook sử dụng năm quy trình công việc cốt lõi:
 
-### 1. **Source Processing Workflow** (`open_notebook/graphs/source.py`)
+### 1. **Quy trình xử lý nguồn** (`open_notebook/graphs/source.py`)
 
-**Purpose**: Ingest content (PDF, URL, text) and prepare for search/insights.
+**Mục đích**: Nhập nội dung (PDF, URL, văn bản) và chuẩn bị cho tìm kiếm/thông tin chi tiết.
 
-**Flow**:
+**Chảy**:
+
 ```
 Input (file/URL/text)
   ↓
@@ -294,7 +307,10 @@ Save to SurrealDB
 Output (Source record with embeddings)
 ```
 
-**State Dict**:
+
+
+**Quyết định của bang**:
+
 ```python
 {
   "content_state": {"file_path" | "url" | "content": str},
@@ -306,15 +322,18 @@ Output (Source record with embeddings)
 }
 ```
 
-**Invoked By**: Sources API (`POST /sources`)
+
+
+**Được gọi bởi**: API nguồn (`POST /sources`)
 
 ---
 
-### 2. **Chat Workflow** (`open_notebook/graphs/chat.py`)
+### 2. **Quy trình trò chuyện** (`open_notebook/graphs/chat.py`)
 
-**Purpose**: Conduct multi-turn conversations with AI model, referencing notebook context.
+**Mục đích**: Thực hiện các cuộc trò chuyện nhiều lượt bằng mô hình AI, tham chiếu ngữ cảnh của sổ ghi chép.
 
-**Flow**:
+**Chảy**:
+
 ```
 User Message
   ↓
@@ -333,7 +352,10 @@ Save AI Message to ChatSession
 Output (complete message)
 ```
 
-**State Dict**:
+
+
+**Quyết định của bang**:
+
 ```python
 {
   "session_id": str,
@@ -344,21 +366,24 @@ Output (complete message)
 }
 ```
 
-**Key Features**:
-- Message history persisted in SurrealDB (SqliteSaver checkpoint)
-- Context building via `build_context_for_chat()` utility
-- Token counting to prevent overflow
-- Per-message model override support
 
-**Invoked By**: Chat API (`POST /chat/execute`)
+
+**Các tính năng chính**:
+- Lịch sử tin nhắn vẫn tồn tại trong SurrealDB (điểm kiểm tra SqliteSaver)
+- Xây dựng bối cảnh thông qua tiện ích `build_context_for_chat()`
+- Đếm mã thông báo để tránh tràn
+- Hỗ trợ ghi đè mô hình trên mỗi tin nhắn
+
+**Được gọi bởi**: API trò chuyện (`POST /chat/execute`)
 
 ---
 
-### 3. **Ask Workflow** (`open_notebook/graphs/ask.py`)
+### 3. **Hỏi quy trình công việc** (`open_notebook/graphs/ask.py`)
 
-**Purpose**: Answer user questions by searching sources and synthesizing responses.
+**Mục đích**: Trả lời câu hỏi của người dùng bằng cách tìm kiếm nguồn và tổng hợp câu trả lời.
 
-**Flow**:
+**Chảy**:
+
 ```
 User Question
   ↓
@@ -375,7 +400,10 @@ Stream Responses
 Output (final answer)
 ```
 
-**State Dict**:
+
+
+**Quyết định của bang**:
+
 ```python
 {
   "question": str,
@@ -386,17 +414,20 @@ Output (final answer)
 }
 ```
 
-**Streaming**: Uses `astream()` to emit updates in real-time (strategy → answers → final answer)
 
-**Invoked By**: Search API (`POST /ask` with streaming)
+
+**Truyền phát**: Sử dụng `astream()` để phát ra các bản cập nhật trong thời gian thực (chiến lược → câu trả lời → câu trả lời cuối cùng)
+
+**Được gọi bởi**: API tìm kiếm (`POST /ask` với tính năng phát trực tuyến)
 
 ---
 
-### 4. **Transformation Workflow** (`open_notebook/graphs/transformation.py`)
+### 4. **Quy trình chuyển đổi** (`open_notebook/graphs/transformation.py`)
 
-**Purpose**: Apply custom transformations to sources (extract summaries, key points, etc).
+**Mục đích**: Áp dụng các phép biến đổi tùy chỉnh cho các nguồn (trích xuất tóm tắt, điểm chính, v.v.).
 
-**Flow**:
+**Chảy**:
+
 ```
 Source + Transformation Rule
   ↓
@@ -411,21 +442,24 @@ Create SourceInsight record
 Output (insight with type + content)
 ```
 
-**Example Transformations**:
-- Summary (5-sentence overview)
-- Key Points (bulleted list)
-- Quotes (notable excerpts)
-- Q&A (generated questions and answers)
 
-**Invoked By**: Sources API (`POST /sources/{id}/insights`)
+
+**Ví dụ về chuyển đổi**:
+- Tóm tắt (tổng quan 5 câu)
+- Những điểm chính (danh sách có dấu đầu dòng)
+- Trích dẫn (đoạn trích đáng chú ý)
+- Hỏi đáp (tạo câu hỏi và câu trả lời)
+
+**Được gọi bởi**: API nguồn (`POST /sources/{id}/insights`)
 
 ---
 
-### 5. **Prompt Workflow** (`open_notebook/graphs/prompt.py`)
+### 5. **Quy trình làm việc nhanh chóng** (`open_notebook/graphs/prompt.py`)
 
-**Purpose**: Generic LLM task execution (e.g., auto-generate note titles, analyze content).
+**Mục đích**: Thực thi tác vụ LLM chung (ví dụ: tự động tạo tiêu đề ghi chú, phân tích nội dung).
 
-**Flow**:
+**Chảy**:
+
 ```
 Input Text + Prompt
   ↓
@@ -434,23 +468,26 @@ Call LLM (simple request-response)
 Output (completion)
 ```
 
-**Used For**: Note title generation, content analysis, etc.
+
+
+**Được sử dụng cho**: Tạo tiêu đề ghi chú, phân tích nội dung, v.v.
 
 ---
 
-## AI Provider Integration Pattern
+## Mẫu tích hợp nhà cung cấp AI
 
-### ModelManager: Centralized Factory
+### ModelManager: Nhà máy tập trung
 
-Located in `open_notebook/ai/models.py`, ModelManager handles:
+Nằm trong `open_notebook/ai/models.py`, ModelManager xử lý:
 
-1. **Provider Detection**: Check environment variables for available providers
-2. **Model Selection**: Choose best model based on context size and task
-3. **Fallback Logic**: If primary provider unavailable, try backup
-4. **Cost Optimization**: Prefer cheaper models for simple tasks
-5. **Token Calculation**: Estimate cost before LLM call
+1. **Phát hiện nhà cung cấp**: Kiểm tra các biến môi trường để tìm nhà cung cấp có sẵn
+2. **Lựa chọn mô hình**: Chọn mô hình tốt nhất dựa trên quy mô và nhiệm vụ ngữ cảnh
+3. **Logic dự phòng**: Nếu nhà cung cấp chính không có sẵn, hãy thử sao lưu
+4. **Tối ưu hóa chi phí**: Ưu tiên các mẫu rẻ hơn cho các nhiệm vụ đơn giản
+5. **Tính toán mã thông báo**: Ước tính chi phí trước cuộc gọi LLM
 
-**Usage**:
+**Cách sử dụng**:
+
 ```python
 from open_notebook.ai.provision import provision_langchain_model
 
@@ -465,34 +502,38 @@ model = await provision_langchain_model(
 response = await model.ainvoke({"input": prompt})
 ```
 
-### Multi-Provider Support
 
-**LLM Providers**:
+
+### Hỗ trợ nhiều nhà cung cấp
+
+**Nhà cung cấp LLM**:
 - OpenAI (gpt-4, gpt-4-turbo, gpt-3.5-turbo)
-- Anthropic (claude-opus, claude-sonnet, claude-haiku)
+- Nhân loại (claude-opus, claude-sonnet, claude-haiku)
 - Google (gemini-pro, gemini-1.5)
-- Groq (mixtral, llama-2)
-- Ollama (local models)
-- Mistral (mistral-large, mistral-medium)
-- DeepSeek (deepseek-chat)
-- xAI (grok)
+- Groq (hỗn hợp, llama-2)
+- Ollama (người mẫu địa phương)
+- Mistral (mistral-lớn, mistral-trung bình)
+- DeepSeek (trò chuyện deepseek)
+- xAI (ngớ ngẩn)
 
-**Embedding Providers**:
-- OpenAI (text-embedding-3-large, text-embedding-3-small)
-- Google (embedding-001)
-- Ollama (local embeddings)
-- Mistral (mistral-embed)
-- Voyage (voyage-large-2)
+**Nhà cung cấp nhúng**:
+- OpenAI (văn bản-nhúng-3-lớn, văn bản-nhúng-3-nhỏ)
+- Google (nhúng-001)
+- Ollama (nhúng cục bộ)
+- Mistral (nhúng mistral)
+- Hành trình (voyage-large-2)
 
-**TTS Providers**:
+**Nhà cung cấp TTS**:
 - OpenAI (tts-1, tts-1-hd)
-- Groq (no TTS, fallback to OpenAI)
-- ElevenLabs (multilingual voices)
-- Google TTS (text-to-speech)
+- Groq (không có TTS, dự phòng cho OpenAI)
+- ElevenLabs (giọng nói đa ngôn ngữ)
+- Google TTS (chuyển văn bản thành giọng nói)
 
-### Per-Request Override
+### Ghi đè theo yêu cầu
 
-Every LangGraph invocation accepts a `config` parameter to override models:
+Mọi lệnh gọi LangGraph đều chấp nhận tham số `config` để ghi đè các mô hình:
+
+
 
 ```python
 result = await graph.ainvoke(
@@ -505,27 +546,30 @@ result = await graph.ainvoke(
 )
 ```
 
+
+
 ---
 
-## Design Patterns
+## Mẫu thiết kế
 
-### 1. **Domain-Driven Design (DDD)**
+### 1. **Thiết kế hướng tên miền (DDD)**
 
-**Domain Objects** (`open_notebook/domain/`):
-- `Notebook`: Research container with relationships to sources/notes
-- `Source`: Content item (PDF, URL, text) with embeddings
-- `Note`: User-created or AI-generated research note
-- `ChatSession`: Conversation history for a notebook
-- `Transformation`: Custom rule for extracting insights
+**Đối tượng miền** (`open_notebook/domain/`):
+- `Notebook`: Vùng chứa nghiên cứu với các mối quan hệ với nguồn/ghi chú
+- `Source`: Mục nội dung (PDF, URL, văn bản) có phần nhúng
+- `Note`: Ghi chú nghiên cứu do người dùng tạo hoặc do AI tạo
+- `ChatSession`: Lịch sử hội thoại trên sổ ghi chép
+- `Transformation`: Quy tắc tùy chỉnh để trích xuất thông tin chi tiết
 
-**Repository Pattern**:
-- Database access layer (`open_notebook/database/repository.py`)
-- `repo_query()`: Execute SurrealQL queries
-- `repo_create()`: Insert records
-- `repo_upsert()`: Merge records
-- `repo_delete()`: Remove records
+**Mẫu kho lưu trữ**:
+- Lớp truy cập cơ sở dữ liệu (`open_notebook/database/repository.py`)
+- `repo_query()`: Thực thi các truy vấn SurrealQL
+- `repo_create()`: Chèn bản ghi
+- `repo_upsert()`: Hợp nhất các bản ghi
+- `repo_delete()`: Xóa bản ghi
 
-**Entity Methods**:
+**Phương thức thực thể**:
+
 ```python
 # Domain methods (business logic)
 notebook = await Notebook.get(id)
@@ -534,20 +578,23 @@ notes = await notebook.get_notes()
 sources = await notebook.get_sources()
 ```
 
-### 2. **Async-First Architecture**
 
-**All I/O is async**:
-- Database queries: `await repo_query(...)`
-- LLM calls: `await model.ainvoke(...)`
-- File I/O: `await upload_file.read()`
-- Graph invocations: `await graph.ainvoke(...)`
 
-**Benefits**:
-- Non-blocking request handling (FastAPI serves multiple concurrent requests)
-- Better resource utilization (I/O waiting doesn't block CPU)
-- Natural fit for Python async/await syntax
+### 2. **Kiến trúc không đồng bộ đầu tiên**
 
-**Example**:
+**Tất cả I/O đều không đồng bộ**:
+- Truy vấn cơ sở dữ liệu: `await repo_query(...)`
+- Lệnh gọi LLM: `await model.ainvoke(...)`
+- Tệp I/O: `await upload_file.read()`
+- Lệnh gọi đồ thị: `await graph.ainvoke(...)`
+
+**Lợi ích**:
+- Xử lý yêu cầu không chặn (FastAPI phục vụ nhiều yêu cầu đồng thời)
+- Sử dụng tài nguyên tốt hơn (chờ I/O không chặn CPU)
+- Phù hợp tự nhiên với cú pháp async/await của Python
+
+**Ví dụ**:
+
 ```python
 @router.post("/sources")
 async def create_source(source_data: SourceCreate):
@@ -558,9 +605,13 @@ async def create_source(source_data: SourceCreate):
     return SourceResponse(...)
 ```
 
-### 3. **Service Pattern**
 
-Services orchestrate domain objects, repositories, and workflows:
+
+### 3. **Mẫu dịch vụ**
+
+Các dịch vụ sắp xếp các đối tượng miền, kho lưu trữ và quy trình làm việc:
+
+
 
 ```python
 # api/notebook_service.py
@@ -576,16 +627,20 @@ class NotebookService:
         }
 ```
 
-**Responsibilities**:
-- Validate inputs (Pydantic)
-- Orchestrate database operations
-- Invoke workflows (LangGraph graphs)
-- Handle errors and return appropriate status codes
-- Log operations
 
-### 4. **Streaming Pattern**
 
-For long-running operations (ask workflow, podcast generation), stream results as Server-Sent Events:
+**Trách nhiệm**:
+- Xác thực đầu vào (Pydantic)
+- Điều phối hoạt động cơ sở dữ liệu
+- Gọi quy trình công việc (đồ thị LangGraph)
+- Xử lý lỗi và trả lại mã trạng thái phù hợp
+- Hoạt động ghi nhật ký
+
+### 4. **Mẫu phát trực tuyến**
+
+Đối với các hoạt động kéo dài (yêu cầu quy trình làm việc, tạo podcast), truyền phát kết quả dưới dạng Sự kiện do máy chủ gửi:
+
+
 
 ```python
 @router.post("/ask", response_class=StreamingResponse)
@@ -596,9 +651,13 @@ async def ask(request: AskRequest):
     return StreamingResponse(stream_response(), media_type="text/event-stream")
 ```
 
-### 5. **Job Queue Pattern**
 
-For async background tasks (source processing), use Surreal-Commands job queue:
+
+### 5. **Mẫu hàng đợi công việc**
+
+Đối với các tác vụ nền không đồng bộ (xử lý nguồn), hãy sử dụng hàng đợi công việc Lệnh siêu thực:
+
+
 
 ```python
 # Submit job
@@ -612,18 +671,20 @@ command_id = await CommandService.submit_command_job(
 status = await source.get_status()
 ```
 
+
+
 ---
 
-## Service Communication Patterns
+## Mẫu giao tiếp dịch vụ
 
-### Frontend → API
+### Giao diện người dùng → API
 
-1. **REST requests** (HTTP GET/POST/PUT/DELETE)
-2. **JSON request/response bodies**
-3. **Standard HTTP status codes** (200, 400, 404, 500)
-4. **Optional streaming** (Server-Sent Events for long operations)
+1. **Yêu cầu REST** (HTTP GET/POST/PUT/DELETE)
+2. **Nội dung yêu cầu/phản hồi JSON**3.**Mã trạng thái HTTP tiêu chuẩn** (200, 400, 404, 500)
+4. **Truyền phát tùy chọn** (Sự kiện do máy chủ gửi cho các hoạt động dài)
 
-**Example**:
+**Ví dụ**:
+
 ```typescript
 // Frontend
 const response = await fetch("http://localhost:5055/sources", {
@@ -633,14 +694,17 @@ const response = await fetch("http://localhost:5055/sources", {
 const source = await response.json();
 ```
 
+
+
 ### API → SurrealDB
 
-1. **SurrealQL queries** (similar to SQL)
-2. **Async driver** with connection pooling
-3. **Type-safe record IDs** (record_id syntax)
-4. **Transaction support** for multi-step operations
+1. **Truy vấn SurrealQL** (tương tự SQL)
+2. **Trình điều khiển không đồng bộ** với tính năng tổng hợp kết nối
+3. **ID bản ghi an toàn loại** (cú pháp record_id)
+4. **Hỗ trợ giao dịch** cho các thao tác nhiều bước
 
-**Example**:
+**Ví dụ**:
+
 ```python
 # API
 result = await repo_query(
@@ -649,28 +713,28 @@ result = await repo_query(
 )
 ```
 
-### API → AI Providers (via Esperanto)
 
-1. **Esperanto unified interface**
-2. **Per-request provider override**
-3. **Automatic fallback on failure**
-4. **Token counting and cost estimation**
 
-**Example**:
+### API → Nhà cung cấp AI (thông qua Esperanto)
+
+1. **Giao diện hợp nhất Esperanto**2.**Ghi đè nhà cung cấp theo yêu cầu**3.**Tự động dự phòng khi thất bại**4.**Đếm token và ước tính chi phí**
+
+**Ví dụ**:
+
 ```python
 # API
 model = await provision_langchain_model(task="chat")
 response = await model.ainvoke({"input": prompt})
 ```
 
-### API → Job Queue (Surreal-Commands)
 
-1. **Async job submission**
-2. **Fire-and-forget pattern**
-3. **Status polling via `/commands/{id}` endpoint**
-4. **Job completion callbacks (optional)**
 
-**Example**:
+### API → Hàng đợi công việc (Lệnh siêu thực)
+
+1. **Gửi công việc không đồng bộ**2.**Mô hình bắn và quên**3.**Kiểm tra trạng thái thông qua điểm cuối `/commands/{id}`**4.**Gọi lại hoàn thành công việc (tùy chọn)**
+
+**Ví dụ**:
+
 ```python
 # Submit async source processing
 command_id = await CommandService.submit_command_job(...)
@@ -680,32 +744,35 @@ response = await fetch(f"http://localhost:5055/commands/{command_id}")
 status = await response.json()  # returns { status: "running|queued|completed|failed" }
 ```
 
+
+
 ---
 
-## Database Schema Overview
+## Tổng quan về lược đồ cơ sở dữ liệu
 
-### Core Schema Structure
+### Cấu trúc lược đồ cốt lõi
 
-**Tables** (20+):
-- Notebooks (with soft-delete via `archived` flag)
-- Sources (content + metadata)
-- SourceEmbeddings (vector chunks)
-- Notes (user-created + AI-generated)
-- ChatSessions (conversation history)
-- Transformations (custom rules)
-- SourceInsights (transformation outputs)
-- Relationships (notebook→source, notebook→note)
+**Bàn** (20+):
+- Sổ ghi chép (có tính năng xóa mềm thông qua cờ `lưu trữ`)
+- Nguồn (nội dung + siêu dữ liệu)
+- SourceEmbeddings (khối vector)
+- Ghi chú (do người dùng tạo + do AI tạo)
+- ChatSessions (lịch sử hội thoại)
+- Chuyển đổi (quy tắc tùy chỉnh)
+- SourceInsights (đầu ra chuyển đổi)
+- Mối quan hệ (sổ tay→nguồn, sổ tay→ghi chú)
 
-**Migrations**:
-- Automatic on API startup
-- Located in `/migrations/` directory
-- Numbered sequentially (001_*.surql, 002_*.surql, etc)
-- Tracked in `_sbl_migrations` table
-- Rollback via `_down.surql` files (manual)
+**Di chuyển**:
+- Tự động khởi động API
+- Nằm trong thư mục `/migrations/`
+- Đánh số tuần tự (001_*.surql, 002_*.surql, v.v.)
+- Được theo dõi trong bảng `_sbl_migrations`
+- Rollback qua file `_down.surql` (thủ công)
 
-### Relationship Model
+### Mô hình mối quan hệ
 
-**Graph Relationships**:
+**Mối quan hệ đồ thị**:
+
 ```
 Notebook
   ← reference ← Source (many:many)
@@ -724,7 +791,10 @@ Transformation
   → source_insight (one:many)
 ```
 
-**Query Example** (get all sources in a notebook with counts):
+
+
+**Ví dụ về truy vấn** (lấy tất cả các nguồn vào sổ ghi chép có số lượng):
+
 ```sql
 SELECT id, title,
   count(<-reference.in) as note_count,
@@ -734,158 +804,160 @@ WHERE notebook = $notebook_id
 ORDER BY updated DESC
 ```
 
----
 
-## Key Architectural Decisions
-
-### 1. **Async Throughout**
-
-All I/O operations are non-blocking to maximize concurrency and responsiveness.
-
-**Trade-off**: Slightly more complex code (async/await syntax) vs. high throughput.
-
-### 2. **Multi-Provider from Day 1**
-
-Built-in support for 8+ AI providers prevents vendor lock-in.
-
-**Trade-off**: Added complexity in ModelManager vs. flexibility and cost optimization.
-
-### 3. **Graph-First Workflows**
-
-LangGraph state machines for complex multi-step operations (ask, chat, transformations).
-
-**Trade-off**: Steeper learning curve vs. maintainable, debuggable workflows.
-
-### 4. **Self-Hosted Database**
-
-SurrealDB for graph + vector search in one system (no external dependencies).
-
-**Trade-off**: Operational responsibility vs. simplified architecture and cost savings.
-
-### 5. **Job Queue for Long-Running Tasks**
-
-Async job submission (source processing, podcast generation) prevents request timeouts.
-
-**Trade-off**: Eventual consistency vs. responsive user experience.
 
 ---
 
-## Important Quirks & Gotchas
+## Các quyết định kiến ​​trúc quan trọng
 
-### API Startup
+### 1. **Không đồng bộ xuyên suốt**
 
-- **Migrations run automatically** on every startup; check logs for errors
-- **SurrealDB must be running** before starting API (connection test in lifespan)
-- **Auth middleware is basic** (password-only); upgrade to OAuth/JWT for production
+Tất cả các hoạt động I/O đều không bị chặn để tối đa hóa khả năng xử lý đồng thời và khả năng phản hồi.
 
-### Database Operations
+**Đánh đổi**: Mã phức tạp hơn một chút (cú pháp không đồng bộ/đang chờ) so với thông lượng cao.
 
-- **Record IDs use SurrealDB syntax** (table:id format, e.g., "notebook:abc123")
-- **ensure_record_id()** helper prevents malformed IDs
-- **Soft deletes** via `archived` field (data not removed, just marked inactive)
-- **Timestamps in ISO 8601 format** (created, updated fields)
+### 2. **Đa nhà cung cấp từ Ngày 1**
 
-### LangGraph Workflows
+Hỗ trợ tích hợp cho hơn 8 nhà cung cấp AI ngăn chặn việc khóa nhà cung cấp.
 
-- **State persistence** via SqliteSaver in `/data/sqlite-db/`
-- **No built-in timeout**; long workflows may block requests (use streaming for UX)
-- **Model fallback** automatic if primary provider unavailable
-- **Checkpoint IDs** must be unique per session (avoid collisions)
+**Đánh đổi**: Đã tăng thêm độ phức tạp trong ModelManager so với tính linh hoạt và tối ưu hóa chi phí.
 
-### AI Provider Integration
+### 3. **Quy trình làm việc dựa trên đồ thị**
 
-- **Esperanto library** handles all provider APIs (no direct API calls)
-- **Per-request override** via RunnableConfig (temporary, not persistent)
-- **Cost estimation** via token counting (not 100% accurate, use for guidance)
-- **Fallback logic** tries cheaper models if primary fails
+Máy trạng thái LangGraph dành cho các hoạt động nhiều bước phức tạp (hỏi, trò chuyện, chuyển đổi).
 
-### File Uploads
+**Đánh đổi**: Đường cong học tập dốc hơn so với quy trình làm việc có thể duy trì, có thể sửa lỗi.
 
-- **Stored in `/data/uploads/`** directory (not database)
-- **Unique filename generation** prevents overwrites (counter suffix)
-- **Content-core library** extracts text from 50+ file types
-- **Large files** may block API briefly (sync content extraction)
+### 4. **Cơ sở dữ liệu tự lưu trữ**
+
+SurrealDB để tìm kiếm đồ thị + vectơ trong một hệ thống (không phụ thuộc bên ngoài).
+
+**Đánh đổi**: Trách nhiệm vận hành so với kiến ​​trúc đơn giản hóa và tiết kiệm chi phí.
+
+### 5. **Hàng đợi công việc cho các tác vụ dài hạn**
+
+Gửi công việc không đồng bộ (xử lý nguồn, tạo podcast) ngăn chặn thời gian chờ yêu cầu.
+
+**Đánh đổi**: Tính nhất quán cuối cùng so với trải nghiệm người dùng đáp ứng.
 
 ---
 
-## Performance Considerations
+## Những điều kỳ lạ và vấn đề quan trọng
 
-### Optimization Strategies
+### Khởi động API
 
-1. **Connection Pooling**: SurrealDB async driver with configurable pool size
-2. **Query Caching**: TanStack Query on frontend (client-side caching)
-3. **Embedding Reuse**: Vector search uses pre-computed embeddings
-4. **Chunking**: Sources split into chunks for better search relevance
-5. **Async Operations**: Non-blocking I/O for high concurrency
-6. **Lazy Loading**: Frontend requests only needed data (pagination)
+- **Di chuyển chạy tự động** mỗi lần khởi động; kiểm tra nhật ký để tìm lỗi
+- **SurrealDB phải đang chạy** trước khi khởi động API (kiểm tra kết nối trong vòng đời)
+- **Phần mềm trung gian xác thực là cơ bản** (chỉ có mật khẩu); nâng cấp lên OAuth/JWT để sản xuất
 
-### Bottlenecks
+### Thao tác với cơ sở dữ liệu
 
-1. **LLM Calls**: Latency depends on provider (typically 1-30 seconds)
-2. **Embedding Generation**: Time proportional to content size and provider
-3. **Vector Search**: Similarity computation over all embeddings
-4. **Content Extraction**: Sync operation in source processing
+- **ID bản ghi sử dụng cú pháp SurrealDB** (định dạng bảng:id, ví dụ: "notebook:abc123")
+- Trình trợ giúp **ensure_record_id()** ngăn chặn các ID không đúng định dạng
+- **Xóa mềm** qua trường `archived` (dữ liệu không bị xóa, chỉ được đánh dấu là không hoạt động)
+- **Dấu thời gian ở định dạng ISO 8601** (các trường đã tạo, cập nhật)
 
-### Monitoring
+### Quy trình làm việc của LangGraph
 
-- **API Logs**: Check loguru output for errors and slow operations
-- **Database Queries**: SurrealDB metrics available via admin UI
-- **Token Usage**: Estimated via `estimate_tokens()` utility
-- **Job Status**: Poll `/commands/{id}` for async operations
+- **Tính bền vững của trạng thái** thông qua SqliteSaver trong `/data/sqlite-db/`
+- **Không có thời gian chờ tích hợp**; quy trình làm việc dài có thể chặn yêu cầu (sử dụng phát trực tuyến cho UX)
+- **Dự phòng mô hình** tự động nếu nhà cung cấp chính không có sẵn
+- **ID điểm kiểm tra** phải là duy nhất cho mỗi phiên (tránh xung đột)
 
----
+### Tích hợp nhà cung cấp AI
 
-## Extension Points
+- **Thư viện Esperanto** xử lý tất cả API của nhà cung cấp (không có lệnh gọi API trực tiếp)
+- **Ghi đè theo yêu cầu** qua RunnableConfig (tạm thời, không liên tục)
+- **Ước tính chi phí** thông qua việc đếm mã thông báo (không chính xác 100%, sử dụng để được hướng dẫn)
+- **Logic dự phòng** thử các mô hình rẻ hơn nếu lỗi chính
 
-### Adding a New Workflow
+### Tải lên tệp
 
-1. Create `open_notebook/graphs/workflow_name.py`
-2. Define StateDict and node functions
-3. Build graph with `.add_node()` / `.add_edge()`
-4. Create service in `api/workflow_service.py`
-5. Register router in `api/main.py`
-6. Add tests in `tests/test_workflow.py`
-
-### Adding a New Data Model
-
-1. Create model in `open_notebook/domain/model_name.py`
-2. Inherit from BaseModel (domain object)
-3. Implement `save()`, `get()`, `delete()` methods (CRUD)
-4. Add repository functions if complex queries needed
-5. Create database migration in `migrations/`
-6. Add API routes and models in `api/`
-
-### Adding a New AI Provider
-
-1. Configure Esperanto for new provider (see .env.example)
-2. ModelManager automatically detects via environment variables
-3. Override via per-request config (no code changes needed)
-4. Test fallback logic if provider unavailable
+- **Được lưu trữ trong thư mục `/data/uploads/`** (không phải cơ sở dữ liệu)
+- **Tạo tên tệp duy nhất** ngăn chặn việc ghi đè (hậu tố bộ đếm)
+- **Thư viện lõi nội dung** trích xuất văn bản từ hơn 50 loại tệp
+- **Các tệp lớn** có thể chặn API trong thời gian ngắn (trích xuất nội dung đồng bộ hóa)
 
 ---
 
-## Deployment Considerations
+## Cân nhắc về hiệu suất
 
-### Development
+### Chiến lược tối ưu hóa
 
-- All services on localhost (3000, 5055, 8000)
-- Auto-reload on file changes (Next.js, FastAPI)
-- Hot-reload database migrations
-- Open API docs at http://localhost:5055/docs
+1. **Kết nối tổng hợp**: Trình điều khiển không đồng bộ SurrealDB với kích thước nhóm có thể định cấu hình
+2. **Bộ nhớ đệm truy vấn**: Truy vấn TanStack trên giao diện người dùng (bộ nhớ đệm phía máy khách)
+3. **Tái sử dụng nhúng**: Tìm kiếm vectơ sử dụng các phần nhúng được tính toán trước
+4. **Chunking**: Các nguồn được chia thành nhiều phần để có mức độ liên quan tìm kiếm tốt hơn
+5. **Hoạt động không đồng bộ**: I/O không chặn để có tính đồng thời cao
+6. **Lazy Loading**: Giao diện người dùng chỉ yêu cầu dữ liệu cần thiết (phân trang)
 
-### Production
+### Điểm nghẽn
 
-- **Frontend**: Deploy to Vercel, Netlify, or Docker
-- **API**: Docker container (see Dockerfile)
-- **Database**: SurrealDB container or managed service
-- **Environment**: Secure .env file with API keys
-- **SSL/TLS**: Reverse proxy (Nginx, CloudFlare)
-- **Rate Limiting**: Add at proxy layer
-- **Auth**: Replace PasswordAuthMiddleware with OAuth/JWT
-- **Monitoring**: Log aggregation (CloudWatch, DataDog, etc)
+1. **Cuộc gọi LLM**: Độ trễ tùy thuộc vào nhà cung cấp (thường là 1-30 giây)
+2. **Thế hệ nhúng**: Thời gian tỷ lệ thuận với kích thước nội dung và nhà cung cấp
+3. **Tìm kiếm vectơ**: Tính toán độ tương tự trên tất cả các phần nhúng
+4. **Trích xuất nội dung**: Thao tác đồng bộ trong xử lý nguồn
+
+### Giám sát
+
+- **Nhật ký API**: Kiểm tra đầu ra loguru để tìm lỗi và hoạt động chậm
+- **Truy vấn cơ sở dữ liệu**: Số liệu SurrealDB có sẵn thông qua giao diện người dùng quản trị viên
+- **Mức sử dụng Token**: Ước tính thông qua tiện ích `estimate_tokens()`
+- **Trạng thái công việc**: Thăm dò `/commands/{id}` để biết các hoạt động không đồng bộ
 
 ---
 
-## Summary
+## Điểm mở rộng
 
-Open Notebook's architecture provides a solid foundation for privacy-focused, AI-powered research. The separation of concerns (frontend/API/database), async-first design, and multi-provider flexibility enable rapid development and easy deployment. LangGraph workflows orchestrate complex AI tasks, while Esperanto abstracts provider details. The result is a scalable, maintainable system that puts users in control of their data and AI provider choice.
+### Thêm quy trình làm việc mới
+
+1. Tạo `open_notebook/graphs/workflow_name.py`
+2. Xác định các hàm StateDict và nút
+3. Xây dựng biểu đồ với `.add_node()` / `.add_edge()`
+4. Tạo dịch vụ trong `api/workflow_service.py`
+5. Đăng ký bộ định tuyến trong `api/main.py`
+6. Thêm bài kiểm tra vào `tests/test_workflow.py`
+
+### Thêm mô hình dữ liệu mới
+
+1. Tạo mô hình trong `open_notebook/domain/model_name.py`
+2. Kế thừa từ BaseModel (đối tượng miền)
+3. Triển khai các phương thức `save()`, `get()`, `delete()` (CRUD)
+4. Thêm chức năng kho lưu trữ nếu cần các truy vấn phức tạp
+5. Tạo di chuyển cơ sở dữ liệu trong `migrations/`
+6. Thêm các tuyến và mô hình API trong `api/`
+
+### Thêm nhà cung cấp AI mới
+
+1. Định cấu hình Esperanto cho nhà cung cấp mới (xem .env.example)
+2. ModelManager tự động phát hiện thông qua các biến môi trường
+3. Ghi đè qua cấu hình theo yêu cầu (không cần thay đổi mã)
+4. Kiểm tra logic dự phòng nếu nhà cung cấp không có sẵn
+
+---
+
+## Cân nhắc triển khai
+
+### Phát triển
+
+- Tất cả các dịch vụ trên localhost (3000, 5055, 8000)
+- Tự động tải lại khi thay đổi tệp (Next.js, FastAPI)
+- Di chuyển cơ sở dữ liệu tải lại nóng
+- Mở tài liệu API tại http://localhost:5055/docs
+
+### Sản xuất
+
+- **Giao diện người dùng**: Triển khai lên Vercel, Netlify hoặc Docker
+- **API**: Vùng chứa Docker (xem Dockerfile)
+- **Cơ sở dữ liệu**: Vùng chứa SurrealDB hoặc dịch vụ được quản lý
+- **Môi trường**: Bảo mật tệp .env bằng khóa API
+- **SSL/TLS**: Proxy ngược (Nginx, CloudFlare)
+- **Giới hạn tỷ lệ**: Thêm ở lớp proxy
+- **Auth**: Thay thế PassAuthMiddleware bằng OAuth/JWT
+- **Giám sát**: Tổng hợp nhật ký (CloudWatch, DataDog, v.v.)
+
+---
+
+## Bản tóm tắt
+
+Kiến trúc của Open Notebook cung cấp nền tảng vững chắc cho nghiên cứu dựa trên AI, tập trung vào quyền riêng tư. Việc tách biệt các mối quan tâm (giao diện người dùng/API/cơ sở dữ liệu), thiết kế ưu tiên không đồng bộ và tính linh hoạt của nhiều nhà cung cấp cho phép phát triển nhanh chóng và triển khai dễ dàng. Quy trình làm việc của LangGraph sắp xếp các nhiệm vụ AI phức tạp, trong khi Esperanto tóm tắt thông tin chi tiết về nhà cung cấp. Kết quả là một hệ thống có thể mở rộng và bảo trì được, giúp người dùng kiểm soát dữ liệu và lựa chọn nhà cung cấp AI của họ.

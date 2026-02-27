@@ -1,33 +1,34 @@
-# Local Speech-to-Text Setup
+# Thiết lập chuyển giọng nói thành văn bản cục bộ
 
-Run speech-to-text locally for free, private audio/video transcription using OpenAI-compatible STT servers.
-
----
-
-## Why Local STT?
-
-| Benefit | Description |
-|---------|-------------|
-| **Free** | No per-minute costs after setup |
-| **Private** | Audio never leaves your machine |
-| **Unlimited** | No rate limits or quotas |
-| **Offline** | Works without internet |
+Chạy tính năng chuyển giọng nói thành văn bản cục bộ để phiên âm âm thanh/video riêng tư, miễn phí bằng cách sử dụng máy chủ STT tương thích với OpenAI.
 
 ---
 
-## Quick Start with Speaches
+## Tại sao là STT cục bộ?
 
-[Speaches](https://github.com/speaches-ai/speaches) is an open-source, OpenAI-compatible server that supports both TTS and STT. It uses [faster-whisper](https://github.com/SYSTRAN/faster-whisper) for transcription.
+| Lợi ích | Mô tả |
+|----------|-------------|
+| **Miễn phí** | Không có chi phí mỗi phút sau khi thiết lập |
+| **Riêng tư** | Âm thanh không bao giờ rời khỏi máy của bạn |
+| **Không giới hạn** | Không có giới hạn tỷ lệ hoặc hạn ngạch |
+| **Ngoại tuyến** | Hoạt động mà không cần internet |
 
-> **💡 Ready-made Docker Compose files available:**
-> - **[docker-compose-speaches.yml](../../examples/docker-compose-speaches.yml)** - Speaches + Open Notebook
-> - **[docker-compose-full-local.yml](../../examples/docker-compose-full-local.yml)** - Speaches + Ollama (100% local setup)
+---
+
+## Bắt đầu nhanh với bài phát biểu
+
+[Speaches](https://github.com/speaches-ai/speaches) là một máy chủ mã nguồn mở, tương thích với OpenAI, hỗ trợ cả TTS và STT. Nó sử dụng [faster-whisper](https://github.com/SYSTRAN/faster-whisper) để phiên âm.
+
+> **💡 Có sẵn các tệp Docker Compose được tạo sẵn:**> -**[docker-compose-speaches.yml](../../examples/docker-compose-speaches.yml)** - Speakes + Open Notebook
+> - **[docker-compose-full-local.yml](../../examples/docker-compose-full-local.yml)** - Speakes + Ollama (thiết lập cục bộ 100%)
 >
-> These include complete setup instructions and configuration examples. Just copy and run!
+> Chúng bao gồm hướng dẫn thiết lập đầy đủ và ví dụ về cấu hình. Just copy and run!
 
-### Step 1: Create Docker Compose File
+### Bước 1: Tạo file Docker Compose
 
-Create a folder and add `docker-compose.yml`:
+Tạo một thư mục và thêm `docker-compose.yml`:
+
+
 
 ```yaml
 services:
@@ -44,7 +45,11 @@ volumes:
   hf-hub-cache:
 ```
 
-### Step 2: Start and Download Model
+
+
+### Bước 2: Bắt đầu và tải xuống mô hình
+
+
 
 ```bash
 # Start Speaches
@@ -57,9 +62,13 @@ sleep 10
 docker compose exec speaches uv tool run speaches-cli model download Systran/faster-whisper-small
 ```
 
-Models can also be downloaded automatically on first use, but pre-downloading avoids delays.
 
-### Step 3: Test
+
+Các mô hình cũng có thể được tải xuống tự động trong lần sử dụng đầu tiên, nhưng việc tải xuống trước sẽ tránh được sự chậm trễ.
+
+### Bước 3: Kiểm tra
+
+
 
 ```bash
 # Create a test audio file (or use your own)
@@ -69,71 +78,83 @@ curl "http://localhost:8969/v1/audio/transcriptions" \
   -F "model=Systran/faster-whisper-small"
 ```
 
-You should see the transcribed text in the response.
 
-### Step 4: Configure Open Notebook
 
-**Via Settings UI (Recommended):**
-1. Go to **Settings** → **API Keys**
-2. Click **Add Credential** → Select **OpenAI-Compatible**
-3. Enter base URL for STT: `http://host.docker.internal:8969/v1` (Docker) or `http://localhost:8969/v1` (local)
-4. Click **Save**, then **Test Connection**
+Bạn sẽ thấy văn bản được phiên âm trong phản hồi.
 
-**Legacy (Deprecated) — Environment variables:**
+### Bước 4: Cấu hình Open Notebook
+
+**Thông qua giao diện người dùng Cài đặt (Được khuyến nghị):**1. Đi tới**Cài đặt**→**Khóa API**2. Nhấp vào**Thêm thông tin xác thực**→ Chọn**Tương thích với OpenAI**
+3. Nhập URL cơ sở cho STT: `http://host.docker.internal:8969/v1` (Docker) hoặc `http://localhost:8969/v1` (local)
+4. Nhấp vào **Lưu**, sau đó nhấp vào **Kiểm tra kết nối**
+
+**Cũ (Không dùng nữa) — Biến môi trường:**
+
 ```yaml
 # In your Open Notebook docker-compose.yml
 environment:
   - OPENAI_COMPATIBLE_BASE_URL_STT=http://host.docker.internal:8969/v1
 ```
 
+
+
+
+
 ```bash
 # Local development
 export OPENAI_COMPATIBLE_BASE_URL_STT=http://localhost:8969/v1
 ```
 
-### Step 5: Add Model in Open Notebook
 
-1. Go to **Settings** → **Models**
-2. Click **Add Model** in Speech-to-Text section
-3. Configure:
-   - **Provider**: `openai_compatible`
-   - **Model Name**: `Systran/faster-whisper-small`
-   - **Display Name**: `Local Whisper`
-4. Click **Save**
-5. Set as default if desired
+
+### Bước 5: Thêm Model vào Open Notebook
+
+1. Đi tới **Cài đặt**→**Mẫu máy**2. Nhấp vào**Thêm mẫu** trong phần Chuyển giọng nói thành văn bản
+3. Cấu hình:
+   - **Nhà cung cấp**: `openai_tương thích`
+   - **Tên mẫu**: `Systran/faster-whisper-small`
+   - **Tên hiển thị**: `Lời thì thầm cục bộ`
+4. Nhấp vào **Lưu**
+5. Đặt làm mặc định nếu muốn
 
 ---
 
-## Available Models
+## Các mẫu có sẵn
 
-Speaches supports various Whisper model sizes. Larger models are more accurate but slower:
+Speakes hỗ trợ nhiều kích cỡ mô hình Whisper khác nhau. Các mô hình lớn hơn thì chính xác hơn nhưng chậm hơn:
 
-| Model | Size | Speed | Accuracy | VRAM (GPU) |
-|-------|------|-------|----------|------------|
-| `Systran/faster-whisper-tiny` | ~75 MB | Fastest | Basic | ~1 GB |
-| `Systran/faster-whisper-base` | ~150 MB | Fast | Good | ~1 GB |
-| `Systran/faster-whisper-small` | ~500 MB | Medium | Better | ~2 GB |
-| `Systran/faster-whisper-medium` | ~1.5 GB | Slow | Great | ~5 GB |
-| `Systran/faster-whisper-large-v3` | ~3 GB | Slowest | Best | ~10 GB |
-| `Systran/faster-distil-whisper-small.en` | ~400 MB | Fast | Good (English only) | ~2 GB |
+| Người mẫu | Kích thước | Tốc độ | Độ chính xác | VRAM (GPU) |
+|-------|------|-------|----------|----------||
+| `Systran/nhanh hơn-thì thầm` | ~75 MB | Nhanh nhất | Cơ bản | ~1 GB |
+| `Systran/faster-thì thầm` | ~150 MB | Nhanh | Tốt | ~1 GB |
+| `Systran/nhanh-thì-nhỏ` | ~500 MB | Trung bình | Tốt hơn | ~2 GB |
+| `Systran/nhanh hơn thì thầm-medium` | ~1,5 GB | Chậm | Tuyệt vời | ~5 GB |
+| `Systran/nhanh hơn thì thầm-large-v3` | ~3 GB | Chậm nhất | Tốt nhất | ~10GB |
+| `Systran/faster-ditil-whisper-small.en` | ~400 MB | Nhanh | Tốt (chỉ bằng tiếng Anh) | ~2 GB |
 
-### List Available Models
+### Liệt kê các mẫu có sẵn
+
+
 
 ```bash
 docker compose exec speaches uv tool run speaches-cli registry ls --task automatic-speech-recognition
 ```
 
-### Recommended Models
 
-- **For speed**: `Systran/faster-whisper-tiny` or `Systran/faster-whisper-base`
-- **For balance**: `Systran/faster-whisper-small` (recommended)
-- **For accuracy**: `Systran/faster-whisper-large-v3`
+
+### Model được đề xuất
+
+- **Về tốc độ**: `Systran/faster-whisper-tiny` hoặc `Systran/faster-whisper-base`
+- **Để cân bằng**: `Systran/faster-whisper-small` (được khuyến nghị)
+- **Để có độ chính xác**: `Systran/faster-whisper-large-v3`
 
 ---
 
-## GPU Acceleration
+## Tăng tốc GPU
 
-For faster transcription with NVIDIA GPUs:
+Để sao chép nhanh hơn với GPU NVIDIA:
+
+
 
 ```yaml
 services:
@@ -159,44 +180,52 @@ volumes:
   hf-hub-cache:
 ```
 
-### Keep Model in Memory
 
-By default, Speaches unloads models after some time. To keep the Whisper model loaded for instant transcription:
+
+### Lưu mô hình vào bộ nhớ
+
+Theo mặc định, Speakes sẽ tải các mô hình sau một thời gian. Để giữ cho mô hình Whisper được tải để chép lời ngay lập tức:
+
+
 
 ```yaml
 environment:
   - WHISPER__TTL=-1  # Never unload
 ```
 
-This is recommended if you have enough RAM/VRAM, as loading the model can take a few seconds.
+
+
+Điều này được khuyến nghị nếu bạn có đủ RAM/VRAM vì việc tải mô hình có thể mất vài giây.
 
 ---
 
-## Docker Networking
+## Mạng Docker
 
-When configuring your OpenAI-Compatible credential in **Settings → API Keys**, use the appropriate STT base URL for your setup:
+Khi định cấu hình thông tin xác thực Tương thích với OpenAI trong **Cài đặt → Khóa API**, hãy sử dụng URL cơ sở STT thích hợp cho thiết lập của bạn:
 
-### Open Notebook in Docker (macOS/Windows)
+### Mở Notebook trong Docker (macOS/Windows)
 
-**STT Base URL:** `http://host.docker.internal:8969/v1`
+**URL cơ sở STT:** `http://host.docker.internal:8969/v1`
 
-### Open Notebook in Docker (Linux)
+### Mở Notebook trong Docker (Linux)
 
-**STT Base URL (Option 1 — Docker bridge IP):** `http://172.17.0.1:8969/v1`
+**URL cơ sở STT (Tùy chọn 1 - IP cầu nối Docker):** `http://172.17.0.1:8969/v1`
 
-**Option 2:** Use host networking mode (`docker run --network host ...`), then use: `http://localhost:8969/v1`
+**Tùy chọn 2:** Sử dụng chế độ kết nối mạng máy chủ (`docker run --network Host ...`), sau đó sử dụng: `http://localhost:8969/v1`
 
-### Remote Server
+### Máy chủ từ xa
 
-Run Speaches on a different machine:
+Chạy bài phát biểu trên một máy khác:
 
-**STT Base URL:** `http://server-ip:8969/v1` (replace with your server's IP)
+**URL cơ sở STT:** `http://server-ip:8969/v1` (thay thế bằng IP máy chủ của bạn)
 
 ---
 
-## Language Support
+## Hỗ trợ ngôn ngữ
 
-Whisper supports 99+ languages. Specify the language for better accuracy:
+Whisper hỗ trợ hơn 99 ngôn ngữ. Chỉ định ngôn ngữ để có độ chính xác cao hơn:
+
+
 
 ```bash
 curl "http://localhost:8969/v1/audio/transcriptions" \
@@ -205,20 +234,24 @@ curl "http://localhost:8969/v1/audio/transcriptions" \
   -F "language=ru"
 ```
 
-Common language codes:
-- `en` - English
-- `ru` - Russian
-- `es` - Spanish
-- `fr` - French
-- `de` - German
-- `zh` - Chinese
-- `ja` - Japanese
+
+
+Mã ngôn ngữ phổ biến:
+- `en` - Tiếng Anh
+- `ru` - Tiếng Nga
+- `es` - tiếng Tây Ban Nha
+- `fr` - tiếng Pháp
+- `de` - Tiếng Đức
+- `zh` - Tiếng Trung
+- `ja` - Tiếng Nhật
 
 ---
 
-## Troubleshooting
+## Khắc phục sự cố
 
-### Service Won't Start
+### Dịch vụ không bắt đầu
+
+
 
 ```bash
 # Check logs
@@ -231,7 +264,11 @@ lsof -i :8969
 docker compose down && docker compose up -d
 ```
 
-### Connection Refused
+
+
+### Kết nối bị từ chối
+
+
 
 ```bash
 # Test Speaches is running
@@ -241,9 +278,13 @@ curl http://localhost:8969/v1/models
 docker exec -it open-notebook curl http://host.docker.internal:8969/v1/models
 ```
 
-### Model Download Fails
 
-Models are downloaded automatically on first use. If download fails:
+
+### Tải xuống mô hình không thành công
+
+Các mô hình được tải xuống tự động trong lần sử dụng đầu tiên. Nếu tải xuống không thành công:
+
+
 
 ```bash
 # Check available disk space
@@ -256,36 +297,40 @@ docker compose logs speaches
 docker compose restart speaches
 ```
 
-### Poor Transcription Quality
 
-- Use a larger model (`faster-whisper-medium` or `large-v3`)
-- Specify the correct language
-- Ensure audio quality is good (clear speech, minimal background noise)
-- Try different audio formats (WAV often works better than MP3)
 
-### Slow Transcription
+### Chất lượng phiên âm kém
 
-| Solution | How |
-|----------|-----|
-| Use GPU | Switch to `latest-cuda` image |
-| Smaller model | Use `faster-whisper-tiny` or `base` |
-| More CPU | Allocate more cores in Docker |
-| SSD storage | Move Docker volumes to SSD |
+- Sử dụng mô hình lớn hơn (`faster-whisper-medium` hoặc `large-v3`)
+- Chỉ định ngôn ngữ chính xác
+- Đảm bảo chất lượng âm thanh tốt (giọng nói rõ ràng, tiếng ồn xung quanh tối thiểu)
+- Thử các định dạng âm thanh khác nhau (WAV thường hoạt động tốt hơn MP3)
+
+### Phiên âm chậm
+
+| Giải pháp | Như thế nào |
+|----------|------|
+| Sử dụng GPU | Chuyển sang hình ảnh `mới nhất-cuda` |
+| Mô hình nhỏ hơn | Sử dụng `faster-whisper-tiny` hoặc `base` |
+| Thêm CPU | Phân bổ nhiều lõi hơn trong Docker |
+| lưu trữ SSD | Di chuyển khối lượng Docker sang SSD |
 
 ---
 
-## Performance Tips
+## Mẹo về hiệu suất
 
-### Recommended Specs
+### Thông số kỹ thuật được đề xuất
 
-| Component | Minimum | Recommended |
-|-----------|---------|-------------|
-| CPU | 2 cores | 4+ cores |
-| RAM | 2 GB | 8+ GB |
-| Storage | 5 GB | 10 GB (for multiple models) |
-| GPU | None | NVIDIA (optional, much faster) |
+| Thành phần | Tối thiểu | Được đề xuất |
+|----------||----------|-------------|
+| CPU | 2 lõi | 4+ lõi |
+| RAM | 2GB | 8+ GB |
+| Lưu trữ | 5 GB | 10 GB (cho nhiều kiểu máy) |
+| GPU | Không có | NVIDIA (tùy chọn, nhanh hơn nhiều) |
 
-### Resource Limits
+### Giới hạn tài nguyên
+
+
 
 ```yaml
 services:
@@ -295,72 +340,78 @@ services:
     cpus: 2
 ```
 
-### Monitor Usage
+
+
+### Giám sát việc sử dụng
+
+
 
 ```bash
 docker stats speaches
 ```
 
----
 
-## Comparison: Local vs Cloud
-
-| Aspect | Local (Speaches) | Cloud (OpenAI Whisper) |
-|--------|------------------|------------------------|
-| **Cost** | Free | $0.006/min |
-| **Privacy** | Complete | Data sent to provider |
-| **Speed** | Depends on hardware | Usually faster |
-| **Quality** | Excellent (same Whisper) | Excellent |
-| **Setup** | Moderate | Simple API key |
-| **Offline** | Yes | No |
-| **Languages** | 99+ | 99+ |
-
-### When to Use Local
-
-- Privacy-sensitive content
-- High-volume transcription
-- Development/testing
-- Offline environments
-- Cost control
-
-### When to Use Cloud
-
-- Limited hardware
-- Time-sensitive projects
-- No GPU available
-- Simple setup preferred
 
 ---
 
-## Using Both TTS and STT
+## So sánh: Cục bộ và Đám mây
 
-Speaches supports both TTS and STT in one server. In **Settings → API Keys**, add a single **OpenAI-Compatible** credential and configure both the TTS and STT base URLs to point to the same Speaches server (e.g., `http://localhost:8969/v1`).
+| Khía cạnh | Địa phương (Bài phát biểu) | Đám mây (OpenAI Whisper) |
+|--------|-------------------|------------------------|
+| **Chi phí** | Miễn phí | 0,006 USD/phút |
+| **Quyền riêng tư** | Hoàn thành | Dữ liệu gửi đến nhà cung cấp |
+| **Tốc độ** | Phụ thuộc vào phần cứng | Thường nhanh hơn |
+| **Chất lượng** | Tuyệt vời (cùng Whisper) | Xuất sắc |
+| **Thiết lập** | Trung bình | Khóa API đơn giản |
+| **Ngoại tuyến** | Có | Không |
+| **Ngôn ngữ** | 99+ | 99+ |
 
-See **[Local TTS Setup](local-tts.md)** for TTS configuration.
+### Khi nào nên sử dụng địa phương
+
+- Nội dung nhạy cảm về quyền riêng tư
+- Phiên âm số lượng lớn
+- Phát triển/thử nghiệm
+- Môi trường ngoại tuyến
+- Kiểm soát chi phí
+
+### Khi nào nên sử dụng đám mây
+
+- Phần cứng hạn chế
+- Dự án nhạy cảm về thời gian
+- Không có sẵn GPU
+- Ưu tiên thiết lập đơn giản
 
 ---
 
-## Other Local STT Options
+## Sử dụng cả TTS và STT
 
-Any OpenAI-compatible STT server works:
+Speakes hỗ trợ cả TTS và STT trong một máy chủ. Trong **Cài đặt → Khóa API**, hãy thêm một thông tin xác thực **OpenAI-Compatible** duy nhất và định cấu hình cả URL cơ sở TTS và STT để trỏ đến cùng một máy chủ Speakes (ví dụ: `http://localhost:8969/v1`).
 
-| Server | Description |
+Xem **[Local TTS Setup](local-tts.md)** để biết cấu hình TTS.
+
+---
+
+## Tùy chọn STT cục bộ khác
+
+Mọi máy chủ STT tương thích với OpenAI đều hoạt động:
+
+| Máy chủ | Mô tả |
 |--------|-------------|
-| [Speaches](https://github.com/speaches-ai/speaches) | TTS + STT in one (recommended) |
-| [faster-whisper-server](https://github.com/fedirz/faster-whisper-server) | Lightweight STT only |
-| [whisper.cpp](https://github.com/ggerganov/whisper.cpp) | C++ implementation with server mode |
-| [LocalAI](https://github.com/mudler/LocalAI) | Multi-model local AI server |
+| [Bài phát biểu](https://github.com/speaches-ai/speaches) | TTS + STT trong một (được khuyến nghị) |
+| [máy chủ thì thầm nhanh hơn](https://github.com/fedirz/faster-whisper-server) | Chỉ STT nhẹ |
+| [thì thầm.cpp](https://github.com/ggerganov/whisper.cpp) | Triển khai C++ với chế độ máy chủ |
+| [LocalAI](https://github.com/mudler/LocalAI) | Máy chủ AI cục bộ đa mô hình |
 
-The key requirements:
+Các yêu cầu chính:
 
-1. Server implements `/v1/audio/transcriptions` endpoint
-2. Add an OpenAI-Compatible credential in **Settings → API Keys** with the STT base URL
-3. Add model with provider `openai_compatible`
+1. Máy chủ triển khai điểm cuối `/v1/audio/transcriptions`
+2. Thêm thông tin xác thực Tương thích với OpenAI trong **Cài đặt → Khóa API** bằng URL cơ sở STT
+3. Thêm mô hình với nhà cung cấp `openai_tương thích`
 
 ---
 
-## Related
+## Có liên quan
 
-- **[Local TTS Setup](local-tts.md)** - Text-to-speech with Speaches
-- **[OpenAI-Compatible Providers](openai-compatible.md)** - General compatible provider setup
-- **[AI Providers](ai-providers.md)** - All provider configuration
+- **[Thiết lập TTS cục bộ](local-tts.md)** - Chuyển văn bản thành giọng nói bằng bài phát biểu
+- **[Nhà cung cấp tương thích với OpenAI](openai-tương thích.md)** - Thiết lập nhà cung cấp tương thích chung
+- **[AI Providers](ai-providers.md)** - Tất cả cấu hình của nhà cung cấp

@@ -1,29 +1,34 @@
-# Ollama Setup Guide
+#Hướng dẫn cài đặt Ollama
 
-Ollama provides free, local AI models that run on your own hardware. This guide covers everything you need to know about setting up Ollama with Open Notebook, including different deployment scenarios and network configurations.
+Ollama cung cấp các mô hình AI cục bộ, miễn phí chạy trên phần cứng của riêng bạn. Hướng dẫn này bao gồm mọi thứ bạn cần biết về việc thiết lập Ollama với Open Notebook, bao gồm các kịch bản triển khai và cấu hình mạng khác nhau.
 
-## Why Choose Ollama?
+##Tại sao chọn Ollama?
 
-- **🆓 Completely Free**: No API costs after initial setup
-- **🔒 Full Privacy**: Your data never leaves your local network
-- **📱 Offline Capable**: Works without internet connection
-- **🚀 Fast**: Local inference with no network latency
-- **🧠 Reasoning Models**: Support for advanced reasoning models like DeepSeek-R1
-- **💾 Model Variety**: Access to hundreds of open-source models
+- **🆓 Hoàn toàn miễn phí**: Không mất phí API sau khi thiết lập ban đầu
+- **🔒 Quyền riêng tư hoàn toàn**: Dữ liệu của bạn không bao giờ rời khỏi mạng cục bộ
+- **📱 Có khả năng ngoại tuyến**: Hoạt động mà không cần kết nối internet
+- **🚀 Nhanh**: Suy luận cục bộ không có độ trễ mạng
+- **🧠 Mô hình lý luận**: Hỗ trợ các mô hình lý luận nâng cao như DeepSeek-R1
+- **💾 Model Variety**: Truy cập vào hàng trăm mô hình nguồn mở
 
-## Quick Start
+## Bắt đầu nhanh
 
-### 1. Install Ollama
+### 1. Cài đặt Ollama
 
 **Linux/macOS:**
+
 ```bash
 curl -fsSL https://ollama.ai/install.sh | sh
 ```
 
-**Windows:**
-Download and install from [ollama.ai](https://ollama.ai/download)
 
-### 2. Pull Required Models
+
+**Cửa sổ:**
+Tải xuống và cài đặt từ [ollama.ai](https://ollama.ai/download)
+
+### 2. Kéo các mẫu cần thiết
+
+
 
 ```bash
 # Language models (choose one or more)
@@ -36,16 +41,16 @@ ollama pull phi4              # Microsoft's efficient model
 ollama pull mxbai-embed-large  # Best embedding model for Ollama
 ```
 
-### 3. Configure Open Notebook
 
-**Via Settings UI (Recommended):**
-1. Go to **Settings** → **API Keys**
-2. Click **Add Credential** → Select **Ollama**
-3. Enter the base URL (see [Network Configuration](#network-configuration-guide) below for correct URL)
-4. Click **Save**, then **Test Connection**
-5. Click **Discover Models** → **Register Models**
 
-**Legacy (Deprecated) — Environment variables:**
+### 3. Cấu hình mở Notebook
+
+**Thông qua giao diện người dùng Cài đặt (Được khuyến nghị):**1. Đi tới**Cài đặt**→**Khóa API**2. Nhấp vào**Thêm thông tin xác thực**→ Chọn**Ollama**
+3. Nhập URL cơ sở (xem [Cấu hình mạng](#network-configuration-guide) bên dưới để biết URL chính xác)
+4. Nhấp vào **Lưu**, sau đó nhấp vào **Kiểm tra kết nối**5. Nhấp vào**Khám phá mẫu**→**Đăng ký mẫu**
+
+**Cũ (Không dùng nữa) — Biến môi trường:**
+
 ```bash
 # For local installation:
 export OLLAMA_API_BASE=http://localhost:11434
@@ -53,36 +58,43 @@ export OLLAMA_API_BASE=http://localhost:11434
 export OLLAMA_API_BASE=http://host.docker.internal:11434
 ```
 
-> **Note**: The `OLLAMA_API_BASE` environment variable is deprecated. Configure Ollama via Settings → API Keys instead.
 
-## Network Configuration Guide
 
-When adding an Ollama credential in **Settings → API Keys**, you need to enter the correct base URL. The correct URL depends on your deployment scenario:
+> **Lưu ý**: Biến môi trường `OLLAMA_API_BASE` không được dùng nữa. Thay vào đó, hãy định cấu hình Ollama thông qua Cài đặt → Khóa API.
 
-### Scenario 1: Local Installation (Same Machine)
+## Hướng dẫn cấu hình mạng
 
-When both Open Notebook and Ollama run directly on your machine:
+Khi thêm thông tin xác thực Ollama trong **Cài đặt → Khóa API**, bạn cần nhập đúng URL cơ sở. URL chính xác tùy thuộc vào kịch bản triển khai của bạn:
 
-**Base URL to enter in Settings → API Keys:** `http://localhost:11434`
+### Tình huống 1: Cài đặt cục bộ (Cùng máy)
 
-Alternative: `http://127.0.0.1:11434` (use if you have DNS resolution issues with localhost)
+Khi cả Open Notebook và Ollama đều chạy trực tiếp trên máy của bạn:
 
-### Scenario 2: Open Notebook in Docker, Ollama on Host
+**URL cơ sở để nhập vào Cài đặt → Khóa API:** `http://localhost:11434`
 
-When Open Notebook runs in Docker but Ollama runs on your host machine:
+Thay thế: `http://127.0.0.1:11434` (sử dụng nếu bạn gặp vấn đề về độ phân giải DNS với localhost)
 
-**Base URL to enter in Settings → API Keys:** `http://host.docker.internal:11434`
+### Tình huống 2: Mở Notebook trong Docker, Ollama trên Host
 
-**⚠️ CRITICAL: Ollama must accept external connections:**
+Khi Open Notebook chạy trong Docker nhưng Ollama chạy trên máy chủ của bạn:
+
+**URL cơ sở để nhập vào Cài đặt → Khóa API:** `http://host.docker.internal:11434`
+
+**⚠️ QUAN TRỌNG: Ollama phải chấp nhận các kết nối bên ngoài:**
+
 ```bash
 # Start Ollama with external access enabled
 export OLLAMA_HOST=0.0.0.0:11434
 ollama serve
 ```
 
-**⚠️ LINUX USERS: Extra configuration required!**
 
-On Linux, `host.docker.internal` doesn't resolve automatically like it does on macOS/Windows. You must add `extra_hosts` to your docker-compose.yml:
+
+**⚠️ NGƯỜI SỬ DỤNG LINUX: Cần có cấu hình bổ sung!**
+
+Trên Linux, `host.docker.internal` không tự động giải quyết như trên macOS/Windows. Bạn phải thêm `extra_hosts` vào docker-compose.yml của mình:
+
+
 
 ```yaml
 services:
@@ -93,28 +105,35 @@ services:
       - "host.docker.internal:host-gateway"
 ```
 
-Without this, you'll get connection errors like:
+
+
+Nếu không có điều này, bạn sẽ gặp các lỗi kết nối như:
+
 ```
 httpcore.ConnectError: [Errno -2] Name or service not known
 ```
 
-**Why `host.docker.internal`?**
-- Docker containers can't reach `localhost` on the host
-- `host.docker.internal` is Docker's special hostname for the host machine
-- Available on Docker Desktop for Mac/Windows; **requires `extra_hosts` on Linux**
 
-**Why `OLLAMA_HOST=0.0.0.0:11434`?**
-- By default, Ollama only binds to localhost and rejects external connections
-- Docker containers are considered "external" even when running on the same machine
-- Setting `OLLAMA_HOST=0.0.0.0:11434` allows connections from Docker containers
 
-### Scenario 3: Both in Docker (Same Compose)
+**Tại sao lại là `host.docker.internal`?**
+- Docker container không thể truy cập `localhost` trên máy chủ
+- `host.docker.internal` là tên máy chủ đặc biệt của Docker dành cho máy chủ
+- Có sẵn trên Docker Desktop cho Mac/Windows; **yêu cầu `extra_hosts` trên Linux**
 
-When both Open Notebook and Ollama run in the same Docker Compose stack:
+**Tại sao `OLLAMA_HOST=0.0.0.0:11434`?**
+- Mặc định Ollama chỉ liên kết với localhost và từ chối các kết nối bên ngoài
+- Docker container được coi là "bên ngoài" ngay cả khi chạy trên cùng một máy
+- Cài đặt `OLLAMA_HOST=0.0.0.0:11434` cho phép kết nối từ vùng chứa Docker
 
-**Base URL to enter in Settings → API Keys:** `http://ollama:11434`
+### Kịch bản 3: Cả hai trong Docker (Same Compose)
 
-**Docker Compose Example:**
+Khi cả Open Notebook và Ollama đều chạy trong cùng một ngăn xếp Docker Compose:
+
+**URL cơ sở để nhập vào Cài đặt → Khóa API:** `http://ollama:11434`
+
+**Ví dụ soạn thảo Docker:**
+
+
 
 ```yaml
 version: '3.8'
@@ -152,46 +171,54 @@ volumes:
   ollama_data:
 ```
 
-### Scenario 4: Remote Ollama Server
 
-When Ollama runs on a different machine in your network:
 
-**Base URL to enter in Settings → API Keys:** `http://192.168.1.100:11434` (replace with your Ollama server's IP)
+### Kịch bản 4: Máy chủ Ollama từ xa
 
-**Security Note:** Only use this in trusted networks. Ollama doesn't have built-in authentication.
+Khi Ollama chạy trên một máy khác trong mạng của bạn:
 
-### Scenario 5: Ollama with Custom Port
+**URL cơ sở để nhập vào Cài đặt → Khóa API:** `http://192.168.1.100:11434` (thay thế bằng IP máy chủ Ollama của bạn)
 
-If you've configured Ollama to use a different port:
+**Ghi chú Bảo mật:** Chỉ sử dụng tính năng này trong các mạng đáng tin cậy. Ollama không có tính năng xác thực tích hợp.
+
+### Kịch bản 5: Ollama với cổng tùy chỉnh
+
+Nếu bạn đã định cấu hình Ollama để sử dụng một cổng khác:
+
+
 
 ```bash
 # Start Ollama on custom port
 OLLAMA_HOST=0.0.0.0:8080 ollama serve
 ```
 
-**Base URL to enter in Settings → API Keys:** `http://localhost:8080`
 
-## Model Recommendations
 
-### Language Models
+**URL cơ sở để nhập vào Cài đặt → Khóa API:** `http://localhost:8080`
 
-| Model | Size | Best For | Quality | Speed |
-|-------|------|----------|---------|-------|
-| **qwen3** | 7B | General purpose, coding | Excellent | Fast |
-| **deepseek-r1** | 7B | Reasoning, problem-solving | Exceptional | Medium |
-| **gemma3** | 7B | Balanced performance | Very Good | Fast |
-| **phi4** | 14B | Efficiency on small hardware | Good | Very Fast |
-| **llama3** | 8B | General purpose | Very Good | Medium |
+## Đề xuất mô hình
 
-### Embedding Models
+### Mô hình ngôn ngữ
 
-| Model | Best For | Performance |
+| Người mẫu | Kích thước | Tốt nhất cho | Chất lượng | Tốc độ |
+|-------|------|----------|----------|-------|
+| **qwen3** | 7B | Mục đích chung, mã hóa | Xuất sắc | Nhanh |
+| **deepseek-r1** | 7B | Lý luận, giải quyết vấn đề | Đặc biệt | Trung bình |
+| **đá quý3** | 7B | Hiệu suất cân bằng | Rất Tốt | Nhanh |
+| **phi4** | 14B | Hiệu quả trên phần cứng nhỏ | Tốt | Rất nhanh |
+| **llama3** | 8B | Mục đích chung | Rất Tốt | Trung bình |
+
+### Nhúng mô hình
+
+| Người mẫu | Tốt nhất cho | Hiệu suất |
 |-------|----------|-------------|
-| **mxbai-embed-large** | General search | Excellent |
-| **nomic-embed-text** | Document similarity | Good |
-| **all-minilm** | Lightweight option | Fair |
+| **mxbai-nhúng-lớn** | Tìm kiếm chung | Xuất sắc |
+| **văn bản nhúng-nomic** | Sự tương đồng về tài liệu | Tốt |
+| **tối thiểu** | Tùy chọn nhẹ | Hội chợ |
 
-### Installation Commands
+### Lệnh cài đặt
+
+
 
 ```bash
 # Essential models
@@ -206,21 +233,24 @@ ollama pull gemma3                # Google's model
 ollama pull phi4                  # Microsoft's efficient model
 ```
 
-## Hardware Requirements
 
-### Minimum Requirements
-- **RAM**: 8GB (for 7B models)
-- **Storage**: 10GB free space per model
-- **CPU**: Modern multi-core processor
 
-### Recommended Setup
-- **RAM**: 16GB+ (for multiple models)
-- **Storage**: SSD with 50GB+ free space
-- **GPU**: NVIDIA GPU with 8GB+ VRAM (optional but faster)
+## Yêu cầu phần cứng
 
-### GPU Acceleration
+### Yêu cầu tối thiểu
+- **RAM**: 8GB (đối với model 7B)
+- **Bộ nhớ**: 10GB dung lượng trống cho mỗi model
+- **CPU**: Bộ xử lý đa lõi hiện đại
 
-**NVIDIA GPU (CUDA):**
+### Thiết lập được đề xuất
+- **RAM**: 16GB+ (dành cho nhiều model)
+- **Bộ nhớ**: SSD có dung lượng trống từ 50GB trở lên
+- **GPU**: GPU NVIDIA với 8GB+ VRAM (tùy chọn nhưng nhanh hơn)
+
+### Tăng tốc GPU
+
+**GPU NVIDIA (CUDA):**
+
 ```bash
 # Install NVIDIA Container Toolkit for Docker
 # Then use the Docker Compose example above with GPU support
@@ -229,33 +259,45 @@ ollama pull phi4                  # Microsoft's efficient model
 ollama pull qwen3
 ```
 
+
+
 **Apple Silicon (M1/M2/M3):**
+
 ```bash
 # Ollama automatically uses Metal acceleration
 # No additional setup required
 ollama pull qwen3
 ```
 
-**AMD GPUs:**
+
+
+**GPU AMD:**
+
 ```bash
 # ROCm support varies by model and system
 # Check Ollama documentation for latest compatibility
 ```
 
-## Troubleshooting
 
-### Model Name Configuration (Critical)
 
-**⚠️ IMPORTANT: Model names must exactly match the output of `ollama list`**
+## Khắc phục sự cố
 
-This is the most common cause of "Failed to send message" errors. Open Notebook requires the **exact model name** as it appears in Ollama.
+### Cấu hình tên mẫu (Quan trọng)
 
-**Step 1: Get the exact model name**
+**⚠️ QUAN TRỌNG: Tên mẫu phải khớp chính xác với đầu ra của `danh sách ollama`**
+
+Đây là nguyên nhân phổ biến nhất gây ra lỗi "Không gửi được tin nhắn". Open Notebook yêu cầu **tên model chính xác** như xuất hiện trong Ollama.
+
+**Bước 1: Lấy tên model chính xác**
+
 ```bash
 ollama list
 ```
 
-Example output:
+
+
+Đầu ra ví dụ:
+
 ```
 NAME                        ID              SIZE      MODIFIED
 mxbai-embed-large:latest    468836162de7    669 MB    7 minutes ago
@@ -263,48 +305,53 @@ gemma3:12b                  f4031aab637d    8.1 GB    2 months ago
 qwen3:32b                   030ee887880f    20 GB     9 days ago
 ```
 
-**Step 2: Use the exact name when adding the model in Open Notebook**
 
-| ✅ Correct | ❌ Wrong |
-|-----------|----------|
-| `gemma3:12b` | `gemma3` (missing tag) |
-| `qwen3:32b` | `qwen3-32b` (wrong format) |
-| `mxbai-embed-large:latest` | `mxbai-embed-large` (missing tag) |
 
-**Note:** Some models use `:latest` as the default tag. If `ollama list` shows `model:latest`, you must use `model:latest` in Open Notebook, not just `model`.
+**Bước 2: Sử dụng tên chính xác khi thêm mô hình vào Open Notebook**
 
-**Step 3: Configure in Open Notebook**
+| ✅ Đúng | ❌ Sai |
+|----------||----------|
+| `gemma3:12b` | `gemma3` (thiếu thẻ) |
+| `qwen3:32b` | `qwen3-32b` (sai định dạng) |
+| `mxbai-embed-large:mới nhất` | `mxbai-embed-large` (thiếu thẻ) |
 
-1. Go to **Settings → Models**
-2. Click **Add Model**
-3. Enter the **exact name** from `ollama list`
-4. Select provider: `ollama`
-5. Select type: `language` (for chat) or `embedding` (for search)
-6. Save the model
-7. Set it as the default for the appropriate task (chat, transformation, etc.)
+**Lưu ý:** Một số kiểu máy sử dụng `:latest` làm thẻ mặc định. Nếu `danh sách ollama` hiển thị `model:mới nhất`, bạn phải sử dụng `model:mới nhất` trong Open Notebook, không chỉ `model`.
 
-### Common Issues
+**Bước 3: Cấu hình trong Open Notebook**
 
-**1. "Ollama unavailable" in Open Notebook**
+1. Đi tới **Cài đặt → Kiểu máy**2. Nhấp vào**Thêm mẫu**3. Nhập**tên chính xác** từ `danh sách ollama`
+4. Chọn nhà cung cấp: `ollama`
+5. Chọn loại: `ngôn ngữ` (để trò chuyện) hoặc `nhúng` (để tìm kiếm)
+6. Lưu mô hình
+7. Đặt nó làm mặc định cho tác vụ thích hợp (trò chuyện, chuyển đổi, v.v.)
 
-**Check Ollama is running:**
+### Các vấn đề thường gặp
+
+**1. "Ollama không có sẵn" trong Sổ tay mở**
+
+**Kiểm tra Ollama đang chạy:**
+
 ```bash
 curl http://localhost:11434/api/tags
 ```
 
-**Verify credential is configured:**
-Check **Settings → API Keys** for an Ollama credential with the correct base URL.
 
-**⚠️ IMPORTANT: Enable external connections (most common fix):**
+
+**Xác minh thông tin xác thực đã được định cấu hình:**Kiểm tra**Cài đặt → Khóa API** để biết thông tin xác thực Ollama có URL cơ sở chính xác.
+
+**⚠️ QUAN TRỌNG: Kích hoạt kết nối bên ngoài (cách khắc phục phổ biến nhất):**
+
 ```bash
 # If Open Notebook runs in Docker or on a different machine,
 # Ollama must bind to all interfaces, not just localhost
 export OLLAMA_HOST=0.0.0.0:11434
 ollama serve
 ```
-> **Why this is needed:** By default, Ollama only accepts connections from `localhost` (127.0.0.1). When Open Notebook runs in Docker or on a different machine, it can't reach Ollama unless you configure `OLLAMA_HOST=0.0.0.0:11434` to accept external connections.
 
-**Restart Ollama:**
+> **Tại sao cần điều này:** Theo mặc định, Ollama chỉ chấp nhận kết nối từ `localhost` (127.0.0.1). Khi Open Notebook chạy trong Docker hoặc trên một máy khác, nó không thể truy cập Ollama trừ khi bạn định cấu hình `OLLAMA_HOST=0.0.0.0:11434` để chấp nhận các kết nối bên ngoài.
+
+**Khởi động lại Ollama:**
+
 ```bash
 # Linux/macOS
 sudo systemctl restart ollama
@@ -315,9 +362,12 @@ ollama serve
 # Restart from system tray or Services
 ```
 
-**2. Docker networking issues**
 
-**From inside Open Notebook container, test Ollama:**
+
+**2. Sự cố mạng Docker**
+
+**Từ bên trong hộp Open Notebook, kiểm tra Ollama:**
+
 ```bash
 # Get into container
 docker exec -it open-notebook bash
@@ -326,71 +376,97 @@ docker exec -it open-notebook bash
 curl http://host.docker.internal:11434/api/tags
 ```
 
-**If this fails on Linux** with "Name or service not known", you need to add `extra_hosts` to your docker-compose.yml. See the [Docker-Specific Troubleshooting](#docker-specific-troubleshooting) section below.
 
-**3. Models not downloading**
 
-**Check disk space:**
+**Nếu điều này không thành công trên Linux** với "Tên hoặc dịch vụ không xác định", bạn cần thêm `extra_hosts` vào docker-compose.yml của mình. Xem phần [Khắc phục sự cố dành riêng cho Docker](#docker-specific-troubleshooting) bên dưới.
+
+**3. Mô hình không tải xuống**
+
+**Kiểm tra dung lượng ổ đĩa:**
+
 ```bash
 df -h
 ```
 
-**Manual model pull:**
+
+
+**Kéo mô hình thủ công:**
+
 ```bash
 ollama pull qwen3 --verbose
 ```
 
-**Clear failed downloads:**
+
+
+**Xóa các bản tải xuống không thành công:**
+
 ```bash
 ollama rm qwen3
 ollama pull qwen3
 ```
 
-**4. Slow performance**
 
-**Check model size vs available RAM:**
+
+**4. Hiệu suất chậm**
+
+**Kiểm tra kích thước model so với RAM có sẵn:**
+
 ```bash
 ollama ps  # Show running models
 free -h    # Check available memory
 ```
 
-**Use smaller models:**
+
+
+**Sử dụng mô hình nhỏ hơn:**
+
 ```bash
 ollama pull phi4         # Instead of larger models
 ollama pull gemma3:2b   # 2B parameter variant
 ```
 
-**5. Port conflicts**
 
-**Check what's using port 11434:**
+
+**5. Xung đột cổng**
+
+**Kiểm tra những gì đang sử dụng cổng 11434:**
+
 ```bash
 lsof -i :11434
 netstat -tulpn | grep 11434
 ```
 
-**Use custom port:**
+
+
+**Sử dụng cổng tùy chỉnh:**
+
 ```bash
 OLLAMA_HOST=0.0.0.0:8080 ollama serve
 ```
-Then update the base URL in **Settings → API Keys** to `http://localhost:8080`
 
-**6. "Failed to send message" in Chat**
+Sau đó cập nhật URL cơ sở trong **Cài đặt → Khóa API** thành `http://localhost:8080`
 
-**Symptom:** Chat shows "Failed to send message" toast notification. Logs may show:
+**6. "Không gửi được tin nhắn" trong Trò chuyện**
+
+**Triệu chứng:** Trò chuyện hiển thị thông báo bánh mì nướng "Không thể gửi tin nhắn". Nhật ký có thể hiển thị:
+
 ```
 Error executing chat: Model is not a LanguageModel: None
 ```
 
-**Causes (in order of likelihood):**
 
-1. **Model name mismatch**: The model name in Open Notebook doesn't exactly match `ollama list`
-2. **No default model configured**: You haven't set a default chat model in Settings → Models
-3. **Model was deleted**: You removed the model from Ollama but didn't update Open Notebook's defaults
-4. **Model record deleted**: The model was removed from Open Notebook but is still set as default
 
-**Solutions:**
+**Nguyên nhân (theo thứ tự khả năng xảy ra):**
 
-**Check 1: Verify model names match exactly**
+1. **Tên model không khớp**: Tên model trong Open Notebook không khớp chính xác với `danh sách ollama`
+2. **Chưa định cấu hình kiểu máy mặc định**: Bạn chưa đặt kiểu trò chuyện mặc định trong Cài đặt → Kiểu máy
+3. **Mô hình đã bị xóa**: Bạn đã xóa mô hình khỏi Ollama nhưng không cập nhật cài đặt mặc định của Open Notebook
+4. **Bản ghi mô hình đã bị xóa**: Mô hình đã bị xóa khỏi Open Notebook nhưng vẫn được đặt làm mặc định
+
+**Giải pháp:**
+
+**Kiểm tra 1: Xác minh tên mẫu máy khớp chính xác**
+
 ```bash
 # Get exact model names from Ollama
 ollama list
@@ -399,30 +475,34 @@ ollama list
 # Go to Settings → Models and verify the names match EXACTLY
 ```
 
-**Check 2: Verify default models are set**
-1. Go to **Settings → Models**
-2. Scroll to **Default Models** section
-3. Ensure **Default Chat Model** has a value selected
-4. If empty, select an available language model
 
-**Check 3: Refresh after changes**
-If you've added/removed models in Ollama:
-1. Refresh the Open Notebook page
-2. Go to Settings → Models
-3. Re-add any missing models with exact names from `ollama list`
-4. Re-select default models if needed
 
-**Check 4: Test the model directly**
+**Kiểm tra 2: Xác minh rằng các mẫu mặc định đã được đặt**1. Đi tới**Cài đặt → Kiểu máy**2. Di chuyển đến phần**Mẫu mặc định**3. Đảm bảo**Mô hình trò chuyện mặc định** có giá trị được chọn
+4. Nếu trống, hãy chọn mô hình ngôn ngữ có sẵn
+
+**Kiểm tra 3: Làm mới sau khi thay đổi**
+Nếu bạn đã thêm/xóa mô hình trong Ollama:
+1. Làm mới trang Open Notebook
+2. Vào Cài đặt → Kiểu máy
+3. Thêm lại bất kỳ mẫu nào bị thiếu với tên chính xác từ `danh sách ollama`
+4. Chọn lại các mẫu mặc định nếu cần
+
+**Kiểm tra 4: Kiểm tra mô hình trực tiếp**
+
 ```bash
 # Verify Ollama can use the model
 ollama run gemma3:12b "Hello, world"
 ```
 
-### Docker-Specific Troubleshooting
 
-**1. Linux: `host.docker.internal` not resolving (Most Common)**
 
-If you see `Name or service not known` errors on Linux, add `extra_hosts` to your docker-compose.yml:
+### Khắc phục sự cố dành riêng cho Docker
+
+**1. Linux: `host.docker.internal` không giải quyết được (Phổ biến nhất)**
+
+Nếu bạn thấy lỗi `Name or service not known` trên Linux, hãy thêm `extra_hosts` vào docker-compose.yml của bạn:
+
+
 
 ```yaml
 services:
@@ -434,18 +514,23 @@ services:
     # ... rest of your config
 ```
 
-Then in **Settings → API Keys**, use base URL: `http://host.docker.internal:11434`
 
-This maps `host.docker.internal` to your host machine's IP. macOS/Windows Docker Desktop does this automatically, but Linux requires explicit configuration.
 
-**2. Host networking on Linux (alternative):**
+Sau đó, trong **Cài đặt → Khóa API**, hãy sử dụng URL cơ sở: `http://host.docker.internal:11434`
+
+Điều này ánh xạ `host.docker.internal` tới IP của máy chủ của bạn. macOS/Windows Docker Desktop thực hiện việc này một cách tự động, nhưng Linux yêu cầu cấu hình rõ ràng.
+
+**2. Mạng máy chủ trên Linux (thay thế):**
+
 ```bash
 # Use host networking if host.docker.internal doesn't work
 docker run --network host lfnovo/open_notebook:v1-latest-single
 ```
-Then in **Settings → API Keys**, use base URL: `http://localhost:11434`
 
-**3. Custom bridge network:**
+Sau đó, trong **Cài đặt → Khóa API**, hãy sử dụng URL cơ sở: `http://localhost:11434`
+
+**3. Mạng cầu tùy chỉnh:**
+
 ```yaml
 version: '3.8'
 networks:
@@ -462,9 +547,12 @@ services:
       - ollama_network
 ```
 
-Then in **Settings → API Keys**, use base URL: `http://ollama:11434`
 
-**4. Firewall issues:**
+
+Sau đó, trong **Cài đặt → Khóa API**, hãy sử dụng URL cơ sở: `http://ollama:11434`
+
+**4. Sự cố tường lửa:**
+
 ```bash
 # Allow Ollama port through firewall
 sudo ufw allow 11434
@@ -472,26 +560,38 @@ sudo ufw allow 11434
 sudo firewall-cmd --add-port=11434/tcp --permanent
 ```
 
-## Performance Optimization
 
-### Model Management
 
-**List installed models:**
+## Tối ưu hóa hiệu suất
+
+###Quản lý người mẫu
+
+**Liệt kê các model đã cài đặt:**
+
 ```bash
 ollama list
 ```
 
-**Remove unused models:**
+
+
+**Xóa các mẫu không sử dụng:**
+
 ```bash
 ollama rm model_name
 ```
 
-**Show running models:**
+
+
+**Hiển thị các model đang chạy:**
+
 ```bash
 ollama ps
 ```
 
-**Preload models for faster startup:**
+
+
+**Tải trước các mô hình để khởi động nhanh hơn:**
+
 ```bash
 # Keep model in memory
 curl http://localhost:11434/api/generate -d '{
@@ -501,22 +601,31 @@ curl http://localhost:11434/api/generate -d '{
 }'
 ```
 
-### System Optimization
 
-**Linux: Increase file limits:**
+
+###Tối ưu hóa hệ thống
+
+**Linux: Tăng giới hạn tệp:**
+
 ```bash
 echo "* soft nofile 65536" >> /etc/security/limits.conf
 echo "* hard nofile 65536" >> /etc/security/limits.conf
 ```
 
-**macOS: Increase memory limits:**
+
+
+**macOS: Tăng giới hạn bộ nhớ:**
+
 ```bash
 # Add to ~/.zshrc or ~/.bash_profile
 export OLLAMA_MAX_LOADED_MODELS=2
 export OLLAMA_NUM_PARALLEL=4
 ```
 
-**Docker: Resource allocation:**
+
+
+**Docker: Phân bổ tài nguyên:**
+
 ```yaml
 services:
   ollama:
@@ -527,9 +636,13 @@ services:
           cpus: '4'
 ```
 
-## Advanced Configuration
 
-### Environment Variables
+
+## Cấu hình nâng cao
+
+### Biến môi trường
+
+
 
 ```bash
 # Ollama server configuration
@@ -544,29 +657,42 @@ export OLLAMA_FLASH_ATTENTION=1        # Enable flash attention (if supported)
 # OLLAMA_API_BASE=http://localhost:11434  # Deprecated — use Settings UI
 ```
 
-### SSL Configuration (Self-Signed Certificates)
 
-If you're running Ollama behind a reverse proxy with self-signed SSL certificates (e.g., Caddy, nginx with custom certs), you may encounter SSL verification errors:
+
+### Cấu hình SSL (Chứng chỉ tự ký)
+
+Nếu bạn đang chạy Ollama sau proxy ngược có chứng chỉ SSL tự ký (ví dụ: Caddy, nginx với chứng chỉ tùy chỉnh), bạn có thể gặp phải lỗi xác minh SSL:
+
+
 
 ```
 [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate
 ```
 
-**Solutions:**
 
-**Option 1: Use a custom CA bundle (recommended)**
+
+**Giải pháp:**
+
+**Tùy chọn 1: Sử dụng gói CA tùy chỉnh (được khuyến nghị)**
+
 ```bash
 # Point to your CA certificate file
 export ESPERANTO_SSL_CA_BUNDLE=/path/to/your/ca-bundle.pem
 ```
 
-**Option 2: Disable SSL verification (development only)**
+
+
+**Tùy chọn 2: Tắt xác minh SSL (chỉ dành cho phát triển)**
+
 ```bash
 # WARNING: Only use in trusted development environments
 export ESPERANTO_SSL_VERIFY=false
 ```
 
-**Docker Compose example with SSL configuration:**
+
+
+**Ví dụ về Docker Compose với cấu hình SSL:**
+
 ```yaml
 services:
   open-notebook:
@@ -582,11 +708,14 @@ services:
       - /path/to/your/ca-bundle.pem:/certs/ca-bundle.pem:ro
 ```
 
-> **Security Note:** Disabling SSL verification exposes you to man-in-the-middle attacks. Always prefer using a custom CA bundle in production environments.
 
-### Custom Model Imports
 
-**Import custom models:**
+> **Lưu ý bảo mật:** Việc tắt xác minh SSL có thể khiến bạn gặp phải các cuộc tấn công trung gian. Luôn ưu tiên sử dụng gói CA tùy chỉnh trong môi trường sản xuất.
+
+### Nhập mô hình tùy chỉnh
+
+**Nhập mô hình tùy chỉnh:**
+
 ```bash
 # Create Modelfile
 cat > Modelfile << EOF
@@ -600,14 +729,17 @@ EOF
 ollama create my-research-model -f Modelfile
 ```
 
-**Use in Open Notebook:**
-1. Go to Models
-2. Add new model: `my-research-model`
-3. Set as default for specific tasks
 
-### Monitoring and Logging
 
-**Monitor Ollama logs:**
+**Sử dụng trong Notebook đang mở:**
+1. Vào phần Mô hình
+2. Thêm mô hình mới: `my-research-model`
+3. Đặt làm mặc định cho các tác vụ cụ thể
+
+### Giám sát và ghi nhật ký
+
+**Theo dõi nhật ký Ollama:**
+
 ```bash
 # Linux (systemd)
 journalctl -u ollama -f
@@ -619,7 +751,10 @@ docker logs -f ollama
 OLLAMA_DEBUG=1 ollama serve
 ```
 
-**Resource monitoring:**
+
+
+**Giám sát tài nguyên:**
+
 ```bash
 # CPU and memory usage
 htop
@@ -631,9 +766,13 @@ nvidia-smi -l 1
 ollama ps
 ```
 
-## Integration Examples
 
-### Python Script Integration
+
+## Ví dụ về tích hợp
+
+### Tích hợp tập lệnh Python
+
+
 
 ```python
 import requests
@@ -654,7 +793,11 @@ response = requests.post(f'{ollama_base}/api/generate', json=payload)
 print(response.json()['response'])
 ```
 
-### Health Check Script
+
+
+### Kịch bản kiểm tra sức khỏe
+
+
 
 ```bash
 #!/bin/bash
@@ -673,69 +816,71 @@ else
 fi
 ```
 
-## Migration from Other Providers
 
-### Coming from OpenAI
 
-**Similar performance models:**
-- GPT-4 → `qwen3` or `deepseek-r1`
-- GPT-3.5 → `gemma3` or `phi4`
-- text-embedding-ada-002 → `mxbai-embed-large`
+## Di chuyển từ các nhà cung cấp khác
 
-**Cost comparison:**
-- OpenAI: $0.01-0.06 per 1K tokens
-- Ollama: $0 after hardware investment
+### Đến từ OpenAI
 
-### Coming from Anthropic
+**Mô hình hiệu suất tương tự:**
+- GPT-4 → `qwen3` hoặc `deepseek-r1`
+- GPT-3.5 → `gemma3` hoặc `phi4`
+- text-embed-ada-002 → `mxbai-embed-large`
 
-**Claude replacement suggestions:**
-- Claude 3.5 Sonnet → `deepseek-r1` (reasoning)
-- Claude 3 Haiku → `phi4` (speed)
+**So sánh chi phí:**
+- OpenAI: 0,01-0,06 USD cho mỗi 1K mã thông báo
+- Ollama: 0$ sau khi đầu tư phần cứng
 
-## Best Practices
+### Đến từ nhân loại
 
-### Security
+**Gợi ý thay thế Claude:**
+- Claude 3.5 Sonnet → `deepseek-r1` (lý luận)
+- Claude 3 Haiku → `phi4` (tốc độ)
 
-1. **Network Security:**
-   - Run Ollama only on trusted networks
-   - Use firewall rules to limit access
-   - Consider VPN for remote access
+## Các phương pháp hay nhất
 
-2. **Model Verification:**
-   - Only pull models from trusted sources
-   - Verify model checksums when possible
+### Bảo vệ
 
-3. **Resource Limits:**
-   - Set memory and CPU limits in production
-   - Monitor resource usage regularly
+1. **An ninh mạng:**
+   - Chỉ chạy Ollama trên các mạng đáng tin cậy
+   - Sử dụng quy tắc tường lửa để hạn chế quyền truy cập
+   - Xem xét VPN để truy cập từ xa
 
-### Performance
+2. **Xác minh mẫu:**
+   - Chỉ lấy mô hình từ các nguồn đáng tin cậy
+   - Xác minh tổng kiểm tra mô hình khi có thể
 
-1. **Model Selection:**
-   - Use appropriate model size for your hardware
-   - Smaller models for simple tasks
-   - Reasoning models only when needed
+3. **Giới hạn tài nguyên:**
+   - Đặt giới hạn bộ nhớ và CPU trong sản xuất
+   - Giám sát việc sử dụng tài nguyên thường xuyên
 
-2. **Resource Management:**
-   - Preload frequently used models
-   - Remove unused models regularly
-   - Monitor system resources
+### Hiệu suất
 
-3. **Network Optimization:**
-   - Use local networks for better latency
-   - Consider SSD storage for faster model loading
+1. **Lựa chọn mẫu:**
+   - Sử dụng kích thước mô hình phù hợp cho phần cứng của bạn
+   - Mô hình nhỏ hơn cho các nhiệm vụ đơn giản
+   - Chỉ lập luận mô hình khi cần thiết
 
-## Getting Help
+2. **Quản lý tài nguyên:**
+   - Tải trước các mô hình được sử dụng thường xuyên
+   - Thường xuyên loại bỏ những model không sử dụng
+   - Giám sát tài nguyên hệ thống
 
-**Community Resources:**
-- [Ollama GitHub](https://github.com/jmorganca/ollama) - Official repository
-- [Ollama Discord](https://discord.gg/ollama) - Community support
-- [Open Notebook Discord](https://discord.gg/37XJPXfz2w) - Integration help
+3. **Tối ưu hóa mạng:**
+   - Sử dụng mạng cục bộ để có độ trễ tốt hơn
+   - Cân nhắc việc lưu trữ SSD để tải mô hình nhanh hơn
 
-**Debugging Resources:**
-- Check Ollama logs for error messages
-- Test connection with curl commands
-- Verify environment variables
-- Monitor system resources
+## Nhận trợ giúp
 
-This comprehensive guide should help you successfully deploy and optimize Ollama with Open Notebook. Start with the Quick Start section and refer to specific scenarios as needed.
+**Tài nguyên cộng đồng:**
+- [Ollama GitHub](https://github.com/jmorganca/ollama) - Kho lưu trữ chính thức
+- [Ollama Discord](https://discord.gg/ollama) - Hỗ trợ cộng đồng
+- [Open Notebook Discord](https://discord.gg/37XJPXfz2w) - Trợ giúp tích hợp
+
+**Tài nguyên gỡ lỗi:**
+- Kiểm tra nhật ký Ollama để tìm thông báo lỗi
+- Kiểm tra kết nối bằng lệnh cuộn tròn
+- Xác minh các biến môi trường
+- Giám sát tài nguyên hệ thống
+
+Hướng dẫn toàn diện này sẽ giúp bạn triển khai và tối ưu hóa thành công Ollama với Open Notebook. Bắt đầu với phần Bắt đầu nhanh và tham khảo các tình huống cụ thể nếu cần.

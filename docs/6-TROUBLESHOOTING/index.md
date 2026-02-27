@@ -1,187 +1,188 @@
-# Troubleshooting - Problem Solving Guide
+# Xử lý sự cố - Hướng dẫn giải quyết vấn đề
 
-Having issues? Use this guide to diagnose and fix problems.
-
----
-
-## How to Use This Guide
-
-**Step 1: Identify your problem**
-- What's the symptom? (error message, behavior, something not working?)
-- When did it happen? (during install, while using, after update?)
-
-**Step 2: Find the right guide**
-- Look below for your symptom
-- Go to the specific troubleshooting guide
-
-**Step 3: Follow the steps**
-- Guides are organized by symptom, not by root cause
-- Each has diagnostic steps and solutions
+Có vấn đề? Sử dụng hướng dẫn này để chẩn đoán và khắc phục sự cố.
 
 ---
 
-## Quick Problem Map
+## Cách sử dụng Hướng dẫn này
 
-### During Installation
+**Bước 1: Xác định vấn đề của bạn**
+- Triệu chứng gì thế? (thông báo lỗi, hành vi, điều gì đó không hoạt động?)
+- Chuyện đó xảy ra khi nào? (trong khi cài đặt, trong khi sử dụng, sau khi cập nhật?)
 
-- **Docker won't start** → [Quick Fixes](quick-fixes.md#9-services-wont-start-or-docker-error)
-- **Port already in use** → [Quick Fixes](quick-fixes.md#3-port-x-already-in-use)
-- **Permission denied** → [Quick Fixes](quick-fixes.md#9-services-wont-start-or-docker-error)
-- **Can't connect to database** → [Connection Issues](connection-issues.md)
+**Bước 2: Tìm hướng dẫn phù hợp**
+- Nhìn bên dưới để biết triệu chứng của bạn
+- Đi tới hướng dẫn khắc phục sự cố cụ thể
 
-### When Starting
-
-- **API won't start** → [Quick Fixes](quick-fixes.md#9-services-wont-start-or-docker-error)
-- **Frontend won't load** → [Connection Issues](connection-issues.md)
-- **"Cannot connect to server" error** → [Connection Issues](connection-issues.md)
-
-### Settings / Configuration
-
-- **Models not showing** → [AI & Chat Issues](ai-chat-issues.md)
-- **"Invalid API key"** → [AI & Chat Issues](ai-chat-issues.md)
-- **Can't find Settings** → [Quick Fixes](quick-fixes.md)
-
-### Using Features
-
-- **Chat not working** → [AI & Chat Issues](ai-chat-issues.md)
-- **Chat responses are slow** → [AI & Chat Issues](ai-chat-issues.md)
-- **Chat gives bad answers** → [AI & Chat Issues](ai-chat-issues.md)
-
-### Adding Content
-
-- **Can't upload PDF** → [Quick Fixes](quick-fixes.md#4-cannot-process-file-or-unsupported-format)
-- **File won't process** → [Quick Fixes](quick-fixes.md#4-cannot-process-file-or-unsupported-format)
-- **Web link won't extract** → [Quick Fixes](quick-fixes.md#4-cannot-process-file-or-unsupported-format)
-
-### Search
-
-- **Search returns no results** → [Quick Fixes](quick-fixes.md#7-search-returns-nothing)
-- **Search returns wrong results** → [Quick Fixes](quick-fixes.md#7-search-returns-nothing)
-
-### Podcasts
-
-- **Can't generate podcast** → [Quick Fixes](quick-fixes.md#8-podcast-generation-failed)
-- **Podcast shows "FAILED" badge** → Check the error message displayed on the episode, then use the **Retry** button. See [Podcasts Explained](../2-CORE-CONCEPTS/podcasts-explained.md#when-things-go-wrong-failures--retry)
-- **Podcast audio is robotic** → [Quick Fixes](quick-fixes.md#8-podcast-generation-failed)
-- **Podcast generation times out** → [Quick Fixes](quick-fixes.md#8-podcast-generation-failed)
+**Bước 3: Thực hiện theo các bước**
+- Hướng dẫn được tổ chức theo triệu chứng, không theo nguyên nhân gốc rễ
+- Mỗi bước đều có các bước chẩn đoán và giải pháp
 
 ---
 
-## Troubleshooting by Error Message
+## Bản đồ vấn đề nhanh
 
-### "Cannot connect to server"
-→ [Connection Issues](connection-issues.md) — Frontend can't reach API
+### Trong quá trình cài đặt
 
-### "Invalid API key"
-→ [AI & Chat Issues](ai-chat-issues.md) — Wrong or missing API key
+- **Docker không khởi động** → [Sửa nhanh](quick-fixes.md#9-services-wont-start-or-docker-error)
+- **Cổng đã được sử dụng** → [Sửa nhanh](quick-fixes.md#3-port-x-already-in-use)
+- **Quyền bị từ chối** → [Sửa nhanh](quick-fixes.md#9-services-wont-start-or-docker-error)
+- **Không thể kết nối với cơ sở dữ liệu** → [Sự cố kết nối](connection-issues.md)
 
-### "Models not available"
-→ [AI & Chat Issues](ai-chat-issues.md) — Model not configured
+### Khi bắt đầu
 
-### "Connection refused"
-→ [Connection Issues](connection-issues.md) — Service not running or port wrong
+- **API không khởi động** → [Sửa nhanh](quick-fixes.md#9-services-wont-start-or-docker-error)
+- **Giao diện người dùng không tải** → [Sự cố kết nối](connection-issues.md)
+- **Lỗi "Không thể kết nối với máy chủ"** → [Sự cố kết nối](connection-issues.md)
 
-### "Port already in use"
-→ [Quick Fixes](quick-fixes.md#3-port-x-already-in-use) — Port conflict
+### Cài đặt/Cấu hình
 
-### "Permission denied"
-→ [Quick Fixes](quick-fixes.md#9-services-wont-start-or-docker-error) — File permissions issue
+- **Mô hình không hiển thị** → [Vấn đề về AI và trò chuyện](ai-chat-issues.md)
+- **"Khóa API không hợp lệ"** → [Vấn đề về AI và trò chuyện](ai-chat-issues.md)
+- **Không thể tìm thấy Cài đặt** → [Sửa nhanh](quick-fixes.md)
 
-### "Unsupported file type"
-→ [Quick Fixes](quick-fixes.md#4-cannot-process-file-or-unsupported-format) — File format not supported
+### Sử dụng tính năng
 
-### "Processing timeout"
-→ [Quick Fixes](quick-fixes.md#5-chat-is-very-slow) — File too large or slow processing
+- **Trò chuyện không hoạt động** → [Vấn đề về AI và trò chuyện](ai-chat-issues.md)
+- **Phản hồi trò chuyện chậm** → [Vấn đề về AI và trò chuyện](ai-chat-issues.md)
+- **Trò chuyện đưa ra câu trả lời không tốt** → [Vấn đề về AI và trò chuyện](ai-chat-issues.md)
 
----
+### Thêm nội dung
 
-## Troubleshooting by Component
+- **Không thể tải lên bản PDF** → [Sửa nhanh](quick-fixes.md#4-cannot-process-file-or-unsupported-format)
+- **Tệp sẽ không xử lý** → [Sửa nhanh](quick-fixes.md#4-cannot-process-file-or-unsupported-format)
+- **Liên kết web sẽ không giải nén được** → [Sửa nhanh](quick-fixes.md#4-cannot-process-file-or-unsupported-format)
 
-### Frontend (Browser/UI)
-- Can't access UI → [Connection Issues](connection-issues.md)
-- UI is slow → [Quick Fixes](quick-fixes.md)
-- Button/feature missing → [Quick Fixes](quick-fixes.md)
+### Tìm kiếm
 
-### API (Backend)
-- API won't start → [Quick Fixes](quick-fixes.md#9-services-wont-start-or-docker-error)
-- API errors in logs → [Quick Fixes](quick-fixes.md#9-services-wont-start-or-docker-error)
-- API is slow → [Quick Fixes](quick-fixes.md)
+- **Tìm kiếm không trả lại kết quả nào** → [Sửa nhanh](quick-fixes.md#7-search-returns-nothing)
+- **Tìm kiếm trả về kết quả sai** → [Sửa nhanh](quick-fixes.md#7-search-returns-nothing)
 
-### Database
-- Can't connect to database → [Connection Issues](connection-issues.md)
-- Data lost after restart → [FAQ](faq.md#how-do-i-backup-my-data)
+### Podcast
 
-### AI / Chat
-- Chat not working → [AI & Chat Issues](ai-chat-issues.md)
-- Bad responses → [AI & Chat Issues](ai-chat-issues.md)
-- Cost too high → [AI & Chat Issues](ai-chat-issues.md#high-api-costs)
-
-### Sources
-- Can't upload file → [Quick Fixes](quick-fixes.md#4-cannot-process-file-or-unsupported-format)
-- File won't process → [Quick Fixes](quick-fixes.md#4-cannot-process-file-or-unsupported-format)
-
-### Podcasts
-- Won't generate → [Quick Fixes](quick-fixes.md#8-podcast-generation-failed)
-- Bad audio quality → [Quick Fixes](quick-fixes.md#8-podcast-generation-failed)
+- **Không thể tạo podcast** → [Sửa nhanh](quick-fixes.md#8-podcast-Generation-failed)
+- **Podcast hiển thị huy hiệu "FAILED"**→ Kiểm tra thông báo lỗi hiển thị trên tập, sau đó sử dụng nút**Thử lại**. Xem [Giải thích về Podcast](../2-CORE-CONCEPTS/podcasts-explained.md#when-things-go-wrong-failures--retry)
+- **Âm thanh podcast là robot** → [Sửa nhanh](quick-fixes.md#8-podcast-thế hệ-thất bại)
+- **Đã hết thời gian tạo podcast** → [Sửa nhanh](quick-fixes.md#8-podcast-thế hệ-thất bại)
 
 ---
 
-## Diagnostic Checklist
+## Khắc phục sự cố bằng thông báo lỗi
 
-**When something isn't working:**
+### "Không thể kết nối với máy chủ"
+→ [Sự cố kết nối](connection-issues.md) — Giao diện người dùng không thể truy cập API
 
-- [ ] Check if services are running: `docker ps`
-- [ ] Check logs: `docker compose logs api` (or frontend, surrealdb)
-- [ ] Verify ports are exposed: `netstat -tlnp` or `lsof -i :5055`
-- [ ] Test connectivity: `curl http://localhost:5055/health`
-- [ ] Check environment variables: `docker inspect <container>`
-- [ ] Try restarting: `docker compose restart`
-- [ ] Check firewall/antivirus isn't blocking
+### "Khóa API không hợp lệ"
+→ [Sự cố về AI & Trò chuyện](ai-chat-issues.md) — Khóa API sai hoặc bị thiếu
 
----
+### "Mẫu không có sẵn"
+→ [Sự cố về AI & Trò chuyện](ai-chat-issues.md) — Mô hình chưa được định cấu hình
 
-## Getting Help
+### "Kết nối bị từ chối"
+→ [Sự cố kết nối](connection-issues.md) — Dịch vụ không chạy hoặc cổng sai
 
-If you can't find the answer here:
+### "Cổng đã được sử dụng"
+→ [Sửa nhanh](quick-fixes.md#3-port-x-already-in-use) — Xung đột cổng
 
-1. **Check the relevant guide** — Read completely, try all steps
-2. **Check the FAQ** — [Frequently Asked Questions](faq.md)
-3. **Search our Discord** — Others may have had same issue
-4. **Check logs** — Most issues show error messages in logs
-5. **Report on GitHub** — Include error message, steps to reproduce
+### "Quyền bị từ chối"
+→ [Khắc phục nhanh](quick-fixes.md#9-services-wont-start-or-docker-error) — Vấn đề về quyền truy cập tệp
 
-### How to Report an Issue
+### "Loại tệp không được hỗ trợ"
+→ [Sửa nhanh](quick-fixes.md#4-cannot-process-file-or-unsupported-format) — Định dạng tệp không được hỗ trợ
 
-Include:
-1. Error message (exact)
-2. Steps to reproduce
-3. Logs: `docker compose logs`
-4. Your setup: Docker/local, provider, OS
-5. What you've already tried
-
-→ [Report on GitHub](https://github.com/lfnovo/open-notebook/issues)
+### "Hết thời gian xử lý"
+→ [Khắc phục nhanh](quick-fixes.md#5-chat-is-very-slow) — Tệp quá lớn hoặc xử lý chậm
 
 ---
 
-## Guides
+## Khắc phục sự cố theo Thành phần
 
-### [Quick Fixes](quick-fixes.md)
-Top 10 most common issues with 1-minute solutions.
+### Giao diện người dùng (Trình duyệt/UI)
+- Không thể truy cập UI → [Sự cố kết nối](connection-issues.md)
+- Giao diện người dùng chậm → [Sửa nhanh](quick-fixes.md)
+- Thiếu nút/tính năng → [Sửa nhanh](quick-fixes.md)
 
-### [Connection Issues](connection-issues.md)
-Frontend can't reach API, network problems.
+### API (Phần cuối)
+- API không khởi động → [Khắc phục nhanh](quick-fixes.md#9-services-wont-start-or-docker-error)
+- Lỗi API trong nhật ký → [Sửa nhanh](quick-fixes.md#9-services-wont-start-or-docker-error)
+- API chậm → [Sửa nhanh](quick-fixes.md)
 
-### [AI & Chat Issues](ai-chat-issues.md)
-Chat not working, bad responses, slow performance.
+### Cơ sở dữ liệu
+- Không thể kết nối với cơ sở dữ liệu → [Sự cố kết nối](connection-issues.md)
+- Dữ liệu bị mất sau khi khởi động lại → [FAQ](faq.md#how-do-i-backup-my-data)
 
-### [FAQ](faq.md)
-Frequently asked questions about usage, costs, and best practices.
+### AI/Trò chuyện
+- Trò chuyện không hoạt động → [Vấn đề về AI và trò chuyện](ai-chat-issues.md)
+- Phản hồi không tốt → [Vấn đề về AI và trò chuyện](ai-chat-issues.md)
+- Chi phí quá cao → [Vấn đề về AI và trò chuyện](ai-chat-issues.md#high-api-costs)
+
+### Nguồn
+- Không thể tải tệp lên → [Khắc phục nhanh](quick-fixes.md#4-cannot-process-file-or-unsupported-format)
+- Tệp không xử lý → [Khắc phục nhanh](quick-fixes.md#4-cannot-process-file-or-unsupported-format)
+
+### Podcast
+- Sẽ không tạo ra → [Khắc phục nhanh](quick-fixes.md#8-podcast-Generation-failed)
+- Chất lượng âm thanh kém → [Khắc phục nhanh](quick-fixes.md#8-podcast-thế hệ-thất bại)
 
 ---
 
-## Common Solutions
+## Danh sách kiểm tra chẩn đoán
 
-**Service won't start?**
+**Khi có điều gì đó không ổn:**
+
+- [ ] Kiểm tra xem các dịch vụ có đang chạy không: `docker ps`
+- [ ] Kiểm tra nhật ký: `docker soạn nhật ký api` (hoặc frontend, siêu thựcdb)
+- [ ] Xác minh các cổng bị lộ: `netstat -tlnp` hoặc `lsof -i :5055`
+- [ ] Kiểm tra kết nối: `curl http://localhost:5055/health`
+- [ ] Kiểm tra các biến môi trường: `docker kiểm tra <container>`
+- [ ] Thử khởi động lại: `docker soạn khởi động lại`
+- [ ] Kiểm tra xem tường lửa/chống vi-rút có chặn không
+
+---
+
+## Nhận trợ giúp
+
+Nếu bạn không thể tìm thấy câu trả lời ở đây:
+
+1. **Kiểm tra hướng dẫn liên quan** — Đọc hết, thử tất cả các bước
+2. **Kiểm tra Câu hỏi thường gặp** — [Câu hỏi thường gặp](faq.md)
+3. **Tìm kiếm Discord của chúng tôi** — Những người khác có thể gặp vấn đề tương tự
+4. **Kiểm tra nhật ký** — Hầu hết các sự cố đều hiển thị thông báo lỗi trong nhật ký
+5. **Báo cáo trên GitHub** — Bao gồm thông báo lỗi, các bước sao chép
+
+### Cách báo cáo sự cố
+
+Bao gồm:
+1. Thông báo lỗi (chính xác)
+2. Các bước tái tạo
+3. Nhật ký: `docker soạn nhật ký`
+4. Thiết lập của bạn: Docker/local, nhà cung cấp, hệ điều hành
+5. Những gì bạn đã thử
+
+→ [Báo cáo trên GitHub](https://github.com/lfnovo/open-notebook/issues)
+
+---
+
+## Hướng dẫn
+
+### [Sửa nhanh](quick-fixes.md)
+Top 10 vấn đề thường gặp nhất với giải pháp trong 1 phút.
+
+### [Sự cố kết nối](connection-issues.md)
+Frontend không vào được API, mạng có vấn đề.
+
+### [Vấn đề về AI và trò chuyện](ai-chat-issues.md)
+Trò chuyện không hoạt động, phản hồi kém, hiệu suất chậm.
+
+### [Câu hỏi thường gặp](faq.md)
+Các câu hỏi thường gặp về cách sử dụng, chi phí và cách thực hành tốt nhất.
+
+---
+
+## Giải pháp chung
+
+**Dịch vụ không bắt đầu?**
+
 ```bash
 # Check logs
 docker compose logs
@@ -194,21 +195,30 @@ docker compose down
 docker compose up --build
 ```
 
-**Port conflict?**
+
+
+**Xung đột cổng?**
+
 ```bash
 # Find what's using port 5055
 lsof -i :5055
 # Kill it or use different port
 ```
 
-**Can't connect?**
+
+
+**Không thể kết nối?**
+
 ```bash
 # Test API directly
 curl http://localhost:5055/health
 # Should return: {"status":"ok"}
 ```
 
-**Slow performance?**
+
+
+**Hiệu suất chậm?**
+
 ```bash
 # Check resource usage
 docker stats
@@ -217,24 +227,28 @@ docker stats
 SURREAL_COMMANDS_MAX_TASKS=2
 ```
 
-**High costs?**
+
+
+**Chi phí cao?**
+
 ```bash
 # Switch to cheaper model
 # In Settings → Models → Choose gpt-4o-mini (OpenAI)
 # Or use Ollama (free)
 ```
 
+
+
 ---
 
-## Still Stuck?
+## Vẫn bị kẹt?
 
-**Before asking for help:**
-1. Read the relevant guide completely
-2. Try all the steps
-3. Check the logs
-4. Restart services
-5. Search existing issues on GitHub
+**Trước khi yêu cầu trợ giúp:**
+1. Đọc kỹ hướng dẫn liên quan
+2. Hãy thử tất cả các bước
+3. Kiểm tra nhật ký
+4. Khởi động lại dịch vụ
+5. Tìm kiếm các vấn đề hiện có trên GitHub
 
-**Then:**
-- **Discord**: https://discord.gg/37XJPXfz2w (fastest response)
-- **GitHub Issues**: https://github.com/lfnovo/open-notebook/issues
+**Sau đó:**-**Discord**: https://discord.gg/37XJPXfz2w (phản hồi nhanh nhất)
+- **Vấn đề về GitHub**: https://github.com/lfnovo/open-notebook/issues

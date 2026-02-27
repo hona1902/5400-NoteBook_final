@@ -1,25 +1,25 @@
-# Quick Start - Cloud AI Providers (5 minutes)
+# Hướng Dẫn Nhanh - Nhà Cung Cấp AI Đám Mây (5 phút)
 
-Get Open Notebook running with **Anthropic, Google, Groq, or other cloud providers**. Same simplicity as OpenAI, with more choices.
+Chạy Open Notebook với **Anthropic, Google, Groq, hoặc các nhà cung cấp đám mây khác**. Đơn giản như OpenAI, với nhiều lựa chọn hơn.
 
-## Prerequisites
+## Điều Kiện Tiên Quyết
 
-1. **Docker Desktop** installed
-   - [Download here](https://www.docker.com/products/docker-desktop/)
-   - Already have it? Skip to step 2
+1. **Docker Desktop** đã cài đặt
+   - [Tải tại đây](https://www.docker.com/products/docker-desktop/)
+   - Đã có rồi? Bỏ qua bước 2
 
-2. **API Key** from your chosen provider:
-   - **OpenRouter** (100+ models, one key): https://openrouter.ai/keys
+2. **Khóa API** từ nhà cung cấp bạn chọn:
+   - **OpenRouter** (100+ mô hình, một khóa): https://openrouter.ai/keys
    - **Anthropic (Claude)**: https://console.anthropic.com/
    - **Google (Gemini)**: https://aistudio.google.com/
-   - **Groq** (fast, free tier): https://console.groq.com/
+   - **Groq** (nhanh, có gói miễn phí): https://console.groq.com/
    - **Mistral**: https://console.mistral.ai/
    - **DeepSeek**: https://platform.deepseek.com/
    - **xAI (Grok)**: https://console.x.ai/
 
-## Step 1: Create Configuration (1 min)
+## Bước 1: Tạo Cấu Hình (1 phút)
 
-Create a new folder `open-notebook` and add this file:
+Tạo thư mục mới `open-notebook` và thêm file này:
 
 **docker-compose.yml**:
 ```yaml
@@ -36,13 +36,13 @@ services:
     image: lfnovo/open_notebook:v1-latest
     pull_policy: always
     ports:
-      - "8502:8502"  # Web UI
+      - "8502:8502"  # Giao diện Web
       - "5055:5055"  # API
     environment:
-      # Encryption key for credential storage (required)
-      - OPEN_NOTEBOOK_ENCRYPTION_KEY=change-me-to-a-secret-string
+      # Khóa mã hóa cho lưu trữ credential (bắt buộc)
+      - OPEN_NOTEBOOK_ENCRYPTION_KEY=thay-doi-thanh-chuoi-bi-mat
 
-      # Database (required)
+      # Cơ sở dữ liệu (bắt buộc)
       - SURREAL_URL=ws://surrealdb:8000/rpc
       - SURREAL_USER=root
       - SURREAL_PASSWORD=password
@@ -56,158 +56,158 @@ services:
 
 ```
 
-**Edit the file:**
-- Replace `change-me-to-a-secret-string` with your own secret (any string works)
+**Chỉnh sửa file:**
+- Thay `thay-doi-thanh-chuoi-bi-mat` bằng chuỗi bí mật của bạn (bất kỳ chuỗi nào đều được)
 
 ---
 
-## Step 2: Start Services (1 min)
+## Bước 2: Khởi Động Dịch Vụ (1 phút)
 
-Open terminal in your `open-notebook` folder:
+Mở terminal trong thư mục `open-notebook`:
 
 ```bash
 docker compose up -d
 ```
 
-Wait 15-20 seconds for services to start.
+Chờ 15-20 giây để dịch vụ khởi động.
 
 ---
 
-## Step 3: Access Open Notebook (instant)
+## Bước 3: Truy Cập Open Notebook (ngay lập tức)
 
-Open your browser:
+Mở trình duyệt:
 ```
 http://localhost:8502
 ```
 
-You should see the Open Notebook interface!
+Bạn sẽ thấy giao diện Open Notebook!
 
 ---
 
-## Step 4: Configure Your AI Provider (1 min)
+## Bước 4: Cấu Hình Nhà Cung Cấp AI (1 phút)
 
-1. Go to **Settings** → **API Keys**
-2. Click **Add Credential**
-3. Select your provider (e.g., Anthropic, Google, Groq, OpenRouter)
-4. Give it a name, paste your API key
-5. Click **Save**
-6. Click **Test Connection** — should show success
-7. Click **Discover Models** → **Register Models**
+1. Vào **Cài đặt** → **Khóa API**
+2. Nhấn **Thêm Credential**
+3. Chọn nhà cung cấp (ví dụ: Anthropic, Google, Groq, OpenRouter)
+4. Đặt tên, dán khóa API
+5. Nhấn **Lưu**
+6. Nhấn **Kiểm Tra Kết Nối** — sẽ hiển thị thành công
+7. Nhấn **Khám Phá Mô Hình** → **Đăng Ký Mô Hình**
 
-Your provider's models are now available!
+Các mô hình của nhà cung cấp đã sẵn sàng!
 
-> **Multiple providers**: You can add credentials for as many providers as you want. Just repeat this step for each provider.
-
----
-
-## Step 5: Configure Your Model (1 min)
-
-1. Go to **Settings** (gear icon)
-2. Navigate to **Models**
-3. Select your provider's model:
-
-| Provider | Recommended Model | Notes |
-|----------|-------------------|-------|
-| **OpenRouter** | `anthropic/claude-3.5-sonnet` | Access 100+ models |
-| **Anthropic** | `claude-3-5-sonnet-latest` | Best reasoning |
-| **Google** | `gemini-2.0-flash` | Large context, fast |
-| **Groq** | `llama-3.3-70b-versatile` | Ultra-fast |
-| **Mistral** | `mistral-large-latest` | Strong European option |
-
-4. Click **Save**
+> **Nhiều nhà cung cấp**: Bạn có thể thêm credential cho nhiều nhà cung cấp tùy thích. Chỉ cần lặp lại bước này cho mỗi nhà cung cấp.
 
 ---
 
-## Step 6: Create Your First Notebook (1 min)
+## Bước 5: Cấu Hình Mô Hình (1 phút)
 
-1. Click **New Notebook**
-2. Name: "My Research"
-3. Click **Create**
+1. Vào **Cài đặt** (biểu tượng bánh răng)
+2. Điều hướng đến **Mô hình**
+3. Chọn mô hình của nhà cung cấp:
 
----
+| Nhà cung cấp | Mô hình khuyến nghị | Ghi chú |
+|--------------|---------------------|---------|
+| **OpenRouter** | `anthropic/claude-3.5-sonnet` | Truy cập 100+ mô hình |
+| **Anthropic** | `claude-3-5-sonnet-latest` | Suy luận tốt nhất |
+| **Google** | `gemini-2.0-flash` | Ngữ cảnh lớn, nhanh |
+| **Groq** | `llama-3.3-70b-versatile` | Siêu nhanh |
+| **Mistral** | `mistral-large-latest` | Lựa chọn châu Âu mạnh |
 
-## Step 7: Add Content & Chat (2 min)
-
-1. Click **Add Source**
-2. Choose **Web Link**
-3. Paste any article URL
-4. Wait for processing
-5. Go to **Chat** and ask questions!
-
----
-
-## Verification Checklist
-
-- [ ] Docker is running
-- [ ] You can access `http://localhost:8502`
-- [ ] Provider credential is configured and tested
-- [ ] Models are registered
-- [ ] You created a notebook
-- [ ] Chat works
-
-**All checked?** You're ready to research!
+4. Nhấn **Lưu**
 
 ---
 
-## Provider Comparison
+## Bước 6: Tạo Notebook Đầu Tiên (1 phút)
 
-| Provider | Speed | Quality | Context | Cost |
-|----------|-------|---------|---------|------|
-| **OpenRouter** | Varies | Varies | Varies | Varies (100+ models) |
-| **Anthropic** | Medium | Excellent | 200K | $$$ |
-| **Google** | Fast | Very Good | 1M+ | $$ |
-| **Groq** | Ultra-fast | Good | 128K | $ (free tier) |
-| **Mistral** | Fast | Good | 128K | $$ |
-| **DeepSeek** | Medium | Very Good | 64K | $ |
+1. Nhấn **Notebook Mới**
+2. Tên: "Nghiên Cứu Của Tôi"
+3. Nhấn **Tạo**
 
 ---
 
-## Troubleshooting
+## Bước 7: Thêm Nội Dung & Chat (2 phút)
 
-### "Model not found" Error
+1. Nhấn **Thêm Nguồn**
+2. Chọn **Liên Kết Web**
+3. Dán bất kỳ URL bài viết nào
+4. Chờ xử lý
+5. Vào **Chat** và đặt câu hỏi!
 
-1. Go to **Settings** → **API Keys**
-2. Click **Test Connection** on your credential
-3. If valid, click **Discover Models** → **Register Models**
-4. Check you have credits/access for the model
+---
 
-### "Cannot connect to server"
+## Danh Sách Kiểm Tra
+
+- [ ] Docker đang chạy
+- [ ] Có thể truy cập `http://localhost:8502`
+- [ ] Credential nhà cung cấp đã cấu hình và kiểm tra
+- [ ] Mô hình đã đăng ký
+- [ ] Đã tạo notebook
+- [ ] Chat hoạt động
+
+**Tất cả đã đánh dấu?** Bạn đã sẵn sàng nghiên cứu!
+
+---
+
+## So Sánh Nhà Cung Cấp
+
+| Nhà cung cấp | Tốc độ | Chất lượng | Ngữ cảnh | Chi phí |
+|--------------|--------|-----------|----------|---------|
+| **OpenRouter** | Khác nhau | Khác nhau | Khác nhau | Khác nhau (100+ mô hình) |
+| **Anthropic** | Trung bình | Xuất sắc | 200K | $$$ |
+| **Google** | Nhanh | Rất tốt | 1M+ | $$ |
+| **Groq** | Siêu nhanh | Tốt | 128K | $ (có gói miễn phí) |
+| **Mistral** | Nhanh | Tốt | 128K | $$ |
+| **DeepSeek** | Trung bình | Rất tốt | 64K | $ |
+
+---
+
+## Khắc Phục Sự Cố
+
+### Lỗi "Không tìm thấy mô hình"
+
+1. Vào **Cài đặt** → **Khóa API**
+2. Nhấn **Kiểm Tra Kết Nối** trên credential
+3. Nếu hợp lệ, nhấn **Khám Phá Mô Hình** → **Đăng Ký Mô Hình**
+4. Kiểm tra bạn có credit/quyền truy cập cho mô hình
+
+### "Không thể kết nối đến máy chủ"
 
 ```bash
-docker ps  # Check all services running
-docker compose logs  # View logs
-docker compose restart  # Restart everything
+docker ps  # Kiểm tra tất cả dịch vụ đang chạy
+docker compose logs  # Xem log
+docker compose restart  # Khởi động lại tất cả
 ```
 
-### Provider-Specific Issues
+### Vấn Đề Theo Nhà Cung Cấp
 
-**Anthropic**: Ensure key starts with `sk-ant-`
-**Google**: Use AI Studio key, not Cloud Console
-**Groq**: Free tier has rate limits; upgrade if needed
+**Anthropic**: Đảm bảo khóa bắt đầu bằng `sk-ant-`
+**Google**: Sử dụng khóa AI Studio, không phải Cloud Console
+**Groq**: Gói miễn phí có giới hạn tốc độ; nâng cấp nếu cần
 
 ---
 
-## Cost Estimates
+## Ước Tính Chi Phí
 
-Approximate costs per 1K tokens:
+Chi phí ước tính mỗi 1K token:
 
-| Provider | Input | Output |
-|----------|-------|--------|
+| Nhà cung cấp | Đầu vào | Đầu ra |
+|--------------|---------|--------|
 | Anthropic (Sonnet) | $0.003 | $0.015 |
 | Google (Flash) | $0.0001 | $0.0004 |
-| Groq (Llama 70B) | Free tier available | - |
+| Groq (Llama 70B) | Có gói miễn phí | - |
 | Mistral (Large) | $0.002 | $0.006 |
 
-Check provider websites for current pricing.
+Kiểm tra website nhà cung cấp để biết giá hiện tại.
 
 ---
 
-## Next Steps
+## Bước Tiếp Theo
 
-1. **Add Your Content**: PDFs, web links, documents
-2. **Explore Features**: Podcasts, transformations, search
-3. **Full Documentation**: [See all features](../3-USER-GUIDE/index.md)
+1. **Thêm Nội Dung Của Bạn**: PDF, liên kết web, tài liệu
+2. **Khám Phá Tính Năng**: Podcast, biến đổi, tìm kiếm
+3. **Tài Liệu Đầy Đủ**: [Xem tất cả tính năng](../3-USER-GUIDE/index.md)
 
 ---
 
-**Need help?** Join our [Discord community](https://discord.gg/37XJPXfz2w)!
+**Cần trợ giúp?** Tham gia [cộng đồng Discord](https://discord.gg/37XJPXfz2w)!

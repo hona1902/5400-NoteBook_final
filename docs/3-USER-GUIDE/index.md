@@ -1,208 +1,208 @@
-# User Guide - How to Use Open Notebook
+# Hướng Dẫn Sử Dụng - Cách Dùng Open Notebook
 
-This guide covers practical, step-by-step usage of Open Notebook features. You already understand the concepts; now learn how to actually use them.
+Hướng dẫn này bao gồm cách sử dụng thực tế, từng bước các tính năng của Open Notebook. Bạn đã hiểu các khái niệm; bây giờ hãy học cách thực sự sử dụng chúng.
 
-> **Prerequisite**: Review [2-CORE-CONCEPTS](../2-CORE-CONCEPTS/index.md) first to understand the mental models (notebooks, sources, notes, chat, transformations, podcasts).
-
----
-
-## Start Here
-
-### [Interface Overview](interface-overview.md)
-Learn the layout before diving in. Understand the three-panel design and where everything is.
+> **Điều kiện tiên quyết**: Xem lại [2-KHÁI-NIỆM-CƠ-BẢN](../2-CORE-CONCEPTS/index.md) trước để hiểu các mô hình tư duy (notebook, nguồn, ghi chú, chat, biến đổi, podcast).
 
 ---
 
-## Eight Core Features
+## Bắt Đầu Từ Đây
 
-### 1. [Adding Sources](adding-sources.md)
-How to bring content into your notebook. Supports PDFs, web links, audio, video, text, and more.
-
-**Quick links:**
-- Upload a PDF or document
-- Add a web link or article
-- Transcribe audio or video
-- Paste text directly
-- Common mistakes + fixes
+### [Tổng Quan Giao Diện](interface-overview.md)
+Tìm hiểu bố cục trước khi bắt đầu. Hiểu thiết kế ba bảng và vị trí mọi thứ.
 
 ---
 
-### 2. [Working with Notes](working-with-notes.md)
-Creating, organizing, and using notes (both manual and AI-generated).
+## Tám Tính Năng Cốt Lõi
 
-**Quick links:**
-- Create a manual note
-- Save AI responses as notes
-- Apply transformations to generate insights
-- Organize with tags and naming
-- Use notes across your notebook
+### 1. [Thêm Nguồn](adding-sources.md)
+Cách đưa nội dung vào notebook. Hỗ trợ PDF, liên kết web, âm thanh, video, văn bản và nhiều hơn.
 
----
-
-### 3. [Chat Effectively](chat-effectively.md)
-Have conversations with AI about your sources. Manage context to control what AI sees.
-
-**Quick links:**
-- Start your first chat
-- Select which sources go in context
-- Ask effective questions
-- Use follow-ups productively
-- Understand citations and verify claims
+**Liên kết nhanh:**
+- Tải lên PDF hoặc tài liệu
+- Thêm liên kết web hoặc bài viết
+- Phiên âm âm thanh hoặc video
+- Dán văn bản trực tiếp
+- Lỗi phổ biến + cách sửa
 
 ---
 
-### 4. [Creating Podcasts](creating-podcasts.md)
-Convert your research into audio dialogue for passive consumption.
+### 2. [Làm Việc Với Ghi Chú](working-with-notes.md)
+Tạo, tổ chức và sử dụng ghi chú (cả thủ công và do AI tạo).
 
-**Quick links:**
-- Create your first podcast
-- Choose or customize speakers
-- Select TTS provider
-- Generate and download
-- Common audio quality fixes
-
----
-
-### 5. [Search Effectively](search.md)
-Two search modes: text-based (keyword) and vector-based (semantic). Know when to use each.
-
-**Quick links:**
-- Text search vs vector search (when to use)
-- Running effective searches
-- Using the Ask feature for comprehensive answers
-- Saving search results as notes
-- Troubleshooting poor results
+**Liên kết nhanh:**
+- Tạo ghi chú thủ công
+- Lưu phản hồi AI thành ghi chú
+- Áp dụng biến đổi để tạo thông tin chi tiết
+- Tổ chức bằng thẻ và tên
+- Sử dụng ghi chú trong notebook
 
 ---
 
-### 6. [Transformations](transformations.md)
-Batch-process sources with predefined templates. Extract the same insights from multiple documents.
+### 3. [Chat Hiệu Quả](chat-effectively.md)
+Trò chuyện với AI về nguồn của bạn. Quản lý ngữ cảnh để kiểm soát những gì AI thấy.
 
-**Quick links:**
-- Built-in transformation templates
-- Creating custom transformations
-- Applying to single or multiple sources
-- Managing transformation output
-
----
-
-### 7. [Citations](citations.md)
-Verify AI claims by tracing them back to source material. Understand the citation system.
-
-**Quick links:**
-- Reading and clicking citations
-- Verifying claims against sources
-- Requesting better citations
-- Saving cited content as notes
+**Liên kết nhanh:**
+- Bắt đầu cuộc chat đầu tiên
+- Chọn nguồn nào đưa vào ngữ cảnh
+- Đặt câu hỏi hiệu quả
+- Sử dụng câu hỏi tiếp theo hiệu quả
+- Hiểu trích dẫn và xác minh khẳng định
 
 ---
 
-### 8. [API Configuration](api-configuration.md)
-Configure AI provider API keys directly through the Settings UI.
+### 4. [Tạo Podcast](creating-podcasts.md)
+Chuyển đổi nghiên cứu của bạn thành đối thoại âm thanh để tiêu thụ thụ động.
 
-**Quick links:**
-- Add API keys without editing files
-- Test provider connections
-- Migrate from environment variables
-- Manage Azure and OpenAI-compatible providers
-- Understand key storage and encryption
+**Liên kết nhanh:**
+- Tạo podcast đầu tiên
+- Chọn hoặc tùy chỉnh người nói
+- Chọn nhà cung cấp TTS
+- Tạo và tải về
+- Sửa lỗi chất lượng âm thanh phổ biến
 
 ---
 
-## Which Feature for Which Task?
+### 5. [Tìm Kiếm Hiệu Quả](search.md)
+Hai chế độ tìm kiếm: dựa trên văn bản (từ khóa) và dựa trên vector (ngữ nghĩa). Biết khi nào dùng mỗi loại.
+
+**Liên kết nhanh:**
+- Tìm kiếm văn bản vs tìm kiếm vector (khi nào dùng)
+- Thực hiện tìm kiếm hiệu quả
+- Sử dụng tính năng Hỏi cho câu trả lời toàn diện
+- Lưu kết quả tìm kiếm thành ghi chú
+- Khắc phục kết quả kém
+
+---
+
+### 6. [Biến Đổi](transformations.md)
+Xử lý hàng loạt nguồn với các mẫu định sẵn. Trích xuất cùng thông tin chi tiết từ nhiều tài liệu.
+
+**Liên kết nhanh:**
+- Mẫu biến đổi tích hợp sẵn
+- Tạo biến đổi tùy chỉnh
+- Áp dụng cho một hoặc nhiều nguồn
+- Quản lý đầu ra biến đổi
+
+---
+
+### 7. [Trích Dẫn](citations.md)
+Xác minh khẳng định của AI bằng cách truy nguyên về tài liệu nguồn. Hiểu hệ thống trích dẫn.
+
+**Liên kết nhanh:**
+- Đọc và nhấp vào trích dẫn
+- Xác minh khẳng định so với nguồn
+- Yêu cầu trích dẫn tốt hơn
+- Lưu nội dung có trích dẫn thành ghi chú
+
+---
+
+### 8. [Cấu Hình API](api-configuration.md)
+Cấu hình khóa API nhà cung cấp AI trực tiếp qua giao diện Cài đặt.
+
+**Liên kết nhanh:**
+- Thêm khóa API không cần chỉnh sửa file
+- Kiểm tra kết nối nhà cung cấp
+- Di chuyển từ biến môi trường
+- Quản lý nhà cung cấp Azure và tương thích OpenAI
+- Hiểu lưu trữ và mã hóa khóa
+
+---
+
+## Tính Năng Nào Cho Tác Vụ Nào?
 
 ```
-Task: "I want to explore a topic with follow-ups"
-→ Use: Chat (add sources, select context, have conversation)
+Tác vụ: "Tôi muốn khám phá chủ đề với câu hỏi tiếp"
+→ Dùng: Chat (thêm nguồn, chọn ngữ cảnh, có hội thoại)
 
-Task: "I want one comprehensive answer"
-→ Use: Search / Ask (system finds relevant content)
+Tác vụ: "Tôi muốn một câu trả lời toàn diện"
+→ Dùng: Tìm kiếm / Hỏi (hệ thống tìm nội dung liên quan)
 
-Task: "I want to extract the same info from many sources"
-→ Use: Transformations (define template, apply to all)
+Tác vụ: "Tôi muốn trích xuất cùng thông tin từ nhiều nguồn"
+→ Dùng: Biến đổi (định nghĩa mẫu, áp dụng cho tất cả)
 
-Task: "I want summaries of all my sources"
-→ Use: Transformations (with built-in summary template)
+Tác vụ: "Tôi muốn tóm tắt tất cả nguồn"
+→ Dùng: Biến đổi (với mẫu tóm tắt tích hợp)
 
-Task: "I want to share my research in audio form"
-→ Use: Podcasts (create speakers, generate episode)
+Tác vụ: "Tôi muốn chia sẻ nghiên cứu dưới dạng âm thanh"
+→ Dùng: Podcast (tạo người nói, tạo tập)
 
-Task: "I want to find that quote I remember"
-→ Use: Search / Text Search (keyword matching)
+Tác vụ: "Tôi muốn tìm câu trích dẫn tôi nhớ"
+→ Dùng: Tìm kiếm / Tìm kiếm Văn bản (so khớp từ khóa)
 
-Task: "I'm exploring a concept without knowing exact words"
-→ Use: Search / Vector Search (semantic similarity)
+Tác vụ: "Tôi đang khám phá khái niệm mà không biết từ chính xác"
+→ Dùng: Tìm kiếm / Tìm kiếm Vector (tương tự ngữ nghĩa)
 
-Task: "I need to add or change my AI provider API keys"
-→ Use: Settings / API Keys (configure providers without editing files)
+Tác vụ: "Tôi cần thêm hoặc thay đổi khóa API nhà cung cấp AI"
+→ Dùng: Cài đặt / Khóa API (cấu hình nhà cung cấp không cần chỉnh sửa file)
 ```
 
 ---
 
-## Quick-Start Checklist: First 15 Minutes
+## Checklist Bắt Đầu Nhanh: 15 Phút Đầu
 
-**Step 1: Create a Notebook (1 min)**
-- Name: Something descriptive ("Q1 Market Research", "AI Safety Papers", etc.)
-- Description: 1-2 sentences about what you're researching
-- This is your research container
+**Bước 1: Tạo Notebook (1 phút)**
+- Tên: Điều gì đó mô tả ("Nghiên Cứu Thị Trường Q1", "Bài Báo An Toàn AI", v.v.)
+- Mô tả: 1-2 câu về bạn đang nghiên cứu gì
+- Đây là container nghiên cứu của bạn
 
-**Step 2: Add Your First Source (3 min)**
-- Pick one: PDF, web link, or text
-- Follow [Adding Sources](adding-sources.md)
-- Wait for processing (usually 30-60 seconds)
+**Bước 2: Thêm Nguồn Đầu Tiên (3 phút)**
+- Chọn một: PDF, liên kết web, hoặc văn bản
+- Theo dõi [Thêm Nguồn](adding-sources.md)
+- Chờ xử lý (thường 30-60 giây)
 
-**Step 3: Chat About It (3 min)**
-- Go to Chat
-- Select your source (set context to "Full Content")
-- Ask a simple question: "What are the main points?"
-- See AI respond with citations
+**Bước 3: Chat Về Nó (3 phút)**
+- Vào Chat
+- Chọn nguồn (đặt ngữ cảnh là "Nội dung đầy đủ")
+- Đặt câu hỏi đơn giản: "Các điểm chính là gì?"
+- Xem AI trả lời với trích dẫn
 
-**Step 4: Save Insight as Note (2 min)**
-- Good response? Click "Save as Note"
-- Name it something useful ("Main points from source X")
-- Now you have a captured insight
+**Bước 4: Lưu Thông Tin Chi Tiết Thành Ghi Chú (2 phút)**
+- Phản hồi tốt? Nhấn "Lưu thành ghi chú"
+- Đặt tên hữu ích ("Điểm chính từ nguồn X")
+- Bây giờ bạn có thông tin chi tiết đã lưu
 
-**Step 5: Explore More (6 min)**
-- Add another source
-- Chat about both together
-- Ask a question that compares them
-- Follow up with clarifying questions
+**Bước 5: Khám Phá Thêm (6 phút)**
+- Thêm nguồn khác
+- Chat về cả hai cùng nhau
+- Đặt câu hỏi so sánh chúng
+- Theo dõi với câu hỏi làm rõ
 
-**Done!** You've used the core workflow: notebook → sources → chat → notes
-
----
-
-## Common Mistakes to Avoid
-
-| Mistake | Problem | Fix |
-|---------|---------|-----|
-| Adding everything to one notebook | No isolation between projects | Create separate notebooks for different topics |
-| Expecting AI to know your context | Questions get generic answers | Describe your research focus in chat context |
-| Forgetting to cite sources | You can't verify claims | Click citations to check source chunks |
-| Using Chat for one-time questions | Slower than Ask | Use Ask for comprehensive Q&A, Chat for exploration |
-| Adding huge PDFs without chunking | Slow processing, poor search | Break into multiple smaller sources if possible |
-| Using same context for all chats | Expensive, unfocused | Adjust context level for each chat |
-| Ignoring vector search | Only finding exact keywords | Use vector search to explore conceptually |
+**Xong!** Bạn đã sử dụng quy trình cốt lõi: notebook → nguồn → chat → ghi chú
 
 ---
 
-## Next Steps
+## Lỗi Thường Gặp Cần Tránh
 
-1. **Follow each guide** in order (sources → notes → chat → podcasts → search)
-2. **Create your first notebook** with real content
-3. **Practice each feature** with your own research
-4. **Return to CORE-CONCEPTS** if you need to understand the "why"
-
----
-
-## Getting Help
-
-- **Feature not working?** → Check the feature's guide (look for "Troubleshooting" section)
-- **Error message?** → Check [6-TROUBLESHOOTING](../6-TROUBLESHOOTING/index.md)
-- **Understanding how something works?** → Check [2-CORE-CONCEPTS](../2-CORE-CONCEPTS/index.md)
-- **Setting up for the first time?** → Go back to [1-INSTALLATION](../1-INSTALLATION/index.md)
-- **For developers** → See [7-DEVELOPMENT](../7-DEVELOPMENT/index.md)
+| Lỗi | Vấn đề | Cách sửa |
+|-----|---------|----------|
+| Thêm mọi thứ vào một notebook | Không cách ly giữa các dự án | Tạo notebook riêng cho các chủ đề khác nhau |
+| Mong AI biết ngữ cảnh bạn | Câu hỏi nhận câu trả lời chung chung | Mô tả trọng tâm nghiên cứu trong ngữ cảnh chat |
+| Quên trích dẫn nguồn | Không thể xác minh khẳng định | Nhấp vào trích dẫn để kiểm tra đoạn nguồn |
+| Dùng Chat cho câu hỏi một lần | Chậm hơn Hỏi | Dùng Hỏi cho Q&A toàn diện, Chat cho khám phá |
+| Thêm PDF lớn không chia đoạn | Xử lý chậm, tìm kiếm kém | Chia thành nhiều nguồn nhỏ hơn nếu có thể |
+| Dùng cùng ngữ cảnh cho tất cả chat | Tốn kém, không tập trung | Điều chỉnh mức ngữ cảnh cho mỗi chat |
+| Bỏ qua tìm kiếm vector | Chỉ tìm từ khóa chính xác | Dùng tìm kiếm vector để khám phá về khái niệm |
 
 ---
 
-**Ready to start?** Pick the guide for what you want to do first!
+## Bước Tiếp Theo
+
+1. **Theo dõi mỗi hướng dẫn** theo thứ tự (nguồn → ghi chú → chat → podcast → tìm kiếm)
+2. **Tạo notebook đầu tiên** với nội dung thực
+3. **Thực hành mỗi tính năng** với nghiên cứu của bạn
+4. **Quay lại KHÁI-NIỆM-CƠ-BẢN** nếu bạn cần hiểu "tại sao"
+
+---
+
+## Nhận Trợ Giúp
+
+- **Tính năng không hoạt động?** → Kiểm tra hướng dẫn tính năng (tìm phần "Khắc phục sự cố")
+- **Thông báo lỗi?** → Kiểm tra [6-KHẮC-PHỤC-SỰ-CỐ](../6-TROUBLESHOOTING/index.md)
+- **Hiểu cách hoạt động?** → Kiểm tra [2-KHÁI-NIỆM-CƠ-BẢN](../2-CORE-CONCEPTS/index.md)
+- **Cài đặt lần đầu?** → Quay lại [1-CÀI-ĐẶT](../1-INSTALLATION/index.md)
+- **Cho nhà phát triển** → Xem [7-PHÁT-TRIỂN](../7-DEVELOPMENT/index.md)
+
+---
+
+**Sẵn sàng bắt đầu?** Chọn hướng dẫn cho điều bạn muốn làm đầu tiên!

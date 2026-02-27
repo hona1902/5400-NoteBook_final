@@ -1,554 +1,468 @@
-# Chat Effectively - Conversations with Your Research
+# Chat Hiệu Quả - Trò Chuyện Với Nghiên Cứu Của Bạn
 
-Chat is your main tool for exploratory questions and back-and-forth dialogue. This guide covers how to use it effectively.
-
----
-
-## Quick-Start: Your First Chat
-
-```
-1. Go to your notebook
-2. Click "Chat"
-3. Select which sources to include (context)
-4. Type your question
-5. Click "Send"
-6. Read the response
-7. Ask a follow-up (context stays same)
-8. Repeat until satisfied
-```
-
-That's it! But doing it *well* requires understanding how context works.
+Chat là công cụ chính cho câu hỏi khám phá và đối thoại qua lại. Hướng dẫn này bao gồm cách sử dụng hiệu quả.
 
 ---
 
-## Context Management: The Key to Good Chat
-
-Context controls **what the AI is allowed to see**. This is your most important control.
-
-### The Three Levels Explained
-
-**FULL CONTENT**
-- AI sees: Complete source text
-- Cost: 100 tokens per 1K tokens of source
-- Best for: Detailed analysis, precise citations
-- Example: "Analyze this research paper closely"
+## Bắt Đầu Nhanh: Chat Đầu Tiên
 
 ```
-You set: Paper A → Full Content
-AI sees: Every word of Paper A
-AI can: Cite specific sentences, notice nuances
-Result: Precise, detailed answers (higher cost)
+1. Vào notebook
+2. Nhấn "Chat"
+3. Chọn nguồn nào bao gồm (ngữ cảnh)
+4. Nhập câu hỏi
+5. Nhấn "Gửi"
+6. Đọc phản hồi
+7. Đặt câu hỏi tiếp (ngữ cảnh giữ nguyên)
+8. Lặp lại đến khi hài lòng
 ```
 
-**SUMMARY ONLY**
-- AI sees: AI-generated 200-word summary (not full text)
-- Cost: ~10-20% of full content cost
-- Best for: Background material, reference context
-- Example: "Use this for background, focus on the main paper"
-
-```
-You set: Paper B → Summary Only
-AI sees: Condensed summary, key points
-AI can: Reference main ideas but not details
-Result: Faster, cheaper answers (loses precision)
-```
-
-**NOT IN CONTEXT**
-- AI sees: Nothing
-- Cost: 0 tokens
-- Best for: Confidential, irrelevant, archived content
-- Example: "Keep this in notebook but don't use now"
-
-```
-You set: Paper C → Not in Context
-AI sees: Nothing (completely excluded)
-AI can: Never reference it
-Result: No cost, no privacy risk for that source
-```
-
-### Setting Context (Step by Step)
-
-```
-1. Click "Select Sources"
-   (Shows list of all sources in notebook)
-
-2. For each source:
-   □ Checkbox: Include or exclude
-
-   Level dropdown:
-   ├─ Full Content
-   ├─ Summary Only
-   └─ Excluded
-
-3. Check your selections
-   Example:
-   ✓ Paper A (Full Content) - "Main focus"
-   ✓ Paper B (Summary Only) - "Background"
-   ✓ Paper C (Excluded) - "Keep private"
-   □ Paper D (Not included) - "Not relevant"
-
-4. Click "Save Context"
-
-5. Now chat uses these settings
-```
-
-### Context Strategies
-
-**Strategy 1: Minimalist**
-- Main source: Full Content
-- Everything else: Excluded
-- Result: Focused, cheap, precise
-
-```
-Use when:
-  - Analyzing one source deeply
-  - Budget-conscious
-  - Want focused answers
-```
-
-**Strategy 2: Comprehensive**
-- All sources: Full Content
-- Result: All context considered, expensive
-
-```
-Use when:
-  - Comprehensive analysis
-  - Unlimited budget
-  - Want AI to see everything
-```
-
-**Strategy 3: Tiered**
-- Primary sources: Full Content
-- Secondary sources: Summary Only
-- Background/reference: Excluded
-- Result: Balanced cost/quality
-
-```
-Use when:
-  - Mix of important and reference material
-  - Want thorough but not expensive
-  - Most common strategy
-```
-
-**Strategy 4: Privacy-First**
-- Sensitive docs: Excluded
-- Public research: Full Content
-- Result: Never send confidential data
-
-```
-Use when:
-  - Company confidential materials
-  - Personal sensitive data
-  - Complying with data protection
-```
+Đơn giản vậy thôi! Nhưng làm *tốt* yêu cầu hiểu ngữ cảnh hoạt động thế nào.
 
 ---
 
-## Asking Effective Questions
+## Quản Lý Ngữ Cảnh: Chìa Khóa Chat Tốt
 
-### Good Questions vs. Poor Questions
+Ngữ cảnh kiểm soát **những gì AI được phép thấy**. Đây là điều khiển quan trọng nhất.
 
-**Poor Question**
+### Ba Mức Được Giải Thích
+
+**NỘI DUNG ĐẦY ĐỦ**
+- AI thấy: Toàn bộ văn bản nguồn
+- Chi phí: 100 token / 1K token nguồn
+- Tốt nhất cho: Phân tích chi tiết, trích dẫn chính xác
+- Ví dụ: "Phân tích kỹ bài báo nghiên cứu này"
+
 ```
-"What do you think?"
-
-Problems:
-- Too vague (about what?)
-- No context (what am I analyzing?)
-- Can't verify answer (citing what?)
-
-Result: Generic, shallow answer
-```
-
-**Good Question**
-```
-"Based on the paper's methodology section,
-what are the three main limitations the authors acknowledge?
-Please cite which pages mention each one."
-
-Strengths:
-- Specific about what you want
-- Clear scope (methodology section)
-- Asks for citations
-- Requires deep reading
-
-Result: Precise, verifiable, useful answer
+Bạn đặt: Bài A → Nội Dung Đầy Đủ
+AI thấy: Từng từ của Bài A
+AI có thể: Trích dẫn câu cụ thể, nhận ra sắc thái
+Kết quả: Câu trả lời chính xác, chi tiết (chi phí cao hơn)
 ```
 
-### Question Patterns That Work
+**CHỈ TÓM TẮT**
+- AI thấy: Tóm tắt 200 từ do AI tạo (không phải toàn văn)
+- Chi phí: ~10-20% chi phí nội dung đầy đủ
+- Tốt nhất cho: Tài liệu nền, ngữ cảnh tham chiếu
+- Ví dụ: "Dùng cái này làm nền, tập trung vào bài chính"
 
-**Factual Questions**
 ```
-"What does the paper say about X?"
-"Who are the authors?"
-"What year was this published?"
-
-Result: Simple, factual answers with citations
-```
-
-**Analysis Questions**
-```
-"How does this approach differ from the traditional method?"
-"What are the main assumptions underlying this argument?"
-"Why do you think the author chose this methodology?"
-
-Result: Deeper thinking, comparison, critique
+Bạn đặt: Bài B → Chỉ Tóm Tắt
+AI thấy: Tóm tắt cô đọng, điểm chính
+AI có thể: Tham chiếu ý tưởng chính nhưng không chi tiết
+Kết quả: Câu trả lời nhanh hơn, rẻ hơn (mất độ chính xác)
 ```
 
-**Synthesis Questions**
-```
-"How do these two sources approach the problem differently?"
-"What's the common theme across all three papers?"
-"If we combine these approaches, what would we get?"
+**KHÔNG TRONG NGỮ CẢNH**
+- AI thấy: Không gì
+- Chi phí: 0 token
+- Tốt nhất cho: Nội dung bảo mật, không liên quan, lưu trữ
+- Ví dụ: "Giữ trong notebook nhưng không dùng bây giờ"
 
-Result: Cross-source insights, connections
 ```
-
-**Actionable Questions**
-```
-"What are the practical implications of this research?"
-"How could we apply these findings to our situation?"
-"What's the next logical research direction?"
-
-Result: Practical, forward-looking answers
+Bạn đặt: Bài C → Không Trong Ngữ Cảnh
+AI thấy: Không gì (hoàn toàn loại trừ)
+AI có thể: Không bao giờ tham chiếu
+Kết quả: Không chi phí, không rủi ro quyền riêng tư cho nguồn đó
 ```
 
-### The SPECIFIC Formula
+### Đặt Ngữ Cảnh (Từng Bước)
 
-Good questions have:
-
-1. **SCOPE** - What are you analyzing?
-   "In this research paper..."
-   "Looking at these three articles..."
-   "Based on your experience..."
-
-2. **SPECIFICITY** - Exactly what do you want?
-   "...the methodology..."
-   "...main findings..."
-   "...recommended next steps..."
-
-3. **CONSTRAINT** - Any limits?
-   "...in 3 bullet points..."
-   "...with citations to page numbers..."
-   "...comparing these two approaches..."
-
-4. **VERIFICATION** - How can you check it?
-   "...with specific quotes..."
-   "...cite your sources..."
-   "...link to the relevant section..."
-
-**Example:**
 ```
-Poor: "What about transformers?"
-Good: "In this research paper on machine learning,
-      explain the transformer architecture in 2-3 sentences,
-      then cite which page describes the attention mechanism."
+1. Nhấn "Chọn Nguồn"
+   (Hiển thị danh sách tất cả nguồn trong notebook)
+
+2. Cho mỗi nguồn:
+   □ Checkbox: Bao gồm hoặc loại trừ
+
+   Dropdown mức:
+   ├─ Nội Dung Đầy Đủ
+   ├─ Chỉ Tóm Tắt
+   └─ Loại Trừ
+
+3. Kiểm tra lựa chọn
+   Ví dụ:
+   ✓ Bài A (Nội Dung Đầy Đủ) - "Trọng tâm chính"
+   ✓ Bài B (Chỉ Tóm Tắt) - "Nền tảng"
+   ✓ Bài C (Loại Trừ) - "Giữ riêng tư"
+   □ Bài D (Không bao gồm) - "Không liên quan"
+
+4. Nhấn "Lưu Ngữ Cảnh"
+
+5. Bây giờ chat dùng cài đặt này
+```
+
+### Chiến Lược Ngữ Cảnh
+
+**Chiến Lược 1: Tối Giản**
+- Nguồn chính: Nội Dung Đầy Đủ
+- Mọi thứ khác: Loại Trừ
+- Kết quả: Tập trung, rẻ, chính xác
+
+```
+Dùng khi:
+  - Phân tích sâu một nguồn
+  - Ý thức về ngân sách
+  - Muốn câu trả lời tập trung
+```
+
+**Chiến Lược 2: Toàn Diện**
+- Tất cả nguồn: Nội Dung Đầy Đủ
+- Kết quả: Tất cả ngữ cảnh được xét, tốn kém
+
+```
+Dùng khi:
+  - Phân tích toàn diện
+  - Ngân sách không giới hạn
+  - Muốn AI thấy mọi thứ
+```
+
+**Chiến Lược 3: Phân Tầng**
+- Nguồn chính: Nội Dung Đầy Đủ
+- Nguồn phụ: Chỉ Tóm Tắt
+- Nền tảng/tham chiếu: Loại Trừ
+- Kết quả: Cân bằng chi phí/chất lượng
+
+```
+Dùng khi:
+  - Hỗn hợp tài liệu quan trọng và tham chiếu
+  - Muốn kỹ lưỡng nhưng không tốn kém
+  - Chiến lược phổ biến nhất
+```
+
+**Chiến Lược 4: Ưu Tiên Quyền Riêng Tư**
+- Tài liệu nhạy cảm: Loại Trừ
+- Nghiên cứu công khai: Nội Dung Đầy Đủ
+- Kết quả: Không bao giờ gửi dữ liệu bảo mật
+
+```
+Dùng khi:
+  - Tài liệu bảo mật công ty
+  - Dữ liệu cá nhân nhạy cảm
+  - Tuân thủ bảo vệ dữ liệu
 ```
 
 ---
 
-## Follow-Up Questions (The Real Power of Chat)
+## Đặt Câu Hỏi Hiệu Quả
 
-Chat's strength is dialogue. You ask, get an answer, ask more.
+### Câu Hỏi Tốt vs. Câu Hỏi Kém
 
-### Building on Responses
-
+**Câu Hỏi Kém**
 ```
-First question:
-"What's the main finding?"
+"Bạn nghĩ sao?"
 
-AI: "The study shows X [citation]"
+Vấn đề:
+- Quá mơ hồ (về cái gì?)
+- Không có ngữ cảnh (tôi đang phân tích gì?)
+- Không thể xác minh câu trả lời (trích dẫn cái gì?)
 
-Follow-up question:
-"How does that compare to Y research?"
-
-AI: "The key difference is Z [citation]"
-
-Next question:
-"Why do you think that difference matters?"
-
-AI: "Because it affects A, B, C [explained]"
+Kết quả: Câu trả lời chung chung, nông cạn
 ```
 
-### Iterating Toward Understanding
-
+**Câu Hỏi Tốt**
 ```
-Round 1: Get overview
-"What's this source about?"
+"Dựa trên phần phương pháp của bài báo,
+ba hạn chế chính mà tác giả thừa nhận là gì?
+Vui lòng trích dẫn trang nào đề cập từng cái."
 
-Round 2: Get details
-"What's the most important part?"
+Điểm mạnh:
+- Cụ thể về điều bạn muốn
+- Phạm vi rõ ràng (phần phương pháp)
+- Yêu cầu trích dẫn
+- Đòi hỏi đọc sâu
 
-Round 3: Compare
-"How does it relate to my notes on X?"
-
-Round 4: Apply
-"What should I do with this information?"
-```
-
-### Changing Direction
-
-```
-Context stays same, but you ask new questions:
-
-Question 1: "What's the methodology?"
-Question 2: "What are the limitations?"
-Question 3: "What about the ethical implications?"
-Question 4: "Who else has done similar work?"
-
-All in one conversation, reusing context.
+Kết quả: Câu trả lời chính xác, có thể xác minh, hữu ích
 ```
 
-### Adjusting Context Between Rounds
+### Mẫu Câu Hỏi Hiệu Quả
+
+**Câu Hỏi Thực Tế**
+```
+"Bài báo nói gì về X?"
+"Tác giả là ai?"
+"Xuất bản năm nào?"
+
+Kết quả: Câu trả lời đơn giản, thực tế với trích dẫn
+```
+
+**Câu Hỏi Phân Tích**
+```
+"Cách tiếp cận này khác phương pháp truyền thống thế nào?"
+"Giả định chính đằng sau lập luận này là gì?"
+"Tại sao bạn nghĩ tác giả chọn phương pháp này?"
+
+Kết quả: Suy nghĩ sâu hơn, so sánh, phê bình
+```
+
+**Câu Hỏi Tổng Hợp**
+```
+"Hai nguồn này tiếp cận vấn đề khác nhau thế nào?"
+"Chủ đề chung qua ba bài báo là gì?"
+"Nếu kết hợp các cách tiếp cận này, ta sẽ được gì?"
+
+Kết quả: Thông tin chi tiết xuyên nguồn, kết nối
+```
+
+**Câu Hỏi Thực Hành**
+```
+"Ý nghĩa thực tế của nghiên cứu này là gì?"
+"Chúng ta có thể áp dụng phát hiện này vào tình huống của mình thế nào?"
+"Hướng nghiên cứu tiếp theo hợp lý là gì?"
+
+Kết quả: Câu trả lời thực tế, hướng tới tương lai
+```
+
+### Công Thức CỤ THỂ
+
+Câu hỏi tốt bao gồm:
+
+1. **PHẠM VI** - Bạn đang phân tích gì?
+   "Trong bài báo nghiên cứu này..."
+   "Nhìn vào ba bài viết này..."
+
+2. **TÍN HIỆU CỤ THỂ** - Chính xác bạn muốn gì?
+   "...phương pháp..."
+   "...phát hiện chính..."
+   "...các bước tiếp theo được khuyến nghị..."
+
+3. **RÀNG BUỘC** - Bất kỳ giới hạn nào?
+   "...trong 3 gạch đầu dòng..."
+   "...với trích dẫn số trang..."
+   "...so sánh hai cách tiếp cận này..."
+
+4. **XÁC MINH** - Làm sao bạn kiểm tra?
+   "...với trích dẫn cụ thể..."
+   "...trích dẫn nguồn..."
+
+---
+
+## Câu Hỏi Tiếp Theo (Sức Mạnh Thực Sự Của Chat)
+
+Sức mạnh của Chat là đối thoại. Bạn hỏi, nhận câu trả lời, hỏi thêm.
+
+### Xây Dựng Trên Phản Hồi
 
 ```
-After question 3, you realize:
-"I need more context from another source"
+Câu hỏi đầu tiên:
+"Phát hiện chính là gì?"
 
-1. Click "Adjust Context"
-2. Add new source or change context level
-3. Your conversation history stays
-4. Continue asking with new context
+AI: "Nghiên cứu cho thấy X [trích dẫn]"
+
+Câu hỏi tiếp theo:
+"So sánh với nghiên cứu Y thế nào?"
+
+AI: "Sự khác biệt chính là Z [trích dẫn]"
+
+Câu hỏi tiếp:
+"Tại sao bạn nghĩ sự khác biệt đó quan trọng?"
+
+AI: "Vì nó ảnh hưởng đến A, B, C [giải thích]"
+```
+
+### Lặp Lại Để Hiểu
+
+```
+Vòng 1: Tổng quan
+"Nguồn này về chủ đề gì?"
+
+Vòng 2: Chi tiết
+"Phần quan trọng nhất là gì?"
+
+Vòng 3: So sánh
+"Liên quan đến ghi chú X của tôi thế nào?"
+
+Vòng 4: Ứng dụng
+"Tôi nên làm gì với thông tin này?"
 ```
 
 ---
 
-## Citations and Verification
+## Trích Dẫn và Xác Minh
 
-Citations are how you verify that the AI's answer is accurate.
+Trích dẫn là cách bạn xác minh câu trả lời AI chính xác.
 
-### Understanding Citations
-
-```
-AI Response with Citation:
-"The paper reports a 95% accuracy rate [see page 12]"
-
-What this means:
-✓ The claim "95% accuracy rate" is from page 12
-✓ You can verify by reading page 12
-✓ If page 12 doesn't say that, the AI hallucinated
-```
-
-### Requesting Better Citations
+### Hiểu Trích Dẫn
 
 ```
-If you get a response without citations:
+Phản hồi AI với Trích Dẫn:
+"Bài báo báo cáo tỷ lệ chính xác 95% [xem trang 12]"
 
-Ask: "Please cite the page number for that claim"
-or: "Show me where you found that information"
-
-AI will:
-- Find the citation
-- Provide page numbers
-- Show you the source
+Điều này có nghĩa:
+✓ Khẳng định "tỷ lệ chính xác 95%" là từ trang 12
+✓ Bạn có thể xác minh bằng cách đọc trang 12
+✓ Nếu trang 12 không nói vậy, AI đã ảo giác
 ```
 
-### Verification Workflow
+### Yêu Cầu Trích Dẫn Tốt Hơn
 
 ```
-1. Get answer from Chat
-2. Check citation (which source? which page?)
-3. Click citation link (if available)
-4. See the actual text in source
-5. Does it really say what AI claimed?
+Nếu nhận được phản hồi không có trích dẫn:
 
-If YES: Great, you can use this answer
-If NO: The AI hallucinated, ask for correction
+Hỏi: "Vui lòng trích dẫn số trang cho khẳng định đó"
+hoặc: "Cho tôi biết bạn tìm thấy thông tin đó ở đâu"
+
+AI sẽ:
+- Tìm trích dẫn
+- Cung cấp số trang
+- Cho bạn xem nguồn
 ```
 
----
-
-## Common Chat Patterns
-
-### Pattern 1: Deep Dive into One Source
+### Quy Trình Xác Minh
 
 ```
-1. Set context: One source (Full Content)
-2. Question 1: Overview
-3. Question 2: Main argument
-4. Question 3: Evidence for argument
-5. Question 4: Limitations
-6. Question 5: Next steps
+1. Nhận câu trả lời từ Chat
+2. Kiểm tra trích dẫn (nguồn nào? trang nào?)
+3. Nhấp vào liên kết trích dẫn (nếu có)
+4. Xem văn bản thực trong nguồn
+5. AI có thực sự nói như vậy không?
 
-Result: Complete understanding of one source
-```
-
-### Pattern 2: Comparative Analysis
-
-```
-1. Set context: 2-3 sources (all Full Content)
-2. Question 1: What does each source say about X?
-3. Question 2: How do they agree?
-4. Question 3: How do they disagree?
-5. Question 4: Which approach is stronger?
-
-Result: Understanding differences and trade-offs
-```
-
-### Pattern 3: Research Exploration
-
-```
-1. Set context: Many sources (mix of Full/Summary)
-2. Question 1: What are the main perspectives?
-3. Question 2: What's missing from these views?
-4. Question 3: What questions does this raise?
-5. Question 4: What should I research next?
-
-Result: Understanding landscape and gaps
-```
-
-### Pattern 4: Problem Solving
-
-```
-1. Set context: Relevant sources (Full Content)
-2. Question 1: What's the problem?
-3. Question 2: What approaches exist?
-4. Question 3: Pros and cons of each?
-5. Question 4: Which would work best for [my situation]?
-
-Result: Decision-making informed by research
+NẾU CÓ: Tuyệt vời, bạn có thể dùng câu trả lời này
+NẾU KHÔNG: AI ảo giác, yêu cầu sửa lại
 ```
 
 ---
 
-## Optimizing for Cost
+## Mẫu Chat Phổ Biến
 
-Chat uses tokens for every response. Here's how to use efficiently:
+### Mẫu 1: Đi Sâu Vào Một Nguồn
 
-### Reduce Token Usage
-
-**Minimize context**
 ```
-Option A: All sources, Full Content
-  Cost per response: 5,000 tokens
+1. Đặt ngữ cảnh: Một nguồn (Nội Dung Đầy Đủ)
+2. Câu hỏi 1: Tổng quan
+3. Câu hỏi 2: Lập luận chính
+4. Câu hỏi 3: Bằng chứng cho lập luận
+5. Câu hỏi 4: Hạn chế
+6. Câu hỏi 5: Bước tiếp theo
 
-Option B: Only relevant sources, Summary Only
-  Cost per response: 1,000 tokens
-
-Savings: 80% cheaper, same conversation
+Kết quả: Hiểu toàn diện một nguồn
 ```
 
-**Shorter questions**
+### Mẫu 2: Phân Tích So Sánh
+
 ```
-Verbose: "Could you please analyze the methodology
-         section of this paper and explain in detail
-         what the authors did?"
+1. Đặt ngữ cảnh: 2-3 nguồn (tất cả Nội Dung Đầy Đủ)
+2. Câu hỏi 1: Mỗi nguồn nói gì về X?
+3. Câu hỏi 2: Chúng đồng ý thế nào?
+4. Câu hỏi 3: Chúng không đồng ý thế nào?
+5. Câu hỏi 4: Cách tiếp cận nào mạnh hơn?
 
-Concise: "Summarize the methodology in 2-3 points."
-
-Savings: 20-30% per response
-```
-
-**Use cheaper models**
-```
-GPT-4o: $0.15 per 1M input tokens
-GPT-4o-mini: $0.03 per 1M input tokens
-Claude Sonnet: $0.90 per 1M input tokens
-
-For chat: Mini/Haiku models are usually fine
-For deep analysis: Sonnet/Opus worth the cost
+Kết quả: Hiểu sự khác biệt và đánh đổi
 ```
 
-### Budget Strategies
+### Mẫu 3: Khám Phá Nghiên Cứu
 
-**Exploration budget**
-- Use cheap model
-- Broad context (understand landscape)
-- Short questions
-- Result: Low cost, good overview
+```
+1. Đặt ngữ cảnh: Nhiều nguồn (hỗn hợp Đầy đủ/Tóm tắt)
+2. Câu hỏi 1: Quan điểm chính là gì?
+3. Câu hỏi 2: Những gì còn thiếu?
+4. Câu hỏi 3: Câu hỏi nào được đặt ra?
+5. Câu hỏi 4: Tiếp theo tôi nên nghiên cứu gì?
 
-**Analysis budget**
-- Use powerful model
-- Focused context (main source only)
-- Detailed questions
-- Result: Higher cost, deep insights
-
-**Synthesis budget**
-- Use powerful model for final synthesis
-- Multiple sources (Full Content)
-- Complex comparative questions
-- Result: Expensive but valuable output
+Kết quả: Hiểu cảnh quan và khoảng trống
+```
 
 ---
 
-## Troubleshooting Chat Issues
+## Tối Ưu Chi Phí
 
-### Poor Responses
+Chat dùng token cho mỗi phản hồi. Cách sử dụng hiệu quả:
 
-| Problem | Cause | Solution |
-|---------|-------|----------|
-| Generic answers | Vague question | Be specific (see question patterns) |
-| Missing context | Not enough in context | Add sources or change to Full Content |
-| Incorrect info | Source not in context | Add the relevant source |
-| Hallucinating | Model confused | Ask for citations, verify claims |
-| Shallow analysis | Wrong model | Switch to more powerful model |
+### Giảm Sử Dụng Token
 
-### High Costs
+**Giảm thiểu ngữ cảnh**
+```
+Tùy chọn A: Tất cả nguồn, Nội Dung Đầy Đủ
+  Chi phí mỗi phản hồi: 5.000 token
 
-| Problem | Cause | Solution |
-|---------|-------|----------|
-| Expensive per response | Too much context | Use Summary Only or exclude sources |
-| Many follow-ups | Exploratory chat | Use Ask instead for single comprehensive answer |
-| Long conversations | Keeping history | Archive old chats, start fresh |
-| Large sources | Full text in context | Use Summary Only for large documents |
+Tùy chọn B: Chỉ nguồn liên quan, Chỉ Tóm Tắt
+  Chi phí mỗi phản hồi: 1.000 token
 
----
+Tiết kiệm: 80% rẻ hơn, cùng cuộc trò chuyện
+```
 
-## Best Practices
+**Câu hỏi ngắn hơn**
+```
+Dài dòng: "Bạn có thể phân tích phần phương pháp
+           của bài báo này và giải thích chi tiết
+           tác giả đã làm gì không?"
 
-### Before You Chat
+Súc tích: "Tóm tắt phương pháp trong 2-3 điểm."
 
-- [ ] Add sources you'll need
-- [ ] Decide context strategy (Tiered is usually best)
-- [ ] Choose model (cheaper for exploration, powerful for analysis)
-- [ ] Have a question in mind
-
-### During Chat
-
-- [ ] Ask specific questions (use SPECIFIC formula)
-- [ ] Check citations for factual claims
-- [ ] Follow up on unclear points
-- [ ] Adjust context if you need different sources
-
-### After Chat
-
-- [ ] Save good responses as notes
-- [ ] Archive conversation if you're done
-- [ ] Organize notes for future reference
-- [ ] Use insights in other features (Ask, Transformations, Podcasts)
+Tiết kiệm: 20-30% mỗi phản hồi
+```
 
 ---
 
-## When to Use Chat vs. Ask
+## Khắc Phục Sự Cố Chat
 
-**Use CHAT when:**
-- You want a dialogue
-- You're exploring a topic
-- You'll ask multiple related questions
-- You want to adjust context during conversation
-- You're not sure exactly what you need
+### Phản Hồi Kém
 
-**Use ASK when:**
-- You have one specific question
-- You want a comprehensive answer
-- You want the system to auto-search
-- You want one response, not dialogue
-- You want maximum tokens spent on search
+| Vấn đề | Nguyên nhân | Giải pháp |
+|--------|------------|----------|
+| Câu trả lời chung chung | Câu hỏi mơ hồ | Cụ thể hơn |
+| Thiếu ngữ cảnh | Không đủ trong ngữ cảnh | Thêm nguồn hoặc đổi sang Nội Dung Đầy Đủ |
+| Thông tin sai | Nguồn không trong ngữ cảnh | Thêm nguồn liên quan |
+| Ảo giác | Mô hình bị nhầm lẫn | Yêu cầu trích dẫn, xác minh |
+| Phân tích nông | Mô hình sai | Chuyển sang mô hình mạnh hơn |
 
 ---
 
-## Summary: Chat as Conversation
+## Thực Hành Tốt Nhất
 
-Chat is fundamentally different from asking ChatGPT directly:
+### Trước Khi Chat
 
-| Aspect | ChatGPT | Open Notebook Chat |
-|--------|---------|-------------------|
-| **Source control** | None (uses training) | You control which sources are visible |
-| **Cost control** | Per token | Per token, but context is your choice |
-| **Iteration** | Works | Works, with your sources changing dynamically |
-| **Citations** | Made up often | Tied to your sources (verifiable) |
-| **Privacy** | Your data to OpenAI | Your data stays local (unless you choose) |
+- [ ] Thêm nguồn bạn sẽ cần
+- [ ] Quyết định chiến lược ngữ cảnh (Phân Tầng thường tốt nhất)
+- [ ] Chọn mô hình (rẻ hơn cho khám phá, mạnh cho phân tích)
+- [ ] Có câu hỏi trong đầu
 
-The key insight: **Chat is retrieval-augmented generation.** AI sees only what you put in context. You control the conversation and the information flow.
+### Trong Chat
 
-That's why Chat is powerful for research. You're not just talking to an AI; you're having a conversation with your research itself.
+- [ ] Đặt câu hỏi cụ thể
+- [ ] Kiểm tra trích dẫn cho khẳng định thực tế
+- [ ] Theo dõi những điểm không rõ ràng
+- [ ] Điều chỉnh ngữ cảnh nếu bạn cần nguồn khác
+
+### Sau Chat
+
+- [ ] Lưu phản hồi tốt thành ghi chú
+- [ ] Lưu trữ cuộc trò chuyện khi xong
+- [ ] Tổ chức ghi chú để tham khảo sau
+- [ ] Sử dụng thông tin chi tiết trong các tính năng khác
+
+---
+
+## Khi Nào Dùng Chat vs. Hỏi
+
+**Dùng CHAT khi:**
+- Bạn muốn đối thoại
+- Bạn đang khám phá chủ đề
+- Bạn sẽ đặt nhiều câu hỏi liên quan
+- Bạn muốn điều chỉnh ngữ cảnh trong quá trình trò chuyện
+- Bạn không chắc chính xác bạn cần gì
+
+**Dùng HỎI khi:**
+- Bạn có một câu hỏi cụ thể
+- Bạn muốn câu trả lời toàn diện
+- Bạn muốn hệ thống tự tìm kiếm
+- Bạn muốn một phản hồi, không phải đối thoại
+- Bạn muốn tối đa token dành cho tìm kiếm
+
+---
+
+## Tóm Tắt: Chat Như Cuộc Trò Chuyện
+
+Chat khác về cơ bản so với hỏi ChatGPT trực tiếp:
+
+| Khía cạnh | ChatGPT | Open Notebook Chat |
+|-----------|---------|-------------------|
+| **Kiểm soát nguồn** | Không có (dùng đào tạo) | Bạn kiểm soát nguồn nào được thấy |
+| **Kiểm soát chi phí** | Theo token | Theo token, nhưng ngữ cảnh là lựa chọn của bạn |
+| **Lặp lại** | Có | Có, với nguồn thay đổi động |
+| **Trích dẫn** | Thường bịa đặt | Gắn với nguồn của bạn (có thể xác minh) |
+| **Quyền riêng tư** | Dữ liệu đến OpenAI | Dữ liệu ở cục bộ (trừ khi bạn chọn) |
+
+Điểm mấu chốt: **Chat là truy xuất tăng cường sinh.** AI chỉ thấy những gì bạn đưa vào ngữ cảnh. Bạn kiểm soát cuộc trò chuyện và luồng thông tin.
+
+Đó là lý do Chat mạnh mẽ cho nghiên cứu. Bạn không chỉ nói chuyện với AI; bạn đang có cuộc trò chuyện với chính nghiên cứu của mình.

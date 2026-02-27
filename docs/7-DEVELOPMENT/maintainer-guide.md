@@ -1,32 +1,34 @@
-# Maintainer Guide
+#Hướng dẫn bảo trì
 
-This guide is for project maintainers to help manage contributions effectively while maintaining project quality and vision.
+Hướng dẫn này dành cho những người bảo trì dự án để giúp quản lý các khoản đóng góp một cách hiệu quả đồng thời duy trì chất lượng và tầm nhìn của dự án.
 
-## Table of Contents
+## Mục lục
 
-- [Issue Management](#issue-management)
-- [Pull Request Review](#pull-request-review)
-- [Common Scenarios](#common-scenarios)
-- [Communication Templates](#communication-templates)
+- [Quản lý vấn đề](#issue-management)
+- [Đánh giá yêu cầu kéo](#pull-request-review)
+- [Kịch bản chung](#common-scenarios)
+- [Mẫu giao tiếp](#communication-templates)
 
-## Issue Management
+## Quản lý vấn đề
 
-### When a New Issue is Created
+### Khi một vấn đề mới được tạo
 
-**1. Initial Triage** (within 24-48 hours)
+**1. Phân loại ban đầu** (trong vòng 24-48 giờ)
 
-- Add appropriate labels:
-  - `bug`, `enhancement`, `documentation`, etc.
-  - `good first issue` for beginner-friendly tasks
-  - `needs-triage` until reviewed
-  - `help wanted` if you'd welcome community contributions
+- Thêm nhãn thích hợp:
+  - `lỗi`, `nâng cao`, `tài liệu`, v.v.
+  - `vấn đề đầu tiên hay` dành cho các nhiệm vụ thân thiện với người mới bắt đầu
+  - `phân loại nhu cầu` cho đến khi được xem xét
+  - `cần trợ giúp` nếu bạn hoan nghênh sự đóng góp của cộng đồng
 
-- Quick assessment:
-  - Is it clear and well-described?
-  - Is it aligned with project vision? (See [design-principles.md](design-principles.md))
-  - Does it duplicate an existing issue?
+- Đánh giá nhanh:
+  - Nó có rõ ràng và được mô tả tốt không?
+  - Nó có phù hợp với tầm nhìn của dự án không? (Xem [design-principles.md](design-principles.md))
+  - Nó có trùng lặp một vấn đề hiện có không?
 
-**2. Initial Response**
+**2. Phản hồi ban đầu**
+
+
 
 ```markdown
 Thanks for opening this issue! We'll review it and get back to you soon.
@@ -36,19 +38,22 @@ Thanks for opening this issue! We'll review it and get back to you soon.
 [If it's a feature] You might find our [design principles](design-principles.md) helpful for understanding what we're building toward.
 ```
 
-**3. Decision Making**
 
-Ask yourself:
-- Does this align with our [design principles](design-principles.md)?
-- Is this something we want in the core project, or better as a plugin/extension?
-- Do we have the capacity to support this feature long-term?
-- Will this benefit most users, or just a specific use case?
 
-**4. Issue Assignment**
+**3. Ra quyết định**
 
-If the contributor checked "I am a developer and would like to work on this":
+Hãy tự hỏi:
+- Điều này có phù hợp với [nguyên tắc thiết kế](design-principles.md) của chúng tôi không?
+- Đây có phải là thứ chúng tôi muốn trong dự án cốt lõi hay tốt hơn là dưới dạng plugin/tiện ích mở rộng?
+- Chúng tôi có đủ khả năng hỗ trợ tính năng này lâu dài không?
+- Điều này có mang lại lợi ích cho hầu hết người dùng hay chỉ một trường hợp sử dụng cụ thể?
 
-**For Accepted Issues:**
+**4. Vấn đề bài tập**
+
+Nếu người đóng góp chọn "Tôi là nhà phát triển và muốn làm việc này":
+
+**Đối với các vấn đề được chấp nhận:**
+
 ```markdown
 Great idea! This aligns well with our goals, particularly [specific design principle].
 
@@ -61,7 +66,10 @@ I see you'd like to work on this. Before you start:
 Looking forward to your thoughts!
 ```
 
-**For Issues Needing Clarification:**
+
+
+**Đối với các vấn đề cần làm rõ:**
+
 ```markdown
 Thanks for offering to work on this! Before we proceed, we need to clarify a few things:
 
@@ -71,7 +79,10 @@ Thanks for offering to work on this! Before we proceed, we need to clarify a few
 Once we have these details, we can discuss the best approach.
 ```
 
-**For Issues Not Aligned with Vision:**
+
+
+**Đối với các vấn đề không phù hợp với tầm nhìn:**
+
 ```markdown
 Thank you for the suggestion and for offering to work on this!
 
@@ -82,102 +93,108 @@ However, you might be able to achieve this through [alternative approach, if app
 We appreciate your interest in contributing! Feel free to check out our [open issues](link) for other ways to contribute.
 ```
 
-### Labels to Use
 
-**Priority:**
-- `priority: critical` - Security issues, data loss bugs
-- `priority: high` - Major functionality broken
-- `priority: medium` - Annoying bugs, useful features
-- `priority: low` - Nice to have, edge cases
 
-**Status:**
-- `needs-triage` - Not yet reviewed by maintainer
-- `needs-info` - Waiting for more information from reporter
-- `needs-discussion` - Requires community/team discussion
-- `ready` - Approved and ready to be worked on
-- `in-progress` - Someone is actively working on this
-- `blocked` - Cannot proceed due to external dependency
+### Nhãn để sử dụng
 
-**Type:**
-- `bug` - Something is broken
-- `enhancement` - New feature or improvement
-- `documentation` - Documentation improvements
-- `question` - General questions
-- `refactor` - Code cleanup/restructuring
+**Ưu tiên:**
+- `ưu tiên: quan trọng` - Vấn đề bảo mật, lỗi mất dữ liệu
+- `ưu tiên: cao` - Chức năng chính bị hỏng
+- `ưu tiên: trung bình` - Lỗi khó chịu, tính năng hữu ích
+- `ưu tiên: thấp` - Rất vui khi có, các trường hợp khó khăn
 
-**Difficulty:**
-- `good first issue` - Good for newcomers
-- `help wanted` - Community contributions welcome
-- `advanced` - Requires deep codebase knowledge
+**Trạng thái:**
+- `cần-phân loại` - Chưa được người bảo trì xem xét
+- `needs-info` - Chờ thêm thông tin từ phóng viên
+- `needs-discussion` - Yêu cầu thảo luận của cộng đồng/nhóm
+- `ready` - Đã được phê duyệt và sẵn sàng để bắt tay vào thực hiện
+- `đang tiến hành` - Có người đang tích cực làm việc này
+- `bị chặn` - Không thể tiếp tục do phụ thuộc vào bên ngoài
 
-## Pull Request Review
+**Loại:**
+- `bug` - Có gì đó bị hỏng
+- `nâng cao` - Tính năng hoặc cải tiến mới
+- `tài liệu` - Cải tiến tài liệu
+- `câu hỏi` - Câu hỏi chung
+- `refactor` - Dọn dẹp/tái cấu trúc mã
 
-### Initial PR Review Checklist
+**Độ khó:**
+- `vấn đề đầu tiên hay` - Tốt cho người mới
+- `cần giúp đỡ` - Hoan nghênh sự đóng góp của cộng đồng
+- `nâng cao` - Yêu cầu kiến thức sâu về codebase
 
-**Before diving into code:**
+## Xem xét yêu cầu kéo
 
-- [ ] Is there an associated approved issue?
-- [ ] Does the PR reference the issue number?
-- [ ] Is the PR description clear about what changed and why?
-- [ ] Did the contributor check the relevant boxes in the PR template?
-- [ ] Are there tests? Screenshots (for UI changes)?
+### Danh sách kiểm tra đánh giá PR ban đầu
 
-**Red Flags** (may require closing PR):
-- No associated issue
-- Issue was not assigned to contributor
-- PR tries to solve multiple unrelated problems
-- Breaking changes without discussion
-- Conflicts with project vision
+**Trước khi đi sâu vào mã:**
 
-### Code Review Process
+- [ ] Có vấn đề liên quan nào được phê duyệt không?
+- [ ] PR có tham chiếu đến số phát hành không?
+- [ ] Mô tả PR có rõ ràng về những gì đã thay đổi và tại sao không?
+- [ ] Cộng tác viên có đánh dấu vào các ô liên quan trong mẫu PR không?
+- [ ] Có bài kiểm tra không? Ảnh chụp màn hình (để thay đổi giao diện người dùng)?
 
-**1. High-Level Review**
+**Cờ đỏ** (có thể yêu cầu đóng PR):
+- Không có vấn đề liên quan
+- Vấn đề chưa được giao cho người đóng góp
+- PR cố gắng giải quyết nhiều vấn đề không liên quan
+- Phá vỡ những thay đổi mà không cần thảo luận
+- Xung đột với tầm nhìn dự án
 
-- Does the approach align with our architecture?
-- Is the solution appropriately scoped?
-- Are there simpler alternatives?
-- Does it follow our design principles?
+### Quy trình xét duyệt mã
 
-**2. Code Quality Review**
+**1. Đánh giá cấp cao**
 
-Python:
-- [ ] Follows PEP 8
-- [ ] Has type hints
-- [ ] Has docstrings
-- [ ] Proper error handling
-- [ ] No security vulnerabilities
+- Cách tiếp cận này có phù hợp với kiến ​​trúc của chúng tôi không?
+- Giải pháp có phạm vi phù hợp không?
+- Có lựa chọn thay thế nào đơn giản hơn không?
+- Nó có tuân theo nguyên tắc thiết kế của chúng tôi không?
 
-TypeScript/Frontend:
-- [ ] Follows TypeScript best practices
-- [ ] Proper component structure
-- [ ] No console.logs left in production code
-- [ ] Accessible UI components
+**2. Đánh giá chất lượng mã**
 
-**3. Testing Review**
+Trăn:
+- [ ] Theo PEP 8
+- [] Có gợi ý về loại
+- [] Có tài liệu
+- [ ] Xử lý lỗi thích hợp
+- [ ] Không có lỗ hổng bảo mật
 
-- [ ] Has appropriate test coverage
-- [ ] Tests are meaningful (not just for coverage percentage)
-- [ ] Tests pass locally and in CI
-- [ ] Edge cases are tested
+TypeScript/Giao diện người dùng:
+- [ ] Tuân theo các phương pháp hay nhất của TypeScript
+- [ ] Cấu trúc thành phần phù hợp
+- [] Không còn console.log nào trong mã sản xuất
+- [] Các thành phần giao diện người dùng có thể truy cập được
 
-**4. Documentation Review**
+**3. Đánh giá thử nghiệm**
 
-- [ ] Code is well-commented
-- [ ] Complex logic is explained
-- [ ] User-facing documentation updated (if applicable)
-- [ ] API documentation updated (if API changed)
-- [ ] Migration guide provided (if breaking change)
+- [ ] Có phạm vi kiểm tra phù hợp
+- [ ] Các thử nghiệm rất có ý nghĩa (không chỉ đối với tỷ lệ phần trăm bao phủ)
+- [ ] Các bài kiểm tra đạt tại địa phương và trong CI
+- [ ] Các trường hợp cạnh đã được thử nghiệm
 
-### Providing Feedback
+**4. Đánh giá tài liệu**
 
-**Positive Feedback** (important!):
+- [ ] Code được bình luận tốt
+- [ ] Logic phức tạp được giải thích
+- [ ] Đã cập nhật tài liệu hướng tới người dùng (nếu có)
+- [ ] Tài liệu API được cập nhật (nếu API thay đổi)
+- [ ] Hướng dẫn di chuyển được cung cấp (nếu có thay đổi)
+
+### Cung cấp phản hồi
+
+**Phản hồi tích cực** (quan trọng!):
+
 ```markdown
 Thanks for this PR! I really like [specific thing they did well].
 
 [Feedback on what needs to change]
 ```
 
-**Requesting Changes:**
+
+
+**Yêu cầu thay đổi:**
+
 ```markdown
 This is a great start! A few things to address:
 
@@ -188,7 +205,10 @@ This is a great start! A few things to address:
 Let me know if you have questions about any of this!
 ```
 
-**Suggesting Alternative Approach:**
+
+
+**Đề xuất phương pháp thay thế:**
+
 ```markdown
 I appreciate the effort you put into this! However, I'm concerned about [specific issue].
 
@@ -197,13 +217,16 @@ Have you considered [alternative approach]? It might be better because [reasons]
 What do you think?
 ```
 
-## Common Scenarios
 
-### Scenario 1: Good Code, Wrong Approach
 
-**Situation**: Contributor wrote quality code, but solved the problem in a way that doesn't fit our architecture.
+## Các tình huống phổ biến
 
-**Response:**
+### Kịch bản 1: Code tốt, cách tiếp cận sai
+
+**Tình huống**: Người đóng góp đã viết mã chất lượng nhưng lại giải quyết vấn đề theo cách không phù hợp với kiến ​​trúc của chúng tôi.
+
+**Phản ứng:**
+
 ```markdown
 Thank you for this PR! The code quality is great, and I can see you put thought into this.
 
@@ -216,11 +239,14 @@ Alternatively, if you don't have time for a refactor, I can take over and finish
 Let me know what you prefer!
 ```
 
-### Scenario 2: PR Without Assigned Issue
 
-**Situation**: Contributor submitted PR without going through issue approval process.
 
-**Response:**
+### Tình huống 2: PR không được chỉ định
+
+**Tình huống**: Cộng tác viên đã gửi PR mà không trải qua quá trình phê duyệt vấn đề.
+
+**Phản ứng:**
+
 ```markdown
 Thanks for the PR! I appreciate you taking the time to contribute.
 
@@ -239,11 +265,14 @@ Could you please:
 Sorry for the inconvenience - this process helps us manage the project effectively.
 ```
 
-### Scenario 3: Feature Request Not Aligned with Vision
 
-**Situation**: Well-intentioned feature that doesn't fit project goals.
 
-**Response:**
+### Tình huống 3: Yêu cầu tính năng không phù hợp với tầm nhìn
+
+**Tình huống**: Tính năng có thiện chí nhưng không phù hợp với mục tiêu của dự án.
+
+**Phản ứng:**
+
 ```markdown
 Thank you for this suggestion! I can see how this would be useful for [specific use case].
 
@@ -257,18 +286,24 @@ Some alternatives:
 We appreciate your contribution and hope you understand. Feel free to check our roadmap or open issues for other ways to contribute!
 ```
 
-### Scenario 4: Contributor Ghosts After Feedback
 
-**Situation**: You requested changes, but contributor hasn't responded in 2+ weeks.
 
-**After 2 weeks:**
+### Kịch bản 4: Bóng ma của cộng tác viên sau khi phản hồi
+
+**Tình huống**: Bạn đã yêu cầu thay đổi nhưng cộng tác viên chưa phản hồi sau hơn 2 tuần.
+
+**Sau 2 tuần:**
+
 ```markdown
 Hey there! Just checking in on this PR. Do you have time to address the feedback, or would you like someone else to take over?
 
 No pressure either way - just want to make sure this doesn't fall through the cracks.
 ```
 
-**After 1 month with no response:**
+
+
+**Sau 1 tháng không có phản hồi:**
+
 ```markdown
 Thanks again for starting this work! Since we haven't heard back, I'm going to close this PR for now.
 
@@ -277,16 +312,19 @@ If you want to pick this up again in the future, feel free to reopen it or creat
 We appreciate your contribution!
 ```
 
-Then:
-- Close the PR
-- Unassign the issue
-- Add `help wanted` label to the issue
 
-### Scenario 5: Breaking Changes Without Discussion
 
-**Situation**: PR introduces breaking changes that weren't discussed.
+Sau đó:
+- Đóng PR
+- Bỏ gán vấn đề
+- Thêm nhãn `cần trợ giúp` vào vấn đề
 
-**Response:**
+### Kịch bản 5: Thay đổi đột phá mà không cần thảo luận
+
+**Tình huống**: PR giới thiệu những thay đổi đột phá chưa được thảo luận.
+
+**Phản ứng:**
+
 ```markdown
 Thanks for this PR! However, I notice this introduces breaking changes that weren't discussed in the original issue.
 
@@ -304,9 +342,13 @@ Could we discuss the breaking changes first? Specifically:
 We may need to adjust the approach to minimize impact on existing users.
 ```
 
-## Communication Templates
 
-### Closing a PR (Misaligned with Vision)
+
+## Mẫu giao tiếp
+
+### Kết thúc một PR (Không phù hợp với Tầm nhìn)
+
+
 
 ```markdown
 Thank you for taking the time to contribute! We really appreciate it.
@@ -323,7 +365,11 @@ We'd love to have you contribute in other ways! Check out:
 Thanks again for your interest in Open Notebook!
 ```
 
-### Closing a Stale Issue
+
+
+### Đóng một vấn đề cũ
+
+
 
 ```markdown
 We're closing this issue due to inactivity. If this is still relevant, feel free to reopen it with updated information.
@@ -331,7 +377,11 @@ We're closing this issue due to inactivity. If this is still relevant, feel free
 Thanks!
 ```
 
-### Asking for More Information
+
+
+### Hỏi thêm thông tin
+
+
 
 ```markdown
 Thanks for reporting this! To help us investigate, could you provide:
@@ -343,7 +393,11 @@ Thanks for reporting this! To help us investigate, could you provide:
 This will help us understand the issue better and find a solution.
 ```
 
-### Thanking a Contributor
+
+
+### Cảm ơn người đóng góp
+
+
 
 ```markdown
 Merged!
@@ -353,56 +407,58 @@ Thank you so much for this contribution, @username! [Specific thing they did wel
 This will be included in the next release.
 ```
 
-## Best Practices
 
-### Be Kind and Respectful
 
-- Thank contributors for their time and effort
-- Assume good intentions
-- Be patient with newcomers
-- Explain *why*, not just *what*
+## Các phương pháp hay nhất
 
-### Be Clear and Direct
+### Hãy tử tế và tôn trọng
 
-- Don't leave ambiguity about next steps
-- Be specific about what needs to change
-- Explain architectural decisions
-- Set clear expectations
+- Cảm ơn những người đóng góp vì thời gian và công sức của họ
+- Có ý định tốt
+- Kiên nhẫn với người mới
+- Giải thích *tại sao*, không chỉ *cái gì*
 
-### Be Consistent
+### Hãy rõ ràng và trực tiếp
 
-- Apply the same standards to all contributors
-- Follow the process you've defined
-- Document decisions for future reference
+- Đừng mơ hồ về các bước tiếp theo
+- Nêu cụ thể những gì cần thay đổi
+- Giải thích các quyết định kiến trúc
+- Đặt kỳ vọng rõ ràng
 
-### Be Protective of Project Vision
+### Hãy nhất quán
 
-- It's okay to say "no"
-- Prioritize long-term maintainability
-- Don't accept features you can't support
-- Keep the project focused
+- Áp dụng các tiêu chuẩn giống nhau cho tất cả những người đóng góp
+- Thực hiện theo quy trình bạn đã xác định
+- Quyết định tài liệu để tham khảo trong tương lai
 
-### Be Responsive
+### Hãy bảo vệ tầm nhìn của dự án
 
-- Respond to issues within 48 hours (even just to acknowledge)
-- Review PRs within a week when possible
-- Keep contributors updated on status
-- Close stale issues/PRs to keep things tidy
+- Có thể nói "không"
+- Ưu tiên khả năng bảo trì lâu dài
+- Không chấp nhận các tính năng mà bạn không thể hỗ trợ
+- Giữ dự án tập trung
 
-## When in Doubt
+### Hãy phản ứng nhanh
 
-Ask yourself:
-1. Does this align with our [design principles](design-principles.md)?
-2. Will we be able to maintain this feature long-term?
-3. Does this benefit most users, or just an edge case?
-4. Is there a simpler alternative?
-5. Would I want to support this in 2 years?
+- Trả lời các vấn đề trong vòng 48 giờ (thậm chí chỉ để xác nhận)
+- Xem xét PR trong vòng một tuần khi có thể
+- Giữ cho người đóng góp được cập nhật về trạng thái
+- Đóng các vấn đề/PR cũ để giữ mọi thứ gọn gàng
 
-If you're unsure, it's perfectly fine to:
-- Ask for input from other maintainers
-- Start a discussion issue
-- Sleep on it before making a decision
+## Khi nghi ngờ
+
+Hãy tự hỏi:
+1. Điều này có phù hợp với [nguyên tắc thiết kế](design-principles.md) của chúng tôi không?
+2. Liệu chúng tôi có thể duy trì tính năng này lâu dài không?
+3. Điều này có mang lại lợi ích cho hầu hết người dùng hay chỉ là một trường hợp đặc biệt?
+4. Có cách thay thế nào đơn giản hơn không?
+5. Tôi có muốn hỗ trợ việc này trong 2 năm nữa không?
+
+Nếu bạn không chắc chắn, bạn hoàn toàn có thể:
+- Yêu cầu đầu vào từ những người bảo trì khác
+- Bắt đầu một vấn đề thảo luận
+- Hãy cân nhắc trước khi đưa ra quyết định
 
 ---
 
-**Remember**: Good maintainership is about balancing openness to contributions with protection of project vision. You're not being mean by saying "no" to things that don't fit - you're being a responsible steward of the project.
+**Hãy nhớ**: Khả năng bảo trì tốt là việc cân bằng giữa tính cởi mở trong việc đóng góp với việc bảo vệ tầm nhìn của dự án. Bạn sẽ không ác ý khi nói "không" với những thứ không phù hợp - bạn đang là người quản lý có trách nhiệm của dự án.

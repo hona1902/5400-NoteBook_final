@@ -1,32 +1,38 @@
-# Model Context Protocol (MCP) Integration
+# Tích hợp Giao thức bối cảnh mô hình (MCP)
 
-Open Notebook can be seamlessly integrated into your AI workflows using the **Model Context Protocol (MCP)**, enabling direct access to your notebooks, sources, and chat functionality from AI assistants like Claude Desktop and VS Code extensions.
+Open Notebook có thể được tích hợp liền mạch vào quy trình làm việc AI của bạn bằng cách sử dụng **Giao thức bối cảnh mô hình (MCP)**, cho phép truy cập trực tiếp vào sổ ghi chép, nguồn và chức năng trò chuyện của bạn từ các trợ lý AI như Claude Desktop và tiện ích mở rộng VS Code.
 
-## What is MCP?
+##MCP là gì?
 
-The [Model Context Protocol](https://modelcontextprotocol.io) is an open standard that allows AI applications to securely connect to external data sources and tools. With the Open Notebook MCP server, you can:
+[Giao thức bối cảnh mô hình](https://modelcontextprotocol.io) là một tiêu chuẩn mở cho phép các ứng dụng AI kết nối an toàn với các công cụ và nguồn dữ liệu bên ngoài. Với máy chủ Open Notebook MCP, bạn có thể:
 
-- 📚 **Access your notebooks** directly from Claude Desktop or VS Code
-- 🔍 **Search your research content** without leaving your AI assistant
-- 💬 **Create and manage chat sessions** with your research as context
-- 📝 **Generate notes** and insights on-the-fly
-- 🤖 **Automate workflows** using the full Open Notebook API
+- 📚 **Truy cập sổ ghi chép của bạn** trực tiếp từ Claude Desktop hoặc VS Code
+- 🔍 **Tìm kiếm nội dung nghiên cứu của bạn** mà không cần rời khỏi trợ lý AI của bạn
+- 💬 **Tạo và quản lý các phiên trò chuyện** lấy nghiên cứu của bạn làm bối cảnh
+- 📝 **Tạo ghi chú** và thông tin chi tiết một cách nhanh chóng
+- 🤖 **Tự động hóa quy trình công việc** bằng cách sử dụng API Open Notebook đầy đủ
 
-## Quick Setup
+## Thiết lập nhanh
 
-### For Claude Desktop
+### Dành cho máy tính để bàn Claude
 
-1. **Install the MCP server** (automatically from PyPI):
+1. **Cài đặt máy chủ MCP** (tự động từ PyPI):
 
-   ```bash
+
+
+```bash
    # No manual installation needed! Claude Desktop will use uvx to run it automatically
    ```
 
-2. **Configure Claude Desktop**:
 
-   **macOS/Linux**: Edit `~/Library/Application Support/Claude/claude_desktop_config.json`
 
-   ```json
+2. **Cấu hình Claude Desktop**:
+
+**macOS/Linux**: Chỉnh sửa `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+
+
+```json
    {
      "mcpServers": {
        "open-notebook": {
@@ -41,9 +47,13 @@ The [Model Context Protocol](https://modelcontextprotocol.io) is an open standar
    }
    ```
 
-   **Windows**: Edit `%APPDATA%\Claude\claude_desktop_config.json`
 
-   ```json
+
+**Windows**: Chỉnh sửa `%APPDATA%\Claude\claude_desktop_config.json`
+
+
+
+```json
    {
      "mcpServers": {
        "open-notebook": {
@@ -58,11 +68,15 @@ The [Model Context Protocol](https://modelcontextprotocol.io) is an open standar
    }
    ```
 
-3. **Restart Claude Desktop** and start using your notebooks in conversations!
 
-### For VS Code (Cline and other MCP-compatible extensions)
 
-Add to your VS Code settings or `.vscode/mcp.json`:
+3. **Khởi động lại Claude Desktop** và bắt đầu sử dụng sổ ghi chép của bạn trong các cuộc trò chuyện!
+
+### Dành cho Mã VS (Cline và các tiện ích mở rộng tương thích với MCP khác)
+
+Thêm vào cài đặt Mã VS của bạn hoặc `.vscode/mcp.json`:
+
+
 
 ```json
 {
@@ -79,121 +93,131 @@ Add to your VS Code settings or `.vscode/mcp.json`:
 }
 ```
 
-## Configuration
 
-- **OPEN_NOTEBOOK_URL**: URL to your Open Notebook API (default: `http://localhost:5055`)
-- **OPEN_NOTEBOOK_PASSWORD**: Optional - only needed if you've enabled password protection
 
-### For Remote Servers
+## Cấu hình
 
-If your Open Notebook instance is running on a remote server, update the URL accordingly:
+- **OPEN_NOTEBOOK_URL**: URL tới API Open Notebook của bạn (mặc định: `http://localhost:5055`)
+- **OPEN_NOTEBOOK_PASSWORD**: Tùy chọn - chỉ cần nếu bạn đã bật bảo vệ bằng mật khẩu
+
+### Dành cho máy chủ từ xa
+
+Nếu phiên bản Open Notebook của bạn đang chạy trên máy chủ từ xa, hãy cập nhật URL tương ứng:
+
+
 
 ```json
 "OPEN_NOTEBOOK_URL": "http://192.168.1.100:5055"
 ```
 
-Or with a domain:
+
+
+Hoặc với một tên miền:
+
+
 
 ```json
 "OPEN_NOTEBOOK_URL": "https://notebook.yourdomain.com/api"
 ```
 
-## What You Can Do
 
-Once connected, you can ask Claude or your AI assistant to:
 
-- _"Search my research notebooks for information about [topic]"_
-- _"Create a new note summarizing the key points from our conversation"_
-- _"List all my notebooks"_
-- _"Start a chat session about [specific source or topic]"_
-- _"What sources do I have in my [notebook name] notebook?"_
-- _"Add this PDF to my research notebook"_
-- _"Show me all notes in [notebook name]"_
+## Bạn có thể làm gì
 
-The MCP server provides full access to Open Notebook's capabilities, allowing you to manage your research seamlessly from within your AI assistant.
+Sau khi kết nối, bạn có thể yêu cầu Claude hoặc trợ lý AI của bạn:
 
-## Available Tools
+- _"Tìm kiếm sổ ghi chép nghiên cứu của tôi để biết thông tin về [chủ đề]"_
+- _"Tạo một ghi chú mới tóm tắt những điểm chính trong cuộc trò chuyện của chúng ta"_
+- _"Liệt kê tất cả sổ ghi chép của tôi"_
+- _"Bắt đầu phiên trò chuyện về [nguồn hoặc chủ đề cụ thể]"_
+- _"Tôi có những nguồn nào trong sổ tay [tên sổ ghi chép] của mình?"_
+- _"Thêm bản PDF này vào sổ tay nghiên cứu của tôi"_
+- _"Cho tôi xem tất cả ghi chú trong [tên sổ ghi chép]"_
 
-The Open Notebook MCP server exposes these capabilities:
+Máy chủ MCP cung cấp quyền truy cập đầy đủ vào các khả năng của Open Notebook, cho phép bạn quản lý nghiên cứu của mình một cách liền mạch từ bên trong trợ lý AI của mình.
 
-### Notebooks
+## Công cụ có sẵn
 
-- List notebooks
-- Get notebook details
-- Create new notebooks
-- Update notebook information
-- Delete notebooks
+Máy chủ Open Notebook MCP thể hiện các khả năng sau:
 
-### Sources
+### Sổ tay
 
-- List sources in a notebook
-- Get source details
-- Add new sources (links, files, text)
-- Update source metadata
-- Delete sources
+- Liệt kê sổ ghi chép
+- Nhận chi tiết máy tính xách tay
+- Tạo sổ ghi chép mới
+- Cập nhật thông tin sổ ghi chép
+- Xóa sổ ghi chép
 
-### Notes
+### Nguồn
 
-- List notes in a notebook
-- Get note details
-- Create new notes
-- Update notes
-- Delete notes
+- Liệt kê các nguồn vào sổ ghi chép
+- Nhận chi tiết nguồn
+- Thêm nguồn mới (liên kết, tập tin, văn bản)
+- Cập nhật siêu dữ liệu nguồn
+- Xóa nguồn
 
-### Chat
+### Ghi chú
 
-- Create chat sessions
-- Send messages to chat sessions
-- Get chat history
-- List chat sessions
+- Liệt kê các ghi chú vào sổ tay
+- Nhận chi tiết ghi chú
+- Tạo ghi chú mới
+- Cập nhật ghi chú
+- Xóa ghi chú
 
-### Search
+### Trò chuyện
 
-- Vector search across content
-- Text search across content
-- Filter by notebook
+- Tạo phiên trò chuyện
+- Gửi tin nhắn đến các phiên trò chuyện
+- Nhận lịch sử trò chuyện
+- Liệt kê các phiên trò chuyện
 
-### Models
+### Tìm kiếm
 
-- List configured AI models
-- Get model details
-- Create model configurations
-- Update model settings
+- Tìm kiếm Vector trên toàn bộ nội dung
+- Tìm kiếm văn bản trên toàn bộ nội dung
+- Lọc theo sổ tay
 
-### Settings
+### Người mẫu
 
-- Get application settings
-- Update settings
+- Liệt kê các mô hình AI đã được cấu hình
+- Nhận chi tiết mô hình
+- Tạo cấu hình mô hình
+- Cập nhật cài đặt mô hình
 
-## MCP Server Repository
+### Cài đặt
 
-The Open Notebook MCP server is developed and maintained by the Epochal team:
+- Nhận cài đặt ứng dụng
+- Cập nhật cài đặt
+
+## Kho lưu trữ máy chủ MCP
+
+Máy chủ Open Notebook MCP được phát triển và duy trì bởi nhóm Epochal:
 
 **🔗 GitHub**: [Epochal-dev/open-notebook-mcp](https://github.com/Epochal-dev/open-notebook-mcp)
 
-Contributions, issues, and feature requests are welcome!
+Đóng góp, vấn đề và yêu cầu tính năng đều được chào đón!
 
-## Finding the Server
+## Tìm máy chủ
 
-The Open Notebook MCP server is published to the official MCP Registry:
+Máy chủ MCP Open Notebook được xuất bản lên Cơ quan đăng ký MCP chính thức:
 
-- **Registry**: Search for "open-notebook" at [registry.modelcontextprotocol.io](https://registry.modelcontextprotocol.io)
+- **Registry**: Tìm kiếm "open-notebook" tại [registry.modelcontextprotocol.io](https://registry.modelcontextprotocol.io)
 - **PyPI**: [pypi.org/project/open-notebook-mcp](https://pypi.org/project/open-notebook-mcp)
 - **GitHub**: [Epochal-dev/open-notebook-mcp](https://github.com/Epochal-dev/open-notebook-mcp)
 
-## Troubleshooting
+## Khắc phục sự cố
 
-### Connection Errors
+### Lỗi kết nối
 
-1. Verify the `OPEN_NOTEBOOK_URL` is correct and accessible
-2. If using password protection, ensure `OPEN_NOTEBOOK_PASSWORD` is set correctly
-3. For remote servers, make sure port 5055 is accessible from your machine
-4. Check firewall settings if connecting to a remote server
+1. Xác minh `OPEN_NOTEBOOK_URL` là chính xác và có thể truy cập được
+2. Nếu sử dụng bảo vệ bằng mật khẩu, hãy đảm bảo `OPEN_NOTEBOOK_PASSWORD` được đặt chính xác
+3. Đối với các máy chủ từ xa, hãy đảm bảo rằng máy của bạn có thể truy cập được cổng 5055
+4. Kiểm tra cài đặt tường lửa nếu kết nối với máy chủ từ xa
 
-## Using with Other MCP Clients
+## Sử dụng với các máy khách MCP khác
 
-The Open Notebook MCP server follows the standard MCP protocol and can be used with any MCP-compatible client. Check your client's documentation for configuration details.
+Máy chủ Open Notebook MCP tuân theo giao thức MCP tiêu chuẩn và có thể được sử dụng với bất kỳ máy khách nào tương thích với MCP. Kiểm tra tài liệu của khách hàng để biết chi tiết cấu hình.
 
-## Learn More
+## Tìm hiểu thêm
 
-- [Model Context Protocol Documentation](https://modelcontextprotocol.io)
+- [Tài liệu về giao thức bối cảnh mô hình](https://modelcontextprotocol.io)

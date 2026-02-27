@@ -1,299 +1,299 @@
-# Citations - Verify and Trust AI Responses
+# Trích Dẫn - Xác Minh và Tin Tưởng Các Phản Hồi AI
 
-Citations connect AI responses to your source materials. This guide covers how to use and verify them.
-
----
-
-## Why Citations Matter
-
-Every AI-generated response in Open Notebook includes citations to your sources. This lets you:
-
-- **Verify claims** - Check that AI actually read what it claims
-- **Find original context** - See the full passage around a quote
-- **Catch hallucinations** - Spot when AI makes things up
-- **Build credibility** - Your notes have traceable sources
+Trích dẫn kết nối các phản hồi AI với tài liệu nguồn của bạn. Hướng dẫn này bao gồm cách sử dụng và xác minh chúng.
 
 ---
 
-## Quick Start: Using Citations
+## Tại Sao Trích Dẫn Lại Quan Trọng
 
-### Reading Citations
+Mỗi phản hồi do AI tạo ra trong Open Notebook đều bao gồm các trích dẫn đến các nguồn của bạn. Điều này cho phép bạn:
 
-```
-AI Response:
-"The study found a 95% accuracy rate [1] using the proposed method."
-
-[1] = Click to see source
-
-What happens when you click:
-→ Opens the source document
-→ Highlights the relevant section
-→ You can verify the claim
-```
-
-### Requesting Better Citations
-
-If a response lacks citations, ask:
-
-```
-"Please cite the specific page or section for that claim."
-"Where in the document does it say that?"
-"Can you quote the exact text?"
-```
+- **Xác minh các tuyên bố** - Kiểm tra xem AI đã thực sự đọc những gì nó tuyên bố chưa
+- **Tìm ngữ cảnh gốc** - Xem toàn bộ đoạn văn xung quanh một trích dẫn
+- **Phát hiện ảo giác** - Nhận biết khi nào AI tự bịa ra mọi thứ
+- **Xây dựng uy tín** - Ghi chú của bạn có nguồn gốc có thể theo dõi được
 
 ---
 
-## How Citations Work
+## Bắt Đầu Nhanh: Sử dụng Trích Dẫn
 
-### Automatic Generation
-
-When AI references your sources, citations are generated automatically:
+### Đọc Trích Dẫn
 
 ```
-1. AI analyzes your question
-2. Retrieves relevant source chunks
-3. Generates response with inline citations
-4. Links citations to original source locations
+Phản hồi của AI:
+"Nghiên cứu cho thấy tỷ lệ chính xác là 95% [1] khi sử dụng phương pháp được đề xuất."
+
+[1] = Nhấp để xem nguồn
+
+Điều gì xảy ra khi bạn nhấp vào:
+→ Mở tài liệu nguồn
+→ Làm nổi bật phần liên quan
+→ Bạn có thể xác minh tuyên bố
 ```
 
-### Citation Format
+### Yêu Cầu Trích Dẫn Tốt Hơn
+
+Nếu một phản hồi thiếu trích dẫn, hãy yêu cầu:
 
 ```
-Inline format:
-"The researchers concluded X [1] and Y [2]."
-
-Reference list:
-[1] Paper Title - Section 3.2
-[2] Report Name - Page 15
-
-Clickable: Each [number] links to the source
+"Vui lòng trích dẫn trang hoặc phần cụ thể cho tuyên bố đó."
+"Tài liệu nói điều đó ở đâu?"
+"Bạn có thể trích dẫn nguyên văn không?"
 ```
 
 ---
 
-## Verifying Citations
+## Cách Trích Dẫn Hoạt Động
 
-### The Verification Workflow
+### Tạo Tự Động
+
+Khi AI tham chiếu đến các nguồn của bạn, trích dẫn được tạo tự động:
 
 ```
-Step 1: Read AI response
-        "The model achieved 95% accuracy [1]"
-
-Step 2: Click citation [1]
-        → Opens source document
-        → Shows relevant passage
-
-Step 3: Verify the claim
-        Does source actually say 95%?
-        Is context correct?
-        Any nuance missed?
-
-Step 4: Trust or correct
-        ✓ Accurate → Use the insight
-        ✗ Wrong → Ask AI to correct
+1. AI phân tích câu hỏi của bạn
+2. Truy xuất các đoạn nguồn có liên quan
+3. Tạo phản hồi với các trích dẫn nội dòng
+4. Liên kết trích dẫn đến các vị trí nguồn gốc
 ```
 
-### What to Check
+### Định Dạng Trích Dẫn
 
-| Check | Why |
+```
+Định dạng nội dòng:
+"Các nhà nghiên cứu đã kết luận X [1] và Y [2]."
+
+Danh sách tham khảo:
+[1] Tên Bài Báo - Phần 3.2
+[2] Tên Báo Cáo - Trang 15
+
+Có thể nhấp: Mỗi [số] liên kết đến nguồn
+```
+
+---
+
+## Xác Minh Trích Dẫn
+
+### Quy Trình Xác Minh
+
+```
+Bước 1: Đọc phản hồi của AI
+        "Mô hình đạt độ chính xác 95% [1]"
+
+Bước 2: Nhấp vào trích dẫn [1]
+        → Mở tài liệu nguồn
+        → Hiển thị đoạn văn liên quan
+
+Bước 3: Xác minh tuyên bố
+        Nguồn có thực sự báo cáo 95% không?
+        Ngữ cảnh có chính xác không?
+        Có sắc thái nào bị bỏ sót không?
+
+Bước 4: Tin tưởng hoặc sửa chữa
+        ✓ Chính xác → Sử dụng thông tin
+        ✗ Sai → Yêu cầu AI sửa lại
+```
+
+### Những Gì Cần Kiểm Tra
+
+| Kiểm Tra | Tại Sao |
 |-------|-----|
-| **Exact numbers** | AI sometimes rounds or misremembers |
-| **Context** | Quote might mean something different in context |
-| **Attribution** | Is this the source's claim or someone they cited? |
-| **Completeness** | Did AI miss important caveats? |
+| **Các con số chính xác** | AI đôi khi làm tròn hoặc nhớ sai |
+| **Ngữ cảnh** | Đoạn trích có thể mang ý nghĩa khác trong ngữ cảnh |
+| **Ghi công** | Đây là tuyên bố của nguồn hay của người mà họ trích dẫn? |
+| **Tính đầy đủ** | AI có bỏ lỡ các lưu ý quan trọng không? |
 
 ---
 
-## Citations in Different Features
+## Trích Dẫn Trong Các Tính Năng Khác Nhau
 
-### Chat Citations
-
-```
-Context: Sources you selected
-Citations: Reference chunks used in response
-Verification: Click to see original text
-Save: Citations preserved when saving as note
-```
-
-### Ask Feature Citations
+### Trích Dẫn Trong Trò Chuyện (Chat)
 
 ```
-Context: Auto-searched across all sources
-Citations: Multiple sources synthesized
-Verification: Each source linked separately
-Quality: Often more comprehensive than Chat
+Ngữ cảnh: Các nguồn bạn đã chọn
+Trích dẫn: Các đoạn tham chiếu được sử dụng trong phản hồi
+Xác minh: Nhấp để xem văn bản gốc
+Lưu: Trích dẫn được giữ nguyên khi lưu dưới dạng ghi chú
 ```
 
-### Transformation Citations
+### Trích Dẫn Tính Năng Hỏi (Ask)
 
 ```
-Context: Single source being transformed
-Citations: Points back to original document
-Verification: Compare output to source
-Use: When you need structured extraction
+Ngữ cảnh: Tự động tìm kiếm trên tất cả các nguồn
+Trích dẫn: Tổng hợp nhiều nguồn
+Xác minh: Mỗi nguồn được liên kết riêng biệt
+Chất lượng: Thường toàn diện hơn Trò chuyện
+```
+
+### Trích Dẫn Chuyển Đổi (Transformation)
+
+```
+Ngữ cảnh: Nguồn duy nhất đang được chuyển đổi
+Trích dẫn: Trỏ lại tài liệu gốc
+Xác minh: So sánh đầu ra với nguồn
+Sử dụng: Khi bạn cần trích xuất có cấu trúc
 ```
 
 ---
 
-## Saving Citations
+## Lưu Trích Dẫn
 
-### In Notes
+### Trong Ghi Chú
 
-When you save an AI response as a note, citations are preserved:
+Khi bạn lưu phản hồi của AI dưới dạng ghi chú, các trích dẫn sẽ được bảo tồn:
 
 ```
-Original response:
-"According to the paper [1], the method works by..."
+Phản hồi gốc:
+"Theo bài báo [1], phương pháp hoạt động bằng cách..."
 
-Saved note includes:
-- The text
-- The citation link
-- Reference to source document
+Ghi chú đã lưu bao gồm:
+- Văn bản
+- Liên kết trích dẫn
+- Tham chiếu đến tài liệu nguồn
 ```
 
-### Exporting
+### Xuất
 
-Citations work in exports:
+Trích dẫn hoạt động trong các bản xuất:
 
-| Format | Citation Behavior |
+| Định dạng | Hành vi Trích dẫn |
 |--------|-------------------|
-| **Markdown** | Links preserved as `[text](link)` |
-| **Copy/Paste** | Plain text with reference numbers |
-| **PDF** | Clickable references (if supported) |
+| **Markdown** | Các liên kết được giữ nguyên như `[văn bản](liên kết)` |
+| **Sao chép/Dán** | Văn bản thuần với các số tham chiếu |
+| **PDF** | Tham chiếu có thể nhấp (nếu được hỗ trợ) |
 
 ---
 
-## Citation Quality Tips
+## Mẹo Nâng Cao Chất Lượng Trích Dẫn
 
-### Get Better Citations
+### Nhận Được Trích Dẫn Tốt Hơn
 
-**Be specific in questions:**
+**Hãy cụ thể trong các câu hỏi:**
 ```
-Poor: "What does it say about X?"
-Good: "What does page 15 say about X? Please quote directly."
-```
-
-**Request citation format:**
-```
-"Include page numbers for each claim."
-"Cite specific sections, not just document names."
+Tệ: "Nó nói gì về X?"
+Tốt: "Trang 15 nói gì về X? Vui lòng trích dẫn trực tiếp."
 ```
 
-**Use Full Content context:**
+**Yêu cầu định dạng trích dẫn:**
 ```
-Summary Only → Less precise citations
-Full Content → Exact quotes possible
+"Bao gồm số trang cho mỗi tuyên bố."
+"Trích dẫn các phần cụ thể, không chỉ tên tài liệu."
 ```
 
-### When Citations Are Missing
+**Sử dụng ngữ cảnh Toàn Bộ Nội Dung (Full Content):**
+```
+Chỉ Tóm Tắt → Trích dẫn kém chính xác hơn
+Toàn Bộ Nội Dung → Có thể trích dẫn chính xác
+```
 
-| Situation | Cause | Solution |
+### Khi Bị Thiếu Trích Dẫn
+
+| Tình Huống | Nguyên Nhân | Giải Pháp |
 |-----------|-------|----------|
-| No citations | AI used general knowledge | Ask: "Base your answer only on my sources" |
-| Vague citations | Source not in Full Content | Change context level |
-| Wrong citations | AI confused sources | Ask to verify with quotes |
+| Không có trích dẫn | AI sử dụng kiến thức chung | Yêu cầu: "Chỉ dựa trên các nguồn của tôi để trả lời" |
+| Trích dẫn mơ hồ | Nguồn không ở Chế độ Toàn Bộ Nội Dung | Thay đổi mức độ ngữ cảnh |
+| Trích dẫn sai | AI nhầm lẫn các nguồn | Yêu cầu xác minh bằng phần trích dẫn |
 
 ---
 
-## Common Issues
+## Các Vấn Đề Thường Gặp
 
-### "Citation doesn't match claim"
-
-```
-Problem: AI says X, but source says Y
-
-What happened:
-- AI paraphrased incorrectly
-- AI combined multiple sources confusingly
-- Source was taken out of context
-
-Solution:
-1. Click citation to see original
-2. Note the discrepancy
-3. Ask AI: "The source says Y, not X. Please correct."
-```
-
-### "Can't find cited section"
+### "Trích dẫn không khớp với tuyên bố"
 
 ```
-Problem: Citation link doesn't show relevant text
+Sự cố: AI nói X, nhưng nguồn nói Y
 
-What happened:
-- Source was chunked differently than expected
-- Information spread across multiple sections
-- Processing missed some content
+Chuyện gì đã xảy ra:
+- AI diễn giải sai
+- AI kết hợp nhiều nguồn gây nhầm lẫn
+- Nguồn đã bị đưa ra khỏi ngữ cảnh
 
-Solution:
-1. Search within source for key terms
-2. Ask AI for more specific location
-3. Re-process source if needed
+Giải pháp:
+1. Nhấp vào trích dẫn để xem bản gốc
+2. Lưu ý sự khác biệt
+3. Yêu cầu AI: "Nguồn nói Y, không phải X. Vui lòng sửa lại."
 ```
 
-### "No citations at all"
+### "Không thể tìm thấy phần được trích dẫn"
 
 ```
-Problem: AI response has no source references
+Sự cố: Liên kết trích dẫn không hiển thị văn bản liên quan
 
-What happened:
-- Sources not in context
-- Question asked for opinion/general knowledge
-- Model didn't find relevant content
+Chuyện gì đã xảy ra:
+- Nguồn đã được chia nhỏ khác với dự kiến
+- Thông tin rải rác qua nhiều phần
+- Việc xử lý đã bỏ sót một số nội dung
 
-Solution:
-1. Check context settings
-2. Rephrase: "Based on my sources, what..."
-3. Add more relevant sources
+Giải pháp:
+1. Tìm kiếm trong nguồn cho các từ khóa
+2. Yêu cầu AI cho vị trí cụ thể hơn
+3. Xử lý lại nguồn nếu cần
+```
+
+### "Hoàn toàn không có trích dẫn"
+
+```
+Sự cố: Phản hồi của AI không có tham chiếu nguồn
+
+Chuyện gì đã xảy ra:
+- Nguồn không nằm trong ngữ cảnh
+- Câu hỏi yêu cầu ý kiến/kiến thức chung
+- Mô hình không tìm thấy nội dung có liên quan
+
+Giải pháp:
+1. Kiểm tra cài đặt ngữ cảnh
+2. Diễn đạt lại: "Dựa trên các nguồn của tôi, cái gì..."
+3. Thêm nhiều nguồn liên quan hơn
 ```
 
 ---
 
-## Best Practices
+## Các Phương Pháp Hay Nhất
 
-### For Research Integrity
+### Đối Với Tính Toàn Vẹn Của Nghiên Cứu
 
-1. **Always verify important claims** - Don't trust AI blindly
-2. **Check context** - Quotes can be misleading out of context
-3. **Note limitations** - AI might miss nuance
-4. **Keep source access** - Don't delete sources you cite
+1. **Luôn xác minh các tuyên bố quan trọng** - Đừng mù quáng tin tưởng AI
+2. **Kiểm tra ngữ cảnh** - Các trích dẫn có thể gây hiểu nhầm nếu không có ngữ cảnh
+3. **Lưu ý những hạn chế** - AI có thể bỏ sót các sắc thái
+4. **Giữ quyền truy cập nguồn** - Đừng xóa các nguồn bạn trích dẫn
 
-### For Academic Work
+### Dành Cho Công Việc Học Thuật
 
-1. **Use Full Content** for documents you'll cite
-2. **Request specific page numbers**
-3. **Cross-check with original sources**
-4. **Document your verification process**
+1. **Sử dụng Toàn Bộ Nội Dung** cho các tài liệu bạn sẽ trích dẫn
+2. **Yêu cầu số trang cụ thể**
+3. **Kiểm tra chéo với các nguồn gốc**
+4. **Ghi lại quá trình xác minh của bạn**
 
-### For Professional Use
+### Dành Cho Sử Dụng Chuyên Nghiệp
 
-1. **Verify before sharing** - Check claims clients will see
-2. **Keep citation trail** - Save notes with sources linked
-3. **Be transparent** - Note when insights are AI-assisted
+1. **Xác minh trước khi chia sẻ** - Kiểm tra các tuyên bố mà khách hàng sẽ thấy
+2. **Giữ dấu vết trích dẫn** - Lưu ghi chú với các nguồn được liên kết
+3. **Minh bạch** - Lưu ý khi thông tin chi tiết được AI hỗ trợ
 
 ---
 
-## Summary
+## Tóm Tắt
 
 ```
-Citations = Your verification system
+Trích dẫn = Hệ thống xác minh của bạn
 
-How to use:
-1. Read AI response
-2. Note citation markers [1], [2], etc.
-3. Click to see original source
-4. Verify claim matches source
-5. Trust verified insights
+Cách sử dụng:
+1. Đọc phản hồi của AI
+2. Lưu ý các dấu trích dẫn [1], [2], v.v.
+3. Nhấp để xem nguồn gốc
+4. Xác minh tuyên bố khớp với nguồn
+5. Tin tưởng các thông tin chi tiết đã được xác minh
 
-When citations fail:
-- Ask for specific quotes
-- Change to Full Content
-- Request page numbers
-- Verify manually
+Khi trích dẫn thất bại:
+- Yêu cầu trích dẫn cụ thể
+- Chuyển sang Toàn Bộ Nội Dung
+- Yêu cầu số trang
+- Xác minh thủ công
 
-Why it matters:
-- AI can hallucinate
-- Context can change meaning
-- Trust requires verification
-- Good research needs sources
+Tại sao nó quan trọng:
+- AI có thể ảo giác
+- Ngữ cảnh có thể thay đổi ý nghĩa
+- Niềm tin đòi hỏi sự xác minh
+- Nghiên cứu tốt cần có nguồn gốc
 ```
 
-Citations aren't just references — they're your quality control. Use them to build research you can trust.
+Các trích dẫn không chỉ là tài liệu tham khảo — chúng là hệ thống kiểm soát chất lượng của bạn. Hãy sử dụng chúng để xây dựng các nghiên cứu mà bạn có thể tin tưởng.

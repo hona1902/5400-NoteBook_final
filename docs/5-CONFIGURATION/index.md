@@ -1,52 +1,54 @@
-# Configuration - Essential Settings
+# Cấu hình - Cài đặt cơ bản
 
-Configuration is how you customize Open Notebook for your specific setup. This section covers what you need to know.
-
----
-
-## What Needs Configuration?
-
-Three things:
-
-1. **AI Provider** — Which LLM/embedding service you're using (OpenAI, Anthropic, Ollama, etc.)
-2. **Database** — How to connect to SurrealDB (usually pre-configured)
-3. **Server** — API URL, ports, timeouts (usually auto-detected)
+Cấu hình là cách bạn tùy chỉnh Open Notebook cho thiết lập cụ thể của mình. Phần này bao gồm những gì bạn cần biết.
 
 ---
 
-## Quick Decision: Which Provider?
+## Cần cấu hình gì?
 
-### Option 1: Cloud Provider (Fastest)
-- **OpenRouter (recommended)** (access to all models with one key)
+Ba điều:
+
+1. **Nhà cung cấp AI** — Dịch vụ LLM/nhúng nào bạn đang sử dụng (OpenAI, Anthropic, Ollama, v.v.)
+2. **Cơ sở dữ liệu** — Cách kết nối với SurrealDB (thường được định cấu hình trước)
+3. **Máy chủ** — URL API, cổng, thời gian chờ (thường được tự động phát hiện)
+
+---
+
+## Quyết định nhanh: Nhà cung cấp nào?
+
+### Tùy chọn 1: Nhà cung cấp dịch vụ đám mây (Nhanh nhất)
+- **OpenRouter (được khuyến nghị)** (truy cập vào tất cả các kiểu máy bằng một phím)
 - **OpenAI** (GPT)
-- **Anthropic** (Claude)
-- **Google Gemini** (multi-modal, long context)
-- **Groq** (ultra-fast inference)
+- **Nhân loại** (Claude)
+- **Google Gemini** (đa phương thức, ngữ cảnh dài)
+- **Groq** (suy luận cực nhanh)
 
-Setup: Get API key → Add credential in Settings UI → Done
+Thiết lập: Nhận khóa API → Thêm thông tin xác thực trong Giao diện người dùng cài đặt → Xong
 
-→ Go to **[AI Providers Guide](ai-providers.md)**
+→ Đi đến **[Hướng dẫn về nhà cung cấp AI](ai-providers.md)**
 
-### Option 2: Local (Free & Private)
-- **Ollama** (open-source models, on your machine)
+### Tùy chọn 2: Local (Miễn phí & Riêng tư)
+- **Ollama** (các mẫu mã nguồn mở, trên máy của bạn)
 
-→ Go to **[Ollama Setup](ollama.md)**
+→ Đi đến **[Ollama Setup](ollama.md)**
 
-### Option 3: OpenAI-Compatible
-- **LM Studio** (local)
-- **Custom endpoints**
+### Lựa chọn 3: Tương thích với OpenAI
+- **LM Studio** (địa phương)
+- **Điểm cuối tùy chỉnh**
 
-→ Go to **[OpenAI-Compatible Guide](openai-compatible.md)**
+→ Đi tới **[Hướng dẫn tương thích với OpenAI](openai-tương thích.md)**
 
 ---
 
-## Configuration File
+## Tệp cấu hình
 
-Use the right file depending on your setup.
+Sử dụng đúng tập tin tùy thuộc vào thiết lập của bạn.
 
-### `.env` (Local Development)
+### `.env` (Phát triển cục bộ)
 
-You will only use .env if you are running Open Notebook locally.
+Bạn sẽ chỉ sử dụng .env nếu bạn đang chạy Open Notebook cục bộ.
+
+
 
 ```
 Located in: project root
@@ -54,9 +56,12 @@ Use for: Development on your machine
 Format: KEY=value, one per line
 ```
 
-### `docker.env` (Docker Deployment)
 
-You will use this file to hold your environment variables if you are using docker-compose and prefer not to put the variables directly in the compose file. 
+
+### `docker.env` (Triển khai Docker)
+
+Bạn sẽ sử dụng tệp này để giữ các biến môi trường nếu bạn đang sử dụng docker-compose và không muốn đặt các biến trực tiếp vào tệp soạn thảo.
+
 ```
 Located in: project root (or ./docker)
 Use for: Docker deployments
@@ -64,16 +69,19 @@ Format: Same as .env
 Loaded by: docker-compose.yml
 ```
 
+
+
 ---
 
-## Most Important Settings
+## Cài đặt quan trọng nhất
 
-All of the settings provided below are to be placed inside your environment file (.env or docker.env depending on your setup).
+Tất cả cài đặt được cung cấp bên dưới phải được đặt bên trong tệp môi trường của bạn (.env hoặc docker.env tùy thuộc vào thiết lập của bạn).
+
+### Cơ sở dữ liệu siêu thực
+
+Đây là cơ sở dữ liệu được ứng dụng sử dụng.
 
 
-###  Surreal Database
-
-This is the database used by the app.
 
 ```
 SURREAL_URL=ws://surrealdb:8000/rpc
@@ -83,44 +91,53 @@ SURREAL_NAMESPACE=open_notebook
 SURREAL_DATABASE=open_notebook
 ```
 
-> The only thing that is critical to not miss is the hostname in the `SURREAL_URL`. Check what URL to use based on your deployment, [here](database.md).
 
 
-### AI Provider (Credentials)
+> Điều quan trọng duy nhất không được bỏ lỡ là tên máy chủ trong `SURREAL_URL`. Kiểm tra xem URL nào sẽ sử dụng dựa trên hoạt động triển khai của bạn, [tại đây](database.md).
 
-We need access to LLMs in order for the app to work. AI provider credentials are configured via the **Settings UI**:
+### Nhà cung cấp AI (Thông tin xác thực)
 
-1. Set `OPEN_NOTEBOOK_ENCRYPTION_KEY` in your environment (required for storing credentials)
-2. Start services
-3. Go to **Settings → API Keys → Add Credential**
-4. Select your provider, paste your API key
-5. **Test Connection** → **Discover Models** → **Register Models**
+Chúng tôi cần quyền truy cập vào LLM để ứng dụng hoạt động. Thông tin đăng nhập của nhà cung cấp AI được định cấu hình thông qua **Giao diện người dùng cài đặt**:
+
+1. Đặt `OPEN_NOTEBOOK_ENCRYPTION_KEY` trong môi trường của bạn (bắt buộc để lưu trữ thông tin xác thực)
+2. Bắt đầu dịch vụ
+3. Đi tới **Cài đặt → Khóa API → Thêm thông tin xác thực**
+4. Chọn nhà cung cấp của bạn, dán khóa API của bạn
+5. **Kiểm tra kết nối**→**Khám phá mẫu máy**→**Đăng ký mẫu máy**
+
+
 
 ```
 # Required in your .env or docker-compose.yml:
 OPEN_NOTEBOOK_ENCRYPTION_KEY=my-secret-key
 ```
 
-> **Ollama users**: Add an Ollama credential in Settings → API Keys with the correct base URL. See [Ollama Setup](ollama.md) for network configuration help.
-
-> **LM Studio / OpenAI-Compatible**: Add an OpenAI-Compatible credential in Settings → API Keys. See [OpenAI-Compatible Guide](openai-compatible.md).
 
 
-### API URL (If Behind Reverse Proxy)
-You only need to worry about this if you are deploying on a proxy or if you are changing port information. Otherwise, skip this.
+> **Người dùng Ollama**: Thêm thông tin xác thực Ollama trong Cài đặt → Khóa API với URL cơ sở chính xác. Xem [Ollama Setup](ollama.md) để được trợ giúp về cấu hình mạng.
+
+> **LM Studio / Tương thích với OpenAI**: Thêm thông tin xác thực tương thích với OpenAI trong Cài đặt → Khóa API. Xem [Hướng dẫn tương thích với OpenAI](openai-tương thích.md).
+
+### URL API (Nếu đằng sau Proxy ngược)
+Bạn chỉ cần lo lắng về điều này nếu bạn đang triển khai trên proxy hoặc nếu bạn đang thay đổi thông tin cổng. Nếu không, hãy bỏ qua điều này.
+
+
 
 ```
 API_URL=https://your-domain.com
 # Usually auto-detected. Only set if needed.
 ```
 
-Auto-detection works for most setups.
+
+
+Tính năng tự động phát hiện hoạt động với hầu hết các thiết lập.
 
 ---
 
-## Configuration by Scenario
+## Cấu hình theo kịch bản
 
-### Scenario 1: Docker on Localhost (Default)
+### Kịch bản 1: Docker trên Localhost (Mặc định)
+
 ```env
 # In docker.env:
 OPEN_NOTEBOOK_ENCRYPTION_KEY=my-secret-key
@@ -128,14 +145,20 @@ OPEN_NOTEBOOK_ENCRYPTION_KEY=my-secret-key
 # Then configure AI provider in Settings → API Keys
 ```
 
-### Scenario 2: Docker on Remote Server
+
+
+### Kịch bản 2: Docker trên Remote Server
+
 ```env
 # In docker.env:
 OPEN_NOTEBOOK_ENCRYPTION_KEY=my-secret-key
 API_URL=http://your-server-ip:5055
 ```
 
-### Scenario 3: Behind Reverse Proxy (Nginx/Cloudflare)
+
+
+### Kịch bản 3: Đằng sau Reverse Proxy (Nginx/Cloudflare)
+
 ```env
 # In docker.env:
 OPEN_NOTEBOOK_ENCRYPTION_KEY=my-secret-key
@@ -143,97 +166,107 @@ API_URL=https://your-domain.com
 # The reverse proxy handles HTTPS
 ```
 
-### Scenario 4: Using Ollama Locally
+
+
+### Kịch bản 4: Sử dụng Ollama cục bộ
+
 ```env
 # In .env:
 OPEN_NOTEBOOK_ENCRYPTION_KEY=my-secret-key
 # Then add Ollama credential in Settings → API Keys
 ```
 
-### Scenario 5: Using Azure OpenAI
+
+
+### Kịch bản 5: Sử dụng Azure OpenAI
+
 ```env
 # In docker.env:
 OPEN_NOTEBOOK_ENCRYPTION_KEY=my-secret-key
 # Then add Azure OpenAI credential in Settings → API Keys
 ```
 
+
+
 ---
 
-## Configuration Sections
+## Phần cấu hình
 
-### [AI Providers](ai-providers.md)
-- OpenAI configuration
-- Anthropic configuration
-- Google Gemini configuration
-- Groq configuration
-- Ollama configuration
-- Azure OpenAI configuration
-- OpenAI-compatible configuration
+### [Nhà cung cấp AI](ai-providers.md)
+- Cấu hình OpenAI
+- Cấu hình nhân học
+- Cấu hình Google Gemini
+- Cấu hình Groq
+- Cấu hình Olama
+- Cấu hình Azure OpenAI
+- Cấu hình tương thích OpenAI
 
-### [Database](database.md)
-- SurrealDB setup
-- Connection strings
-- Database vs. namespace
-- Running your own SurrealDB
+### [Cơ sở dữ liệu](database.md)
+- Thiết lập SurrealDB
+- Chuỗi kết nối
+- Cơ sở dữ liệu và không gian tên
+- Chạy SurrealDB của riêng bạn
 
-### [Advanced](advanced.md)
-- Ports and networking
-- Timeouts and concurrency
-- SSL/security
-- Retry configuration
-- Worker concurrency
-- Language models & embeddings
-- Speech-to-text & text-to-speech
-- Debugging and logging
+### [Nâng cao](advanced.md)
+- Cổng và mạng
+- Thời gian chờ và đồng thời
+- SSL/bảo mật
+- Thử lại cấu hình
+- Sự đồng thời của công nhân
+- Mô hình ngôn ngữ & nhúng
+- Chuyển giọng nói thành văn bản và chuyển văn bản thành giọng nói
+- Gỡ lỗi và ghi nhật ký
 
-### [Reverse Proxy](reverse-proxy.md)
-- Nginx, Caddy, Traefik configs
-- Custom domain setup
-- SSL/HTTPS configuration
-- Coolify and other platforms
+### [Proxy ngược](reverse-proxy.md)
+- Cấu hình Nginx, Caddy, Traefik
+- Thiết lập tên miền tùy chỉnh
+- Cấu hình SSL/HTTPS
+- Coolify và các nền tảng khác
 
-### [Security](security.md)
-- Password protection
-- API authentication
-- Production hardening
-- Firewall configuration
+### [Bảo mật](security.md)
+- Bảo vệ bằng mật khẩu
+- Xác thực API
+- Tăng cường sản xuất
+- Cấu hình tường lửa
 
-### [Local TTS](local-tts.md)
-- Speaches setup for local text-to-speech
-- GPU acceleration
-- Voice options
-- Docker networking
+### [TTS cục bộ](local-tts.md)
+- Thiết lập bài phát biểu để chuyển văn bản thành giọng nói cục bộ
+- Tăng tốc GPU
+- Tùy chọn giọng nói
+- Mạng Docker
 
-### [Local STT](local-stt.md)
-- Speaches setup for local speech-to-text
-- Whisper model options
-- GPU acceleration
-- Docker networking
+### [STT cục bộ](local-stt.md)
+- Thiết lập bài phát biểu để chuyển giọng nói thành văn bản cục bộ
+- Tùy chọn mô hình thì thầm
+- Tăng tốc GPU
+- Mạng Docker
 
 ### [Ollama](ollama.md)
-- Setting up and pointing to an Ollama server
-- Downloading models
-- Using embedding
+- Thiết lập và trỏ đến máy chủ Ollama
+- Tải mô hình
+- Sử dụng nhúng
 
-### [OpenAI-Compatible Providers](openai-compatible.md)
-- LM Studio, vLLM, Text Generation WebUI
-- Connection configuration
-- Docker networking
-- Troubleshooting
+### [Nhà cung cấp tương thích với OpenAI](openai-tương thích.md)
+- LM Studio, vLLM, WebUI tạo văn bản
+- Cấu hình kết nối
+- Mạng Docker
+- Khắc phục sự cố
 
-### [Complete Reference](environment-reference.md)
-- All environment variables
-- Grouped by category
-- What each one does
-- Default values
+### [Tham khảo đầy đủ](environment-reference.md)
+- Tất cả các biến môi trường
+- Được nhóm theo danh mục
+- Mỗi người làm gì
+- Giá trị mặc định
 
 ---
 
-## How to Add Configuration
+## Cách thêm cấu hình
 
-### Method 1: Settings UI (For AI Provider Credentials)
+### Cách 1: Giao diện người dùng cài đặt (Dành cho thông tin xác thực của nhà cung cấp AI)
 
-The recommended way to configure AI providers:
+Cách được đề xuất để định cấu hình nhà cung cấp AI:
+
+
 
 ```
 1. Open Open Notebook in your browser
@@ -244,13 +277,17 @@ The recommended way to configure AI providers:
 6. Click Discover Models → Register Models
 ```
 
-No file editing, no restarts. Credentials stored securely (encrypted) in database.
 
-→ **[Full Guide: API Configuration](../3-USER-GUIDE/api-configuration.md)**
 
-### Method 2: Edit `.env` File (Infrastructure Settings)
+Không chỉnh sửa tập tin, không khởi động lại. Thông tin xác thực được lưu trữ an toàn (được mã hóa) trong cơ sở dữ liệu.
 
-For database, network, and encryption key settings:
+→ **[Hướng dẫn đầy đủ: Cấu hình API](../3-USER-GUIDE/api-configuration.md)**
+
+### Cách 2: Chỉnh sửa File `.env` (Cài đặt cơ sở hạ tầng)
+
+Đối với cài đặt cơ sở dữ liệu, mạng và khóa mã hóa:
+
+
 
 ```bash
 1. Open .env in your editor
@@ -259,7 +296,11 @@ For database, network, and encryption key settings:
 4. Restart services
 ```
 
-### Method 3: Set Docker Environment (Deployment)
+
+
+### Cách 3: Đặt môi trường Docker (Triển khai)
+
+
 
 ```bash
 # In docker-compose.yml:
@@ -270,11 +311,15 @@ services:
       - API_URL=https://your-domain.com
 ```
 
+
+
 ---
 
-## Verification
+## Xác minh
 
-After configuration, verify it works:
+Sau khi cấu hình, hãy xác minh nó hoạt động:
+
+
 
 ```
 1. Open your notebook
@@ -284,45 +329,47 @@ After configuration, verify it works:
 5. If it responds, configuration is correct!
 ```
 
----
 
-## Common Mistakes
-
-| Mistake | Problem | Fix |
-|---------|---------|-----|
-| No credential configured | Models not available | Add credential in Settings → API Keys |
-| Missing encryption key | Can't save credentials | Set OPEN_NOTEBOOK_ENCRYPTION_KEY |
-| Wrong database URL | Can't start API | Check SURREAL_URL format |
-| Expose port 5055 | "Can't connect to server" | Expose 5055 in docker-compose |
-| Typo in env var | Settings ignored | Check spelling (case-sensitive!) |
-| Don't restart | Old config still used | Restart services after env changes |
 
 ---
 
-## What Comes After Configuration
+## Những lỗi thường gặp
 
-Once configured:
-
-1. **[Quick Start](../0-START-HERE/index.md)** — Run your first notebook
-2. **[Installation](../1-INSTALLATION/index.md)** — Multi-route deployment guides
-3. **[User Guide](../3-USER-GUIDE/index.md)** — How to use each feature
-
----
-
-## Getting Help
-
-- **Configuration error?** → Check [Troubleshooting](../6-TROUBLESHOOTING/quick-fixes.md)
-- **Provider-specific issue?** → Check [AI Providers](ai-providers.md)
-- **Need complete reference?** → See [Environment Reference](environment-reference.md)
+| Sai lầm | Vấn đề | Sửa chữa |
+|----------|----------|------|
+| Không có thông tin xác thực nào được định cấu hình | Mẫu không có sẵn | Thêm thông tin xác thực trong Cài đặt → Khóa API |
+| Thiếu khóa mã hóa | Không thể lưu thông tin xác thực | Đặt OPEN_NOTEBOOK_ENCRYPTION_KEY |
+| URL cơ sở dữ liệu sai | Không thể khởi động API | Kiểm tra định dạng SURREAL_URL |
+| Hiển thị cổng 5055 | "Không thể kết nối với máy chủ" | Hiển thị 5055 trong docker-compose |
+| Lỗi đánh máy trong env var | Cài đặt bị bỏ qua | Kiểm tra chính tả (phân biệt chữ hoa chữ thường!) |
+| Đừng khởi động lại | Cấu hình cũ vẫn dùng | Khởi động lại dịch vụ sau khi thay đổi env |
 
 ---
 
-## Summary
+## Điều gì xảy ra sau khi cấu hình
 
-**Minimal configuration to run:**
-1. Set `OPEN_NOTEBOOK_ENCRYPTION_KEY` in your environment
-2. Start services
-3. Add AI provider credential in Settings → API Keys
-4. Done!
+Sau khi được cấu hình:
 
-Everything else is optional optimization.
+1. **[Bắt đầu nhanh](../0-START-HERE/index.md)** — Chạy sổ ghi chép đầu tiên của bạn
+2. **[Installation](../1-INSTALLATION/index.md)** — Hướng dẫn triển khai nhiều tuyến
+3. **[Hướng dẫn sử dụng](../3-USER-GUIDE/index.md)** — Cách sử dụng từng tính năng
+
+---
+
+## Nhận trợ giúp
+
+- **Lỗi cấu hình?** → Kiểm tra [Xử lý sự cố](../6-TROUBLESHOOTING/quick-fixes.md)
+- **Vấn đề cụ thể của nhà cung cấp?** → Kiểm tra [Nhà cung cấp AI](ai-providers.md)
+- **Cần tham khảo đầy đủ?** → Xem [Tham khảo về môi trường](environment-reference.md)
+
+---
+
+## Bản tóm tắt
+
+**Cấu hình tối thiểu để chạy:**
+1. Đặt `OPEN_NOTEBOOK_ENCRYPTION_KEY` trong môi trường của bạn
+2. Bắt đầu dịch vụ
+3. Thêm thông tin xác thực của nhà cung cấp AI trong Cài đặt → Khóa API
+4. Xong!
+
+Mọi thứ khác là tối ưu hóa tùy chọn.

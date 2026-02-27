@@ -1,33 +1,34 @@
-# Local Text-to-Speech Setup
+# Thiết lập chuyển văn bản thành giọng nói cục bộ
 
-Run text-to-speech locally for free, private podcast generation using OpenAI-compatible TTS servers.
-
----
-
-## Why Local TTS?
-
-| Benefit | Description |
-|---------|-------------|
-| **Free** | No per-character costs after setup |
-| **Private** | Audio never leaves your machine |
-| **Unlimited** | No rate limits or quotas |
-| **Offline** | Works without internet |
+Chạy tính năng chuyển văn bản thành giọng nói cục bộ để tạo podcast riêng tư, miễn phí bằng cách sử dụng máy chủ TTS tương thích với OpenAI.
 
 ---
 
-## Quick Start with Speaches
+## Tại sao là TTS địa phương?
 
-[Speaches](https://github.com/speaches-ai/speaches) is an open-source, OpenAI-compatible TTS server.
+| Lợi ích | Mô tả |
+|----------|-------------|
+| **Miễn phí** | Không có chi phí cho mỗi ký tự sau khi thiết lập |
+| **Riêng tư** | Âm thanh không bao giờ rời khỏi máy của bạn |
+| **Không giới hạn** | Không có giới hạn tỷ lệ hoặc hạn ngạch |
+| **Ngoại tuyến** | Hoạt động mà không cần internet |
 
-> **💡 Ready-made Docker Compose files available:**
-> - **[docker-compose-speaches.yml](../../examples/docker-compose-speaches.yml)** - Speaches + Open Notebook
-> - **[docker-compose-full-local.yml](../../examples/docker-compose-full-local.yml)** - Speaches + Ollama (100% local setup)
+---
+
+## Bắt đầu nhanh với bài phát biểu
+
+[Speaches](https://github.com/speaches-ai/speaches) là một máy chủ TTS mã nguồn mở, tương thích với OpenAI.
+
+> **💡 Có sẵn các tệp Docker Compose được tạo sẵn:**> -**[docker-compose-speaches.yml](../../examples/docker-compose-speaches.yml)** - Speakes + Open Notebook
+> - **[docker-compose-full-local.yml](../../examples/docker-compose-full-local.yml)** - Speakes + Ollama (thiết lập cục bộ 100%)
 >
-> These include complete setup instructions and configuration examples. Just copy and run!
+> Chúng bao gồm hướng dẫn thiết lập đầy đủ và ví dụ về cấu hình. Chỉ cần sao chép và chạy!
 
-### Step 1: Create Docker Compose File
+### Bước 1: Tạo file Docker Compose
 
-Create a folder and add `docker-compose.yml`:
+Tạo một thư mục và thêm `docker-compose.yml`:
+
+
 
 ```yaml
 services:
@@ -44,7 +45,11 @@ volumes:
   hf-hub-cache:
 ```
 
-### Step 2: Start and Download Model
+
+
+### Bước 2: Bắt đầu và tải xuống mô hình
+
+
 
 ```bash
 # Start Speaches
@@ -57,7 +62,11 @@ sleep 10
 docker compose exec speaches uv tool run speaches-cli model download speaches-ai/Kokoro-82M-v1.0-ONNX
 ```
 
-### Step 3: Test
+
+
+### Bước 3: Kiểm tra
+
+
 
 ```bash
 curl "http://localhost:8969/v1/audio/speech" -s \
@@ -70,65 +79,73 @@ curl "http://localhost:8969/v1/audio/speech" -s \
   }'
 ```
 
-Play `test.mp3` to verify.
 
-### Step 4: Configure Open Notebook
 
-**Via Settings UI (Recommended):**
-1. Go to **Settings** → **API Keys**
-2. Click **Add Credential** → Select **OpenAI-Compatible**
-3. Enter base URL for TTS: `http://host.docker.internal:8969/v1` (Docker) or `http://localhost:8969/v1` (local)
-4. Click **Save**, then **Test Connection**
+Chơi `test.mp3` để xác minh.
 
-**Legacy (Deprecated) — Environment variables:**
+### Bước 4: Cấu hình Open Notebook
+
+**Thông qua giao diện người dùng Cài đặt (Được khuyến nghị):**1. Đi tới**Cài đặt**→**Khóa API**2. Nhấp vào**Thêm thông tin xác thực**→ Chọn**Tương thích với OpenAI**
+3. Nhập URL cơ sở cho TTS: `http://host.docker.internal:8969/v1` (Docker) hoặc `http://localhost:8969/v1` (local)
+4. Nhấp vào **Lưu**, sau đó nhấp vào **Kiểm tra kết nối**
+
+**Cũ (Không dùng nữa) — Biến môi trường:**
+
 ```yaml
 # In your Open Notebook docker-compose.yml
 environment:
   - OPENAI_COMPATIBLE_BASE_URL_TTS=http://host.docker.internal:8969/v1
 ```
 
+
+
+
+
 ```bash
 # Local development
 export OPENAI_COMPATIBLE_BASE_URL_TTS=http://localhost:8969/v1
 ```
 
-### Step 5: Add Model in Open Notebook
 
-1. Go to **Settings** → **Models**
-2. Click **Add Model** in Text-to-Speech section
-3. Configure:
-   - **Provider**: `openai_compatible`
-   - **Model Name**: `speaches-ai/Kokoro-82M-v1.0-ONNX`
-   - **Display Name**: `Local TTS`
-4. Click **Save**
-5. Set as default if desired
+
+### Bước 5: Thêm Model vào Open Notebook
+
+1. Đi tới **Cài đặt**→**Mẫu máy**2. Nhấp vào**Thêm mô hình** trong phần Chuyển văn bản thành giọng nói
+3. Cấu hình:
+   - **Nhà cung cấp**: `openai_tương thích`
+   - **Tên mẫu**: `speaches-ai/Kokoro-82M-v1.0-ONNX`
+   - **Tên hiển thị**: `TTS cục bộ`
+4. Nhấp vào **Lưu**
+5. Đặt làm mặc định nếu muốn
 
 ---
 
-## Available Voices
+## Giọng nói có sẵn
 
-The Kokoro model includes multiple voices:
+Mô hình Kokoro bao gồm nhiều giọng nói:
 
-### Female Voices
-| Voice ID | Description |
+### Giọng nữ
+| ID giọng nói | Mô tả |
 |----------|-------------|
-| `af_bella` | Clear, professional |
-| `af_sarah` | Warm, friendly |
-| `af_nicole` | Energetic, expressive |
+| `af_bella` | Rõ ràng, chuyên nghiệp |
+| `af_sarah` | Ấm áp, thân thiện |
+| `af_nicole` | Năng động, biểu cảm |
 
-### Male Voices
-| Voice ID | Description |
+### Giọng nam
+| ID giọng nói | Mô tả |
 |----------|-------------|
-| `am_adam` | Deep, authoritative |
-| `am_michael` | Friendly, conversational |
+| `am_adam` | Sâu sắc, có thẩm quyền |
+| `am_michael` | Thân thiện, trò chuyện |
 
-### British Accents
-| Voice ID | Description |
+### Giọng Anh
+| ID giọng nói | Mô tả |
 |----------|-------------|
-| `bf_emma` | British female, professional |
-| `bm_george` | British male, formal |
+| `bf_emma` | Nữ Anh, chuyên nghiệp |
+| `bm_george` | Nam người Anh, trang trọng |
 
-### Test Different Voices
+### Kiểm tra các giọng nói khác nhau
+
+
 
 ```bash
 for voice in af_bella af_sarah am_adam am_michael; do
@@ -143,11 +160,15 @@ for voice in af_bella af_sarah am_adam am_michael; do
 done
 ```
 
+
+
 ---
 
-## GPU Acceleration
+## Tăng tốc GPU
 
-For faster generation with NVIDIA GPUs:
+Để tạo ra thế hệ nhanh hơn với GPU NVIDIA:
+
+
 
 ```yaml
 services:
@@ -171,33 +192,37 @@ volumes:
   hf-hub-cache:
 ```
 
----
 
-## Docker Networking
-
-When configuring your OpenAI-Compatible credential in **Settings → API Keys**, use the appropriate TTS base URL for your setup:
-
-### Open Notebook in Docker (macOS/Windows)
-
-**TTS Base URL:** `http://host.docker.internal:8969/v1`
-
-### Open Notebook in Docker (Linux)
-
-**TTS Base URL (Option 1 — Docker bridge IP):** `http://172.17.0.1:8969/v1`
-
-**Option 2:** Use host networking mode (`docker run --network host ...`), then use: `http://localhost:8969/v1`
-
-### Remote Server
-
-Run Speaches on a different machine:
-
-**TTS Base URL:** `http://server-ip:8969/v1` (replace with your server's IP)
 
 ---
 
-## Multi-Speaker Podcasts
+## Mạng Docker
 
-Configure different voices for each speaker:
+Khi định cấu hình thông tin xác thực Tương thích với OpenAI trong **Cài đặt → Khóa API**, hãy sử dụng URL cơ sở TTS thích hợp cho thiết lập của bạn:
+
+### Mở Notebook trong Docker (macOS/Windows)
+
+**URL cơ sở TTS:** `http://host.docker.internal:8969/v1`
+
+### Mở Notebook trong Docker (Linux)
+
+**URL cơ sở TTS (Tùy chọn 1 - IP cầu nối Docker):** `http://172.17.0.1:8969/v1`
+
+**Tùy chọn 2:** Sử dụng chế độ kết nối mạng máy chủ (`docker run --network Host ...`), sau đó sử dụng: `http://localhost:8969/v1`
+
+### Máy chủ từ xa
+
+Chạy bài phát biểu trên một máy khác:
+
+**URL cơ sở TTS:** `http://server-ip:8969/v1` (thay thế bằng IP máy chủ của bạn)
+
+---
+
+## Podcast nhiều loa
+
+Định cấu hình các giọng nói khác nhau cho mỗi loa:
+
+
 
 ```
 Speaker 1 (Host):
@@ -213,11 +238,15 @@ Speaker 3 (Narrator):
   Voice: bf_emma
 ```
 
+
+
 ---
 
-## Troubleshooting
+## Khắc phục sự cố
 
-### Service Won't Start
+### Dịch vụ không bắt đầu
+
+
 
 ```bash
 # Check logs
@@ -230,7 +259,11 @@ lsof -i :8969
 docker compose down && docker compose up -d
 ```
 
-### Connection Refused
+
+
+### Kết nối bị từ chối
+
+
 
 ```bash
 # Test Speaches is running
@@ -240,7 +273,11 @@ curl http://localhost:8969/v1/models
 docker exec -it open-notebook curl http://host.docker.internal:8969/v1/models
 ```
 
-### Model Not Found
+
+
+### Không tìm thấy mẫu
+
+
 
 ```bash
 # List downloaded models
@@ -250,36 +287,40 @@ docker compose exec speaches uv tool run speaches-cli model list
 docker compose exec speaches uv tool run speaches-cli model download speaches-ai/Kokoro-82M-v1.0-ONNX
 ```
 
-### Poor Audio Quality
 
-- Try different voices
-- Adjust speed: `"speed": 0.9` to `1.2`
-- Check model downloaded completely
-- Allocate more memory
 
-### Slow Generation
+### Chất lượng âm thanh kém
 
-| Solution | How |
-|----------|-----|
-| Use GPU | Switch to `latest-cuda` image |
-| More CPU | Allocate more cores in Docker |
-| Faster model | Use smaller/quantized models |
-| SSD storage | Move Docker volumes to SSD |
+- Hãy thử những giọng nói khác nhau
+- Điều chỉnh tốc độ: `"speed": 0.9` đến `1.2`
+- Kiểm tra mô hình đã tải xuống hoàn toàn
+- Phân bổ thêm bộ nhớ
+
+### Thế hệ chậm
+
+| Giải pháp | Như thế nào |
+|----------|------|
+| Sử dụng GPU | Chuyển sang hình ảnh `mới nhất-cuda` |
+| Thêm CPU | Phân bổ nhiều lõi hơn trong Docker |
+| Mô hình nhanh hơn | Sử dụng các mô hình nhỏ hơn/lượng tử hóa |
+| lưu trữ SSD | Di chuyển khối lượng Docker sang SSD |
 
 ---
 
-## Performance Tips
+## Mẹo về hiệu suất
 
-### Recommended Specs
+### Thông số kỹ thuật được đề xuất
 
-| Component | Minimum | Recommended |
-|-----------|---------|-------------|
-| CPU | 2 cores | 4+ cores |
-| RAM | 2 GB | 4+ GB |
-| Storage | 5 GB | 10 GB (for multiple models) |
-| GPU | None | NVIDIA (optional) |
+| Thành phần | Tối thiểu | Được đề xuất |
+|----------||----------|-------------|
+| CPU | 2 lõi | 4+ lõi |
+| RAM | 2GB | 4+GB |
+| Lưu trữ | 5 GB | 10 GB (cho nhiều kiểu máy) |
+| GPU | Không có | NVIDIA (tùy chọn) |
 
-### Resource Limits
+### Giới hạn tài nguyên
+
+
 
 ```yaml
 services:
@@ -289,56 +330,62 @@ services:
     cpus: 2
 ```
 
-### Monitor Usage
+
+
+### Giám sát việc sử dụng
+
+
 
 ```bash
 docker stats speaches
 ```
 
----
 
-## Comparison: Local vs Cloud
-
-| Aspect | Local (Speaches) | Cloud (OpenAI/ElevenLabs) |
-|--------|------------------|---------------------------|
-| **Cost** | Free | $0.015-0.10/min |
-| **Privacy** | Complete | Data sent to provider |
-| **Speed** | Depends on hardware | Usually faster |
-| **Quality** | Good | Excellent |
-| **Setup** | Moderate | Simple API key |
-| **Offline** | Yes | No |
-| **Voices** | Limited | Many options |
-
-### When to Use Local
-
-- Privacy-sensitive content
-- High-volume generation
-- Development/testing
-- Offline environments
-- Cost control
-
-### When to Use Cloud
-
-- Premium quality needs
-- Multiple languages
-- Time-sensitive projects
-- Limited hardware
 
 ---
 
-## Other Local TTS Options
+## So sánh: Cục bộ và Đám mây
 
-Any OpenAI-compatible TTS server works. The key is:
+| Khía cạnh | Địa phương (Bài phát biểu) | Đám mây (OpenAI/ElevenLabs) |
+|--------|-------------------|------------------------------------------|
+| **Chi phí** | Miễn phí | 0,015-0,10 USD/phút |
+| **Quyền riêng tư** | Hoàn thành | Dữ liệu gửi đến nhà cung cấp |
+| **Tốc độ** | Phụ thuộc vào phần cứng | Thường nhanh hơn |
+| **Chất lượng** | Tốt | Xuất sắc |
+| **Thiết lập** | Trung bình | Khóa API đơn giản |
+| **Ngoại tuyến** | Có | Không |
+| **Tiếng nói** | Hạn chế | Nhiều lựa chọn |
 
-1. Server implements `/v1/audio/speech` endpoint
-2. Add an OpenAI-Compatible credential in **Settings → API Keys** with the TTS base URL
-3. Add model with provider `openai_compatible`
+### Khi nào nên sử dụng địa phương
+
+- Nội dung nhạy cảm về quyền riêng tư
+- Tạo khối lượng lớn
+- Phát triển/thử nghiệm
+- Môi trường ngoại tuyến
+- Kiểm soát chi phí
+
+### Khi nào nên sử dụng đám mây
+
+- Nhu cầu chất lượng cao cấp
+- Nhiều ngôn ngữ
+- Dự án nhạy cảm về thời gian
+- Phần cứng hạn chế
 
 ---
 
-## Related
+## Tùy chọn TTS cục bộ khác
 
-- **[Local STT Setup](local-stt.md)** - Speech-to-text with Speaches
-- **[OpenAI-Compatible Providers](openai-compatible.md)** - General compatible provider setup
-- **[AI Providers](ai-providers.md)** - All provider configuration
-- **[Creating Podcasts](../3-USER-GUIDE/creating-podcasts.md)** - Using TTS for podcasts
+Mọi máy chủ TTS tương thích với OpenAI đều hoạt động. Chìa khóa là:
+
+1. Máy chủ triển khai điểm cuối `/v1/audio/speech`
+2. Thêm thông tin xác thực tương thích với OpenAI trong **Cài đặt → Khóa API** bằng URL cơ sở TTS
+3. Thêm mô hình với nhà cung cấp `openai_tương thích`
+
+---
+
+## Có liên quan
+
+- **[Thiết lập STT cục bộ](local-stt.md)** - Chuyển lời nói thành văn bản bằng bài phát biểu
+- **[Nhà cung cấp tương thích với OpenAI](openai-tương thích.md)** - Thiết lập nhà cung cấp tương thích chung
+- **[AI Providers](ai-providers.md)** - Tất cả cấu hình của nhà cung cấp
+- **[Tạo Podcast](../3-USER-GUIDE/creating-podcasts.md)** - Sử dụng TTS cho podcast

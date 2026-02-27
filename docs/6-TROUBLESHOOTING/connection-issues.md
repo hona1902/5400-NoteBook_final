@@ -1,18 +1,20 @@
-# Connection Issues - Network & API Problems
+# Sự cố kết nối - Sự cố mạng & API
 
-Frontend can't reach API or services won't communicate.
+Giao diện người dùng không thể truy cập API hoặc dịch vụ sẽ không giao tiếp.
 
 ---
 
-## "Cannot connect to server" (Most Common)
+## "Không thể kết nối với máy chủ" (Thường gặp nhất)
 
-**What it looks like:**
-- Browser shows error page
-- "Unable to reach API"
-- "Cannot connect to server"
-- UI loads but can't create notebooks
+**Nó trông như thế nào:**
+- Trình duyệt hiển thị trang lỗi
+- "Không thể truy cập API"
+- "Không thể kết nối với máy chủ"
+- Tải UI nhưng không thể tạo sổ ghi chép
 
-**Diagnosis:**
+**Chẩn đoán:**
+
+
 
 ```bash
 # Check if API is running
@@ -28,9 +30,12 @@ docker ps | grep frontend
 # Should see "frontend" or React service running
 ```
 
-**Solutions:**
 
-### Solution 1: API Not Running
+
+**Giải pháp:**
+
+### Giải pháp 1: API không chạy
+
 ```bash
 # Start API
 docker compose up api -d
@@ -42,7 +47,10 @@ sleep 5
 docker compose logs api | tail -20
 ```
 
-### Solution 2: Port Not Exposed
+
+
+### Giải pháp 2: Cổng không được hiển thị
+
 ```bash
 # Check docker-compose.yml has port mapping:
 # api:
@@ -54,7 +62,10 @@ docker compose down
 docker compose up -d
 ```
 
-### Solution 3: API_URL Mismatch
+
+
+### Giải pháp 3: API_URL không khớp
+
 ```bash
 # In .env, check API_URL:
 cat .env | grep API_URL
@@ -69,7 +80,10 @@ cat .env | grep API_URL
 docker compose restart frontend
 ```
 
-### Solution 4: Firewall Blocking
+
+
+### Giải pháp 4: Chặn tường lửa
+
 ```bash
 # Verify port 5055 is accessible
 netstat -tlnp | grep 5055
@@ -80,7 +94,10 @@ netstat -tlnp | grep 5055
 API_URL=http://192.168.1.100:5055
 ```
 
-### Solution 5: Services Not Started
+
+
+### Giải pháp 5: Dịch vụ chưa được khởi động
+
 ```bash
 # Restart everything
 docker compose restart
@@ -93,23 +110,30 @@ docker compose ps
 # All should show "Up"
 ```
 
+
+
 ---
 
-## Connection Refused
+## Kết nối bị từ chối
 
-**What it looks like:**
+**Nó trông như thế nào:**
+
 ```
 Connection refused
 ECONNREFUSED
 Error: socket hang up
 ```
 
-**Diagnosis:**
-- API port (5055) not open
-- API crashed
-- Wrong IP/hostname
 
-**Solution:**
+
+**Chẩn đoán:**
+- Cổng API (5055) không mở
+- API bị lỗi
+- Sai IP/tên máy chủ
+
+**Giải pháp:**
+
+
 
 ```bash
 # Step 1: Check if API is running
@@ -129,23 +153,26 @@ docker compose restart api
 docker compose logs api | grep -i "error"
 ```
 
+
+
 ---
 
-## Timeout / Slow Connection
+## Hết thời gian / Kết nối chậm
 
-**What it looks like:**
-- Page loads slowly
-- Request times out
-- "Gateway timeout" error
+**Nó trông như thế nào:**
+- Trang tải chậm
+- Hết thời gian yêu cầu
+- Lỗi "Hết thời gian cổng"
 
-**Causes:**
-- API is overloaded
-- Network is slow
-- Reverse proxy issue
+**Nguyên nhân:**
+- API bị quá tải
+- Mạng chậm
+- Vấn đề proxy ngược
 
-**Solutions:**
+**Giải pháp:**
 
-### Check API Performance
+### Kiểm tra hiệu suất API
+
 ```bash
 # See CPU/memory usage
 docker stats
@@ -154,7 +181,10 @@ docker stats
 docker compose logs api | grep "slow\|timeout"
 ```
 
-### Reduce Load
+
+
+### Giảm tải
+
 ```bash
 # In .env:
 SURREAL_COMMANDS_MAX_TASKS=2
@@ -164,7 +194,10 @@ API_CLIENT_TIMEOUT=600
 docker compose restart
 ```
 
-### Check Network
+
+
+### Kiểm tra mạng
+
 ```bash
 # Test latency
 ping localhost
@@ -175,21 +208,27 @@ time curl http://localhost:5055/health
 # Should be < 100ms
 ```
 
+
+
 ---
 
-## 502 Bad Gateway (Reverse Proxy)
+## 502 Cổng xấu (Proxy ngược)
 
-**What it looks like:**
+**Nó trông như thế nào:**
+
 ```
 502 Bad Gateway
 The server is temporarily unable to service the request
 ```
 
-**Cause:** Reverse proxy can't reach API
 
-**Solutions:**
 
-### Check Backend is Running
+**Lý do:** Proxy ngược không thể truy cập API
+
+**Giải pháp:**
+
+### Kiểm tra phần cuối đang chạy
+
 ```bash
 # From the reverse proxy server
 curl http://localhost:5055/health
@@ -197,7 +236,10 @@ curl http://localhost:5055/health
 # Should work
 ```
 
-### Check Reverse Proxy Config
+
+
+### Kiểm tra cấu hình proxy ngược
+
 ```nginx
 # Nginx example (correct):
 location /api {
@@ -211,7 +253,10 @@ location /api {
 }
 ```
 
-### Set API_URL for HTTPS
+
+
+### Đặt API_URL cho HTTPS
+
 ```bash
 # In .env:
 API_URL=https://yourdomain.com
@@ -220,20 +265,23 @@ API_URL=https://yourdomain.com
 docker compose restart
 ```
 
+
+
 ---
 
-## Intermittent Disconnects
+## Ngắt kết nối không liên tục
 
-**What it looks like:**
-- Works sometimes, fails other times
-- Sporadic "cannot connect" errors
-- Works then stops working
+**Nó trông như thế nào:**
+- Đôi khi hoạt động, đôi khi thất bại
+- Thỉnh thoảng xảy ra lỗi không kết nối được
+- Đang hoạt động rồi ngừng hoạt động
 
-**Cause:** Transient network issue or database conflicts
+**Nguyên nhân:** Sự cố mạng tạm thời hoặc xung đột cơ sở dữ liệu
 
-**Solutions:**
+**Giải pháp:**
 
-### Enable Retry Logic
+### Kích hoạt tính năng Thử lại logic
+
 ```bash
 # In .env:
 SURREAL_COMMANDS_RETRY_ENABLED=true
@@ -244,7 +292,10 @@ SURREAL_COMMANDS_RETRY_WAIT_STRATEGY=exponential_jitter
 docker compose restart
 ```
 
-### Reduce Concurrency
+
+
+### Giảm tính đồng thời
+
 ```bash
 # In .env:
 SURREAL_COMMANDS_MAX_TASKS=2
@@ -253,7 +304,10 @@ SURREAL_COMMANDS_MAX_TASKS=2
 docker compose restart
 ```
 
-### Check Network Stability
+
+
+### Kiểm tra độ ổn định của mạng
+
 ```bash
 # Monitor connection
 ping google.com
@@ -263,15 +317,18 @@ ping -c 100 google.com | grep "packet loss"
 # Should be 0% loss
 ```
 
+
+
 ---
 
-## Different Machine / Remote Access
+## Máy khác / Truy cập từ xa
 
-**You want to access Open Notebook from another computer**
+**Bạn muốn truy cập Open Notebook từ một máy tính khác**
 
-**Solution:**
+**Giải pháp:**
 
-### Step 1: Get Your Machine IP
+### Bước 1: Lấy IP máy của bạn
+
 ```bash
 # On the server running Open Notebook:
 ifconfig | grep "inet "
@@ -280,7 +337,10 @@ hostname -I
 # Note the IP (e.g., 192.168.1.100)
 ```
 
-### Step 2: Update API_URL
+
+
+### Bước 2: Cập nhật API_URL
+
 ```bash
 # In .env:
 API_URL=http://192.168.1.100:5055
@@ -289,14 +349,20 @@ API_URL=http://192.168.1.100:5055
 docker compose restart
 ```
 
-### Step 3: Access from Other Machine
+
+
+### Bước 3: Truy cập từ máy khác
+
 ```bash
 # In browser on other machine:
 http://192.168.1.100:8502
 # (or your server IP)
 ```
 
-### Step 4: Verify Port is Exposed
+
+
+### Bước 4: Xác minh cổng đã được hiển thị
+
 ```bash
 # On server:
 docker compose ps
@@ -306,7 +372,10 @@ docker compose ps
 # 0.0.0.0:5055->5055/tcp
 ```
 
-### If Still Doesn't Work
+
+
+### Nếu vẫn không được
+
 ```bash
 # Check firewall on server
 sudo ufw status
@@ -319,24 +388,34 @@ telnet 192.168.1.100 5055
 # Should connect
 ```
 
+
+
 ---
 
-## CORS Error (Browser Console)
+## Lỗi CORS (Bảng điều khiển trình duyệt)
 
-**What it looks like:**
+**Nó trông như thế nào:**
+
 ```
 Cross-Origin Request Blocked
 Access-Control-Allow-Origin
 ```
 
-**In browser console (F12):**
+
+
+**Trong bảng điều khiển trình duyệt (F12):**
+
 ```
 CORS policy: Response to preflight request doesn't pass access control check
 ```
 
-**Cause:** Frontend and API URLs don't match
 
-**Solution:**
+
+**Lý do:** URL giao diện người dùng và URL API không khớp nhau
+
+**Giải pháp:**
+
+
 
 ```bash
 # Check browser console error for what URLs are being used
@@ -352,11 +431,15 @@ API_URL=http://localhost:5055
 docker compose restart frontend
 ```
 
+
+
 ---
 
-## Testing Connection
+## Kiểm tra kết nối
 
-**Full diagnostic:**
+**Chẩn đoán đầy đủ:**
+
+
 
 ```bash
 # 1. Services running?
@@ -379,34 +462,40 @@ ping google.com
 sudo ufw status | grep -E "5055|8502|8000"
 ```
 
----
 
-## Checklist for Remote Access
-
-- [ ] Server IP noted (e.g., 192.168.1.100)
-- [ ] Ports 8502, 5055, 8000 exposed in docker-compose
-- [ ] API_URL set to server IP
-- [ ] Firewall allows ports 8502, 5055, 8000
-- [ ] Can reach server from client machine (ping IP)
-- [ ] All services running (docker compose ps)
-- [ ] Can curl API from client (curl http://IP:5055/health)
 
 ---
 
-## SSL Certificate Errors
+## Danh sách kiểm tra để truy cập từ xa
 
-**What it looks like:**
+- [ ] IP máy chủ được ghi chú (ví dụ: 192.168.1.100)
+- [] Cổng 8502, 5055, 8000 hiển thị trong docker-compose
+- [ ] API_URL được đặt thành IP máy chủ
+- [] Tường lửa cho phép cổng 8502, 5055, 8000
+- [] Có thể truy cập máy chủ từ máy khách (ping IP)
+- [] Tất cả các dịch vụ đang chạy (docker soạn ps)
+- [ ] Có thể cuộn API từ máy khách (curl http://IP:5055/health)
+
+---
+
+## Lỗi chứng chỉ SSL
+
+**Nó trông như thế nào:**
+
 ```
 [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed
 Connection error when using HTTPS endpoints
 Works with HTTP but fails with HTTPS
 ```
 
-**Cause:** Self-signed certificates not trusted by Python's SSL verification
 
-**Solutions:**
 
-### Solution 1: Use Custom CA Bundle (Recommended)
+**Lý do:** Chứng chỉ tự ký không được xác minh SSL của Python tin cậy
+
+**Giải pháp:**
+
+### Giải pháp 1: Sử dụng Custom CA Bundle (Khuyến nghị)
+
 ```bash
 # In .env:
 ESPERANTO_SSL_CA_BUNDLE=/path/to/your/ca-bundle.pem
@@ -419,29 +508,37 @@ environment:
   - ESPERANTO_SSL_CA_BUNDLE=/certs/ca-bundle.pem
 ```
 
-### Solution 2: Disable SSL Verification (Development Only)
+
+
+### Giải pháp 2: Tắt xác minh SSL (Chỉ dành cho nhà phát triển)
+
 ```bash
 # WARNING: Only use in trusted development environments
 # In .env:
 ESPERANTO_SSL_VERIFY=false
 ```
 
-### Solution 3: Use HTTP Instead
-If services are on a trusted local network, HTTP is acceptable:
+
+
+### Giải pháp 3: Thay vào đó hãy sử dụng HTTP
+Nếu các dịch vụ nằm trên mạng cục bộ đáng tin cậy thì HTTP có thể được chấp nhận:
+
 ```
 Change the base URL in your credential (Settings → API Keys) from https:// to http://
 Example: http://localhost:1234/v1
 ```
 
-> **Security Note:** Disabling SSL verification exposes you to man-in-the-middle attacks. Always prefer custom CA bundle or HTTP on trusted networks.
+
+
+> **Lưu ý bảo mật:** Việc tắt xác minh SSL có thể khiến bạn gặp phải các cuộc tấn công trung gian. Luôn ưu tiên gói CA tùy chỉnh hoặc HTTP trên các mạng đáng tin cậy.
 
 ---
 
-## Still Having Issues?
+## Vẫn gặp sự cố?
 
-- Check [Quick Fixes](quick-fixes.md)
-- Check [FAQ](faq.md)
-- Check logs: `docker compose logs`
-- Try restart: `docker compose restart`
-- Check firewall: `sudo ufw status`
-- Ask for help on [Discord](https://discord.gg/37XJPXfz2w)
+- Kiểm tra [Sửa nhanh](quick-fixes.md)
+- Kiểm tra [FAQ](faq.md)
+- Kiểm tra log: `docker soạn log`
+- Thử khởi động lại: `docker soạn khởi động lại`
+- Kiểm tra tường lửa: `sudo ufw status`
+- Yêu cầu trợ giúp trên [Discord](https://discord.gg/37XJPXfz2w)

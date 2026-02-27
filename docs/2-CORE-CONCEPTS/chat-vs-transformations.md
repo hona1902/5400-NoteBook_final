@@ -1,353 +1,353 @@
-# Chat vs. Ask vs. Transformations - Which Tool for Which Job?
+# Chat vs. Hỏi vs. Biến Đổi - Công Cụ Nào Cho Việc Nào?
 
-Open Notebook offers different ways to work with your research. Understanding when to use each is key to using the system effectively.
-
----
-
-## The Three Interaction Modes
-
-### 1. CHAT - Conversational Exploration with Manual Context
-
-**What it is:** Have a conversation with AI about selected sources.
-
-**The flow:**
-```
-1. You select which sources to include ("in context")
-2. You ask a question
-3. AI responds using ONLY those sources
-4. You ask follow-up questions (context stays same)
-5. You change sources or context level, then continue
-```
-
-**Context management:** You explicitly choose which sources the AI can see.
-
-**Conversational:** Multiple questions with shared history.
-
-**Example:**
-```
-You: [Select sources: "paper1.pdf", "research_notes.txt"]
-     [Set context: Full content for paper1, Summary for notes]
-
-You: "What's the main argument in these sources?"
-AI:  "Paper 1 argues X [citation]. Your notes emphasize Y [citation]."
-
-You: "How do they differ?"
-AI:  "Paper 1 focuses on X [citation], while your notes highlight Y [citation]..."
-
-You: [Now select different sources]
-
-You: "Compare to this other perspective"
-AI:  "This new source takes a different approach..."
-```
-
-**Best for:**
-- Exploring a focused topic with specific sources
-- Having a dialogue (multiple back-and-forth questions)
-- When you know which sources matter
-- When you want tight control over what goes to AI
+Open Notebook cung cấp nhiều cách làm việc với nghiên cứu. Hiểu khi nào dùng mỗi cách là chìa khóa để sử dụng hiệu quả.
 
 ---
 
-### 2. ASK - Automated Comprehensive Search
+## Ba Chế Độ Tương Tác
 
-**What it is:** Ask one complex question, system automatically finds relevant content.
+### 1. CHAT - Khám Phá Hội Thoại Với Ngữ Cảnh Thủ Công
 
-**The flow:**
+**Là gì:** Hội thoại với AI về các nguồn đã chọn.
+
+**Luồng:**
 ```
-1. You ask a comprehensive question
-2. System analyzes the question
-3. System automatically searches your sources
-4. System retrieves relevant chunks
-5. System synthesizes answer from all results
-6. You get one detailed answer (not conversational)
-```
-
-**Context management:** Automatic. System figures out what's relevant.
-
-**Non-conversational:** One question → one answer. No follow-ups.
-
-**Example:**
-```
-You: "How do these papers compare their approaches to alignment?
-      What does each one recommend?"
-
-System:
-  - Breaks down the question into search strategies
-  - Searches all sources for alignment approaches
-  - Searches all sources for recommendations
-  - Retrieves top 10 relevant chunks
-  - Synthesizes: "Paper A recommends X [citation].
-                  Paper B recommends Y [citation].
-                  They differ in Z."
-
-You: [Get back one comprehensive answer]
-     [If you want to follow up, use Chat instead]
+1. Bạn chọn nguồn nào bao gồm ("trong ngữ cảnh")
+2. Bạn đặt câu hỏi
+3. AI trả lời CHỈ dùng những nguồn đó
+4. Bạn đặt câu hỏi tiếp (ngữ cảnh giữ nguyên)
+5. Bạn thay đổi nguồn hoặc mức ngữ cảnh, rồi tiếp tục
 ```
 
-**Best for:**
-- Comprehensive, one-time questions
-- Comparing multiple sources at once
-- When you want the system to decide what's relevant
-- Complex questions that need multiple search angles
-- When you don't need a back-and-forth conversation
+**Quản lý ngữ cảnh:** Bạn chọn rõ ràng nguồn nào AI thấy.
+
+**Hội thoại:** Nhiều câu hỏi với lịch sử chia sẻ.
+
+**Ví dụ:**
+```
+Bạn: [Chọn nguồn: "bai1.pdf", "ghi_chu_nghien_cuu.txt"]
+     [Đặt ngữ cảnh: Nội dung đầy đủ cho bài1, Tóm tắt cho ghi chú]
+
+Bạn: "Luận điểm chính trong các nguồn này là gì?"
+AI:  "Bài 1 lập luận X [trích dẫn]. Ghi chú nhấn mạnh Y [trích dẫn]."
+
+Bạn: "Chúng khác nhau thế nào?"
+AI:  "Bài 1 tập trung vào X [trích dẫn], trong khi ghi chú nhấn mạnh Y..."
+
+Bạn: [Bây giờ chọn nguồn khác]
+
+Bạn: "So sánh với quan điểm khác này"
+AI:  "Nguồn mới này có cách tiếp cận khác..."
+```
+
+**Phù hợp nhất cho:**
+- Khám phá chủ đề tập trung với nguồn cụ thể
+- Đối thoại (nhiều câu hỏi qua lại)
+- Khi bạn biết nguồn nào quan trọng
+- Khi bạn muốn kiểm soát chặt gì đến AI
 
 ---
 
-### 3. TRANSFORMATIONS - Template-Based Processing
+### 2. HỎI - Tìm Kiếm Toàn Diện Tự Động
 
-**What it is:** Apply a reusable template to a source and get structured output.
+**Là gì:** Đặt một câu hỏi phức tạp, hệ thống tự tìm nội dung liên quan.
 
-**The flow:**
+**Luồng:**
 ```
-1. You define a transformation (or choose a preset)
-   "Extract: main argument, methodology, limitations"
-
-2. You apply it to ONE source at a time
-   (You can repeat for other sources)
-
-3. For the source:
-   - Source content + transformation prompt → AI
-   - Result stored as new insight/note
-
-4. You get back
-   - Structured output (main argument, methodology, limitations)
-   - Saved as a note in your notebook
+1. Bạn đặt câu hỏi toàn diện
+2. Hệ thống phân tích câu hỏi
+3. Hệ thống tự tìm kiếm trong nguồn
+4. Hệ thống lấy đoạn liên quan
+5. Hệ thống tổng hợp câu trả lời từ tất cả kết quả
+6. Bạn nhận một câu trả lời chi tiết (không hội thoại)
 ```
 
-**Context management:** Works on one source at a time.
+**Quản lý ngữ cảnh:** Tự động. Hệ thống xác định gì liên quan.
 
-**Reusable:** Apply the same template to different sources (one by one).
+**Không hội thoại:** Một câu hỏi → một câu trả lời. Không tiếp tục.
 
-**Note**: Currently processes one source at a time. Batch processing (multiple sources at once) is planned for a future release.
-
-**Example:**
+**Ví dụ:**
 ```
-You: Define transformation
-     "For each academic paper, extract:
-      - Main research question
-      - Methodology used
-      - Key findings
-      - Limitations and gaps
-      - Recommended next research"
+Bạn: "Các bài báo so sánh phương pháp alignment thế nào?
+      Mỗi bài khuyến nghị gì?"
 
-You: Apply to paper 1
+Hệ thống:
+  - Chia câu hỏi thành chiến lược tìm kiếm
+  - Tìm tất cả nguồn về phương pháp alignment
+  - Tìm tất cả nguồn về khuyến nghị
+  - Lấy top 10 đoạn liên quan
+  - Tổng hợp: "Bài A khuyến nghị X [trích dẫn].
+               Bài B khuyến nghị Y [trích dẫn].
+               Chúng khác nhau ở Z."
 
-System:
-  - Runs the transformation on paper 1
-  - Result stored as new note
-
-You: Apply same transformation to paper 2, 3, etc.
-
-After 10 papers:
-  - You have 10 structured notes with consistent format
-  - Perfect for writing a literature review or comparison
+Bạn: [Nhận lại một câu trả lời toàn diện]
+     [Nếu muốn tiếp tục, dùng Chat thay thế]
 ```
 
-**Best for:**
-- Extracting the same information from each source (run repeatedly)
-- Creating structured summaries with consistent format
-- Building a knowledge base of categorized insights
-- When you want reusable templates you can apply to each source
+**Phù hợp nhất cho:**
+- Câu hỏi toàn diện, một lần
+- So sánh nhiều nguồn cùng lúc
+- Khi bạn muốn hệ thống quyết định gì liên quan
+- Câu hỏi phức tạp cần nhiều góc tìm kiếm
+- Khi không cần hội thoại qua lại
 
 ---
 
-## Decision Tree: Which Tool to Use?
+### 3. BIẾN ĐỔI - Xử Lý Dựa Trên Mẫu
+
+**Là gì:** Áp dụng mẫu tái sử dụng cho nguồn và nhận đầu ra có cấu trúc.
+
+**Luồng:**
+```
+1. Bạn định nghĩa biến đổi (hoặc chọn preset)
+   "Trích xuất: luận điểm chính, phương pháp, hạn chế"
+
+2. Bạn áp dụng cho MỘT nguồn mỗi lần
+   (Có thể lặp lại cho nguồn khác)
+
+3. Cho mỗi nguồn:
+   - Nội dung nguồn + prompt biến đổi → AI
+   - Kết quả lưu thành ghi chú mới
+
+4. Bạn nhận lại
+   - Đầu ra có cấu trúc (luận điểm, phương pháp, hạn chế)
+   - Lưu thành ghi chú trong notebook
+```
+
+**Quản lý ngữ cảnh:** Xử lý một nguồn mỗi lần.
+
+**Tái sử dụng:** Áp dụng cùng mẫu cho nguồn khác (từng cái một).
+
+**Lưu ý**: Hiện xử lý một nguồn mỗi lần. Xử lý hàng loạt (nhiều nguồn cùng lúc) dự kiến trong phiên bản tương lai.
+
+**Ví dụ:**
+```
+Bạn: Định nghĩa biến đổi
+     "Cho mỗi bài báo học thuật, trích xuất:
+      - Câu hỏi nghiên cứu chính
+      - Phương pháp sử dụng
+      - Phát hiện chính
+      - Hạn chế và khoảng trống
+      - Nghiên cứu tiếp theo khuyến nghị"
+
+Bạn: Áp dụng cho bài 1
+
+Hệ thống:
+  - Chạy biến đổi trên bài 1
+  - Kết quả lưu thành ghi chú mới
+
+Bạn: Áp dụng cùng biến đổi cho bài 2, 3, v.v.
+
+Sau 10 bài:
+  - Bạn có 10 ghi chú có cấu trúc với định dạng nhất quán
+  - Hoàn hảo để viết tổng quan tài liệu hoặc so sánh
+```
+
+**Phù hợp nhất cho:**
+- Trích xuất cùng thông tin từ mỗi nguồn (chạy lặp lại)
+- Tạo tóm tắt có cấu trúc với định dạng nhất quán
+- Xây dựng cơ sở tri thức phân loại
+- Khi muốn mẫu tái sử dụng áp dụng cho mỗi nguồn
+
+---
+
+## Cây Quyết Định: Dùng Công Cụ Nào?
 
 ```
-What are you trying to do?
+Bạn đang cố làm gì?
 
 │
-├─→ "I want to have a conversation about this topic"
-│   └─→ Is the conversation exploratory or fixed?
-│       ├─→ Exploratory (I'll ask follow-ups)
-│       │   └─→ USE: CHAT
+├─→ "Tôi muốn hội thoại về chủ đề này"
+│   └─→ Hội thoại khám phá hay cố định?
+│       ├─→ Khám phá (sẽ hỏi tiếp)
+│       │   └─→ DÙNG: CHAT
 │       │
-│       └─→ Fixed (One question → done)
-│           └─→ Go to next question
+│       └─→ Cố định (Một câu hỏi → xong)
+│           └─→ Xem câu hỏi tiếp
 │
-├─→ "I need to compare these sources or get a comprehensive answer"
-│   └─→ USE: ASK
+├─→ "Tôi cần so sánh nguồn hoặc câu trả lời toàn diện"
+│   └─→ DÙNG: HỎI
 │
-├─→ "I want to extract the same info from each source (one at a time)"
-│   └─→ USE: TRANSFORMATIONS (apply to each source)
+├─→ "Tôi muốn trích xuất cùng thông tin từ mỗi nguồn"
+│   └─→ DÙNG: BIẾN ĐỔI (áp dụng cho mỗi nguồn)
 │
-└─→ "I just want to read and search"
-    └─→ USE: Search (text or vector)
-        OR read your notes
+└─→ "Tôi chỉ muốn đọc và tìm kiếm"
+    └─→ DÙNG: Tìm kiếm (văn bản hoặc vector)
+        HOẶC đọc ghi chú
 ```
 
 ---
 
-## Side-by-Side Comparison
+## So Sánh Song Song
 
-| Aspect | CHAT | ASK | TRANSFORMATIONS |
-|--------|------|-----|-----------------|
-| **What's it for?** | Conversational exploration | Comprehensive Q&A | Template-based extraction |
-| **# of questions** | Multiple (conversational) | One | One template per source |
-| **Context control** | Manual (you choose) | Automatic (system searches) | One source at a time |
-| **Conversational?** | Yes (follow-ups work) | No (one question only) | No (single operation) |
-| **Output** | Natural conversation | Natural answer | Structured note |
-| **Time** | Quick (back-and-forth) | Longer (comprehensive) | Per source |
-| **Best when** | Exploring & uncertain | Need full picture | Want consistent format |
-| **Model speed** | Any | Fast preferred | Any |
-
----
-
-## Workflow Examples
-
-### Example 1: Academic Research
-
-```
-Goal: Write literature review from 15 papers
-
-Step 1: TRANSFORMATIONS
-  - Define: "Extract abstract, methodology, findings, relevance"
-  - Apply to paper 1 → get structured note
-  - Apply to paper 2 → get structured note
-  - ... repeat for all 15 papers
-  - Result: 15 structured notes with consistent format
-
-Step 2: Read the notes
-  - Now you have consistent summaries
-
-Step 3: CHAT or ASK
-  - Chat: "Help me organize these by theme"
-  - Ask: "What are the common methodologies across these papers?"
-
-Step 4: Write your review
-  - Use the transformations as foundation
-  - Use chat/ask insights for structure
-```
-
-### Example 2: Product Research
-
-```
-Goal: Understand customer feedback from interviews
-
-Step 1: Add sources (interview transcripts)
-
-Step 2: ASK
-  - "What are the top 10 pain points mentioned?"
-  - Get comprehensive answer with citations
-
-Step 3: CHAT
-  - "Can you help me group these by severity?"
-  - Continue conversation to prioritize
-
-Step 4: TRANSFORMATIONS (optional)
-  - Define: "Extract: pain point, frequency, who mentioned it"
-  - Apply to each interview (one by one)
-  - Get structured data for analysis
-```
-
-### Example 3: Policy Analysis
-
-```
-Goal: Compare policy documents
-
-Step 1: Add all policy documents as sources
-
-Step 2: ASK
-  - "How do these policies differ on climate measures?"
-  - System searches all docs, gives comprehensive comparison
-
-Step 3: CHAT (if needed)
-  - "Which policy is most aligned with X goals?"
-  - Have discussion about trade-offs
-
-Step 4: Export notes
-  - Save AI responses as notes for reports
-```
+| Khía cạnh | CHAT | HỎI | BIẾN ĐỔI |
+|-----------|------|------|-----------|
+| **Dùng cho gì?** | Khám phá hội thoại | Hỏi đáp toàn diện | Trích xuất dựa trên mẫu |
+| **Số câu hỏi** | Nhiều (hội thoại) | Một | Một mẫu mỗi nguồn |
+| **Kiểm soát ngữ cảnh** | Thủ công (bạn chọn) | Tự động (hệ thống tìm) | Một nguồn mỗi lần |
+| **Hội thoại?** | Có (tiếp tục được) | Không (chỉ một câu) | Không (hoạt động đơn) |
+| **Đầu ra** | Hội thoại tự nhiên | Câu trả lời tự nhiên | Ghi chú có cấu trúc |
+| **Thời gian** | Nhanh (qua lại) | Lâu hơn (toàn diện) | Mỗi nguồn |
+| **Tốt nhất khi** | Khám phá & không chắc | Cần bức tranh đầy đủ | Muốn định dạng nhất quán |
+| **Tốc độ mô hình** | Bất kỳ | Nhanh ưu tiên | Bất kỳ |
 
 ---
 
-## Context Management: The Control Panel
+## Ví Dụ Quy Trình
 
-All three modes let you control what the AI sees.
+### Ví dụ 1: Nghiên Cứu Học Thuật
 
-### In CHAT and TRANSFORMATIONS
 ```
-You choose:
-  - Which sources to include
-  - Context level for each:
-    ✓ Full Content (send complete text)
-    ✓ Summary Only (send AI summary, not full text)
-    ✓ Not in Context (exclude entirely)
+Mục tiêu: Viết tổng quan tài liệu từ 15 bài báo
 
-Example:
-  Paper A: Full Content (analyzing closely)
-  Paper B: Summary Only (background)
-  Paper C: Not in Context (confidential)
+Bước 1: BIẾN ĐỔI
+  - Định nghĩa: "Trích xuất tóm tắt, phương pháp, phát hiện, liên quan"
+  - Áp dụng cho bài 1 → nhận ghi chú có cấu trúc
+  - Áp dụng cho bài 2 → nhận ghi chú có cấu trúc
+  - ... lặp lại cho tất cả 15 bài
+  - Kết quả: 15 ghi chú cấu trúc với định dạng nhất quán
+
+Bước 2: Đọc ghi chú
+  - Giờ bạn có tóm tắt nhất quán
+
+Bước 3: CHAT hoặc HỎI
+  - Chat: "Giúp tôi tổ chức theo chủ đề"
+  - Hỏi: "Phương pháp chung trên các bài là gì?"
+
+Bước 4: Viết tổng quan
+  - Dùng biến đổi làm nền tảng
+  - Dùng thông tin chat/hỏi cho cấu trúc
 ```
 
-### In ASK
-```
-Context is automatic:
-  - System searches ALL your sources
-  - Retrieves most relevant chunks
-  - Sends those to AI
+### Ví dụ 2: Nghiên Cứu Sản Phẩm
 
-But you can:
-  - Search in specific notebook
-  - Filter by source type
-  - Use the results to decide context for follow-up Chat
+```
+Mục tiêu: Hiểu phản hồi khách hàng từ phỏng vấn
+
+Bước 1: Thêm nguồn (bản ghi phỏng vấn)
+
+Bước 2: HỎI
+  - "Top 10 điểm đau được đề cập là gì?"
+  - Nhận câu trả lời toàn diện với trích dẫn
+
+Bước 3: CHAT
+  - "Giúp tôi nhóm theo mức độ nghiêm trọng?"
+  - Tiếp tục hội thoại để ưu tiên
+
+Bước 4: BIẾN ĐỔI (tùy chọn)
+  - Định nghĩa: "Trích xuất: điểm đau, tần suất, ai đề cập"
+  - Áp dụng cho mỗi phỏng vấn (từng cái)
+  - Nhận dữ liệu cấu trúc để phân tích
+```
+
+### Ví dụ 3: Phân Tích Chính Sách
+
+```
+Mục tiêu: So sánh tài liệu chính sách
+
+Bước 1: Thêm tất cả tài liệu chính sách làm nguồn
+
+Bước 2: HỎI
+  - "Các chính sách khác nhau thế nào về biện pháp khí hậu?"
+  - Hệ thống tìm tất cả tài liệu, cho so sánh toàn diện
+
+Bước 3: CHAT (nếu cần)
+  - "Chính sách nào phù hợp nhất với mục tiêu X?"
+  - Thảo luận về đánh đổi
+
+Bước 4: Xuất ghi chú
+  - Lưu phản hồi AI làm ghi chú cho báo cáo
 ```
 
 ---
 
-## Model Selection
+## Quản Lý Ngữ Cảnh: Bảng Điều Khiển
 
-Each mode works with different models:
+Cả ba chế độ cho phép kiểm soát AI thấy gì.
+
+### Trong CHAT và BIẾN ĐỔI
+```
+Bạn chọn:
+  - Nguồn nào bao gồm
+  - Mức ngữ cảnh cho mỗi nguồn:
+    ✓ Nội Dung Đầy Đủ (gửi toàn bộ văn bản)
+    ✓ Chỉ Tóm Tắt (gửi tóm tắt AI, không phải toàn văn)
+    ✓ Không Trong Ngữ Cảnh (loại trừ hoàn toàn)
+
+Ví dụ:
+  Bài A: Nội Dung Đầy Đủ (phân tích kỹ)
+  Bài B: Chỉ Tóm Tắt (nền tảng)
+  Bài C: Không Trong Ngữ Cảnh (bảo mật)
+```
+
+### Trong HỎI
+```
+Ngữ cảnh tự động:
+  - Hệ thống tìm TẤT CẢ nguồn
+  - Lấy đoạn liên quan nhất
+  - Gửi những đoạn đó tới AI
+
+Nhưng bạn có thể:
+  - Tìm trong notebook cụ thể
+  - Lọc theo loại nguồn
+  - Dùng kết quả để quyết định ngữ cảnh cho Chat tiếp theo
+```
+
+---
+
+## Chọn Mô Hình
+
+Mỗi chế độ hoạt động với mô hình khác:
 
 ### CHAT
-- **Any model** works fine
-- Fast models (GPT-4o mini, Claude Haiku): Quick responses, good for conversation
-- Powerful models (GPT-4o, Claude Sonnet): Better reasoning, better for complex topics
+- **Bất kỳ mô hình** đều hoạt động
+- Mô hình nhanh (GPT-4o mini, Claude Haiku): Phản hồi nhanh, tốt cho hội thoại
+- Mô hình mạnh (GPT-4o, Claude Sonnet): Suy luận tốt hơn, tốt cho chủ đề phức tạp
 
-### ASK
-- **Fast models preferred** (because it processes multiple searches)
-- Can use powerful models if you want deep synthesis
-- Example: GPT-4 for strategy planning, GPT-4o-mini for quick facts
+### HỎI
+- **Mô hình nhanh ưu tiên** (vì xử lý nhiều tìm kiếm)
+- Có thể dùng mô hình mạnh nếu muốn tổng hợp sâu
+- Ví dụ: GPT-4 cho lập kế hoạch chiến lược, GPT-4o-mini cho sự kiện nhanh
 
-### TRANSFORMATIONS
-- **Any model** works
-- Fast models (cost-effective for batch processing)
-- Powerful models (better quality extractions)
-
----
-
-## Advanced: Chaining Modes Together
-
-You can combine these modes:
-
-```
-TRANSFORMATIONS → CHAT
-  1. Use transformations to extract structured data
-  2. Use chat to discuss the results
-
-ASK → TRANSFORMATIONS
-  1. Use Ask to understand what matters
-  2. Use Transformations to extract it from remaining sources
-
-CHAT → Save as Note → TRANSFORMATIONS
-  1. Have conversation (Chat)
-  2. Save good responses as notes
-  3. Use those notes as context for transformations
-```
+### BIẾN ĐỔI
+- **Bất kỳ mô hình** đều hoạt động
+- Mô hình nhanh (tiết kiệm chi phí cho xử lý hàng loạt)
+- Mô hình mạnh (trích xuất chất lượng tốt hơn)
 
 ---
 
-## Summary: When to Use Each
+## Nâng Cao: Kết Hợp Các Chế Độ
 
-| Situation | Use | Why |
-|-----------|-----|-----|
-| "I want to explore a topic with follow-up questions" | **CHAT** | Conversational, you control context |
-| "I need a comprehensive answer to one complex question" | **ASK** | Automatic search, synthesized answer |
-| "I want consistent summaries from each source" | **TRANSFORMATIONS** | Template reuse, apply to each source |
-| "I'm comparing two specific sources" | **CHAT** | Select just those 2, have discussion |
-| "I need to categorize each source by X criteria" | **TRANSFORMATIONS** | Extract category from each source |
-| "I want to understand the big picture across all sources" | **ASK** | Automatic comprehensive search |
-| "I want to build a knowledge base" | **TRANSFORMATIONS** | Create structured note from each source |
-| "I want to iterate on understanding" | **CHAT** | Multiple questions, refine thinking |
+Bạn có thể kết hợp các chế độ:
 
-The key insight: **Different questions need different tools.** Open Notebook gives you all three because research rarely fits one mode.
+```
+BIẾN ĐỔI → CHAT
+  1. Dùng biến đổi để trích xuất dữ liệu cấu trúc
+  2. Dùng chat để thảo luận kết quả
+
+HỎI → BIẾN ĐỔI
+  1. Dùng Hỏi để hiểu gì quan trọng
+  2. Dùng Biến Đổi để trích xuất từ nguồn còn lại
+
+CHAT → Lưu thành Ghi Chú → BIẾN ĐỔI
+  1. Hội thoại (Chat)
+  2. Lưu phản hồi tốt thành ghi chú
+  3. Dùng ghi chú đó làm ngữ cảnh cho biến đổi
+```
+
+---
+
+## Tóm Tắt: Khi Nào Dùng Mỗi Cái
+
+| Tình huống | Dùng | Tại sao |
+|-----------|------|---------|
+| "Tôi muốn khám phá chủ đề với câu hỏi tiếp" | **CHAT** | Hội thoại, bạn kiểm soát ngữ cảnh |
+| "Tôi cần câu trả lời toàn diện cho một câu hỏi phức tạp" | **HỎI** | Tìm kiếm tự động, câu trả lời tổng hợp |
+| "Tôi muốn tóm tắt nhất quán từ mỗi nguồn" | **BIẾN ĐỔI** | Tái sử dụng mẫu, áp dụng cho mỗi nguồn |
+| "Tôi đang so sánh hai nguồn cụ thể" | **CHAT** | Chọn chỉ 2 đó, thảo luận |
+| "Tôi cần phân loại mỗi nguồn theo tiêu chí X" | **BIẾN ĐỔI** | Trích xuất phân loại từ mỗi nguồn |
+| "Tôi muốn hiểu bức tranh lớn trên tất cả nguồn" | **HỎI** | Tìm kiếm toàn diện tự động |
+| "Tôi muốn xây dựng cơ sở tri thức" | **BIẾN ĐỔI** | Tạo ghi chú cấu trúc từ mỗi nguồn |
+| "Tôi muốn lặp lại để hiểu sâu hơn" | **CHAT** | Nhiều câu hỏi, tinh chỉnh suy nghĩ |
+
+Ý tưởng chính: **Câu hỏi khác cần công cụ khác.** Open Notebook cho cả ba vì nghiên cứu hiếm khi phù hợp một chế độ.

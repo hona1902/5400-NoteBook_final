@@ -1,22 +1,22 @@
-# Quick Start - OpenAI (5 minutes)
+# Hướng Dẫn Nhanh - OpenAI (5 phút)
 
-Get Open Notebook running with OpenAI's GPT models. Fast, powerful, and simple.
+Chạy Open Notebook với các mô hình GPT của OpenAI. Nhanh, mạnh mẽ và đơn giản.
 
-## Prerequisites
+## Điều Kiện Tiên Quyết
 
-1. **Docker Desktop** installed
-   - [Download here](https://www.docker.com/products/docker-desktop/)
-   - Already have it? Skip to step 2
+1. **Docker Desktop** đã cài đặt
+   - [Tải tại đây](https://www.docker.com/products/docker-desktop/)
+   - Đã có rồi? Bỏ qua bước 2
 
-2. **OpenAI API Key** (required)
-   - Go to https://platform.openai.com/api-keys
-   - Create account → Create new secret key
-   - Add at least $5 in credits to your account
-   - Copy the key (starts with `sk-`)
+2. **Khóa API OpenAI** (bắt buộc)
+   - Truy cập https://platform.openai.com/api-keys
+   - Tạo tài khoản → Tạo khóa bí mật mới
+   - Nạp ít nhất $5 vào tài khoản
+   - Sao chép khóa (bắt đầu bằng `sk-`)
 
-## Step 1: Create Configuration (1 min)
+## Bước 1: Tạo Cấu Hình (1 phút)
 
-Create a new folder `open-notebook` and add this file:
+Tạo thư mục mới `open-notebook` và thêm file này:
 
 **docker-compose.yml**:
 ```yaml
@@ -33,13 +33,13 @@ services:
     image: lfnovo/open_notebook:v1-latest
     pull_policy: always
     ports:
-      - "8502:8502"  # Web UI
+      - "8502:8502"  # Giao diện Web
       - "5055:5055"  # API
     environment:
-      # Encryption key for credential storage (required)
-      - OPEN_NOTEBOOK_ENCRYPTION_KEY=change-me-to-a-secret-string
-
-      # Database (required)
+      # Khóa mã hóa cho lưu trữ credential (bắt buộc)
+      - OPEN_NOTEBOOK_ENCRYPTION_KEY=thay-doi-thanh-chuoi-bi-mat
+      
+      # Cơ sở dữ liệu (bắt buộc)
       - SURREAL_URL=ws://surrealdb:8000/rpc
       - SURREAL_USER=root
       - SURREAL_PASSWORD=password
@@ -53,143 +53,143 @@ services:
 
 ```
 
-**Edit the file:**
-- Replace `change-me-to-a-secret-string` with your own secret (any string works)
+**Chỉnh sửa file:**
+- Thay `thay-doi-thanh-chuoi-bi-mat` bằng chuỗi bí mật của bạn (bất kỳ chuỗi nào đều được)
 
 ---
 
-## Step 2: Start Services (1 min)
+## Bước 2: Khởi Động Dịch Vụ (1 phút)
 
-Open terminal in your `open-notebook` folder:
+Mở terminal trong thư mục `open-notebook`:
 
 ```bash
 docker compose up -d
 ```
 
-Wait 15-20 seconds for services to start.
+Chờ 15-20 giây để dịch vụ khởi động.
 
 ---
 
-## Step 3: Access Open Notebook (instant)
+## Bước 3: Truy Cập Open Notebook (ngay lập tức)
 
-Open your browser:
+Mở trình duyệt:
 ```
 http://localhost:8502
 ```
 
-You should see the Open Notebook interface!
+Bạn sẽ thấy giao diện Open Notebook!
 
 ---
 
-## Step 4: Configure Your OpenAI Provider (1 min)
+## Bước 4: Cấu Hình Nhà Cung Cấp OpenAI (1 phút)
 
-1. Go to **Settings** → **API Keys**
-2. Click **Add Credential**
-3. Select provider: **OpenAI**
-4. Give it a name (e.g., "My OpenAI Key")
-5. Paste your OpenAI API key
-6. Click **Save**
-7. Click **Test Connection** — should show success
-8. Click **Discover Models** → **Register Models**
+1. Vào **Cài đặt** → **Khóa API**
+2. Nhấn **Thêm Credential**
+3. Chọn nhà cung cấp: **OpenAI**
+4. Đặt tên (ví dụ: "Khóa OpenAI")
+5. Dán khóa API OpenAI của bạn
+6. Nhấn **Lưu**
+7. Nhấn **Kiểm Tra Kết Nối** — sẽ hiển thị thành công
+8. Nhấn **Khám Phá Mô Hình** → **Đăng Ký Mô Hình**
 
-Your OpenAI models are now available!
-
----
-
-## Step 5: Create Your First Notebook (1 min)
-
-1. Click **New Notebook**
-2. Name: "My Research"
-3. Click **Create**
+Các mô hình OpenAI đã sẵn sàng!
 
 ---
 
-## Step 6: Add a Source (1 min)
+## Bước 5: Tạo Notebook Đầu Tiên (1 phút)
 
-1. Click **Add Source**
-2. Choose **Web Link**
-3. Paste: `https://en.wikipedia.org/wiki/Artificial_intelligence`
-4. Click **Add**
-5. Wait for processing (30-60 seconds)
+1. Nhấn **Notebook Mới**
+2. Tên: "Nghiên Cứu Của Tôi"
+3. Nhấn **Tạo**
 
 ---
 
-## Step 7: Chat With Your Content (1 min)
+## Bước 6: Thêm Nguồn (1 phút)
 
-1. Go to **Chat**
-2. Type: "What is artificial intelligence?"
-3. Click **Send**
-4. Watch as GPT responds with information from your source!
-
----
-
-## Verification Checklist
-
-- [ ] Docker is running
-- [ ] You can access `http://localhost:8502`
-- [ ] OpenAI credential is configured and tested
-- [ ] You created a notebook
-- [ ] You added a source
-- [ ] Chat works
-
-**All checked?** You have a fully working AI research assistant!
+1. Nhấn **Thêm Nguồn**
+2. Chọn **Liên Kết Web**
+3. Dán: `https://en.wikipedia.org/wiki/Artificial_intelligence`
+4. Nhấn **Thêm**
+5. Chờ xử lý (30-60 giây)
 
 ---
 
-## Using Different Models
+## Bước 7: Chat Với Nội Dung (1 phút)
 
-In your notebook, go to **Settings** → **Models** to choose:
-- `gpt-4o` - Best quality (recommended)
-- `gpt-4o-mini` - Fast and cheap (good for testing)
+1. Vào **Chat**
+2. Gõ: "Trí tuệ nhân tạo là gì?"
+3. Nhấn **Gửi**
+4. Xem GPT trả lời với thông tin từ nguồn của bạn!
 
 ---
 
-## Troubleshooting
+## Danh Sách Kiểm Tra
 
-### "Port 8502 already in use"
+- [ ] Docker đang chạy
+- [ ] Có thể truy cập `http://localhost:8502`
+- [ ] Credential OpenAI đã cấu hình và kiểm tra
+- [ ] Đã tạo notebook
+- [ ] Đã thêm nguồn
+- [ ] Chat hoạt động
 
-Change the port in docker-compose.yml:
+**Tất cả đã đánh dấu?** Bạn đã có trợ lý nghiên cứu AI hoạt động đầy đủ!
+
+---
+
+## Sử Dụng Các Mô Hình Khác
+
+Trong notebook, vào **Cài đặt** → **Mô hình** để chọn:
+- `gpt-4o` - Chất lượng tốt nhất (khuyến nghị)
+- `gpt-4o-mini` - Nhanh và rẻ (tốt cho thử nghiệm)
+
+---
+
+## Khắc Phục Sự Cố
+
+### "Cổng 8502 đã được sử dụng"
+
+Thay đổi cổng trong docker-compose.yml:
 ```yaml
 ports:
-  - "8503:8502"  # Use 8503 instead
+  - "8503:8502"  # Sử dụng 8503 thay thế
 ```
 
-Then access at `http://localhost:8503`
+Sau đó truy cập tại `http://localhost:8503`
 
-### "API key not working"
+### "Khóa API không hoạt động"
 
-1. Go to **Settings** → **API Keys**
-2. Click **Test Connection** on your OpenAI credential
-3. If it fails, verify your key at https://platform.openai.com
-4. Delete the credential and create a new one with the correct key
+1. Vào **Cài đặt** → **Khóa API**
+2. Nhấn **Kiểm Tra Kết Nối** trên credential OpenAI
+3. Nếu thất bại, xác minh khóa tại https://platform.openai.com
+4. Xóa credential và tạo mới với khóa đúng
 
-### "Cannot connect to server"
+### "Không thể kết nối đến máy chủ"
 
 ```bash
-docker ps  # Check all services running
-docker compose logs  # View logs
-docker compose restart  # Restart everything
+docker ps  # Kiểm tra tất cả dịch vụ đang chạy
+docker compose logs  # Xem log
+docker compose restart  # Khởi động lại tất cả
 ```
 
 ---
 
-## Next Steps
+## Bước Tiếp Theo
 
-1. **Add Your Own Content**: PDFs, web links, documents
-2. **Explore Features**: Podcasts, transformations, search
-3. **Full Documentation**: [See all features](../3-USER-GUIDE/index.md)
-
----
-
-## Cost Estimate
-
-OpenAI pricing (approximate):
-- **Conversation**: $0.01-0.10 per 1K tokens
-- **Embeddings**: $0.02 per 1M tokens
-- **Typical usage**: $1-5/month for light use, $20-50/month for heavy use
-
-Check https://openai.com/pricing for current rates.
+1. **Thêm Nội Dung Của Bạn**: PDF, liên kết web, tài liệu
+2. **Khám Phá Tính Năng**: Podcast, biến đổi, tìm kiếm
+3. **Tài Liệu Đầy Đủ**: [Xem tất cả tính năng](../3-USER-GUIDE/index.md)
 
 ---
 
-**Need help?** Join our [Discord community](https://discord.gg/37XJPXfz2w)!
+## Ước Tính Chi Phí
+
+Giá OpenAI (ước tính):
+- **Hội thoại**: $0.01-0.10 mỗi 1K token
+- **Nhúng**: $0.02 mỗi 1M token
+- **Sử dụng thông thường**: $1-5/tháng cho sử dụng nhẹ, $20-50/tháng cho sử dụng nặng
+
+Kiểm tra https://openai.com/pricing để biết giá hiện tại.
+
+---
+
+**Cần trợ giúp?** Tham gia [cộng đồng Discord](https://discord.gg/37XJPXfz2w)!

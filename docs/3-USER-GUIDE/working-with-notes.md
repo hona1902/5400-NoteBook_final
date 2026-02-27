@@ -1,24 +1,26 @@
-# Working with Notes - Capturing and Organizing Insights
+# Làm việc với Ghi chú - Thu thập và Sắp xếp Thông tin chi tiết
 
-Notes are your processed knowledge. This guide covers how to create, organize, and use them effectively.
-
----
-
-## What Are Notes?
-
-Notes are your **research output** — the insights you capture from analyzing sources. They can be:
-
-- **Manual** — You write them yourself
-- **AI-Generated** — From Chat responses, Ask results, or Transformations
-- **Hybrid** — AI insight + your edits and additions
-
-Unlike sources (which never change), notes are mutable — you edit, refine, and organize them.
+Ghi chú là kiến ​​thức đã được xử lý của bạn. Hướng dẫn này bao gồm cách tạo, sắp xếp và sử dụng chúng một cách hiệu quả.
 
 ---
 
-## Quick-Start: Create Your First Note
+## Ghi chú là gì?
 
-### Method 1: Manual Note (Write Yourself)
+Ghi chú là **kết quả nghiên cứu** của bạn — những hiểu biết sâu sắc mà bạn thu thập được từ các nguồn phân tích. Họ có thể là:
+
+- **Hướng dẫn sử dụng** — Bạn tự viết chúng
+- **Do AI tạo** — Từ câu trả lời trong cuộc trò chuyện, kết quả Hỏi hoặc Chuyển đổi
+- **Kết hợp** — Thông tin chi tiết về AI + các chỉnh sửa và bổ sung của bạn
+
+Không giống như các nguồn (không bao giờ thay đổi), ghi chú có thể thay đổi — bạn chỉnh sửa, tinh chỉnh và sắp xếp chúng.
+
+---
+
+## Bắt đầu nhanh: Tạo ghi chú đầu tiên của bạn
+
+### Cách 1: Ghi chú thủ công (Tự viết)
+
+
 
 ```
 1. In your notebook, go to "Notes" section
@@ -29,7 +31,11 @@ Unlike sources (which never change), notes are mutable — you edit, refine, and
 6. Done! Note appears in your notebook
 ```
 
-### Method 2: Save from Chat
+
+
+### Cách 2: Lưu từ Chat
+
+
 
 ```
 1. Have a Chat conversation
@@ -41,7 +47,11 @@ Unlike sources (which never change), notes are mutable — you edit, refine, and
 7. Done! Note appears in your notebook
 ```
 
-### Method 3: Apply Transformation
+
+
+### Cách 3: Áp dụng phép biến đổi
+
+
 
 ```
 1. Go to "Transformations"
@@ -53,11 +63,15 @@ Unlike sources (which never change), notes are mutable — you edit, refine, and
 7. Done! Each source produces one note
 ```
 
+
+
 ---
 
-## Creating Manual Notes
+## Tạo ghi chú thủ công
 
-### Basic Structure
+###Cấu trúc cơ bản
+
+
 
 ```
 Title: "What you're capturing"
@@ -75,9 +89,13 @@ Metadata:
   - Date: Auto-added when created
 ```
 
-### Markdown Support
 
-You can format notes with markdown:
+
+### Hỗ trợ đánh dấu
+
+Bạn có thể định dạng ghi chú bằng cách đánh dấu:
+
+
 
 ```markdown
 # Heading
@@ -98,7 +116,11 @@ You can format notes with markdown:
 [Links work](https://example.com)
 ```
 
-### Example Note Structure
+
+
+### Ví dụ về cấu trúc ghi chú
+
+
 
 ```markdown
 # Key Findings from "AI Safety Paper 2025"
@@ -129,11 +151,15 @@ The authors use [methodology] to test this hypothesis.
 - [ ] Discuss implications with team
 ```
 
+
+
 ---
 
-## AI-Generated Notes: Three Sources
+## Ghi chú do AI tạo: Ba nguồn
 
-### 1. Save from Chat
+### 1. Lưu từ Trò chuyện
+
+
 
 ```
 Workflow:
@@ -151,7 +177,11 @@ Quality:
   - Ask specific questions for useful notes
 ```
 
-### 2. Save from Ask
+
+
+### 2. Lưu từ Hỏi
+
+
 
 ```
 Workflow:
@@ -169,7 +199,11 @@ Quality:
   - Often higher quality than Chat (more thorough)
 ```
 
-### 3. Transformations (Batch Processing)
+
+
+### 3. Biến đổi (Xử lý hàng loạt)
+
+
 
 ```
 Workflow:
@@ -187,43 +221,59 @@ When to use:
   - Creating consistent summaries
 ```
 
+
+
 ---
 
-## Using Transformations for Batch Insights
+## Sử dụng các phép biến đổi để có thông tin chi tiết hàng loạt
 
-### Built-in Transformations
+### Các phép biến đổi tích hợp
 
-Open Notebook comes with presets:
+Open Notebook đi kèm với các cài đặt trước:
 
-**Summary**
+**Bản tóm tắt**
+
 ```
 Extracts: Main points, key arguments, conclusions
 Output: 200-300 word summary of source
 Best for: Quick reference summaries
 ```
 
-**Key Concepts**
+
+
+**Các khái niệm chính**
+
 ```
 Extracts: Main ideas, concepts, terminology
 Output: List of concepts with explanations
 Best for: Learning and terminology
 ```
 
-**Methodology**
+
+
+**Phương pháp**
+
 ```
 Extracts: Research approach, methods, data
 Output: How the research was conducted
 Best for: Academic sources, methodology review
 ```
 
-**Takeaways**
+
+
+**Món ăn mang về**
+
 ```
 Extracts: Actionable insights, recommendations
 Output: What you should do with this information
 Best for: Practical/business sources
 ```
 
-### How to Apply Transformation
+
+
+### Cách áp dụng phép biến đổi
+
+
 
 ```
 1. Go to "Transformations"
@@ -235,7 +285,11 @@ Best for: Practical/business sources
 7. Edit if needed
 ```
 
-### Create Custom Transformation
+
+
+### Tạo chuyển đổi tùy chỉnh
+
+
 
 ```
 1. Click "Create Custom Transformation"
@@ -255,27 +309,36 @@ Best for: Practical/business sources
 5. System generates notes with consistent structure
 ```
 
+
+
 ---
 
-## Organizing Notes
+## Sắp xếp ghi chú
 
-### Naming Conventions
+### Quy ước đặt tên
 
-**Option 1: Date-based**
+**Tùy chọn 1: Dựa trên ngày**
+
 ```
 2026-01-03 - Key points from X source
 2026-01-04 - Comparison between A and B
 Benefit: Easy to see what you did when
 ```
 
-**Option 2: Topic-based**
+
+
+**Phương án 2: Dựa trên chủ đề**
+
 ```
 AI Safety - Alignment approaches
 AI Safety - Interpretability research
 Benefit: Groups by subject matter
 ```
 
-**Option 3: Type-based**
+
+
+**Tùy chọn 3: Dựa trên loại**
+
 ```
 SUMMARY: Paper on X
 QUESTION: What about Y?
@@ -283,22 +346,32 @@ INSIGHT: Connection between Z and W
 Benefit: Easy to filter by type
 ```
 
-**Option 4: Source-based**
+
+
+**Tùy chọn 4: Dựa trên nguồn**
+
 ```
 From: Paper A - Main insights
 From: Video B - Interesting implications
 Benefit: Easy to trace back to sources
 ```
 
-**Best practice:** Combine approaches
+
+
+**Phương pháp hay nhất:** Kết hợp các phương pháp tiếp cận
+
 ```
 [Date] [Source] - [Topic] - [Type]
 2026-01-03 - Paper A - AI Safety - Takeaways
 ```
 
-### Using Tags
 
-Tags are labels for categorization. Add them when creating notes:
+
+### Sử dụng Thẻ
+
+Thẻ là nhãn để phân loại. Thêm chúng khi tạo ghi chú:
+
+
 
 ```
 Example tags:
@@ -311,14 +384,18 @@ Example tags:
   - "published" (ready to share/use)
 ```
 
-**Benefits of tags:**
-- Filter notes by tag
-- Find all notes of a type
-- Organize workflow (e.g., find all "follow-up" notes)
 
-### Note Linking & References
 
-You can reference sources within notes:
+**Lợi ích của thẻ:**
+- Lọc ghi chú theo thẻ
+- Tìm tất cả các ghi chú của một loại
+- Sắp xếp quy trình làm việc (ví dụ: tìm tất cả các ghi chú "tiếp theo")
+
+### Lưu ý Liên kết & Tài liệu tham khảo
+
+Bạn có thể tham khảo các nguồn trong ghi chú:
+
+
 
 ```markdown
 # Analysis of Paper A
@@ -332,11 +409,15 @@ the authors argue that...
 - My note on "Comparative analysis" has more
 ```
 
+
+
 ---
 
-## Editing and Refining Notes
+## Chỉnh sửa và tinh chỉnh ghi chú
 
-### Improving AI-Generated Notes
+### Cải thiện ghi chú do AI tạo
+
+
 
 ```
 AI Note:
@@ -354,7 +435,11 @@ How to edit:
   4. Click "Save"
 ```
 
-### Adding Citations
+
+
+### Thêm trích dẫn
+
+
 
 ```
 When saving from Chat/Ask:
@@ -367,112 +452,137 @@ When manual notes:
   - Or reference: "As discussed in [source]"
 ```
 
+
+
 ---
 
-## Searching Your Notes
+## Tìm kiếm ghi chú của bạn
 
-Notes are fully searchable:
+Ghi chú có thể tìm kiếm đầy đủ:
 
-### Text Search
+### Tìm kiếm văn bản
+
 ```
 Find exact phrase: "attention mechanism"
 Results: All notes containing that phrase
 Use when: Looking for specific terms or quotes
 ```
 
-### Vector/Semantic Search
+
+
+### Tìm kiếm theo vectơ/ngữ nghĩa
+
 ```
 Find concept: "How do models understand?"
 Results: Notes about interpretability, mechanistic understanding, etc.
 Use when: Exploring conceptually (words not exact)
 ```
 
-### Combined Search
+
+
+### Tìm kiếm kết hợp
+
 ```
 Text search notes → Find keyword matches
 Vector search notes → Find conceptual matches
 Both work across sources + notes together
 ```
 
+
+
 ---
 
-## Exporting and Sharing Notes
+## Xuất và chia sẻ ghi chú
 
-### Options
+### Tùy chọn
 
-**Copy to clipboard**
+**Sao chép vào khay nhớ tạm**
+
 ```
 Click "Share" → "Copy" → Paste anywhere
 Good for: Sharing one note via email/chat
 ```
 
-**Export as Markdown**
+
+
+**Xuất dưới dạng Markdown**
+
 ```
 Click "Share" → "Export as MD" → Saves as .md file
 Good for: Sharing with others, version control
 ```
 
-**Create note collection**
+
+
+**Tạo bộ sưu tập ghi chú**
+
 ```
 Select multiple notes → "Export collection"
 → Creates organized markdown document
 Good for: Sharing a topic overview
 ```
 
-**Publish to web**
+
+
+**Xuất bản lên web**
+
 ```
 Click "Publish" → Get shareable link
 Good for: Publishing publicly (if desired)
 ```
 
----
 
-## Organizing Your Notebook's Notes
-
-### By Research Phase
-
-**Phase 1: Discovery**
-- Initial summaries
-- Questions raised
-- Interesting findings
-
-**Phase 2: Deep Dive**
-- Detailed analysis
-- Comparative insights
-- Methodology reviews
-
-**Phase 3: Synthesis**
-- Connections across sources
-- Original thinking
-- Conclusions
-
-### By Content Type
-
-**Summaries**
-- High-level overviews
-- Generated by transformations
-- Quick reference
-
-**Questions**
-- Open questions
-- Things to research more
-- Gaps to fill
-
-**Insights**
-- Your original analysis
-- Connections made
-- Conclusions reached
-
-**Tasks**
-- Follow-up research
-- Sources to add
-- People to contact
 
 ---
 
-## Using Notes in Other Features
+## Sắp xếp ghi chú trong sổ tay của bạn
 
-### In Chat
+### Theo giai đoạn nghiên cứu
+
+**Giai đoạn 1: Khám phá**
+- Tóm tắt ban đầu
+- Các câu hỏi đặt ra
+- Những phát hiện thú vị
+
+**Giai đoạn 2: Đi sâu**
+- Phân tích chi tiết
+- Những hiểu biết so sánh
+- Đánh giá phương pháp luận
+
+**Giai đoạn 3: Tổng hợp**
+- Kết nối giữa các nguồn
+- Suy nghĩ ban đầu
+- Kết luận
+
+### Theo loại nội dung
+
+**Tóm tắt**
+- Tổng quan cấp cao
+- Được tạo ra bởi các phép biến đổi
+- Tham khảo nhanh
+
+**Câu hỏi**
+- Câu hỏi mở
+- Những điều cần nghiên cứu thêm
+- Khoảng trống cần lấp đầy
+
+**Thông tin chi tiết**
+- Phân tích ban đầu của bạn
+- Kết nối được thực hiện
+- Đã đạt được kết luận
+
+**Nhiệm vụ**
+- Nghiên cứu tiếp theo
+- Nguồn để thêm
+- Người cần liên hệ
+
+---
+
+## Sử dụng Ghi chú trong các Tính năng Khác
+
+### Trong cuộc trò chuyện
+
+
 
 ```
 You can reference notes:
@@ -483,7 +593,11 @@ Notes become part of context.
 Treated like sources but smaller/more focused.
 ```
 
-### In Transformations
+
+
+### Trong sự biến đổi
+
+
 
 ```
 Notes can be transformed:
@@ -494,7 +608,11 @@ Notes can be transformed:
 Example: Transform 5 analysis notes → Create synthesis
 ```
 
-### In Podcasts
+
+
+### Trong Podcast
+
+
 
 ```
 Notes are used to create podcast content:
@@ -503,48 +621,52 @@ Notes are used to create podcast content:
 3. Notes become part of episode outline
 ```
 
----
 
-## Best Practices
-
-### For Manual Notes
-1. **Write clearly** — Future you will appreciate it
-2. **Add context** — Why this matters, not just what it says
-3. **Link to sources** — You can verify later
-4. **Date them** — Track your thinking over time
-5. **Tag immediately** — Don't defer organization
-
-### For AI-Generated Notes
-1. **Review before saving** — Verify quality
-2. **Edit for clarity** — AI might miss nuance
-3. **Add your thoughts** — Make it your own
-4. **Include citations** — Understand sources
-5. **Organize right away** — While context is fresh
-
-### For Organization
-1. **Consistent naming** — Your future self will thank you
-2. **Tag everything** — Makes filtering later much easier
-3. **Link related notes** — Create knowledge network
-4. **Review periodically** — Refactor as understanding evolves
-5. **Archive old notes** — Keep working space clean
 
 ---
 
-## Common Mistakes
+## Các phương pháp hay nhất
 
-| Mistake | Problem | Solution |
-|---------|---------|----------|
-| Save every Chat response | Notebook becomes cluttered with low-quality notes | Only save good responses that answer your questions |
-| Don't add tags | Can't find notes later | Tag immediately when creating |
-| Poor note titles | Can't remember what's in them | Use descriptive titles, include key concept |
-| Never link notes together | Miss connections between ideas | Add references to related notes |
-| Forget the source | Can't verify claims later | Always link back to source |
-| Never edit AI notes | Keep generic AI responses | Refine for clarity and context |
-| Create one giant note | Too long to be useful | Split into focused notes by subtopic |
+### Dành cho ghi chú thủ công
+1. **Viết rõ ràng** — Tương lai bạn sẽ đánh giá cao nó
+2. **Thêm ngữ cảnh** — Tại sao điều này lại quan trọng, không chỉ những gì nó nói
+3. **Liên kết tới các nguồn** — Bạn có thể xác minh sau
+4. **Hẹn hò với họ** — Theo dõi suy nghĩ của bạn theo thời gian
+5. **Gắn thẻ ngay** — Đừng trì hoãn tổ chức
+
+### Dành cho ghi chú do AI tạo
+1. **Xem lại trước khi lưu** — Xác minh chất lượng
+2. **Chỉnh sửa cho rõ ràng** — AI có thể bỏ lỡ sắc thái
+3. **Thêm suy nghĩ của bạn** — Biến nó thành của riêng bạn
+4. **Bao gồm các trích dẫn** — Hiểu rõ nguồn
+5. **Tổ chức ngay** — Khi bối cảnh còn mới mẻ
+
+### Dành cho tổ chức
+1. **Đặt tên nhất quán** — Con người tương lai của bạn sẽ cảm ơn bạn
+2. **Gắn thẻ mọi thứ** — Giúp việc lọc sau này dễ dàng hơn nhiều
+3. **Liên kết các ghi chú liên quan** — Tạo mạng lưới kiến thức
+4. **Xem xét định kỳ** — Tái cấu trúc khi hiểu biết ngày càng nâng cao
+5. **Lưu trữ ghi chú cũ** — Giữ không gian làm việc sạch sẽ
 
 ---
 
-## Summary: Note Lifecycle
+## Những lỗi thường gặp
+
+| Sai lầm | Vấn đề | Giải pháp |
+|----------|----------|----------|
+| Lưu mọi phản hồi Trò chuyện | Sổ ghi chép trở nên lộn xộn với những ghi chú chất lượng thấp | Chỉ lưu những câu trả lời hay trả lời câu hỏi của bạn |
+| Đừng thêm thẻ | Không thể tìm thấy ghi chú sau | Gắn thẻ ngay khi tạo |
+| Tiêu đề ghi chú kém | Không thể nhớ trong đó có gì | Sử dụng tiêu đề mô tả, bao gồm khái niệm chính |
+| Không bao giờ liên kết các ghi chú với nhau | Bỏ lỡ sự kết nối giữa các ý tưởng | Thêm tài liệu tham khảo vào ghi chú liên quan |
+| Quên nguồn | Không thể xác minh khiếu nại sau | Luôn dẫn link về nguồn |
+| Không bao giờ chỉnh sửa ghi chú AI | Giữ các phản hồi AI chung | Tinh chỉnh cho rõ ràng và ngữ cảnh |
+| Tạo một ghi chú khổng lồ | Quá lâu để có ích | Chia thành các ghi chú tập trung theo chủ đề phụ |
+
+---
+
+## Tóm tắt: Vòng đời của Ghi chú
+
+
 
 ```
 1. CREATE
@@ -578,4 +700,6 @@ Notes are used to create podcast content:
    └─ Learn from organized knowledge
 ```
 
-Your notes become your actual knowledge base. The more you invest in organizing them, the more valuable they become.
+
+
+Ghi chú của bạn trở thành nền tảng kiến ​​thức thực tế của bạn. Bạn càng đầu tư vào việc tổ chức chúng thì chúng càng trở nên có giá trị.

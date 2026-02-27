@@ -1,22 +1,22 @@
-# Single Container Installation
+# Cài Đặt Container Đơn
 
-All-in-one container setup. **Simpler than Docker Compose, but less flexible.**
+Cài đặt container tất cả trong một. **Đơn giản hơn Docker Compose, nhưng ít linh hoạt hơn.**
 
-**Best for:** PikaPods, Railway, shared hosting, minimal setups
+**Phù hợp nhất cho:** PikaPods, Railway, hosting chia sẻ, cài đặt tối giản
 
-> **Alternative Registry:** Images available on both Docker Hub (`lfnovo/open_notebook:v1-latest-single`) and GitHub Container Registry (`ghcr.io/lfnovo/open-notebook:v1-latest-single`).
+> **Registry thay thế:** Image có trên cả Docker Hub (`lfnovo/open_notebook:v1-latest-single`) và GitHub Container Registry (`ghcr.io/lfnovo/open-notebook:v1-latest-single`).
 
-> **Note**: While this is a simple way to get started, we recommend [Docker Compose](docker-compose.md) for most users. Docker Compose is more flexible and will make it easier if we add more services to the setup in the future. This single-container option is best for platforms that specifically require it (PikaPods, Railway, etc.).
+> **Lưu ý**: Đây là cách đơn giản để bắt đầu, nhưng chúng tôi khuyến nghị [Docker Compose](docker-compose.md) cho hầu hết người dùng. Docker Compose linh hoạt hơn và sẽ dễ dàng hơn nếu chúng tôi thêm dịch vụ trong tương lai. Tùy chọn container đơn này phù hợp nhất cho nền tảng yêu cầu cụ thể (PikaPods, Railway, v.v.).
 
-## Prerequisites
+## Điều Kiện Tiên Quyết
 
-- Docker installed (for local testing)
-- API key from OpenAI, Anthropic, or another provider
-- 5 minutes
+- Docker đã cài đặt (cho thử nghiệm cục bộ)
+- Khóa API từ OpenAI, Anthropic, hoặc nhà cung cấp khác
+- 5 phút
 
-## Quick Setup
+## Cài Đặt Nhanh
 
-### For Local Testing (Docker)
+### Cho Thử Nghiệm Cục Bộ (Docker)
 
 ```yaml
 # docker-compose.yml
@@ -25,10 +25,10 @@ services:
     image: lfnovo/open_notebook:v1-latest-single
     pull_policy: always
     ports:
-      - "8502:8502"  # Web UI (React frontend)
+      - "8502:8502"  # Giao diện Web (React frontend)
       - "5055:5055"  # API
     environment:
-      - OPEN_NOTEBOOK_ENCRYPTION_KEY=change-me-to-a-secret-string
+      - OPEN_NOTEBOOK_ENCRYPTION_KEY=thay-doi-thanh-chuoi-bi-mat
       - SURREAL_URL=ws://localhost:8000/rpc
       - SURREAL_USER=root
       - SURREAL_PASSWORD=password
@@ -39,99 +39,99 @@ services:
     restart: always
 ```
 
-Run:
+Chạy:
 ```bash
 docker compose up -d
 ```
 
-Access: `http://localhost:8502`
+Truy cập: `http://localhost:8502`
 
-Then configure your AI provider:
-1. Go to **Settings** → **API Keys**
-2. Click **Add Credential** → Select your provider → Paste API key
-3. Click **Save**, then **Test Connection**
-4. Click **Discover Models** → **Register Models**
+Sau đó cấu hình nhà cung cấp AI:
+1. Vào **Cài đặt** → **Khóa API**
+2. Nhấn **Thêm Credential** → Chọn nhà cung cấp → Dán khóa API
+3. Nhấn **Lưu**, sau đó **Kiểm Tra Kết Nối**
+4. Nhấn **Khám Phá Mô Hình** → **Đăng Ký Mô Hình**
 
-### For Cloud Platforms
+### Cho Nền Tảng Đám Mây
 
 **PikaPods:**
-1. Click "New App"
-2. Search "Open Notebook"
-3. Set environment variables (at minimum: `OPEN_NOTEBOOK_ENCRYPTION_KEY`)
-4. Click "Deploy"
-5. Open the app → Go to **Settings → API Keys** to configure your AI provider
+1. Nhấn "New App"
+2. Tìm kiếm "Open Notebook"
+3. Đặt biến môi trường (tối thiểu: `OPEN_NOTEBOOK_ENCRYPTION_KEY`)
+4. Nhấn "Deploy"
+5. Mở ứng dụng → Vào **Cài đặt → Khóa API** để cấu hình nhà cung cấp AI
 
 **Railway:**
-1. Create new project
-2. Add `lfnovo/open_notebook:v1-latest-single`
-3. Set environment variables (at minimum: `OPEN_NOTEBOOK_ENCRYPTION_KEY`)
-4. Deploy
-5. Open the app → Go to **Settings → API Keys** to configure your AI provider
+1. Tạo dự án mới
+2. Thêm `lfnovo/open_notebook:v1-latest-single`
+3. Đặt biến môi trường (tối thiểu: `OPEN_NOTEBOOK_ENCRYPTION_KEY`)
+4. Triển khai
+5. Mở ứng dụng → Vào **Cài đặt → Khóa API** để cấu hình nhà cung cấp AI
 
 **Render:**
-1. Create new Web Service
-2. Use Docker image: `lfnovo/open_notebook:v1-latest-single`
-3. Set environment variables in dashboard (at minimum: `OPEN_NOTEBOOK_ENCRYPTION_KEY`)
-4. Configure persistent disk for `/app/data` and `/mydata`
+1. Tạo Web Service mới
+2. Sử dụng Docker image: `lfnovo/open_notebook:v1-latest-single`
+3. Đặt biến môi trường trong bảng điều khiển (tối thiểu: `OPEN_NOTEBOOK_ENCRYPTION_KEY`)
+4. Cấu hình đĩa lưu trữ cho `/app/data` và `/mydata`
 
 **DigitalOcean App Platform:**
-1. Create new app from Docker Hub
-2. Use image: `lfnovo/open_notebook:v1-latest-single`
-3. Set port to 8502
-4. Add environment variables (at minimum: `OPEN_NOTEBOOK_ENCRYPTION_KEY`)
-5. Configure persistent storage
+1. Tạo ứng dụng mới từ Docker Hub
+2. Sử dụng image: `lfnovo/open_notebook:v1-latest-single`
+3. Đặt cổng là 8502
+4. Thêm biến môi trường (tối thiểu: `OPEN_NOTEBOOK_ENCRYPTION_KEY`)
+5. Cấu hình lưu trữ lâu dài
 
 **Heroku:**
 ```bash
-# Using heroku.yml
+# Sử dụng heroku.yml
 heroku container:push web
 heroku container:release web
-heroku config:set OPEN_NOTEBOOK_ENCRYPTION_KEY=your-secret-key
+heroku config:set OPEN_NOTEBOOK_ENCRYPTION_KEY=khoa-bi-mat-cua-ban
 ```
 
 **Coolify:**
-1. Add new service → Docker Image
+1. Thêm dịch vụ mới → Docker Image
 2. Image: `lfnovo/open_notebook:v1-latest-single`
-3. Port: 8502
-4. Add environment variables (at minimum: `OPEN_NOTEBOOK_ENCRYPTION_KEY`)
-5. Enable persistent volumes
-6. Coolify handles HTTPS automatically
+3. Cổng: 8502
+4. Thêm biến môi trường (tối thiểu: `OPEN_NOTEBOOK_ENCRYPTION_KEY`)
+5. Bật volumes lâu dài
+6. Coolify tự động xử lý HTTPS
 
 ---
 
-## Environment Variables
+## Biến Môi Trường
 
-| Variable | Purpose | Example |
-|----------|---------|---------|
-| `OPEN_NOTEBOOK_ENCRYPTION_KEY` | Encryption key for credentials (required) | `my-secret-key` |
-| `SURREAL_URL` | Database | `ws://localhost:8000/rpc` |
-| `SURREAL_USER` | DB user | `root` |
-| `SURREAL_PASSWORD` | DB password | `password` |
-| `SURREAL_NAMESPACE` | DB namespace | `open_notebook` |
-| `SURREAL_DATABASE` | DB name | `open_notebook` |
-| `API_URL` | External URL (for remote access) | `https://myapp.example.com` |
+| Biến | Mục đích | Ví dụ |
+|------|----------|-------|
+| `OPEN_NOTEBOOK_ENCRYPTION_KEY` | Khóa mã hóa cho credential (bắt buộc) | `khoa-bi-mat` |
+| `SURREAL_URL` | Cơ sở dữ liệu | `ws://localhost:8000/rpc` |
+| `SURREAL_USER` | Người dùng DB | `root` |
+| `SURREAL_PASSWORD` | Mật khẩu DB | `password` |
+| `SURREAL_NAMESPACE` | Namespace DB | `open_notebook` |
+| `SURREAL_DATABASE` | Tên DB | `open_notebook` |
+| `API_URL` | URL bên ngoài (cho truy cập từ xa) | `https://myapp.example.com` |
 
-AI provider API keys are configured via the **Settings → API Keys** UI after deployment.
-
----
-
-## Limitations vs Docker Compose
-
-| Feature | Single Container | Docker Compose |
-|---------|------------------|-----------------|
-| Setup time | 2 minutes | 5 minutes |
-| Complexity | Minimal | Moderate |
-| Services | All bundled | Separated |
-| Scalability | Limited | Excellent |
-| Memory usage | ~800MB | ~1.2GB |
+Khóa API nhà cung cấp AI được cấu hình qua giao diện **Cài đặt → Khóa API** sau khi triển khai.
 
 ---
 
-## Next Steps
+## Hạn Chế So Với Docker Compose
 
-Same as Docker Compose setup - just access via `http://localhost:8502` (local) or your platform's URL (cloud).
+| Tính năng | Container Đơn | Docker Compose |
+|-----------|--------------|----------------|
+| Thời gian cài đặt | 2 phút | 5 phút |
+| Độ phức tạp | Tối thiểu | Trung bình |
+| Dịch vụ | Gộp chung | Tách biệt |
+| Khả năng mở rộng | Hạn chế | Xuất sắc |
+| Sử dụng bộ nhớ | ~800MB | ~1.2GB |
 
-1. Go to **Settings → API Keys** to add your AI provider credential
-2. **Test Connection** and **Discover Models**
+---
 
-See [Docker Compose](docker-compose.md) for full post-install guide.
+## Bước Tiếp Theo
+
+Tương tự cài đặt Docker Compose - truy cập qua `http://localhost:8502` (cục bộ) hoặc URL nền tảng (đám mây).
+
+1. Vào **Cài đặt → Khóa API** để thêm credential nhà cung cấp AI
+2. **Kiểm Tra Kết Nối** và **Khám Phá Mô Hình**
+
+Xem [Docker Compose](docker-compose.md) cho hướng dẫn đầy đủ sau cài đặt.

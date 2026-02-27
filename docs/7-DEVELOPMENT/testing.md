@@ -1,31 +1,33 @@
-# Testing Guide
+#Hướng dẫn kiểm tra
 
-This document provides guidelines for writing tests in Open Notebook. Testing is critical to maintaining code quality and preventing regressions.
+Tài liệu này cung cấp hướng dẫn viết bài kiểm tra trong Open Notebook. Kiểm tra là rất quan trọng để duy trì chất lượng mã và ngăn ngừa hồi quy.
 
-## Testing Philosophy
+## Triết lý kiểm thử
 
-### What to Test
+### Kiểm tra cái gì
 
-Focus on testing the things that matter most:
+Tập trung vào việc kiểm tra những điều quan trọng nhất:
 
-- **Business Logic** - Core domain models and their operations
-- **API Contracts** - HTTP endpoint behavior and error handling
-- **Critical Workflows** - End-to-end flows that users depend on
-- **Data Persistence** - Database operations and data integrity
-- **Error Conditions** - How the system handles failures gracefully
+- **Logic nghiệp vụ** - Các mô hình miền cốt lõi và hoạt động của chúng
+- **Hợp đồng API** - Hành vi và xử lý lỗi của điểm cuối HTTP
+- **Quy trình quan trọng** - Quy trình từ đầu đến cuối mà người dùng phụ thuộc vào
+- **Tính ổn định của dữ liệu** - Hoạt động của cơ sở dữ liệu và tính toàn vẹn của dữ liệu
+- **Điều kiện lỗi** - Cách hệ thống xử lý lỗi một cách khéo léo
 
-### What NOT to Test
+### Điều KHÔNG nên kiểm tra
 
-Don't waste time testing framework code:
+Đừng lãng phí thời gian kiểm tra mã khung:
 
-- Framework functionality (FastAPI, React, etc.)
-- Third-party library implementation
-- Simple getters/setters without logic
-- View/presentation layer rendering (unless it contains logic)
+- Chức năng khung (FastAPI, React, v.v.)
+- Triển khai thư viện của bên thứ ba
+- Getters/setters đơn giản không có logic
+- Hiển thị lớp xem/trình bày (trừ khi nó chứa logic)
 
-## Test Structure
+## Cấu trúc kiểm tra
 
-We use **pytest** with async support for all Python tests:
+Chúng tôi sử dụng **pytest** với sự hỗ trợ không đồng bộ cho tất cả các bài kiểm tra Python:
+
+
 
 ```python
 import pytest
@@ -55,11 +57,15 @@ async def test_api_create_notebook():
         assert data["name"] == "Test Notebook"
 ```
 
-## Test Categories
 
-### 1. Unit Tests
 
-Test individual functions and methods in isolation:
+## Hạng mục kiểm tra
+
+### 1. Kiểm tra đơn vị
+
+Kiểm tra các chức năng và phương pháp riêng lẻ một cách riêng biệt:
+
+
 
 ```python
 @pytest.mark.asyncio
@@ -76,11 +82,15 @@ async def test_notebook_archive():
     assert notebook.archived is True
 ```
 
-**Location**: `tests/unit/`
 
-### 2. Integration Tests
 
-Test component interactions and database operations:
+**Vị trí**: `tests/unit/`
+
+### 2. Kiểm tra tích hợp
+
+Kiểm tra các tương tác thành phần và hoạt động cơ sở dữ liệu:
+
+
 
 ```python
 @pytest.mark.asyncio
@@ -94,11 +104,15 @@ async def test_create_notebook_with_sources():
     assert retrieved.sources[0].id == source.id
 ```
 
-**Location**: `tests/integration/`
 
-### 3. API Tests
 
-Test HTTP endpoints and error responses:
+**Vị trí**: `kiểm tra/tích hợp/`
+
+### 3. Kiểm tra API
+
+Kiểm tra điểm cuối HTTP và phản hồi lỗi:
+
+
 
 ```python
 @pytest.mark.asyncio
@@ -121,11 +135,15 @@ async def test_create_notebook_validation():
         assert response.status_code == 400
 ```
 
-**Location**: `tests/api/`
 
-### 4. Database Tests
 
-Test data persistence and query correctness:
+**Vị trí**: `tests/api/`
+
+### 4. Kiểm tra cơ sở dữ liệu
+
+Kiểm tra tính bền vững của dữ liệu và tính chính xác của truy vấn:
+
+
 
 ```python
 @pytest.mark.asyncio
@@ -150,61 +168,97 @@ async def test_query_by_criteria():
     assert len(active) >= 1
 ```
 
-**Location**: `tests/database/`
 
-## Running Tests
 
-### Run All Tests
+**Vị trí**: `tests/database/`
+
+## Đang chạy thử nghiệm
+
+### Chạy tất cả các bài kiểm tra
+
+
 
 ```bash
 uv run pytest
 ```
 
-### Run Specific Test File
+
+
+### Chạy file test cụ thể
+
+
 
 ```bash
 uv run pytest tests/test_notebooks.py
 ```
 
-### Run Specific Test Function
+
+
+### Chạy chức năng kiểm tra cụ thể
+
+
 
 ```bash
 uv run pytest tests/test_notebooks.py::test_create_notebook
 ```
 
-### Run with Coverage Report
+
+
+### Chạy với Báo cáo Bảo hiểm
+
+
 
 ```bash
 uv run pytest --cov=open_notebook
 ```
 
-### Run Only Unit Tests
+
+
+### Chỉ chạy thử nghiệm đơn vị
+
+
 
 ```bash
 uv run pytest tests/unit/
 ```
 
-### Run Only Integration Tests
+
+
+### Chỉ chạy thử nghiệm tích hợp
+
+
 
 ```bash
 uv run pytest tests/integration/
 ```
 
-### Run Tests in Verbose Mode
+
+
+### Chạy thử nghiệm ở chế độ dài dòng
+
+
 
 ```bash
 uv run pytest -v
 ```
 
-### Run Tests with Output
+
+
+### Chạy thử nghiệm với đầu ra
+
+
 
 ```bash
 uv run pytest -s
 ```
 
-## Test Fixtures
 
-Use pytest fixtures for common setup and teardown:
+
+## Lịch thi đấu thử nghiệm
+
+Sử dụng đồ đạc pytest để thiết lập và tháo dỡ chung:
+
+
 
 ```python
 import pytest
@@ -239,9 +293,13 @@ async def test_notebook_with_sources(test_notebook):
     await source2.delete()
 ```
 
-## Best Practices
 
-### 1. Write Descriptive Test Names
+
+## Các phương pháp hay nhất
+
+### 1. Viết tên bài thi mang tính mô tả
+
+
 
 ```python
 # Good - clearly describes what is being tested
@@ -253,7 +311,11 @@ async def test_notebook():
     ...
 ```
 
-### 2. Use Docstrings
+
+
+### 2. Sử dụng chuỗi tài liệu
+
+
 
 ```python
 @pytest.mark.asyncio
@@ -262,7 +324,11 @@ async def test_vector_search_returns_sorted_results():
     # Implementation
 ```
 
-### 3. Test Edge Cases
+
+
+### 3. Các trường hợp kiểm tra cạnh
+
+
 
 ```python
 @pytest.mark.asyncio
@@ -285,7 +351,11 @@ async def test_search_with_special_characters():
     assert isinstance(results, list)
 ```
 
-### 4. Use Assertions Effectively
+
+
+### 4. Sử dụng Assertions hiệu quả
+
+
 
 ```python
 # Good - specific assertions
@@ -298,7 +368,11 @@ assert notebook is not None
 assert notebook  # ambiguous what's being tested
 ```
 
-### 5. Test Both Success and Failure Cases
+
+
+### 5. Kiểm tra cả trường hợp thành công và thất bại
+
+
 
 ```python
 @pytest.mark.asyncio
@@ -322,7 +396,11 @@ async def test_create_notebook_duplicate_fails():
         await create_notebook(name="Research", description="")
 ```
 
-### 6. Keep Tests Independent
+
+
+### 6. Giữ các bài kiểm tra độc lập
+
+
 
 ```python
 # Good - test is self-contained
@@ -340,7 +418,11 @@ async def test_archive_existing_notebook():
     await notebook.archive()  # notebook undefined
 ```
 
-### 7. Use Fixtures for Reusable Setup
+
+
+### 7. Sử dụng Fixtures để thiết lập có thể tái sử dụng
+
+
 
 ```python
 # Instead of repeating setup:
@@ -357,16 +439,20 @@ async def test_protected_endpoint(client_with_auth):
     assert response.status_code == 200
 ```
 
-## Coverage Goals
 
-- Aim for 70%+ overall coverage
-- 90%+ coverage for critical business logic
-- Don't obsess over 100% - focus on meaningful tests
-- Use `--cov` flag to check coverage: `uv run pytest --cov=open_notebook`
 
-## Async Test Patterns
+## Mục tiêu phủ sóng
 
-### Testing Async Functions
+- Mục tiêu bao phủ tổng thể trên 70%
+- Mức độ bao phủ hơn 90% cho logic kinh doanh quan trọng
+- Đừng ám ảnh quá 100% - hãy tập trung vào những bài kiểm tra có ý nghĩa
+- Sử dụng cờ `--cov` để kiểm tra mức độ phù hợp: `uv run pytest --cov=open_notebook`
+
+## Mẫu thử nghiệm không đồng bộ
+
+### Kiểm tra các hàm không đồng bộ
+
+
 
 ```python
 @pytest.mark.asyncio
@@ -376,7 +462,11 @@ async def test_async_operation():
     assert result is not None
 ```
 
-### Testing Concurrent Operations
+
+
+### Kiểm tra các hoạt động đồng thời
+
+
 
 ```python
 @pytest.mark.asyncio
@@ -391,11 +481,14 @@ async def test_concurrent_notebook_creation():
     assert all(n.id for n in notebooks)
 ```
 
-## Common Testing Errors
 
-### Error: "event loop is closed"
 
-Solution: Use the async fixture properly:
+## Các lỗi kiểm tra thường gặp
+
+### Lỗi: "vòng lặp sự kiện đã đóng"
+
+Giải pháp: Sử dụng lịch thi đấu không đồng bộ đúng cách:
+
 ```python
 @pytest.fixture
 async def notebook():  # Use async fixture
@@ -405,9 +498,12 @@ async def notebook():  # Use async fixture
     await notebook.delete()
 ```
 
-### Error: "object is not awaitable"
 
-Solution: Make sure you're using await:
+
+### Lỗi: "đối tượng không thể chờ được"
+
+Giải pháp: Đảm bảo bạn đang sử dụng chờ đợi:
+
 ```python
 # Wrong
 result = create_notebook("Test", "")
@@ -416,8 +512,10 @@ result = create_notebook("Test", "")
 result = await create_notebook("Test", "")
 ```
 
+
+
 ---
 
-**See also:**
-- [Code Standards](code-standards.md) - Code formatting and style
-- [Contributing Guide](contributing.md) - Overall contribution workflow
+**Xem thêm:**
+- [Tiêu chuẩn mã](code-standards.md) - Định dạng và kiểu mã
+- [Hướng dẫn đóng góp](contributing.md) - Quy trình đóng góp tổng thể

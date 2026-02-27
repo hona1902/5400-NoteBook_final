@@ -1,38 +1,38 @@
-# Docker Compose Installation (Recommended)
+# Cài Đặt Docker Compose (Khuyến Nghị)
 
-Multi-container setup with separate services. **Best for most users.**
+Cài đặt nhiều container với các dịch vụ riêng biệt. **Tốt nhất cho hầu hết người dùng.**
 
-> **Alternative Registry:** All images are available on both Docker Hub (`lfnovo/open_notebook`) and GitHub Container Registry (`ghcr.io/lfnovo/open-notebook`). Use GHCR if Docker Hub is blocked or you prefer GitHub-native workflows.
+> **Registry thay thế:** Tất cả image đều có trên Docker Hub (`lfnovo/open_notebook`) và GitHub Container Registry (`ghcr.io/lfnovo/open-notebook`). Sử dụng GHCR nếu Docker Hub bị chặn hoặc bạn ưa thích quy trình GitHub.
 
-## Prerequisites
+## Điều Kiện Tiên Quyết
 
-- **Docker Desktop** installed ([Download](https://www.docker.com/products/docker-desktop/))
-- **5-10 minutes** of your time
-- **API key** for at least one AI provider (OpenAI recommended for beginners)
+- **Docker Desktop** đã cài đặt ([Tải](https://www.docker.com/products/docker-desktop/))
+- **5-10 phút** thời gian
+- **Khóa API** cho ít nhất một nhà cung cấp AI (khuyến nghị OpenAI cho người mới)
 
-## Step 1: Get docker-compose.yml (1 min)
+## Bước 1: Lấy docker-compose.yml (1 phút)
 
-**Option A: Download from repository**
+**Cách A: Tải từ repository**
 ```bash
 curl -o docker-compose.yml https://raw.githubusercontent.com/lfnovo/open-notebook/main/docker-compose.yml
 ```
 
-**Option B: Use the official file from the repo**
+**Cách B: Sử dụng file chính thức từ repo**
 
-The official `docker-compose.yml` is in the root of our repository: [View on GitHub](https://github.com/lfnovo/open-notebook/blob/main/docker-compose.yml)
+File `docker-compose.yml` chính thức nằm ở thư mục gốc repository: [Xem trên GitHub](https://github.com/lfnovo/open-notebook/blob/main/docker-compose.yml)
 
-Copy that file to your project folder.
+Sao chép file đó vào thư mục dự án.
 
-**Option C: Create manually**
+**Cách C: Tạo thủ công**
 
-Create a file called `docker-compose.yml` with this content:
+Tạo file `docker-compose.yml` với nội dung:
 
 ```yaml
 services:
   surrealdb:
     image: surrealdb/surrealdb:v2
     command: start --log info --user root --pass root rocksdb:/mydata/mydatabase.db
-    user: root  # Required for bind mounts on Linux
+    user: root  # Bắt buộc cho bind mounts trên Linux
     ports:
       - "8000:8000"
     volumes:
@@ -45,13 +45,13 @@ services:
   open_notebook:
     image: lfnovo/open_notebook:v1-latest
     ports:
-      - "8502:8502"  # Web UI
+      - "8502:8502"  # Giao diện Web
       - "5055:5055"  # REST API
     environment:
-      # REQUIRED: Change this to your own secret string
-      - OPEN_NOTEBOOK_ENCRYPTION_KEY=change-me-to-a-secret-string
+      # BẮT BUỘC: Thay bằng chuỗi bí mật của bạn
+      - OPEN_NOTEBOOK_ENCRYPTION_KEY=thay-doi-thanh-chuoi-bi-mat
 
-      # Database connection (default values - no need to change)
+      # Kết nối cơ sở dữ liệu (giá trị mặc định - không cần thay đổi)
       - SURREAL_URL=ws://surrealdb:8000/rpc
       - SURREAL_USER=root
       - SURREAL_PASSWORD=root
@@ -65,63 +65,63 @@ services:
     pull_policy: always
 ```
 
-**Edit the file:**
-- Replace `change-me-to-a-secret-string` with your own secret (any string works, e.g., `my-super-secret-key-123`)
+**Chỉnh sửa file:**
+- Thay `thay-doi-thanh-chuoi-bi-mat` bằng chuỗi bí mật của bạn (bất kỳ chuỗi nào, ví dụ: `khoa-bi-mat-cua-toi-123`)
 
 ---
 
-## Step 2: Start Services (2 min)
+## Bước 2: Khởi Động Dịch Vụ (2 phút)
 
-Open terminal in the `open-notebook` folder:
+Mở terminal trong thư mục `open-notebook`:
 
 ```bash
 docker compose up -d
 ```
 
-Wait 15-20 seconds for all services to start:
+Chờ 15-20 giây để tất cả dịch vụ khởi động:
 ```
-✅ surrealdb running on :8000
-✅ open_notebook running on :8502 (UI) and :5055 (API)
+✅ surrealdb chạy trên :8000
+✅ open_notebook chạy trên :8502 (UI) và :5055 (API)
 ```
 
-Check status:
+Kiểm tra trạng thái:
 ```bash
 docker compose ps
 ```
 
 ---
 
-## Step 3: Verify Installation (1 min)
+## Bước 3: Xác Minh Cài Đặt (1 phút)
 
-**API Health:**
+**Kiểm tra API:**
 ```bash
 curl http://localhost:5055/health
-# Should return: {"status": "healthy"}
+# Sẽ trả về: {"status": "healthy"}
 ```
 
-**Frontend Access:**
-Open browser to:
+**Truy cập Frontend:**
+Mở trình duyệt tại:
 ```
 http://localhost:8502
 ```
 
-You should see the Open Notebook interface!
+Bạn sẽ thấy giao diện Open Notebook!
 
 ---
 
-## Step 4: Configure AI Provider (2 min)
+## Bước 4: Cấu Hình Nhà Cung Cấp AI (2 phút)
 
-1. Go to **Settings** → **API Keys**
-2. Click **Add Credential**
-3. Select your provider (e.g., OpenAI, Anthropic, Google)
-4. Give it a name, paste your API key
-5. Click **Save**
-6. Click **Test Connection** — should show success
-7. Click **Discover Models** → **Register Models**
+1. Vào **Cài đặt** → **Khóa API**
+2. Nhấn **Thêm Credential**
+3. Chọn nhà cung cấp (ví dụ: OpenAI, Anthropic, Google)
+4. Đặt tên, dán khóa API
+5. Nhấn **Lưu**
+6. Nhấn **Kiểm Tra Kết Nối** — sẽ hiển thị thành công
+7. Nhấn **Khám Phá Mô Hình** → **Đăng Ký Mô Hình**
 
-Your models are now available!
+Các mô hình đã sẵn sàng!
 
-> **Need an API key?** Get one from your chosen provider:
+> **Cần khóa API?** Lấy từ nhà cung cấp bạn chọn:
 > - **OpenAI**: https://platform.openai.com/api-keys
 > - **Anthropic**: https://console.anthropic.com/
 > - **Google**: https://aistudio.google.com/
@@ -129,34 +129,34 @@ Your models are now available!
 
 ---
 
-## Step 5: First Notebook (2 min)
+## Bước 5: Notebook Đầu Tiên (2 phút)
 
-1. Click **New Notebook**
-2. Name: "My Research"
-3. Description: "Getting started"
-4. Click **Create**
+1. Nhấn **Notebook Mới**
+2. Tên: "Nghiên Cứu Của Tôi"
+3. Mô tả: "Bắt đầu"
+4. Nhấn **Tạo**
 
-Done! You now have a fully working Open Notebook instance.
+Xong! Bạn đã có instance Open Notebook hoạt động đầy đủ.
 
 ---
 
-## Configuration
+## Cấu Hình
 
-### Adding Ollama (Free Local Models)
+### Thêm Ollama (Mô Hình Cục Bộ Miễn Phí)
 
-Instead of manually editing, use our ready-made example:
+Thay vì chỉnh sửa thủ công, sử dụng ví dụ sẵn có:
 
 ```bash
-# Download the Ollama example
+# Tải ví dụ Ollama
 curl -o docker-compose.yml https://raw.githubusercontent.com/lfnovo/open-notebook/main/examples/docker-compose-ollama.yml
 
-# Or copy from repo
+# Hoặc sao chép từ repo
 cp examples/docker-compose-ollama.yml docker-compose.yml
 ```
 
-See [examples/docker-compose-ollama.yml](../../examples/docker-compose-ollama.yml) for the complete setup.
+Xem [examples/docker-compose-ollama.yml](../../examples/docker-compose-ollama.yml) cho cài đặt đầy đủ.
 
-**Manual setup:** Add this to your existing `docker-compose.yml`:
+**Cài đặt thủ công:** Thêm vào `docker-compose.yml` hiện tại:
 
 ```yaml
   ollama:
@@ -171,150 +171,150 @@ volumes:
   ollama_models:
 ```
 
-Then restart and pull a model:
+Sau đó khởi động lại và pull mô hình:
 ```bash
 docker compose restart
 docker exec open-notebook-local-ollama-1 ollama pull mistral
 ```
 
-Configure Ollama in the Settings UI:
-1. Go to **Settings** → **API Keys**
-2. Click **Add Credential** → Select **Ollama**
-3. Enter base URL: `http://ollama:11434`
-4. Click **Save**, then **Test Connection**
-5. Click **Discover Models** → **Register Models**
+Cấu hình Ollama trong giao diện Cài đặt:
+1. Vào **Cài đặt** → **Khóa API**
+2. Nhấn **Thêm Credential** → Chọn **Ollama**
+3. Nhập URL cơ sở: `http://ollama:11434`
+4. Nhấn **Lưu**, sau đó **Kiểm Tra Kết Nối**
+5. Nhấn **Khám Phá Mô Hình** → **Đăng Ký Mô Hình**
 
 ---
 
-## Environment Variables Reference
+## Tham Chiếu Biến Môi Trường
 
-| Variable | Purpose | Example |
-|----------|---------|---------|
-| `OPEN_NOTEBOOK_ENCRYPTION_KEY` | Encryption key for credentials | `my-secret-key` |
-| `SURREAL_URL` | Database connection | `ws://surrealdb:8000/rpc` |
-| `SURREAL_USER` | Database user | `root` |
-| `SURREAL_PASSWORD` | Database password | `root` |
-| `SURREAL_NAMESPACE` | Database namespace | `open_notebook` |
-| `SURREAL_DATABASE` | Database name | `open_notebook` |
-| `API_URL` | API external URL | `http://localhost:5055` |
+| Biến | Mục đích | Ví dụ |
+|------|----------|-------|
+| `OPEN_NOTEBOOK_ENCRYPTION_KEY` | Khóa mã hóa cho credential | `khoa-bi-mat` |
+| `SURREAL_URL` | Kết nối cơ sở dữ liệu | `ws://surrealdb:8000/rpc` |
+| `SURREAL_USER` | Người dùng cơ sở dữ liệu | `root` |
+| `SURREAL_PASSWORD` | Mật khẩu cơ sở dữ liệu | `root` |
+| `SURREAL_NAMESPACE` | Namespace cơ sở dữ liệu | `open_notebook` |
+| `SURREAL_DATABASE` | Tên cơ sở dữ liệu | `open_notebook` |
+| `API_URL` | URL API bên ngoài | `http://localhost:5055` |
 
-See [Environment Reference](../5-CONFIGURATION/environment-reference.md) for complete list.
+Xem [Tham Chiếu Biến Môi Trường](../5-CONFIGURATION/environment-reference.md) cho danh sách đầy đủ.
 
 ---
 
-## Common Tasks
+## Tác Vụ Thường Gặp
 
-### Stop Services
+### Dừng Dịch Vụ
 ```bash
 docker compose down
 ```
 
-### View Logs
+### Xem Log
 ```bash
-# All services
+# Tất cả dịch vụ
 docker compose logs -f
 
-# Specific service
+# Dịch vụ cụ thể
 docker compose logs -f api
 ```
 
-### Restart Services
+### Khởi Động Lại Dịch Vụ
 ```bash
 docker compose restart
 ```
 
-### Update to Latest Version
+### Cập Nhật Phiên Bản Mới Nhất
 ```bash
 docker compose down
 docker compose pull
 docker compose up -d
 ```
 
-### Remove All Data
+### Xóa Tất Cả Dữ Liệu
 ```bash
 docker compose down -v
 ```
 
 ---
 
-## Troubleshooting
+## Khắc Phục Sự Cố
 
-### "Cannot connect to API" Error
+### Lỗi "Không thể kết nối đến API"
 
-1. Check if Docker is running:
+1. Kiểm tra Docker đang chạy:
 ```bash
 docker ps
 ```
 
-2. Check if services are running:
+2. Kiểm tra dịch vụ đang chạy:
 ```bash
 docker compose ps
 ```
 
-3. Check API logs:
+3. Kiểm tra log API:
 ```bash
 docker compose logs api
 ```
 
-4. Wait longer - services can take 20-30 seconds to start on first run
+4. Đợi lâu hơn - dịch vụ có thể mất 20-30 giây để khởi động lần đầu
 
 ---
 
-### Port Already in Use
+### Cổng Đã Được Sử Dụng
 
-If you get "Port 8502 already in use", change the port:
+Nếu gặp "Cổng 8502 đã được sử dụng", thay đổi cổng:
 
 ```yaml
 ports:
-  - "8503:8502"  # Use 8503 instead
-  - "5055:5055"  # Keep API port same
+  - "8503:8502"  # Sử dụng 8503 thay thế
+  - "5055:5055"  # Giữ nguyên cổng API
 ```
 
-Then access at `http://localhost:8503`
+Sau đó truy cập tại `http://localhost:8503`
 
 ---
 
-### Credential Issues
+### Vấn Đề Credential
 
-1. Go to **Settings** → **API Keys**
-2. Click **Test Connection** on the credential
-3. If it fails, verify key at provider's website
-4. Check you have credits in your account
-5. Delete and re-create the credential if needed
+1. Vào **Cài đặt** → **Khóa API**
+2. Nhấn **Kiểm Tra Kết Nối** trên credential
+3. Nếu thất bại, xác minh khóa tại website nhà cung cấp
+4. Kiểm tra bạn có credit trong tài khoản
+5. Xóa và tạo lại credential nếu cần
 
 ---
 
-### Database Connection Issues
+### Vấn Đề Kết Nối Cơ Sở Dữ Liệu
 
-Check SurrealDB is running:
+Kiểm tra SurrealDB đang chạy:
 ```bash
 docker compose logs surrealdb
 ```
 
-Reset database:
+Đặt lại cơ sở dữ liệu:
 ```bash
 docker compose down -v
 docker compose up -d
 ```
 
-### Database Permission Denied (Linux)
+### Quyền Truy Cập Cơ Sở Dữ Liệu Bị Từ Chối (Linux)
 
-If you see `Permission denied` or `Failed to create RocksDB directory` in SurrealDB logs:
+Nếu bạn thấy `Permission denied` hoặc `Failed to create RocksDB directory` trong log SurrealDB:
 
 ```bash
 docker compose logs surrealdb | grep -i permission
 ```
 
-This happens because SurrealDB runs as a non-root user but Docker creates bind mount directories as root. Add `user: root` to the surrealdb service:
+Điều này xảy ra vì SurrealDB chạy với user không phải root nhưng Docker tạo thư mục bind mount với quyền root. Thêm `user: root` vào dịch vụ surrealdb:
 
 ```yaml
 surrealdb:
   image: surrealdb/surrealdb:v2
-  user: root  # Fix for Linux bind mount permissions
-  # ... rest of config
+  user: root  # Sửa lỗi quyền bind mount trên Linux
+  # ... phần cấu hình còn lại
 ```
 
-Then restart:
+Sau đó khởi động lại:
 ```bash
 docker compose down -v
 docker compose up -d
@@ -322,37 +322,37 @@ docker compose up -d
 
 ---
 
-## Alternative Setups
+## Cài Đặt Thay Thế
 
-Looking for different configurations? Check out our [examples/](../../examples/) folder:
+Tìm cấu hình khác? Xem thư mục [examples/](../../examples/):
 
-- **[Ollama Setup](../../examples/docker-compose-ollama.yml)** - Run local AI models (free, private)
-- **[Single Container](../../examples/docker-compose-single.yml)** - All-in-one container (deprecated, not recommended)
-- **[Development](../../examples/docker-compose-dev.yml)** - For contributors and developers
+- **[Cài Đặt Ollama](../../examples/docker-compose-ollama.yml)** - Chạy mô hình AI cục bộ (miễn phí, riêng tư)
+- **[Container Đơn](../../examples/docker-compose-single.yml)** - Container tất cả trong một (không còn khuyến nghị)
+- **[Phát Triển](../../examples/docker-compose-dev.yml)** - Cho người đóng góp và nhà phát triển
 
-Each example includes detailed comments and usage instructions.
-
----
-
-## Next Steps
-
-1. **Add Content**: Sources, notebooks, documents
-2. **Configure Models**: Settings → Models (choose your preferences)
-3. **Explore Features**: Chat, search, transformations
-4. **Read Guide**: [User Guide](../3-USER-GUIDE/index.md)
+Mỗi ví dụ bao gồm ghi chú chi tiết và hướng dẫn sử dụng.
 
 ---
 
-## Production Deployment
+## Bước Tiếp Theo
 
-For production use, see:
-- [Security Hardening](../5-CONFIGURATION/security.md)
+1. **Thêm Nội Dung**: Nguồn, notebook, tài liệu
+2. **Cấu Hình Mô Hình**: Cài đặt → Mô hình (chọn tùy chọn)
+3. **Khám Phá Tính Năng**: Chat, tìm kiếm, biến đổi
+4. **Đọc Hướng Dẫn**: [Hướng Dẫn Sử Dụng](../3-USER-GUIDE/index.md)
+
+---
+
+## Triển Khai Production
+
+Cho sử dụng production, xem:
+- [Tăng Cường Bảo Mật](../5-CONFIGURATION/security.md)
 - [Reverse Proxy](../5-CONFIGURATION/reverse-proxy.md)
 
 ---
 
-## Getting Help
+## Nhận Trợ Giúp
 
-- **Discord**: [Community support](https://discord.gg/37XJPXfz2w)
-- **Issues**: [GitHub Issues](https://github.com/lfnovo/open-notebook/issues)
-- **Docs**: [Full documentation](../index.md)
+- **Discord**: [Hỗ trợ cộng đồng](https://discord.gg/37XJPXfz2w)
+- **Issues**: [GitHub Issues](https://github.com/hona1902/5400-NoteBook_final/issues)
+- **Tài liệu**: [Tài liệu đầy đủ](../index.md)

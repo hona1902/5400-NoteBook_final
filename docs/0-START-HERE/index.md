@@ -1,63 +1,63 @@
-# Open Notebook - Start Here
+# Open Notebook - Bắt Đầu Tại Đây
 
-**Open Notebook** is a privacy-focused AI research assistant. Upload documents, chat with AI, generate notes, and create podcasts—all with complete control over your data.
+**Open Notebook** là trợ lý nghiên cứu AI tập trung vào quyền riêng tư. Tải tài liệu lên, chat với AI, tạo ghi chú, và tạo podcast—tất cả với quyền kiểm soát hoàn toàn dữ liệu của bạn.
 
-## Choose Your Path
+## Chọn Lộ Trình Của Bạn
 
-### 🚀 I want to use OpenAI (Fastest)
-**5 minutes to running.** GPT, simple setup, powerful results.
+### 🚀 Tôi muốn sử dụng OpenAI (Nhanh nhất)
+**5 phút để chạy.** GPT, cài đặt đơn giản, kết quả mạnh mẽ.
 
-→ [OpenAI Quick Start](quick-start-openai.md)
-
----
-
-### ☁️ I want to use other cloud AI (Anthropic, Google, OpenRouter, etc.)
-**5 minutes to running.** Choose from 15+ AI providers.
-
-→ [Cloud Providers Quick Start](quick-start-cloud.md)
+→ [Hướng Dẫn Nhanh OpenAI](quick-start-openai.md)
 
 ---
 
-### 🏠 I want to run locally (Ollama or LMStudio, completely private)
-**5 minutes to running.** Keep everything private, on your machine. No costs.
+### ☁️ Tôi muốn sử dụng AI đám mây khác (Anthropic, Google, OpenRouter, v.v.)
+**5 phút để chạy.** Chọn từ 15+ nhà cung cấp AI.
 
-→ [Local Quick Start](quick-start-local.md)
-
----
-
-## What Can You Do?
-
-- 📄 **Upload Content**: PDFs, web links, audio, video, text
-- 🤖 **Chat with AI**: Ask questions about your documents with citations
-- 📝 **Generate Notes**: AI creates summaries and insights
-- 🎙️ **Create Podcasts**: Turn research into professional audio content
-- 🔍 **Search**: Full-text and semantic search across all content
-- ⚙️ **Transform**: Extract insights, analyze themes, create summaries
-
-## Why Open Notebook?
-
-| Feature | Open Notebook | Notebook LM |
-|---------|---|---|
-| **Privacy** | Self-hosted, your control | Cloud, Google's servers |
-| **AI Choice** | 15+ providers | Google's models only |
-| **Podcast Speakers** | 1-4 customizable | 2 only |
-| **Cost** | Completely free | Free (but your data) |
-| **Offline** | Yes  | No |
-
-## Prerequisites
-
-- **Docker**: All paths use Docker (free)
-- **AI Provider**: Either a cloud API key OR use free local models (Ollama)
+→ [Hướng Dẫn Nhanh Nhà Cung Cấp Đám Mây](quick-start-cloud.md)
 
 ---
 
-## Next Steps
+### 🏠 Tôi muốn chạy cục bộ (Ollama hoặc LMStudio, hoàn toàn riêng tư)
+**5 phút để chạy.** Giữ mọi thứ riêng tư, trên máy của bạn. Không tốn phí.
 
-1. Pick your path above ⬆️
-2. Follow the 5-minute quick start
-3. Create your first notebook
-4. Start uploading documents!
+→ [Hướng Dẫn Nhanh Cục Bộ](quick-start-local.md)
 
 ---
 
-**Need Help?** Join our [Discord community](https://discord.gg/37XJPXfz2w) or see [Full Documentation](../index.md).
+## Bạn Có Thể Làm Gì?
+
+- 📄 **Tải Nội Dung**: PDF, liên kết web, âm thanh, video, văn bản
+- 🤖 **Chat với AI**: Đặt câu hỏi về tài liệu với trích dẫn
+- 📝 **Tạo Ghi Chú**: AI tạo tóm tắt và thông tin chi tiết
+- 🎙️ **Tạo Podcast**: Biến nghiên cứu thành nội dung âm thanh chuyên nghiệp
+- 🔍 **Tìm Kiếm**: Tìm kiếm toàn văn và ngữ nghĩa trên tất cả nội dung
+- ⚙️ **Biến Đổi**: Trích xuất thông tin, phân tích chủ đề, tạo tóm tắt
+
+## Tại Sao Chọn Open Notebook?
+
+| Tính năng | Open Notebook | Notebook LM |
+|-----------|---|---|
+| **Quyền riêng tư** | Tự host, bạn kiểm soát | Đám mây, máy chủ Google |
+| **Lựa chọn AI** | 15+ nhà cung cấp | Chỉ mô hình Google |
+| **Người nói Podcast** | 1-4 tùy chỉnh | Chỉ 2 |
+| **Chi phí** | Hoàn toàn miễn phí | Miễn phí (nhưng dữ liệu của bạn) |
+| **Ngoại tuyến** | Có | Không |
+
+## Điều Kiện Tiên Quyết
+
+- **Docker**: Tất cả lộ trình đều sử dụng Docker (miễn phí)
+- **Nhà cung cấp AI**: Khóa API đám mây HOẶC sử dụng mô hình cục bộ miễn phí (Ollama)
+
+---
+
+## Bước Tiếp Theo
+
+1. Chọn lộ trình ở trên ⬆️
+2. Theo dõi hướng dẫn nhanh 5 phút
+3. Tạo notebook đầu tiên
+4. Bắt đầu tải tài liệu lên!
+
+---
+
+**Cần Trợ Giúp?** Tham gia [cộng đồng Discord](https://discord.gg/37XJPXfz2w) hoặc xem [Tài Liệu Đầy Đủ](../index.md).

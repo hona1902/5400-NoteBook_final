@@ -1,67 +1,67 @@
-# Authentication and Authorization
+# Xác Thực và Phân Quyền
 
-Open Notebook supports multi-user authentication with role-based access control (RBAC).
+Open Notebook hỗ trợ xác thực đa người dùng với kiểm soát truy cập dựa trên vai trò (RBAC).
 
-## Features
+## Tính Năng
 
-- **Multi-user authentication** with email/password login
-- **JWT tokens** (access + refresh tokens)
-- **Role-based access control** (admin/user roles)
-- **Backward compatible** with legacy `OPEN_NOTEBOOK_PASSWORD` mechanism
+- **Xác thực đa người dùng** với đăng nhập email/mật khẩu
+- **Token JWT** (token truy cập + token làm mới)
+- **Kiểm soát truy cập dựa trên vai trò** (vai trò admin/user)
+- **Tương thích ngược** với cơ chế `OPEN_NOTEBOOK_PASSWORD` cũ
 
-## User Roles
+## Vai Trò Người Dùng
 
 ### Admin
-Full access to all features:
-- Create, edit, delete sources (documents, URLs, text)
-- Manage AI models and providers
-- Configure transformations
-- Modify system settings
-- Manage users
+Truy cập đầy đủ tất cả tính năng:
+- Tạo, chỉnh sửa, xóa nguồn (tài liệu, URL, văn bản)
+- Quản lý mô hình AI và nhà cung cấp
+- Cấu hình biến đổi
+- Thay đổi cài đặt hệ thống
+- Quản lý người dùng
 
 ### User
-Limited access:
-- Chat with notebooks
-- Create and manage notebooks/notes
-- Change theme preferences
-- Search and browse existing sources (read-only)
+Truy cập giới hạn:
+- Chat với notebook
+- Tạo và quản lý notebook/ghi chú
+- Thay đổi tùy chọn giao diện
+- Tìm kiếm và duyệt nguồn hiện có (chỉ đọc)
 
-**Blocked for users:**
-- Adding/editing/deleting sources
-- Model/provider configuration
-- Transformation management
-- System settings
-- User management
+**Bị chặn đối với user:**
+- Thêm/chỉnh sửa/xóa nguồn
+- Cấu hình mô hình/nhà cung cấp
+- Quản lý biến đổi
+- Cài đặt hệ thống
+- Quản lý người dùng
 
-## Environment Variables
+## Biến Môi Trường
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `OPEN_NOTEBOOK_PASSWORD` | (empty) | Legacy instance password. When set, this password grants admin access. |
-| `JWT_SECRET_KEY` | `change-me-in-production-use-secure-random-key` | Secret key for signing JWT tokens. **MUST change in production!** |
-| `JWT_ALGORITHM` | `HS256` | Algorithm for JWT signing |
-| `JWT_ACCESS_TOKEN_EXPIRE_MINUTES` | `30` | Access token expiration in minutes |
-| `JWT_REFRESH_TOKEN_EXPIRE_DAYS` | `7` | Refresh token expiration in days |
+| Biến | Mặc định | Mô tả |
+|------|----------|-------|
+| `OPEN_NOTEBOOK_PASSWORD` | (trống) | Mật khẩu instance cũ. Khi được đặt, mật khẩu này cấp quyền admin. |
+| `JWT_SECRET_KEY` | `change-me-in-production-use-secure-random-key` | Khóa bí mật để ký token JWT. **PHẢI thay đổi trong production!** |
+| `JWT_ALGORITHM` | `HS256` | Thuật toán ký JWT |
+| `JWT_ACCESS_TOKEN_EXPIRE_MINUTES` | `30` | Thời gian hết hạn token truy cập (phút) |
+| `JWT_REFRESH_TOKEN_EXPIRE_DAYS` | `7` | Thời gian hết hạn token làm mới (ngày) |
 
-## Creating the First Admin User
+## Tạo Người Dùng Admin Đầu Tiên
 
-### Option 1: Using OPEN_NOTEBOOK_PASSWORD (Quick Start)
+### Cách 1: Sử dụng OPEN_NOTEBOOK_PASSWORD (Nhanh)
 
-Set the `OPEN_NOTEBOOK_PASSWORD` environment variable. Any login with this password will have admin access.
+Đặt biến môi trường `OPEN_NOTEBOOK_PASSWORD`. Bất kỳ đăng nhập nào với mật khẩu này sẽ có quyền admin.
 
 ```bash
-OPEN_NOTEBOOK_PASSWORD=your-secure-password
+OPEN_NOTEBOOK_PASSWORD=mat-khau-bao-mat-cua-ban
 ```
 
-### Option 2: SurrealDB Direct Insert (Recommended for Production)
+### Cách 2: Chèn trực tiếp vào SurrealDB (Khuyến nghị cho Production)
 
-1. Connect to your SurrealDB instance
-2. Run the following query to create an admin user:
+1. Kết nối tới instance SurrealDB của bạn
+2. Chạy truy vấn sau để tạo người dùng admin:
 
 ```sql
--- Generate password hash with argon2
--- In production, use a secure tool to generate the hash
--- Example hash for password "admin123" (DO NOT use in production):
+-- Tạo hash mật khẩu với argon2
+-- Trong production, sử dụng công cụ bảo mật để tạo hash
+-- Hash ví dụ cho mật khẩu "admin123" (KHÔNG sử dụng trong production):
 -- $argon2id$v=19$m=65536,t=3,p=4$...
 
 CREATE user SET
@@ -73,9 +73,9 @@ CREATE user SET
   updated = time::now();
 ```
 
-### Option 3: Using Python Script
+### Cách 3: Sử dụng Script Python
 
-Create a file `scripts/create_admin.py`:
+Tạo file `scripts/create_admin.py`:
 
 ```python
 import asyncio
@@ -84,42 +84,42 @@ from open_notebook.domain.user import User
 async def create_admin():
     user = await User.create_user(
         email="admin@example.com",
-        password="your-secure-password",
+        password="mat-khau-bao-mat-cua-ban",
         role="admin"
     )
-    print(f"Created admin user: {user.email}")
+    print(f"Đã tạo người dùng admin: {user.email}")
 
 if __name__ == "__main__":
     asyncio.run(create_admin())
 ```
 
-Run with: `uv run python scripts/create_admin.py`
+Chạy với: `uv run python scripts/create_admin.py`
 
-## API Endpoints
+## Điểm Cuối API
 
-### Authentication
+### Xác Thực
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/auth/status` | GET | Check if authentication is enabled |
-| `/api/auth/login` | POST | Login with email/password |
-| `/api/auth/logout` | POST | Logout current user |
-| `/api/auth/me` | GET | Get current user info |
-| `/api/auth/refresh` | POST | Refresh access token |
-| `/api/auth/users` | GET | List all users (admin only) |
-| `/api/auth/users` | POST | Create new user (admin only) |
+| Điểm cuối | Phương thức | Mô tả |
+|-----------|-------------|-------|
+| `/api/auth/status` | GET | Kiểm tra trạng thái xác thực |
+| `/api/auth/login` | POST | Đăng nhập với email/mật khẩu |
+| `/api/auth/logout` | POST | Đăng xuất người dùng hiện tại |
+| `/api/auth/me` | GET | Lấy thông tin người dùng hiện tại |
+| `/api/auth/refresh` | POST | Làm mới token truy cập |
+| `/api/auth/users` | GET | Danh sách người dùng (chỉ admin) |
+| `/api/auth/users` | POST | Tạo người dùng mới (chỉ admin) |
 
-### Login Request
+### Yêu Cầu Đăng Nhập
 
 ```json
 POST /api/auth/login
 {
   "email": "user@example.com",
-  "password": "your-password"
+  "password": "mat-khau-cua-ban"
 }
 ```
 
-### Login Response
+### Phản Hồi Đăng Nhập
 
 ```json
 {
@@ -130,26 +130,26 @@ POST /api/auth/login
 }
 ```
 
-## Frontend Integration
+## Tích Hợp Frontend
 
-The frontend automatically:
-1. Stores JWT tokens securely
-2. Attaches tokens to API requests
-3. Refreshes tokens before expiration
-4. Hides admin UI elements for regular users
-5. Redirects to login when authentication expires
+Frontend tự động:
+1. Lưu trữ token JWT an toàn
+2. Đính kèm token vào các yêu cầu API
+3. Làm mới token trước khi hết hạn
+4. Ẩn các phần tử UI admin đối với người dùng thường
+5. Chuyển hướng đến trang đăng nhập khi xác thực hết hạn
 
-## Security Best Practices
+## Thực Hành Bảo Mật Tốt Nhất
 
-1. **Change JWT_SECRET_KEY** in production to a secure random string (32+ characters)
-2. **Use HTTPS** to protect tokens in transit
-3. **Never store plaintext passwords** - always use argon2 hashing
-4. **Set appropriate token expiration** based on your security requirements
-5. **Monitor failed login attempts** in your logs
+1. **Thay đổi JWT_SECRET_KEY** trong production thành chuỗi ngẫu nhiên bảo mật (32+ ký tự)
+2. **Sử dụng HTTPS** để bảo vệ token khi truyền
+3. **Không bao giờ lưu mật khẩu dạng text** - luôn sử dụng hash argon2
+4. **Đặt thời gian hết hạn token phù hợp** theo yêu cầu bảo mật của bạn
+5. **Theo dõi các lần đăng nhập thất bại** trong log
 
-## Backward Compatibility
+## Tương Thích Ngược
 
-Existing deployments using `OPEN_NOTEBOOK_PASSWORD` continue to work:
-- If the password is set, users can log in with any email + that password
-- This grants admin access (full functionality)
-- New multi-user system works alongside legacy password authentication
+Các triển khai hiện tại sử dụng `OPEN_NOTEBOOK_PASSWORD` vẫn hoạt động:
+- Nếu mật khẩu được đặt, người dùng có thể đăng nhập với bất kỳ email nào + mật khẩu đó
+- Điều này cấp quyền admin (đầy đủ chức năng)
+- Hệ thống đa người dùng mới hoạt động song song với xác thực mật khẩu cũ

@@ -1,12 +1,14 @@
-# OpenAI-Compatible Providers
+# Nhà cung cấp tương thích với OpenAI
 
-Use any server that implements the OpenAI API format with Open Notebook. This includes LM Studio, Text Generation WebUI, vLLM, and many others.
+Sử dụng bất kỳ máy chủ nào triển khai định dạng API OpenAI với Open Notebook. Điều này bao gồm LM Studio, WebUI tạo văn bản, vLLM và nhiều thứ khác.
 
 ---
 
-## What is OpenAI-Compatible?
+## Tương thích với OpenAI là gì?
 
-Many AI tools implement the same API format as OpenAI:
+Nhiều công cụ AI triển khai định dạng API giống như OpenAI:
+
+
 
 ```
 POST /v1/chat/completions
@@ -14,118 +16,138 @@ POST /v1/embeddings
 POST /v1/audio/speech
 ```
 
-Open Notebook can connect to any server using this format.
+
+
+Open Notebook có thể kết nối với bất kỳ máy chủ nào bằng định dạng này.
 
 ---
 
-## Common Compatible Servers
+## Máy chủ tương thích phổ biến
 
-| Server | Use Case | URL |
-|--------|----------|-----|
-| **LM Studio** | Desktop GUI for local models | https://lmstudio.ai |
-| **Text Generation WebUI** | Full-featured local inference | https://github.com/oobabooga/text-generation-webui |
-| **vLLM** | High-performance serving | https://github.com/vllm-project/vllm |
-| **Ollama** | Simple local models | (Use native Ollama provider instead) |
-| **LocalAI** | Local AI inference | https://github.com/mudler/LocalAI |
-| **llama.cpp server** | Lightweight inference | https://github.com/ggerganov/llama.cpp |
+| Máy chủ | Trường hợp sử dụng | URL |
+|--------|----------|------|
+| **LM Studio** | GUI máy tính để bàn cho các mô hình cục bộ | https://lmstudio.ai |
+| **WebUI tạo văn bản** | Suy luận cục bộ đầy đủ tính năng | https://github.com/oobabooga/text-thế hệ-webui |
+| **vLLM** | Phục vụ hiệu suất cao | https://github.com/vllm-project/vllm |
+| **Ollama** | Mô hình địa phương đơn giản | (Thay vào đó hãy sử dụng nhà cung cấp Ollama bản địa) |
+| **AI địa phương** | Suy luận AI cục bộ | https://github.com/mudler/LocalAI |
+| **máy chủ llama.cpp** | Suy luận nhẹ | https://github.com/ggerganov/llama.cpp |
 
 ---
 
-## Quick Setup: LM Studio
+## Cài đặt nhanh: LM Studio
 
-### Step 1: Install and Start LM Studio
+### Bước 1: Cài đặt và khởi động LM Studio
 
-1. Download from https://lmstudio.ai
-2. Install and launch
-3. Download a model (e.g., Llama 3)
-4. Start the local server (default: port 1234)
+1. Tải xuống từ https://lmstudio.ai
+2. Cài đặt và khởi chạy
+3. Tải xuống mô hình (ví dụ: Llama 3)
+4. Khởi động máy chủ cục bộ (mặc định: cổng 1234)
 
-### Step 2: Configure in Settings UI (Recommended)
+### Bước 2: Cấu hình trong Giao diện người dùng Cài đặt (Khuyến nghị)
 
-1. Go to **Settings** → **API Keys**
-2. Click **Add Credential** → Select **OpenAI-Compatible**
-3. Enter base URL: `http://host.docker.internal:1234/v1` (Docker) or `http://localhost:1234/v1` (local)
-4. API key: `lm-studio` (placeholder, LM Studio doesn't require one)
-5. Click **Save**, then **Test Connection**
+1. Đi tới **Cài đặt**→**Khóa API**2. Nhấp vào**Thêm thông tin xác thực**→ Chọn**Tương thích với OpenAI**
+3. Nhập URL cơ sở: `http://host.docker.internal:1234/v1` (Docker) hoặc `http://localhost:1234/v1` (local)
+4. Khóa API: `lm-studio` (giữ chỗ, LM Studio không yêu cầu)
+5. Nhấp vào **Lưu**, sau đó nhấp vào **Kiểm tra kết nối**
 
-**Legacy (Deprecated) — Environment variables:**
+**Cũ (Không dùng nữa) — Biến môi trường:**
+
 ```bash
 export OPENAI_COMPATIBLE_BASE_URL=http://localhost:1234/v1
 export OPENAI_COMPATIBLE_API_KEY=not-needed
 ```
 
-### Step 3: Add Model in Open Notebook
 
-1. Go to **Settings** → **Models**
-2. Click **Add Model**
-3. Configure:
-   - **Provider**: `openai_compatible`
-   - **Model Name**: Your model name from LM Studio
-   - **Display Name**: `LM Studio - Llama 3`
-4. Click **Save**
+
+### Bước 3: Thêm Model vào Open Notebook
+
+1. Đi tới **Cài đặt**→**Mẫu máy**2. Nhấp vào**Thêm mẫu**
+3. Cấu hình:
+   - **Nhà cung cấp**: `openai_tương thích`
+   - **Tên mẫu**: Tên mẫu máy của bạn từ LM Studio
+   - **Tên hiển thị**: `LM Studio - Llama 3`
+4. Nhấp vào **Lưu**
 
 ---
 
-## Configuration via Settings UI
+## Cấu hình thông qua giao diện người dùng Cài đặt
 
-The recommended way to configure OpenAI-compatible providers is through the Settings UI:
+Cách được đề xuất để định cấu hình các nhà cung cấp tương thích với OpenAI là thông qua Giao diện người dùng cài đặt:
 
-1. Go to **Settings** → **API Keys**
-2. Click **Add Credential** → Select **OpenAI-Compatible**
-3. Enter your base URL and API key (if needed)
-4. Optionally configure per-service URLs for LLM, Embedding, TTS, and STT
-5. Click **Save**, then **Test Connection**
+1. Đi tới **Cài đặt**→**Khóa API**2. Nhấp vào**Thêm thông tin xác thực**→ Chọn**Tương thích với OpenAI**
+3. Nhập URL cơ sở và khóa API của bạn (nếu cần)
+4. Tùy chọn định cấu hình URL cho mỗi dịch vụ cho LLM, Nhúng, TTS và STT
+5. Nhấp vào **Lưu**, sau đó nhấp vào **Kiểm tra kết nối**
 
-## Legacy: Environment Variables (Deprecated)
+## Di sản: Biến môi trường (Không dùng nữa)
 
-> **Deprecated**: These environment variables are deprecated. Use the Settings UI instead.
+> **Không dùng nữa**: Các biến môi trường này không được dùng nữa. Thay vào đó hãy sử dụng Giao diện người dùng cài đặt.
 
-### Language Models (Chat)
+### Mô hình ngôn ngữ (Trò chuyện)
+
+
 
 ```bash
 OPENAI_COMPATIBLE_BASE_URL=http://localhost:1234/v1
 OPENAI_COMPATIBLE_API_KEY=optional-api-key
 ```
 
-### Embeddings
+
+
+### Nhúng
+
+
 
 ```bash
 OPENAI_COMPATIBLE_BASE_URL_EMBEDDING=http://localhost:1234/v1
 OPENAI_COMPATIBLE_API_KEY_EMBEDDING=optional-api-key
 ```
 
-### Text-to-Speech
+
+
+### Chuyển văn bản thành giọng nói
+
+
 
 ```bash
 OPENAI_COMPATIBLE_BASE_URL_TTS=http://localhost:8969/v1
 OPENAI_COMPATIBLE_API_KEY_TTS=optional-api-key
 ```
 
-### Speech-to-Text
+
+
+### Chuyển giọng nói thành văn bản
+
+
 
 ```bash
 OPENAI_COMPATIBLE_BASE_URL_STT=http://localhost:9000/v1
 OPENAI_COMPATIBLE_API_KEY_STT=optional-api-key
 ```
 
+
+
 ---
 
-## Docker Networking
+## Mạng Docker
 
-When Open Notebook runs in Docker and your compatible server runs on the host, use the appropriate base URL when adding your credential in **Settings → API Keys**:
+Khi Open Notebook chạy trong Docker và máy chủ tương thích của bạn chạy trên máy chủ, hãy sử dụng URL cơ sở thích hợp khi thêm thông tin xác thực của bạn trong **Cài đặt → Khóa API**:
 
-### macOS / Windows
+###macOS/Windows
 
-**Base URL:** `http://host.docker.internal:1234/v1`
+**URL cơ sở:** `http://host.docker.internal:1234/v1`
 
-### Linux
+###Linux
 
-**Base URL (Option 1 — Docker bridge IP):** `http://172.17.0.1:1234/v1`
+**URL cơ sở (Tùy chọn 1 — IP cầu nối Docker):** `http://172.17.0.1:1234/v1`
 
-**Option 2:** Use host networking mode: `docker run --network host ...`
-Then use base URL: `http://localhost:1234/v1`
+**Tùy chọn 2:** Sử dụng chế độ kết nối mạng máy chủ: `docker run --network Host ...`
+Sau đó sử dụng URL cơ sở: `http://localhost:1234/v1`
 
-### Same Docker Network
+### Cùng một mạng Docker
+
+
 
 ```yaml
 # docker-compose.yml
@@ -139,23 +161,31 @@ services:
       - "1234:1234"
 ```
 
-**Base URL in Settings → API Keys:** `http://lm-studio:1234/v1`
+
+
+**URL cơ sở trong Cài đặt → Khóa API:** `http://lm-studio:1234/v1`
 
 ---
 
-## Text Generation WebUI Setup
+## Thiết lập WebUI tạo văn bản
 
-### Start with API Enabled
+### Bắt đầu với API được kích hoạt
+
+
 
 ```bash
 python server.py --api --listen
 ```
 
-### Configure Open Notebook
 
-In **Settings → API Keys**, add an **OpenAI-Compatible** credential with base URL: `http://localhost:5000/v1`
 
-### Docker Compose Example
+### Định cấu hình sổ ghi chép mở
+
+Trong **Cài đặt → Khóa API**, thêm thông tin xác thực **Tương thích với OpenAI** với URL cơ sở: `http://localhost:5000/v1`
+
+### Ví dụ soạn thảo Docker
+
+
 
 ```yaml
 services:
@@ -175,13 +205,17 @@ services:
       - text-gen
 ```
 
-Then in **Settings → API Keys**, add an **OpenAI-Compatible** credential with base URL: `http://text-gen:5000/v1`
+
+
+Sau đó, trong **Cài đặt → Khóa API**, thêm thông tin xác thực **Tương thích với OpenAI** với URL cơ sở: `http://text-gen:5000/v1`
 
 ---
 
-## vLLM Setup
+## Thiết lập vLLM
 
-### Start vLLM Server
+### Khởi động máy chủ vLLM
+
+
 
 ```bash
 python -m vllm.entrypoints.openai.api_server \
@@ -189,11 +223,15 @@ python -m vllm.entrypoints.openai.api_server \
   --port 8000
 ```
 
-### Configure Open Notebook
 
-In **Settings → API Keys**, add an **OpenAI-Compatible** credential with base URL: `http://localhost:8000/v1`
 
-### Docker Compose with GPU
+### Định cấu hình sổ ghi chép mở
+
+Trong **Cài đặt → Khóa API**, thêm thông tin xác thực **Tương thích với OpenAI** với URL cơ sở: `http://localhost:8000/v1`
+
+### Docker Compose với GPU
+
+
 
 ```yaml
 services:
@@ -219,37 +257,40 @@ services:
       - vllm
 ```
 
-Then in **Settings → API Keys**, add an **OpenAI-Compatible** credential with base URL: `http://vllm:8000/v1`
+
+
+Sau đó, trong **Cài đặt → Khóa API**, thêm thông tin xác thực **Tương thích với OpenAI** với URL cơ sở: `http://vllm:8000/v1`
 
 ---
 
-## Adding Models in Open Notebook
+## Thêm mô hình vào sổ ghi chép đang mở
 
-### Via Settings UI
+### Qua giao diện người dùng Cài đặt
 
-1. Go to **Settings** → **Models**
-2. Click **Add Model** in appropriate section
-3. Select **Provider**: `openai_compatible`
-4. Enter **Model Name**: exactly as the server expects
-5. Enter **Display Name**: your preferred name
-6. Click **Save**
+1. Đi tới **Cài đặt**→**Mẫu máy**2. Nhấp vào**Thêm mẫu** trong phần thích hợp
+3. Chọn **Nhà cung cấp**: `openai_tương thích`
+4. Nhập **Tên mẫu**: chính xác như máy chủ mong đợi
+5. Nhập **Tên hiển thị**: tên ưa thích của bạn
+6. Nhấp vào **Lưu**
 
-### Model Name Format
+### Định dạng tên mẫu
 
-The model name must match what your server expects:
+Tên mô hình phải khớp với những gì máy chủ của bạn mong đợi:
 
-| Server | Model Name Format |
+| Máy chủ | Định dạng tên mẫu |
 |--------|-------------------|
-| LM Studio | As shown in LM Studio UI |
-| vLLM | HuggingFace model path |
-| Text Gen WebUI | As loaded in UI |
-| llama.cpp | Model file name |
+| Studio LM | Như được hiển thị trong LM Studio UI |
+| vLLM | Đường dẫn mô hình HuggingFace |
+| Văn bản Gen WebUI | Như đã tải trong UI |
+| llama.cpp | Tên tệp mẫu |
 
 ---
 
-## Testing Connection
+## Kiểm tra kết nối
 
-### Test API Endpoint
+### Điểm cuối API kiểm tra
+
+
 
 ```bash
 # Test chat completions
@@ -261,17 +302,25 @@ curl http://localhost:1234/v1/chat/completions \
   }'
 ```
 
-### Test from Inside Docker
+
+
+### Kiểm tra từ Docker bên trong
+
+
 
 ```bash
 docker exec -it open-notebook curl http://host.docker.internal:1234/v1/models
 ```
 
+
+
 ---
 
-## Troubleshooting
+## Khắc phục sự cố
 
-### Connection Refused
+### Kết nối bị từ chối
+
+
 
 ```
 Problem: Cannot connect to server
@@ -284,7 +333,11 @@ Solutions:
 5. Verify firewall allows connection
 ```
 
-### Model Not Found
+
+
+### Không tìm thấy mẫu
+
+
 
 ```
 Problem: Server returns "model not found"
@@ -296,7 +349,11 @@ Solutions:
 4. Update model name in Open Notebook
 ```
 
-### Slow Responses
+
+
+### Phản hồi chậm
+
+
 
 ```
 Problem: Requests take very long
@@ -308,7 +365,11 @@ Solutions:
 4. Enable GPU acceleration if available
 ```
 
-### Authentication Errors
+
+
+### Lỗi xác thực
+
+
 
 ```
 Problem: 401 or authentication failed
@@ -319,7 +380,11 @@ Solutions:
 3. Some servers need any non-empty key (use a placeholder like "not-needed")
 ```
 
-### Timeout Errors
+
+
+### Lỗi hết thời gian chờ
+
+
 
 ```
 Problem: Request times out
@@ -331,70 +396,76 @@ Solutions:
 4. Reduce request size
 ```
 
----
 
-## Multiple Compatible Endpoints
-
-You can use different compatible servers for different purposes. When adding an **OpenAI-Compatible** credential in **Settings → API Keys**, you can configure per-service URLs:
-
-- **LLM URL**: e.g., `http://localhost:1234/v1` (LM Studio)
-- **Embedding URL**: e.g., `http://localhost:8080/v1` (different server)
-- **TTS URL**: e.g., `http://localhost:8969/v1` (Speaches)
-- **STT URL**: e.g., `http://localhost:9000/v1` (Speaches)
-
-Alternatively, add each as a separate credential with its own base URL.
 
 ---
 
-## Performance Tips
+## Nhiều điểm cuối tương thích
 
-### Model Selection
+Bạn có thể sử dụng các máy chủ tương thích khác nhau cho các mục đích khác nhau. Khi thêm thông tin xác thực **OpenAI-Compatible**trong**Cài đặt → Khóa API**, bạn có thể định cấu hình URL cho mỗi dịch vụ:
 
-| Model Size | RAM Needed | Speed |
-|------------|------------|-------|
-| 7B | 8GB | Fast |
-| 13B | 16GB | Medium |
-| 70B | 64GB+ | Slow |
+- **URL LLM**: ví dụ: `http://localhost:1234/v1` (LM Studio)
+- **URL nhúng**: ví dụ: `http://localhost:8080/v1` (máy chủ khác)
+- **URL TTS**: ví dụ: `http://localhost:8969/v1` (Bài phát biểu)
+- **URL STT**: ví dụ: `http://localhost:9000/v1` (Bài phát biểu)
 
-### Quantization
+Ngoài ra, hãy thêm từng thông tin dưới dạng thông tin xác thực riêng biệt với URL cơ sở riêng.
 
-Use quantized models (Q4, Q5) for faster inference with less RAM:
+---
+
+## Mẹo về hiệu suất
+
+### Lựa chọn mẫu
+
+| Kích thước mô hình | Cần RAM | Tốc độ |
+|----------||-------------|-------|
+| 7B | 8GB | Nhanh |
+| 13B | 16GB | Trung bình |
+| 70B | 64GB+ | Chậm |
+
+### Lượng tử hóa
+
+Sử dụng các mô hình lượng tử hóa (Q4, Q5) để suy luận nhanh hơn với ít RAM hơn:
+
+
 
 ```
 llama-3-8b-q4_k_m.gguf  → ~4GB RAM, fast
 llama-3-8b-f16.gguf     → ~16GB RAM, slower
 ```
 
-### GPU Acceleration
 
-Enable GPU in your server for much faster inference:
-- LM Studio: Settings → GPU layers
-- vLLM: Automatic with CUDA
-- llama.cpp: `--n-gpu-layers 35`
 
----
+### Tăng tốc GPU
 
-## Comparison: Native vs Compatible
-
-| Aspect | Native Provider | OpenAI Compatible |
-|--------|-----------------|-------------------|
-| **Setup** | API key only | Server + configuration |
-| **Models** | Provider's models | Any compatible model |
-| **Cost** | Pay per token | Free (local) |
-| **Speed** | Usually fast | Depends on hardware |
-| **Features** | Full support | Basic features |
-
-Use OpenAI-compatible when:
-- Running local models
-- Using custom/fine-tuned models
-- Privacy requirements
-- Cost control
+Kích hoạt GPU trong máy chủ của bạn để suy luận nhanh hơn nhiều:
+- LM Studio: Cài đặt → Lớp GPU
+- vLLM: Tự động với CUDA
+- llama.cpp: `--n-gpu-layer 35`
 
 ---
 
-## Related
+## So sánh: Bản địa và Tương thích
 
-- **[Local TTS Setup](local-tts.md)** - Text-to-speech with Speaches
-- **[Local STT Setup](local-stt.md)** - Speech-to-text with Speaches
-- **[AI Providers](ai-providers.md)** - All provider options
-- **[Ollama Setup](ollama.md)** - Native Ollama integration
+| Khía cạnh | Nhà cung cấp bản địa | Tương thích với OpenAI |
+|--------|-------------------|-------------------|
+| **Thiết lập** | Chỉ khóa API | Máy chủ + cấu hình |
+| **Mô hình** | Mô hình của nhà cung cấp | Bất kỳ mẫu tương thích nào |
+| **Chi phí** | Trả tiền cho mỗi mã thông báo | Miễn phí (địa phương) |
+| **Tốc độ** | Thường nhanh | Phụ thuộc vào phần cứng |
+| **Tính năng** | Hỗ trợ đầy đủ | Tính năng cơ bản |
+
+Sử dụng tính năng tương thích với OpenAI khi:
+- Chạy mô hình địa phương
+- Sử dụng các mô hình tùy chỉnh/tinh chỉnh
+- Yêu cầu về quyền riêng tư
+- Kiểm soát chi phí
+
+---
+
+## Có liên quan
+
+- **[Thiết lập TTS cục bộ](local-tts.md)** - Chuyển văn bản thành giọng nói bằng bài phát biểu
+- **[Thiết lập STT cục bộ](local-stt.md)** - Chuyển lời nói thành văn bản bằng bài phát biểu
+- **[AI Providers](ai-providers.md)** - Tất cả các tùy chọn của nhà cung cấp
+- **[Ollama Setup](ollama.md)** - Tích hợp Ollama gốc

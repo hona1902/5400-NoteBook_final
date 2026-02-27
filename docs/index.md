@@ -1,289 +1,289 @@
-# Open Notebook Documentation
+# Tài Liệu Open Notebook
 
-Welcome to Open Notebook - a privacy-focused AI research assistant. This documentation is organized for different needs.
+Chào mừng bạn đến với Open Notebook - trợ lý nghiên cứu AI tập trung vào quyền riêng tư. Tài liệu này được tổ chức theo nhu cầu khác nhau.
 
 ---
 
-## 🎯 Choose Your Path
+## 🎯 Chọn Lộ Trình Của Bạn
 
-### I'm brand new
-→ Start here: **[0-START-HERE](0-START-HERE/index.md)**
-- Learn what Open Notebook is
-- Pick your setup path (OpenAI, cloud, local/Ollama)
-- 5-minute quick start
+### Tôi mới bắt đầu
+→ Bắt đầu tại đây: **[0-BẮT-ĐẦU](0-START-HERE/index.md)**
+- Tìm hiểu Open Notebook là gì
+- Chọn lộ trình cài đặt (OpenAI, đám mây, cục bộ/Ollama)
+- Hướng dẫn nhanh 5 phút
 
-### I need to install/deploy
-→ Go here: **[1-INSTALLATION](1-INSTALLATION/index.md)**
-- Multiple installation routes
-- Docker Compose (recommended)
-- From source (developers)
-- Single container (shared hosting)
+### Tôi cần cài đặt/triển khai
+→ Đi tới đây: **[1-CÀI-ĐẶT](1-INSTALLATION/index.md)**
+- Nhiều lộ trình cài đặt
+- Docker Compose (khuyến nghị)
+- Từ mã nguồn (dành cho nhà phát triển)
+- Container đơn (hosting chia sẻ)
 
-### I want to understand how it works
-→ Read this: **[2-CORE-CONCEPTS](2-CORE-CONCEPTS/index.md)**
-- Mental models and architecture
-- How RAG (retrieval-augmented generation) works
-- Notebooks, sources, and notes explained
-- Chat vs. transformations vs. podcasts
+### Tôi muốn hiểu cách hoạt động
+→ Đọc phần này: **[2-KHÁI-NIỆM-CƠ-BẢN](2-CORE-CONCEPTS/index.md)**
+- Mô hình tư duy và kiến trúc
+- Cách RAG (truy xuất tăng cường sinh) hoạt động
+- Giải thích Notebook, nguồn và ghi chú
+- Chat vs. biến đổi vs. podcast
 
-### I want to use it (tutorials)
-→ Follow this: **[3-USER-GUIDE](3-USER-GUIDE/index.md)**
-- How to add sources (PDFs, URLs, audio, video)
-- Creating and organizing notes
-- Chat effectively with your research
-- Creating podcasts from research
-- Search techniques
+### Tôi muốn sử dụng (hướng dẫn)
+→ Theo dõi phần này: **[3-HƯỚNG-DẪN-SỬ-DỤNG](3-USER-GUIDE/index.md)**
+- Cách thêm nguồn (PDF, URL, âm thanh, video)
+- Tạo và tổ chức ghi chú
+- Chat hiệu quả với nghiên cứu của bạn
+- Tạo podcast từ nghiên cứu
+- Kỹ thuật tìm kiếm
 
-### I need to configure it
-→ Check this: **[5-CONFIGURATION](5-CONFIGURATION/index.md)**
-- Choose and setup AI provider
-- API configuration
-- Database setup
-- Advanced tuning
+### Tôi cần cấu hình
+→ Kiểm tra phần này: **[5-CẤU-HÌNH](5-CONFIGURATION/index.md)**
+- Chọn và cài đặt nhà cung cấp AI
+- Cấu hình API
+- Cài đặt cơ sở dữ liệu
+- Tinh chỉnh nâng cao
 
-### I need provider-specific help
-→ Go here: **[4-AI-PROVIDERS](4-AI-PROVIDERS/index.md)**
+### Tôi cần trợ giúp theo nhà cung cấp
+→ Đi tới đây: **[4-NHÀ-CUNG-CẤP-AI](4-AI-PROVIDERS/index.md)**
 - OpenAI, Anthropic, Google, Groq, Ollama, Azure
-- Model comparisons
-- Cost estimates
-- Setup paths
+- So sánh mô hình
+- Ước tính chi phí
+- Lộ trình cài đặt
 
-### Something's not working
-→ Troubleshoot: **[6-TROUBLESHOOTING](6-TROUBLESHOOTING/index.md)**
-- Quick fixes (top 10 issues)
-- Installation problems
-- Connection issues
-- AI/chat problems
-- Content processing issues
-- Podcast problems
+### Có gì đó không hoạt động
+→ Khắc phục sự cố: **[6-XỬ-LÝ-SỰ-CỐ](6-TROUBLESHOOTING/index.md)**
+- Sửa nhanh (top 10 vấn đề)
+- Vấn đề cài đặt
+- Vấn đề kết nối
+- Vấn đề AI/chat
+- Vấn đề xử lý nội dung
+- Vấn đề podcast
 
-### I want to contribute/develop
-→ Read this: **[7-DEVELOPMENT](7-DEVELOPMENT/index.md)**
-- Architecture and tech stack
-- Contributing guidelines
-- API reference
-- Testing
-
----
-
-## 📊 Documentation Overview
-
-### By Section
-
-**[0-START-HERE](0-START-HERE/index.md)** — Entry point
-- What is Open Notebook?
-- Quick start guides (3 routes)
-- First 5 minutes
-
-**[1-INSTALLATION](1-INSTALLATION/index.md)** — Getting it running
-- Multiple installation routes
-- Docker, single-container, from-source
-- Requirements and setup
-
-**[2-CORE-CONCEPTS](2-CORE-CONCEPTS/index.md)** — Understanding the system
-- Notebooks, sources, notes hierarchy
-- RAG (retrieval-augmented generation)
-- Chat, transformations, podcasts
-- Context management
-
-**[3-USER-GUIDE](3-USER-GUIDE/index.md)** — Using features
-- Adding sources (all types)
-- Working with notes
-- Chat effectively
-- Creating podcasts
-- Searching (text and semantic)
-
-**[4-AI-PROVIDERS](4-AI-PROVIDERS/index.md)** — AI configuration
-- Provider comparison
-- Setup for each provider
-- Model recommendations
-- Cost estimates
-
-**[5-CONFIGURATION](5-CONFIGURATION/index.md)** — Complete reference
-- AI provider setup (detailed)
-- Database configuration
-- Server/API settings
-- Advanced tuning
-- Environment variables (complete reference)
-
-**[6-TROUBLESHOOTING](6-TROUBLESHOOTING/index.md)** — Problem solving
-- Quick fixes (top 10)
-- Installation issues
-- Connection problems
-- AI/chat issues
-- Content processing
-- Podcast generation
-- Getting help
-
-**[7-DEVELOPMENT](7-DEVELOPMENT/index.md)** — For contributors
-- Architecture
-- Contributing guidelines
-- API reference
-- Testing & development
+### Tôi muốn đóng góp/phát triển
+→ Đọc phần này: **[7-PHÁT-TRIỂN](7-DEVELOPMENT/index.md)**
+- Kiến trúc và công nghệ
+- Hướng dẫn đóng góp
+- Tham chiếu API
+- Kiểm thử
 
 ---
 
-## 🔍 Find What You Need
+## 📊 Tổng Quan Tài Liệu
 
-### By Problem Type
+### Theo Phần
 
-**Installation & Setup**
-- Fresh install? → [0-START-HERE](0-START-HERE/index.md)
-- Detailed installation routes? → [1-INSTALLATION](1-INSTALLATION/index.md)
-- Configuration reference? → [5-CONFIGURATION](5-CONFIGURATION/index.md)
-- Provider setup? → [4-AI-PROVIDERS](4-AI-PROVIDERS/index.md)
+**[0-BẮT-ĐẦU](0-START-HERE/index.md)** — Điểm khởi đầu
+- Open Notebook là gì?
+- Hướng dẫn nhanh (3 lộ trình)
+- 5 phút đầu tiên
 
-**Using Open Notebook**
-- How to use features? → [3-USER-GUIDE](3-USER-GUIDE/index.md)
-- Understanding concepts? → [2-CORE-CONCEPTS](2-CORE-CONCEPTS/index.md)
-- Chat not working? → [6-TROUBLESHOOTING - AI Issues](6-TROUBLESHOOTING/ai-chat-issues.md)
-- Files won't upload? → [6-TROUBLESHOOTING - Quick Fixes](6-TROUBLESHOOTING/quick-fixes.md#4-cannot-process-file-or-unsupported-format)
+**[1-CÀI-ĐẶT](1-INSTALLATION/index.md)** — Chạy ứng dụng
+- Nhiều lộ trình cài đặt
+- Docker, container đơn, từ mã nguồn
+- Yêu cầu và cài đặt
 
-**Troubleshooting**
-- Quick fix? → [6-TROUBLESHOOTING - Quick Fixes](6-TROUBLESHOOTING/quick-fixes.md)
-- Can't connect? → [6-TROUBLESHOOTING - Connection](6-TROUBLESHOOTING/connection-issues.md)
-- Chat issues? → [6-TROUBLESHOOTING - AI Issues](6-TROUBLESHOOTING/ai-chat-issues.md)
-- Podcast problems? → [6-TROUBLESHOOTING - Quick Fixes](6-TROUBLESHOOTING/quick-fixes.md#8-podcast-generation-failed)
+**[2-KHÁI-NIỆM-CƠ-BẢN](2-CORE-CONCEPTS/index.md)** — Hiểu hệ thống
+- Cấu trúc notebook, nguồn, ghi chú
+- RAG (truy xuất tăng cường sinh)
+- Chat, biến đổi, podcast
+- Quản lý ngữ cảnh
 
-**Development**
-- Architecture? → [7-DEVELOPMENT - Architecture](7-DEVELOPMENT/architecture.md)
-- Contributing? → [7-DEVELOPMENT - Contributing](7-DEVELOPMENT/contributing.md)
-- API reference? → [7-DEVELOPMENT - API Reference](7-DEVELOPMENT/api-reference.md)
+**[3-HƯỚNG-DẪN-SỬ-DỤNG](3-USER-GUIDE/index.md)** — Sử dụng tính năng
+- Thêm nguồn (tất cả các loại)
+- Làm việc với ghi chú
+- Chat hiệu quả
+- Tạo podcast
+- Tìm kiếm (văn bản và ngữ nghĩa)
 
----
+**[4-NHÀ-CUNG-CẤP-AI](4-AI-PROVIDERS/index.md)** — Cấu hình AI
+- So sánh nhà cung cấp
+- Cài đặt cho từng nhà cung cấp
+- Đề xuất mô hình
+- Ước tính chi phí
 
-## 📚 Reading Paths
+**[5-CẤU-HÌNH](5-CONFIGURATION/index.md)** — Tham chiếu đầy đủ
+- Cài đặt nhà cung cấp AI (chi tiết)
+- Cấu hình cơ sở dữ liệu
+- Cài đặt máy chủ/API
+- Tinh chỉnh nâng cao
+- Biến môi trường (tham chiếu đầy đủ)
 
-### Path 1: Complete Beginner (1-2 hours)
-1. [0-START-HERE/index.md](0-START-HERE/index.md) — Understand what it is
-2. [0-START-HERE Quick Start](0-START-HERE/index.md) — Set it up
-3. [2-CORE-CONCEPTS/index.md](2-CORE-CONCEPTS/index.md) — Understand concepts
-4. [3-USER-GUIDE/index.md](3-USER-GUIDE/index.md) — Learn features
+**[6-XỬ-LÝ-SỰ-CỐ](6-TROUBLESHOOTING/index.md)** — Giải quyết vấn đề
+- Sửa nhanh (top 10)
+- Vấn đề cài đặt
+- Vấn đề kết nối
+- Vấn đề AI/chat
+- Xử lý nội dung
+- Tạo podcast
+- Nhận trợ giúp
 
-**Result:** Fully understand how to use Open Notebook
-
-### Path 2: Get Running Fast (15 minutes)
-1. [0-START-HERE](0-START-HERE/index.md) — Pick your path
-2. Follow quick-start guide for your setup
-3. Start using!
-
-**Result:** Running in 15 minutes, learn details later
-
-### Path 3: DevOps/Deployment (1-2 hours)
-1. [1-INSTALLATION](1-INSTALLATION/index.md) — Understand routes
-2. [5-CONFIGURATION](5-CONFIGURATION/index.md) — Reference setup
-3. [7-DEVELOPMENT - Architecture](../7-DEVELOPMENT/architecture.md) — Understand system
-
-**Result:** Ready to deploy to production
-
-### Path 4: Troubleshooting (5-30 minutes)
-1. [6-TROUBLESHOOTING/index.md](6-TROUBLESHOOTING/index.md) — Identify problem
-2. Find specific guide
-3. Follow solutions
-
-**Result:** Problem solved!
+**[7-PHÁT-TRIỂN](7-DEVELOPMENT/index.md)** — Dành cho người đóng góp
+- Kiến trúc
+- Hướng dẫn đóng góp
+- Tham chiếu API
+- Kiểm thử & phát triển
 
 ---
 
-## ❓ Common Questions
+## 🔍 Tìm Những Gì Bạn Cần
 
-**Q: Where do I start?**
-A: → [0-START-HERE](0-START-HERE/index.md) — Choose your setup path
+### Theo Loại Vấn Đề
 
-**Q: How do I install it?**
-A: → [1-INSTALLATION](1-INSTALLATION/index.md) — Multiple routes available
+**Cài Đặt & Thiết Lập**
+- Cài đặt mới? → [0-BẮT-ĐẦU](0-START-HERE/index.md)
+- Các lộ trình cài đặt chi tiết? → [1-CÀI-ĐẶT](1-INSTALLATION/index.md)
+- Tham chiếu cấu hình? → [5-CẤU-HÌNH](5-CONFIGURATION/index.md)
+- Cài đặt nhà cung cấp? → [4-NHÀ-CUNG-CẤP-AI](4-AI-PROVIDERS/index.md)
 
-**Q: How do I use [feature]?**
-A: → [3-USER-GUIDE](3-USER-GUIDE/index.md) — Step-by-step tutorials
+**Sử Dụng Open Notebook**
+- Cách sử dụng tính năng? → [3-HƯỚNG-DẪN-SỬ-DỤNG](3-USER-GUIDE/index.md)
+- Hiểu các khái niệm? → [2-KHÁI-NIỆM-CƠ-BẢN](2-CORE-CONCEPTS/index.md)
+- Chat không hoạt động? → [6-XỬ-LÝ-SỰ-CỐ - Vấn đề AI](6-TROUBLESHOOTING/ai-chat-issues.md)
+- Tệp không tải lên được? → [6-XỬ-LÝ-SỰ-CỐ - Sửa Nhanh](6-TROUBLESHOOTING/quick-fixes.md#4-cannot-process-file-or-unsupported-format)
 
-**Q: Why does [feature] work like that?**
-A: → [2-CORE-CONCEPTS](2-CORE-CONCEPTS/index.md) — Understand the mental model
+**Khắc Phục Sự Cố**
+- Sửa nhanh? → [6-XỬ-LÝ-SỰ-CỐ - Sửa Nhanh](6-TROUBLESHOOTING/quick-fixes.md)
+- Không thể kết nối? → [6-XỬ-LÝ-SỰ-CỐ - Kết Nối](6-TROUBLESHOOTING/connection-issues.md)
+- Vấn đề chat? → [6-XỬ-LÝ-SỰ-CỐ - Vấn đề AI](6-TROUBLESHOOTING/ai-chat-issues.md)
+- Vấn đề podcast? → [6-XỬ-LÝ-SỰ-CỐ - Sửa Nhanh](6-TROUBLESHOOTING/quick-fixes.md#8-podcast-generation-failed)
 
-**Q: How do I configure [provider]?**
-A: → [4-AI-PROVIDERS](4-AI-PROVIDERS/index.md) or [5-CONFIGURATION](5-CONFIGURATION/index.md)
-
-**Q: Something's broken, what do I do?**
-A: → [6-TROUBLESHOOTING](6-TROUBLESHOOTING/index.md) — Problem solver
-
-**Q: How does the system work?**
-A: → [2-CORE-CONCEPTS](2-CORE-CONCEPTS/index.md) — Architecture and concepts
-
-**Q: Can I contribute?**
-A: → [7-DEVELOPMENT](../7-DEVELOPMENT/index.md) — Contributing guide
-
----
-
-## 📖 How This Documentation is Organized
-
-### Principles
-- **Progressive Disclosure**: Start simple, go deeper if needed
-- **Multiple Entry Routes**: Different paths for different users
-- **High Signal-to-Noise**: Focused content, no fluff
-- **Step-by-Step**: Clear instructions you can follow
-- **Decision Trees**: Help you pick the right path
-- **Symptom-Based**: Troubleshooting by what's broken
-
-### Structure
-- **0-START-HERE** — Entry point (everyone starts here)
-- **1-INSTALLATION** — Multiple setup routes
-- **2-CORE-CONCEPTS** — Mental models (understand why)
-- **3-USER-GUIDE** — How to use (step-by-step)
-- **4-AI-PROVIDERS** — Provider guides
-- **5-CONFIGURATION** — Reference material
-- **6-TROUBLESHOOTING** — Problem solving
-- **7-DEVELOPMENT** — For contributors
+**Phát Triển**
+- Kiến trúc? → [7-PHÁT-TRIỂN - Kiến Trúc](7-DEVELOPMENT/architecture.md)
+- Đóng góp? → [7-PHÁT-TRIỂN - Đóng Góp](7-DEVELOPMENT/contributing.md)
+- Tham chiếu API? → [7-PHÁT-TRIỂN - Tham Chiếu API](7-DEVELOPMENT/api-reference.md)
 
 ---
 
-## 🚀 Quick Navigation
+## 📚 Lộ Trình Đọc
 
-### First Time?
-→ **[START HERE](0-START-HERE/index.md)**
+### Lộ trình 1: Người Mới Hoàn Toàn (1-2 giờ)
+1. [0-BẮT-ĐẦU/index.md](0-START-HERE/index.md) — Hiểu nó là gì
+2. [0-BẮT-ĐẦU Hướng Dẫn Nhanh](0-START-HERE/index.md) — Cài đặt
+3. [2-KHÁI-NIỆM-CƠ-BẢN/index.md](2-CORE-CONCEPTS/index.md) — Hiểu các khái niệm
+4. [3-HƯỚNG-DẪN-SỬ-DỤNG/index.md](3-USER-GUIDE/index.md) — Học các tính năng
 
-### Just Want to Use It?
-→ **[QUICK START](0-START-HERE/index.md)** (5 minutes)
+**Kết quả:** Hiểu đầy đủ cách sử dụng Open Notebook
 
-### Something Broken?
-→ **[TROUBLESHOOTING](6-TROUBLESHOOTING/index.md)**
+### Lộ trình 2: Chạy Nhanh (15 phút)
+1. [0-BẮT-ĐẦU](0-START-HERE/index.md) — Chọn lộ trình của bạn
+2. Theo dõi hướng dẫn nhanh cho cài đặt của bạn
+3. Bắt đầu sử dụng!
 
-### Full Reference?
-→ **[CONFIGURATION](5-CONFIGURATION/index.md)**
+**Kết quả:** Chạy trong 15 phút, tìm hiểu chi tiết sau
 
-### Developer?
-→ **[DEVELOPMENT](7-DEVELOPMENT/index.md)**
+### Lộ trình 3: DevOps/Triển Khai (1-2 giờ)
+1. [1-CÀI-ĐẶT](1-INSTALLATION/index.md) — Hiểu các lộ trình
+2. [5-CẤU-HÌNH](5-CONFIGURATION/index.md) — Tham chiếu cài đặt
+3. [7-PHÁT-TRIỂN - Kiến Trúc](../7-DEVELOPMENT/architecture.md) — Hiểu hệ thống
 
----
+**Kết quả:** Sẵn sàng triển khai production
 
-## 📞 Getting Help
+### Lộ trình 4: Khắc Phục Sự Cố (5-30 phút)
+1. [6-XỬ-LÝ-SỰ-CỐ/index.md](6-TROUBLESHOOTING/index.md) — Xác định vấn đề
+2. Tìm hướng dẫn cụ thể
+3. Theo dõi giải pháp
 
-- **Discord Community** — https://discord.gg/37XJPXfz2w
-- **GitHub Issues** — https://github.com/lfnovo/open-notebook/issues
-- **Documentation** — You're reading it!
-
----
-
-## 📈 Documentation Stats
-
-- **8 major sections**
-- **35+ focused guides**
-- **~80,000 words**
-- **Covers all features**
-- **Multiple entry paths**
-- **Progressive difficulty**
+**Kết quả:** Vấn đề được giải quyết!
 
 ---
 
-## 🎯 Start Here
+## ❓ Câu Hỏi Thường Gặp
 
-**First time using Open Notebook?**
-→ Go to **[0-START-HERE](0-START-HERE/index.md)**
+**H: Tôi bắt đầu từ đâu?**
+Đ: → [0-BẮT-ĐẦU](0-START-HERE/index.md) — Chọn lộ trình cài đặt
 
-**Experienced, looking for specific help?**
-→ Use the navigation above to find your section
+**H: Cài đặt như thế nào?**
+Đ: → [1-CÀI-ĐẶT](1-INSTALLATION/index.md) — Có nhiều lộ trình
 
-**Something not working?**
-→ Go to **[TROUBLESHOOTING](6-TROUBLESHOOTING/index.md)**
+**H: Sử dụng [tính năng] như thế nào?**
+Đ: → [3-HƯỚNG-DẪN-SỬ-DỤNG](3-USER-GUIDE/index.md) — Hướng dẫn từng bước
+
+**H: Tại sao [tính năng] hoạt động như vậy?**
+Đ: → [2-KHÁI-NIỆM-CƠ-BẢN](2-CORE-CONCEPTS/index.md) — Hiểu mô hình tư duy
+
+**H: Cấu hình [nhà cung cấp] như thế nào?**
+Đ: → [4-NHÀ-CUNG-CẤP-AI](4-AI-PROVIDERS/index.md) hoặc [5-CẤU-HÌNH](5-CONFIGURATION/index.md)
+
+**H: Có gì đó hỏng, tôi phải làm gì?**
+Đ: → [6-XỬ-LÝ-SỰ-CỐ](6-TROUBLESHOOTING/index.md) — Giải quyết vấn đề
+
+**H: Hệ thống hoạt động như thế nào?**
+Đ: → [2-KHÁI-NIỆM-CƠ-BẢN](2-CORE-CONCEPTS/index.md) — Kiến trúc và khái niệm
+
+**H: Tôi có thể đóng góp không?**
+Đ: → [7-PHÁT-TRIỂN](../7-DEVELOPMENT/index.md) — Hướng dẫn đóng góp
 
 ---
 
-Last updated: January 2026 | Open Notebook v1.2.4+
+## 📖 Cách Tổ Chức Tài Liệu Này
+
+### Nguyên Tắc
+- **Tiết Lộ Dần Dần**: Bắt đầu đơn giản, đi sâu hơn nếu cần
+- **Nhiều Lộ Trình Vào**: Lộ trình khác nhau cho người dùng khác nhau
+- **Tín Hiệu Cao**: Nội dung tập trung, không rườm rà
+- **Từng Bước**: Hướng dẫn rõ ràng bạn có thể theo dõi
+- **Cây Quyết Định**: Giúp bạn chọn đúng lộ trình
+- **Theo Triệu Chứng**: Khắc phục sự cố dựa trên vấn đề gặp phải
+
+### Cấu Trúc
+- **0-BẮT-ĐẦU** — Điểm khởi đầu (mọi người bắt đầu ở đây)
+- **1-CÀI-ĐẶT** — Nhiều lộ trình cài đặt
+- **2-KHÁI-NIỆM-CƠ-BẢN** — Mô hình tư duy (hiểu tại sao)
+- **3-HƯỚNG-DẪN-SỬ-DỤNG** — Cách sử dụng (từng bước)
+- **4-NHÀ-CUNG-CẤP-AI** — Hướng dẫn nhà cung cấp
+- **5-CẤU-HÌNH** — Tài liệu tham chiếu
+- **6-XỬ-LÝ-SỰ-CỐ** — Giải quyết vấn đề
+- **7-PHÁT-TRIỂN** — Dành cho người đóng góp
+
+---
+
+## 🚀 Điều Hướng Nhanh
+
+### Lần Đầu?
+→ **[BẮT ĐẦU TẠI ĐÂY](0-START-HERE/index.md)**
+
+### Chỉ Muốn Sử Dụng?
+→ **[HƯỚNG DẪN NHANH](0-START-HERE/index.md)** (5 phút)
+
+### Có Gì Đó Hỏng?
+→ **[XỬ LÝ SỰ CỐ](6-TROUBLESHOOTING/index.md)**
+
+### Tham Chiếu Đầy Đủ?
+→ **[CẤU HÌNH](5-CONFIGURATION/index.md)**
+
+### Nhà Phát Triển?
+→ **[PHÁT TRIỂN](7-DEVELOPMENT/index.md)**
+
+---
+
+## 📞 Nhận Trợ Giúp
+
+- **Cộng đồng Discord** — https://discord.gg/37XJPXfz2w
+- **GitHub Issues** — https://github.com/hona1902/5400-NoteBook_final/issues
+- **Tài liệu** — Bạn đang đọc nó!
+
+---
+
+## 📈 Thống Kê Tài Liệu
+
+- **8 phần chính**
+- **Hơn 35 hướng dẫn chuyên sâu**
+- **~80.000 từ**
+- **Bao quát tất cả tính năng**
+- **Nhiều lộ trình vào**
+- **Độ khó tăng dần**
+
+---
+
+## 🎯 Bắt Đầu Tại Đây
+
+**Lần đầu sử dụng Open Notebook?**
+→ Đi tới **[0-BẮT-ĐẦU](0-START-HERE/index.md)**
+
+**Có kinh nghiệm, tìm trợ giúp cụ thể?**
+→ Sử dụng điều hướng ở trên để tìm phần của bạn
+
+**Có gì đó không hoạt động?**
+→ Đi tới **[XỬ LÝ SỰ CỐ](6-TROUBLESHOOTING/index.md)**
+
+---
+
+Cập nhật lần cuối: Tháng 1 năm 2026 | Open Notebook v1.2.4+

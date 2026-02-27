@@ -1,43 +1,43 @@
-# API Configuration
+# Cấu Hình API
 
-Configure AI provider credentials through the Settings UI. No file editing required.
+Cấu hình credential nhà cung cấp AI qua giao diện Cài đặt. Không cần chỉnh sửa file.
 
-> **Credential System**: Open Notebook uses encrypted credentials stored in the database. Each credential connects to a provider and allows you to discover, register, and test models.
-
----
-
-## Overview
-
-Open Notebook manages AI provider access through a **credential-based system**:
-
-1. You create a **credential** for each provider (API key + settings)
-2. Credentials are **encrypted** and stored in the database
-3. You **test connections** to verify credentials work
-4. You **discover and register models** from each credential
-5. Models are linked to credentials for direct configuration
+> **Hệ thống Credential**: Open Notebook sử dụng credential được mã hóa lưu trong cơ sở dữ liệu. Mỗi credential kết nối đến nhà cung cấp và cho phép bạn khám phá, đăng ký và kiểm tra mô hình.
 
 ---
 
-## Encryption Setup
+## Tổng Quan
 
-Before storing credentials, you must configure an encryption key.
+Open Notebook quản lý truy cập nhà cung cấp AI qua **hệ thống dựa trên credential**:
 
-### Setting the Encryption Key
+1. Bạn tạo **credential** cho mỗi nhà cung cấp (khóa API + cài đặt)
+2. Credential được **mã hóa** và lưu trong cơ sở dữ liệu
+3. Bạn **kiểm tra kết nối** để xác minh credential hoạt động
+4. Bạn **khám phá và đăng ký mô hình** từ mỗi credential
+5. Mô hình được liên kết với credential để cấu hình trực tiếp
 
-Add `OPEN_NOTEBOOK_ENCRYPTION_KEY` to your docker-compose.yml:
+---
+
+## Cài Đặt Mã Hóa
+
+Trước khi lưu credential, bạn phải cấu hình khóa mã hóa.
+
+### Đặt Khóa Mã Hóa
+
+Thêm `OPEN_NOTEBOOK_ENCRYPTION_KEY` vào docker-compose.yml:
 
 ```yaml
 environment:
-  - OPEN_NOTEBOOK_ENCRYPTION_KEY=my-secret-passphrase
+  - OPEN_NOTEBOOK_ENCRYPTION_KEY=chuoi-bi-mat-cua-toi
 ```
 
-Any string works as a key — it will be securely derived via SHA-256 internally.
+Bất kỳ chuỗi nào cũng hoạt động như khóa — nó sẽ được dẫn xuất an toàn qua SHA-256 nội bộ.
 
-> **Warning**: If you change or lose the encryption key, **all stored credentials become unreadable**. Back up your encryption key securely and separately from your database backups.
+> **Cảnh báo**: Nếu bạn thay đổi hoặc mất khóa mã hóa, **tất cả credential đã lưu sẽ không đọc được**. Sao lưu khóa mã hóa an toàn và riêng biệt với bản sao lưu cơ sở dữ liệu.
 
-### Docker Secrets Support
+### Hỗ Trợ Docker Secrets
 
-Both password and encryption key support Docker secrets:
+Cả mật khẩu và khóa mã hóa đều hỗ trợ Docker secrets:
 
 ```yaml
 # docker-compose.yml
@@ -57,334 +57,301 @@ secrets:
     file: ./secrets/encryption_key.txt
 ```
 
-### Encryption Details
+### Chi Tiết Mã Hóa
 
-API keys stored in the database are encrypted using Fernet (AES-128-CBC + HMAC-SHA256).
+Khóa API lưu trong cơ sở dữ liệu được mã hóa bằng Fernet (AES-128-CBC + HMAC-SHA256).
 
-| Configuration | Behavior |
-|---------------|----------|
-| Encryption key set | Keys encrypted with your key |
-| No encryption key set | Storing credentials is disabled |
+| Cấu hình | Hành vi |
+|----------|---------|
+| Khóa mã hóa được đặt | Khóa được mã hóa với khóa của bạn |
+| Không có khóa mã hóa | Lưu credential bị tắt |
 
 ---
 
-## Accessing Credential Configuration
+## Truy Cập Cấu Hình Credential
 
-1. Click **Settings** in the navigation bar
-2. Select **API Keys** tab
-3. You'll see existing credentials and an **Add Credential** button
+1. Nhấn **Cài đặt** trong thanh điều hướng
+2. Chọn tab **Khóa API**
+3. Bạn sẽ thấy credential hiện có và nút **Thêm Credential**
 
 ```
-Navigation: Settings → API Keys
+Điều hướng: Cài đặt → Khóa API
 ```
 
 ---
 
-## Supported Providers
+## Nhà Cung Cấp Được Hỗ Trợ
 
-### Cloud Providers
+### Nhà Cung Cấp Đám Mây
 
-| Provider | Required Fields | Optional Fields |
-|----------|-----------------|-----------------|
-| OpenAI | API Key | — |
-| Anthropic | API Key | — |
-| Google Gemini | API Key | — |
-| Groq | API Key | — |
-| Mistral | API Key | — |
-| DeepSeek | API Key | — |
-| xAI | API Key | — |
-| OpenRouter | API Key | — |
-| Voyage AI | API Key | — |
-| ElevenLabs | API Key | — |
+| Nhà cung cấp | Trường bắt buộc | Trường tùy chọn |
+|--------------|----------------|-----------------|
+| OpenAI | Khóa API | — |
+| Anthropic | Khóa API | — |
+| Google Gemini | Khóa API | — |
+| Groq | Khóa API | — |
+| Mistral | Khóa API | — |
+| DeepSeek | Khóa API | — |
+| xAI | Khóa API | — |
+| OpenRouter | Khóa API | — |
+| Voyage AI | Khóa API | — |
+| ElevenLabs | Khóa API | — |
 
-### Local/Self-Hosted
+### Cục Bộ/Tự Host
 
-| Provider | Required Fields | Notes |
-|----------|-----------------|-------|
-| Ollama | Base URL | Typically `http://localhost:11434` or `http://ollama:11434` |
+| Nhà cung cấp | Trường bắt buộc | Ghi chú |
+|--------------|----------------|---------|
+| Ollama | URL cơ sở | Thường `http://localhost:11434` hoặc `http://ollama:11434` |
 
-### Enterprise
+### Doanh Nghiệp
 
-| Provider | Required Fields | Optional Fields |
-|----------|-----------------|-----------------|
-| Azure OpenAI | API Key, Endpoint, API Version | Service-specific endpoints (LLM, Embedding, STT, TTS) |
-| OpenAI-Compatible | Base URL | API Key, Service-specific configs |
-| Vertex AI | Project ID, Location, Credentials Path | — |
-
----
-
-## Creating a Credential
-
-### Step 1: Add Credential
-
-1. Go to **Settings** → **API Keys**
-2. Click **Add Credential**
-3. Select your provider
-4. Give it a descriptive name (e.g., "My OpenAI Key", "Work Anthropic")
-5. Fill in the required fields (API key, base URL, etc.)
-6. Click **Save**
-
-### Step 2: Test Connection
-
-1. On your new credential card, click **Test Connection**
-2. Wait for the result:
-
-| Result | Meaning |
-|--------|---------|
-| Success | Key is valid, provider accessible |
-| Invalid API key | Check key format and value |
-| Connection failed | Check URL, network, firewall |
-
-### Step 3: Discover Models
-
-1. Click **Discover Models** on the credential card
-2. The system queries the provider for available models
-3. Review the discovered models
-
-### Step 4: Register Models
-
-1. Select the models you want to use
-2. Click **Register Models**
-3. The models are now available throughout Open Notebook
+| Nhà cung cấp | Trường bắt buộc | Trường tùy chọn |
+|--------------|----------------|-----------------|
+| Azure OpenAI | Khóa API, Endpoint, Phiên bản API | Endpoint theo dịch vụ (LLM, Embedding, STT, TTS) |
+| Tương thích OpenAI | URL cơ sở | Khóa API, Cấu hình theo dịch vụ |
+| Vertex AI | ID Dự án, Vị trí, Đường dẫn Credentials | — |
 
 ---
 
-## Multi-Credential Support
+## Tạo Credential
 
-Each provider can have **multiple credentials**. This is useful when:
-- You have different API keys for different projects
-- You want to test with different endpoints
-- Multiple team members need separate credentials
+### Bước 1: Thêm Credential
 
-### Creating Multiple Credentials
+1. Vào **Cài đặt** → **Khóa API**
+2. Nhấn **Thêm Credential**
+3. Chọn nhà cung cấp
+4. Đặt tên mô tả (ví dụ: "Khóa OpenAI Của Tôi", "Anthropic Công Việc")
+5. Điền các trường bắt buộc (khóa API, URL cơ sở, v.v.)
+6. Nhấn **Lưu**
 
-1. Click **Add Credential** again
-2. Select the same provider
-3. Fill in different credentials
-4. Each credential can discover and register its own models
+### Bước 2: Kiểm Tra Kết Nối
 
-### How Models Link to Credentials
+1. Trên thẻ credential mới, nhấn **Kiểm Tra Kết Nối**
+2. Chờ kết quả:
 
-When you register models from a credential, those models are linked to that specific credential. This means:
-- Each model knows which API key to use
-- You can have models from different credentials for the same provider
-- Deleting a credential removes its linked models
+| Kết quả | Ý nghĩa |
+|---------|---------|
+| Thành công | Khóa hợp lệ, nhà cung cấp có thể truy cập |
+| Khóa API không hợp lệ | Kiểm tra định dạng và giá trị khóa |
+| Kết nối thất bại | Kiểm tra URL, mạng, tường lửa |
 
----
+### Bước 3: Khám Phá Mô Hình
 
-## Testing Connections
+1. Nhấn **Khám Phá Mô Hình** trên thẻ credential
+2. Hệ thống truy vấn nhà cung cấp để lấy danh sách mô hình
+3. Xem lại các mô hình được tìm thấy
 
-Click **Test Connection** to verify your credential:
+### Bước 4: Đăng Ký Mô Hình
 
-| Result | Meaning |
-|--------|---------|
-| Success | Key is valid, provider accessible |
-| Invalid API key | Check key format and value |
-| Connection failed | Check URL, network, firewall |
-| Model not available | Key valid but model access restricted |
-
-Test uses inexpensive models (e.g., `gpt-3.5-turbo`, `claude-3-haiku`) to minimize cost.
+1. Chọn các mô hình bạn muốn sử dụng
+2. Nhấn **Đăng Ký Mô Hình**
+3. Mô hình giờ có thể dùng trong toàn bộ Open Notebook
 
 ---
 
-## Configuring Specific Providers
+## Hỗ Trợ Nhiều Credential
 
-### Simple Providers (API Key Only)
+Mỗi nhà cung cấp có thể có **nhiều credential**. Hữu ích khi:
+- Bạn có khóa API khác nhau cho các dự án khác nhau
+- Bạn muốn kiểm tra với các endpoint khác nhau
+- Nhiều thành viên nhóm cần credential riêng biệt
 
-For OpenAI, Anthropic, Google, Groq, Mistral, DeepSeek, xAI, OpenRouter:
+### Tạo Nhiều Credential
 
-1. Add credential with your API key
-2. Test connection
-3. Discover and register models
+1. Nhấn **Thêm Credential** lại
+2. Chọn cùng nhà cung cấp
+3. Điền credential khác
+4. Mỗi credential có thể khám phá và đăng ký mô hình riêng
 
-### Ollama (URL-Based)
+### Cách Mô Hình Liên Kết Với Credential
 
-1. Add credential with provider **Ollama**
-2. Enter the base URL (e.g., `http://ollama:11434`)
-3. Test connection
-4. Discover and register models
+Khi bạn đăng ký mô hình từ credential, mô hình đó được liên kết với credential cụ thể đó. Điều này có nghĩa là:
+- Mỗi mô hình biết dùng khóa API nào
+- Bạn có thể có mô hình từ credential khác nhau cho cùng nhà cung cấp
+- Xóa credential sẽ xóa mô hình liên kết
 
-Ollama allows localhost and private IPs since it runs locally.
+---
+
+## Kiểm Tra Kết Nối
+
+Nhấn **Kiểm Tra Kết Nối** để xác minh credential:
+
+| Kết quả | Ý nghĩa |
+|---------|---------|
+| Thành công | Khóa hợp lệ, nhà cung cấp có thể truy cập |
+| Khóa API không hợp lệ | Kiểm tra định dạng và giá trị khóa |
+| Kết nối thất bại | Kiểm tra URL, mạng, tường lửa |
+| Mô hình không có | Khóa hợp lệ nhưng quyền truy cập mô hình bị hạn chế |
+
+Kiểm tra dùng mô hình rẻ (ví dụ: `gpt-3.5-turbo`, `claude-3-haiku`) để giảm chi phí.
+
+---
+
+## Cấu Hình Nhà Cung Cấp Cụ Thể
+
+### Nhà Cung Cấp Đơn Giản (Chỉ Khóa API)
+
+Cho OpenAI, Anthropic, Google, Groq, Mistral, DeepSeek, xAI, OpenRouter:
+
+1. Thêm credential với khóa API
+2. Kiểm tra kết nối
+3. Khám phá và đăng ký mô hình
+
+### Ollama (Dựa Trên URL)
+
+1. Thêm credential với nhà cung cấp **Ollama**
+2. Nhập URL cơ sở (ví dụ: `http://ollama:11434`)
+3. Kiểm tra kết nối
+4. Khám phá và đăng ký mô hình
+
+Ollama cho phép localhost và IP riêng vì chạy cục bộ.
 
 ### Azure OpenAI
 
-Azure requires multiple fields:
+Azure yêu cầu nhiều trường:
 
-| Field | Example | Required |
-|-------|---------|----------|
-| API Key | `abc123...` | Yes |
-| Endpoint | `https://myresource.openai.azure.com` | Yes |
-| API Version | `2024-02-15-preview` | Yes |
-| LLM Endpoint | `https://myresource-llm.openai.azure.com` | No |
-| Embedding Endpoint | `https://myresource-embed.openai.azure.com` | No |
+| Trường | Ví dụ | Bắt buộc |
+|--------|--------|----------|
+| Khóa API | `abc123...` | Có |
+| Endpoint | `https://myresource.openai.azure.com` | Có |
+| Phiên bản API | `2024-02-15-preview` | Có |
+| LLM Endpoint | `https://myresource-llm.openai.azure.com` | Không |
+| Embedding Endpoint | `https://myresource-embed.openai.azure.com` | Không |
 
-Service-specific endpoints override the main endpoint for that service type.
+Endpoint theo dịch vụ ghi đè endpoint chính cho loại dịch vụ đó.
 
-### OpenAI-Compatible
+### Tương Thích OpenAI
 
-For custom OpenAI-compatible servers (LM Studio, vLLM, etc.):
+Cho server tùy chỉnh tương thích OpenAI (LM Studio, vLLM, v.v.):
 
-1. Add credential with provider **OpenAI-Compatible**
-2. Enter the base URL
-3. Enter API key (if required)
-4. Optionally configure per-service URLs
+1. Thêm credential với nhà cung cấp **Tương Thích OpenAI**
+2. Nhập URL cơ sở
+3. Nhập khóa API (nếu cần)
+4. Tùy chọn cấu hình URL theo dịch vụ
 
-Supports separate configurations for:
-- LLM (language models)
+Hỗ trợ cấu hình riêng cho:
+- LLM (mô hình ngôn ngữ)
 - Embedding
 - STT (speech-to-text)
 - TTS (text-to-speech)
 
 ### Vertex AI
 
-Google Cloud's enterprise AI platform:
+Nền tảng AI doanh nghiệp của Google Cloud:
 
-| Field | Example |
-|-------|---------|
-| Project ID | `my-gcp-project` |
-| Location | `us-central1` |
-| Credentials Path | `/path/to/service-account.json` |
-
----
-
-## Migrating from Environment Variables
-
-If you have existing API keys in environment variables (from a previous version):
-
-1. Open **Settings → API Keys**
-2. A banner appears: "Environment variables detected"
-3. Click **Migrate to Database**
-4. Keys are copied to the database (encrypted)
-5. Original environment variables remain unchanged
-
-### Migration Behavior
-
-| Scenario | Action |
-|----------|--------|
-| Key in env only | Migrated to database |
-| Key in database only | No change |
-| Key in both | Database version kept (skipped) |
-
-### After Migration
-
-- Database credentials are used for all operations
-- You can remove the API key environment variables from your docker-compose.yml
-- Keep `OPEN_NOTEBOOK_ENCRYPTION_KEY` — it's still required
-
-### Migration Banner Visibility
-
-The migration banner only appears when:
-- You have environment variables configured
-- Those providers are **not** already in the database
-- If all env providers are already migrated, the banner won't show
+| Trường | Ví dụ |
+|--------|--------|
+| ID Dự án | `my-gcp-project` |
+| Vị trí | `us-central1` |
+| Đường dẫn Credentials | `/path/to/service-account.json` |
 
 ---
 
-## Migrating from ProviderConfig (v1.1 → v1.2)
+## Di Chuyển Từ Biến Môi Trường
 
-If you're upgrading from an older version that used the ProviderConfig system:
+Nếu bạn có khóa API trong biến môi trường (từ phiên bản trước):
 
-- The migration happens automatically on first startup
-- Your existing configurations are converted to credentials
-- Check **Settings → API Keys** to verify the migration succeeded
-- If you see issues, check the API logs for migration messages
+1. Mở **Cài đặt → Khóa API**
+2. Một banner xuất hiện: "Phát hiện biến môi trường"
+3. Nhấn **Chuyển sang Cơ Sở Dữ Liệu**
+4. Khóa được sao chép vào cơ sở dữ liệu (được mã hóa)
+5. Biến môi trường gốc vẫn không thay đổi
 
----
+### Hành Vi Di Chuyển
 
-## Key Storage Security
+| Tình huống | Hành động |
+|-----------|-----------|
+| Khóa chỉ trong env | Di chuyển vào cơ sở dữ liệu |
+| Khóa chỉ trong cơ sở dữ liệu | Không thay đổi |
+| Khóa trong cả hai | Phiên bản cơ sở dữ liệu được giữ (bỏ qua) |
 
-### Encryption
+### Sau Khi Di Chuyển
 
-API keys stored in the database are encrypted using Fernet (AES-128-CBC + HMAC-SHA256).
-
-| Configuration | Behavior |
-|---------------|----------|
-| Encryption key set | Keys encrypted with your key |
-| No encryption key set | Storing API keys in database is disabled |
-
-### Default Credentials
-
-| Setting | Default Value | Production Recommendation |
-|---------|---------------|---------------------------|
-| Password | `open-notebook-change-me` | Set `OPEN_NOTEBOOK_PASSWORD` |
-| Encryption Key | None (must be set) | Set `OPEN_NOTEBOOK_ENCRYPTION_KEY` to any secret string |
-
-**For production deployments, always set custom credentials.**
+- Credential cơ sở dữ liệu được dùng cho tất cả hoạt động
+- Bạn có thể xóa biến môi trường khóa API khỏi docker-compose.yml
+- Giữ `OPEN_NOTEBOOK_ENCRYPTION_KEY` — vẫn còn cần thiết
 
 ---
 
-## Deleting Credentials
+## Bảo Mật Lưu Trữ Khóa
 
-1. Click the **Delete** button on the credential card
-2. Confirm deletion
-3. Credential and all its linked models are removed from the database
+### Mã Hóa
 
----
+Khóa API lưu trong cơ sở dữ liệu được mã hóa bằng Fernet (AES-128-CBC + HMAC-SHA256).
 
-## Troubleshooting
+| Cấu hình | Hành vi |
+|----------|---------|
+| Khóa mã hóa được đặt | Khóa được mã hóa với khóa của bạn |
+| Không có khóa mã hóa | Lưu khóa API trong cơ sở dữ liệu bị tắt |
 
-### Credential Not Saving
+### Credential Mặc Định
 
-| Symptom | Cause | Solution |
-|---------|-------|----------|
-| Save button disabled | Empty or invalid input | Enter a valid key |
-| Error on save | Encryption key not set | Set `OPEN_NOTEBOOK_ENCRYPTION_KEY` in docker-compose.yml |
-| Error on save | Database connection issue | Check database status |
+| Cài đặt | Giá trị mặc định | Khuyến nghị production |
+|---------|-----------------|----------------------|
+| Mật khẩu | `open-notebook-change-me` | Đặt `OPEN_NOTEBOOK_PASSWORD` |
+| Khóa mã hóa | Không có (phải đặt) | Đặt `OPEN_NOTEBOOK_ENCRYPTION_KEY` thành bất kỳ chuỗi bí mật nào |
 
-### Test Connection Fails
-
-| Error | Cause | Solution |
-|-------|-------|----------|
-| Invalid API key | Wrong key or format | Verify key from provider dashboard |
-| Connection refused | Wrong URL | Check base URL format |
-| Timeout | Network issue | Check firewall, proxy settings |
-| 403 Forbidden | IP restriction | Whitelist your server IP |
-
-### Migration Issues
-
-| Problem | Solution |
-|---------|----------|
-| No migration banner | No env vars detected, or already migrated |
-| Partial migration | Check error list, fix and retry |
-| Keys not working after migration | Clear browser cache, restart services |
-
-### Provider Shows "Not Configured"
-
-1. Check if a credential exists for this provider (Settings → API Keys)
-2. Test the credential connection
-3. Verify key format matches provider requirements
-4. Re-discover and register models if needed
+**Cho triển khai production, luôn đặt credential tùy chỉnh.**
 
 ---
 
-## Provider-Specific Notes
+## Xóa Credential
+
+1. Nhấn nút **Xóa** trên thẻ credential
+2. Xác nhận xóa
+3. Credential và tất cả mô hình liên kết bị xóa khỏi cơ sở dữ liệu
+
+---
+
+## Khắc Phục Sự Cố
+
+### Credential Không Lưu Được
+
+| Triệu chứng | Nguyên nhân | Giải pháp |
+|------------|------------|----------|
+| Nút lưu bị tắt | Đầu vào trống hoặc không hợp lệ | Nhập khóa hợp lệ |
+| Lỗi khi lưu | Khóa mã hóa chưa đặt | Đặt `OPEN_NOTEBOOK_ENCRYPTION_KEY` trong docker-compose.yml |
+| Lỗi khi lưu | Vấn đề kết nối cơ sở dữ liệu | Kiểm tra trạng thái cơ sở dữ liệu |
+
+### Kiểm Tra Kết Nối Thất Bại
+
+| Lỗi | Nguyên nhân | Giải pháp |
+|-----|------------|----------|
+| Khóa API không hợp lệ | Khóa sai hoặc định dạng | Xác minh khóa từ bảng điều khiển nhà cung cấp |
+| Kết nối bị từ chối | URL sai | Kiểm tra định dạng URL cơ sở |
+| Timeout | Vấn đề mạng | Kiểm tra tường lửa, cài đặt proxy |
+| 403 Forbidden | Hạn chế IP | Whitelist IP server của bạn |
+
+---
+
+## Ghi Chú Theo Nhà Cung Cấp
 
 ### OpenAI
-- Keys start with `sk-proj-` (project keys) or `sk-` (legacy)
-- Requires billing enabled on account
+- Khóa bắt đầu bằng `sk-proj-` (khóa dự án) hoặc `sk-` (cũ)
+- Cần bật thanh toán trong tài khoản
 
 ### Anthropic
-- Keys start with `sk-ant-`
-- Check account has API access enabled
+- Khóa bắt đầu bằng `sk-ant-`
+- Kiểm tra tài khoản đã bật quyền truy cập API
 
 ### Google Gemini
-- Keys start with `AIzaSy`
-- Free tier has rate limits
+- Khóa bắt đầu bằng `AIzaSy`
+- Gói miễn phí có giới hạn tốc độ
 
 ### Ollama
-- No API key required
-- Default URL: `http://localhost:11434` (local) or `http://ollama:11434` (Docker)
-- Ensure Ollama server is running
+- Không cần khóa API
+- URL mặc định: `http://localhost:11434` (cục bộ) hoặc `http://ollama:11434` (Docker)
+- Đảm bảo Ollama server đang chạy
 
 ### Azure OpenAI
-- Endpoint format: `https://{resource-name}.openai.azure.com`
-- API version format: `YYYY-MM-DD` or `YYYY-MM-DD-preview`
-- Deployment names configured separately when registering models via the credential's Discover Models dialog
+- Định dạng endpoint: `https://{resource-name}.openai.azure.com`
+- Định dạng phiên bản API: `YYYY-MM-DD` hoặc `YYYY-MM-DD-preview`
+- Tên triển khai được cấu hình riêng khi đăng ký mô hình qua hộp thoại Khám Phá Mô Hình của credential
 
 ---
 
-## Related
+## Liên Quan
 
-- **[AI Providers](../5-CONFIGURATION/ai-providers.md)** — Provider setup instructions and recommendations
-- **[Security](../5-CONFIGURATION/security.md)** — Password and encryption configuration
-- **[Environment Reference](../5-CONFIGURATION/environment-reference.md)** — All configuration options
+- **[Nhà Cung Cấp AI](../5-CONFIGURATION/ai-providers.md)** — Hướng dẫn cài đặt nhà cung cấp và khuyến nghị
+- **[Bảo Mật](../5-CONFIGURATION/security.md)** — Cấu hình mật khẩu và mã hóa
+- **[Tham Chiếu Môi Trường](../5-CONFIGURATION/environment-reference.md)** — Tất cả tùy chọn cấu hình

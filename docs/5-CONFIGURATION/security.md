@@ -1,43 +1,49 @@
-# Security Configuration
+#Cấu hình bảo mật
 
-Protect your Open Notebook deployment with password authentication and production hardening.
+Bảo vệ việc triển khai Open Notebook của bạn bằng xác thực mật khẩu và tăng cường sản xuất.
 
 ---
 
-## API Key Encryption
+## Mã hóa khóa API
 
-Open Notebook encrypts API keys stored in the database using Fernet symmetric encryption (AES-128-CBC with HMAC-SHA256).
+Open Notebook mã hóa các khóa API được lưu trữ trong cơ sở dữ liệu bằng mã hóa đối xứng Fernet (AES-128-CBC với HMAC-SHA256).
 
-### Configuration Methods
+### Phương pháp cấu hình
 
-| Method | Documentation |
-|--------|---------------|
-| **Settings UI** | [API Configuration Guide](../3-USER-GUIDE/api-configuration.md) |
-| **Environment Variables** | This page (below) |
+| Phương pháp | Tài liệu |
+|--------|--------------|
+| **Giao diện người dùng cài đặt** | [Hướng dẫn cấu hình API](../3-USER-GUIDE/api-configuration.md) |
+| **Biến môi trường** | Trang này (bên dưới) |
 
-### Setup
+### Cài đặt
 
-Set the encryption key to any secret string:
+Đặt khóa mã hóa thành bất kỳ chuỗi bí mật nào:
+
+
 
 ```bash
 # .env or docker.env
 OPEN_NOTEBOOK_ENCRYPTION_KEY=my-secret-passphrase
 ```
 
-Any string works — it will be securely derived via SHA-256 internally. Use a strong passphrase for production deployments.
 
-### Default Credentials
 
-| Setting | Default | Security Level |
-|---------|---------|----------------|
-| Password | `open-notebook-change-me` | Development only |
-| Encryption Key | **None** (must be configured) | Required for API key storage |
+Bất kỳ chuỗi nào cũng hoạt động - chuỗi đó sẽ được lấy một cách an toàn thông qua SHA-256 trong nội bộ. Sử dụng cụm mật khẩu mạnh để triển khai sản xuất.
 
-**The encryption key has no default.** You must set `OPEN_NOTEBOOK_ENCRYPTION_KEY` before using the API key configuration feature. Without it, encrypting/decrypting API keys will fail.
+### Thông tin xác thực mặc định
 
-### Docker Secrets Support
+| Cài đặt | Mặc định | Cấp độ bảo mật |
+|----------|----------|-------|
+| Mật khẩu | `mở-sổ-thay-tôi` | Chỉ phát triển |
+| Khóa mã hóa | **Không** (phải được định cấu hình) | Cần thiết để lưu trữ khóa API |
 
-Both settings support Docker secrets via `_FILE` suffix:
+**Khóa mã hóa không có mặc định.** Bạn phải đặt `OPEN_NOTEBOOK_ENCRYPTION_KEY` trước khi sử dụng tính năng cấu hình khóa API. Không có nó, việc mã hóa/giải mã các khóa API sẽ không thành công.
+
+### Hỗ trợ bí mật Docker
+
+Cả hai cài đặt đều hỗ trợ bí mật Docker thông qua hậu tố `_FILE`:
+
+
 
 ```yaml
 environment:
@@ -45,41 +51,45 @@ environment:
   - OPEN_NOTEBOOK_ENCRYPTION_KEY_FILE=/run/secrets/encryption_key
 ```
 
-### Security Notes
 
-| Scenario | Behavior |
+
+### Ghi chú bảo mật
+
+| Kịch bản | Hành vi |
 |----------|----------|
-| Key configured | API keys encrypted with your key |
-| No key configured | Encryption/decryption will fail (key is required) |
-| Key changed | Old encrypted keys become unreadable |
-| Legacy data | Unencrypted keys still work (graceful fallback) |
+| Khóa được cấu hình | Khóa API được mã hóa bằng khóa của bạn |
+| Không có khóa nào được định cấu hình | Mã hóa/giải mã sẽ không thành công (cần có khóa) |
+| Chìa khóa đã thay đổi | Các khóa mã hóa cũ trở nên không thể đọc được |
+| Dữ liệu kế thừa | Các khóa không được mã hóa vẫn hoạt động (dự phòng duyên dáng) |
 
-### Key Management
+### Quản lý khóa
 
-- **Keep secret**: Never commit the encryption key to version control
-- **Backup securely**: Store the key separately from database backups
-- **No rotation yet**: Changing the key requires re-saving all API keys
-- **Per-deployment**: Each instance should have its own encryption key
-
----
-
-## When to Use Password Protection
-
-### Use it for:
-- Public cloud deployments (PikaPods, Railway, DigitalOcean)
-- Shared network environments
-- Any deployment accessible beyond localhost
-
-### You can skip it for:
-- Local development on your machine
-- Private, isolated networks
-- Single-user local setups
+- **Giữ bí mật**: Không bao giờ cam kết khóa mã hóa để kiểm soát phiên bản
+- **Sao lưu an toàn**: Lưu trữ khóa riêng biệt với các bản sao lưu cơ sở dữ liệu
+- **Chưa xoay vòng**: Thay đổi khóa yêu cầu lưu lại tất cả các khóa API
+- **Mỗi lần triển khai**: Mỗi phiên bản phải có khóa mã hóa riêng
 
 ---
 
-## Quick Setup
+## Khi nào nên sử dụng Bảo vệ bằng mật khẩu
 
-### Docker Deployment
+### Sử dụng nó cho:
+- Triển khai đám mây công cộng (PikaPods, Railway, DigitalOcean)
+- Môi trường mạng chia sẻ
+- Bất kỳ triển khai nào có thể truy cập ngoài localhost
+
+### Bạn có thể bỏ qua vì:
+- Phát triển cục bộ trên máy của bạn
+- Mạng riêng, biệt lập
+- Thiết lập cục bộ một người dùng
+
+---
+
+## Thiết lập nhanh
+
+### Triển khai Docker
+
+
 
 ```yaml
 # docker-compose.yml
@@ -93,7 +103,11 @@ services:
     # ... rest of config
 ```
 
-Or using environment file:
+
+
+Hoặc sử dụng tệp môi trường:
+
+
 
 ```bash
 # docker.env
@@ -101,20 +115,28 @@ OPEN_NOTEBOOK_ENCRYPTION_KEY=your-secret-encryption-key
 OPEN_NOTEBOOK_PASSWORD=your_secure_password
 ```
 
-> **Important**: The encryption key is **required** for credential storage. Without it, you cannot save AI provider credentials via the Settings UI. If you change or lose the encryption key, all stored credentials become unreadable.
 
-### Development Setup
+
+> **Quan trọng**: Khóa mã hóa **bắt buộc** để lưu trữ thông tin xác thực. Nếu không có nó, bạn không thể lưu thông tin xác thực của nhà cung cấp AI thông qua Giao diện người dùng Cài đặt. Nếu bạn thay đổi hoặc mất khóa mã hóa, tất cả thông tin xác thực được lưu trữ sẽ không thể đọc được.
+
+### Thiết lập phát triển
+
+
 
 ```bash
 # .env
 OPEN_NOTEBOOK_PASSWORD=your_secure_password
 ```
 
+
+
 ---
 
-## Password Requirements
+## Yêu cầu về mật khẩu
 
-### Good Passwords
+### Mật khẩu tốt
+
+
 
 ```bash
 # Strong: 20+ characters, mixed case, numbers, symbols
@@ -125,7 +147,11 @@ OPEN_NOTEBOOK_PASSWORD=Notebook$Dev$2024$Strong!
 OPEN_NOTEBOOK_PASSWORD=$(openssl rand -base64 24)
 ```
 
-### Bad Passwords
+
+
+### Mật khẩu sai
+
+
 
 ```bash
 # DON'T use these
@@ -134,20 +160,24 @@ OPEN_NOTEBOOK_PASSWORD=opennotebook
 OPEN_NOTEBOOK_PASSWORD=admin
 ```
 
+
+
 ---
 
-## How It Works
+## Nó hoạt động như thế nào
 
-### Frontend Protection
+### Bảo vệ giao diện người dùng
 
-1. Login form appears on first visit
-2. Password stored in browser session
-3. Session persists until browser closes
-4. Clear browser data to log out
+1. Mẫu đăng nhập xuất hiện trong lần truy cập đầu tiên
+2. Mật khẩu được lưu trong phiên trình duyệt
+3. Phiên vẫn tồn tại cho đến khi đóng trình duyệt
+4. Xóa dữ liệu trình duyệt để đăng xuất
 
-### API Protection
+### Bảo vệ API
 
-All API endpoints require authentication:
+Tất cả các điểm cuối API đều yêu cầu xác thực:
+
+
 
 ```bash
 # Authenticated request
@@ -159,19 +189,23 @@ curl http://localhost:5055/api/notebooks
 # Returns: {"detail": "Missing authorization header"}
 ```
 
-### Unprotected Endpoints
 
-These work without authentication:
 
-- `/health` - System health check
-- `/docs` - API documentation
-- `/openapi.json` - OpenAPI spec
+### Điểm cuối không được bảo vệ
+
+Chúng hoạt động mà không cần xác thực:
+
+- `/health` - Kiểm tra sức khỏe hệ thống
+- `/docs` - Tài liệu API
+- `/openapi.json` - Thông số OpenAPI
 
 ---
 
-## API Authentication Examples
+## Ví dụ về xác thực API
 
-### curl
+### uốn cong
+
+
 
 ```bash
 # List notebooks
@@ -192,7 +226,11 @@ curl -X POST \
   http://localhost:5055/api/sources/upload
 ```
 
+
+
 ### Python
+
+
 
 ```python
 import requests
@@ -222,7 +260,11 @@ client = OpenNotebookClient("http://localhost:5055", "your_password")
 notebooks = client.get_notebooks()
 ```
 
-### JavaScript/TypeScript
+
+
+###JavaScript/TypeScript
+
+
 
 ```javascript
 const API_URL = 'http://localhost:5055';
@@ -238,11 +280,15 @@ async function getNotebooks() {
 }
 ```
 
+
+
 ---
 
-## Production Hardening
+## Tăng cường sản xuất
 
-### Docker Security
+### Bảo mật Docker
+
+
 
 ```yaml
 services:
@@ -263,7 +309,11 @@ services:
     restart: always
 ```
 
-### Firewall Configuration
+
+
+### Cấu hình tường lửa
+
+
 
 ```bash
 # UFW (Ubuntu)
@@ -282,54 +332,58 @@ iptables -A INPUT -p tcp --dport 8502 -j DROP
 iptables -A INPUT -p tcp --dport 5055 -j DROP
 ```
 
-### Reverse Proxy with SSL
 
-See [Reverse Proxy Configuration](reverse-proxy.md) for complete nginx/Caddy/Traefik setup with HTTPS.
 
----
+### Proxy ngược với SSL
 
-## Security Limitations
-
-Open Notebook's password protection provides **basic access control**, not enterprise-grade security:
-
-| Feature | Status |
-|---------|--------|
-| Password transmission | Plain text (use HTTPS!) |
-| Password storage | In memory |
-| User management | Single password for all |
-| Session timeout | None (until browser close) |
-| Rate limiting | None |
-| Audit logging | None |
-
-### Risk Mitigation
-
-1. **Always use HTTPS** - Encrypt traffic with TLS
-2. **Strong passwords** - 20+ characters, complex
-3. **Network security** - Firewall, VPN for sensitive deployments
-4. **Regular updates** - Keep containers and dependencies updated
-5. **Monitoring** - Check logs for suspicious activity
-6. **Backups** - Regular backups of data
+Xem [Cấu hình proxy ngược](reverse-proxy.md) để biết cách thiết lập nginx/Caddy/Traefik hoàn chỉnh với HTTPS.
 
 ---
 
-## Enterprise Considerations
+## Giới hạn bảo mật
 
-For deployments requiring advanced security:
+Tính năng bảo vệ bằng mật khẩu của Open Notebook cung cấp **kiểm soát truy cập cơ bản**, không phải bảo mật cấp doanh nghiệp:
 
-| Need | Solution |
+| Tính năng | Trạng thái |
+|----------|--------|
+| Truyền mật khẩu | Văn bản thuần túy (sử dụng HTTPS!) |
+| Lưu trữ mật khẩu | Trong bộ nhớ |
+| Quản lý người dùng | Mật khẩu duy nhất cho tất cả |
+| Thời gian chờ của phiên | Không có (cho đến khi đóng trình duyệt) |
+| Giới hạn tỷ lệ | Không có |
+| Ghi nhật ký kiểm tra | Không có |
+
+### Giảm thiểu rủi ro
+
+1. **Luôn sử dụng HTTPS** - Mã hóa lưu lượng bằng TLS
+2. **Mật khẩu mạnh** - Hơn 20 ký tự, phức tạp
+3. **Bảo mật mạng** - Tường lửa, VPN dành cho các hoạt động triển khai nhạy cảm
+4. **Cập nhật thường xuyên** - Luôn cập nhật vùng chứa và phần phụ thuộc
+5. **Giám sát** - Kiểm tra nhật ký để phát hiện hoạt động đáng ngờ
+6. **Sao lưu** - Sao lưu dữ liệu thường xuyên
+
+---
+
+## Những cân nhắc của doanh nghiệp
+
+Đối với việc triển khai yêu cầu bảo mật nâng cao:
+
+| Cần | Giải pháp |
 |------|----------|
-| SSO/OAuth | Implement OAuth2/SAML proxy |
-| Role-based access | Custom middleware |
-| Audit logging | Log aggregation service |
-| Rate limiting | API gateway or nginx |
-| Data encryption | Encrypt volumes at rest |
-| Network segmentation | Docker networks, VPC |
+| SSO/OAuth | Triển khai proxy OAuth2/SAML |
+| Truy cập dựa trên vai trò | Phần mềm trung gian tùy chỉnh |
+| Ghi nhật ký kiểm tra | Dịch vụ tổng hợp nhật ký |
+| Giới hạn tỷ lệ | Cổng API hoặc nginx |
+| Mã hóa dữ liệu | Mã hóa khối lượng ở phần còn lại |
+| Phân đoạn mạng | Mạng Docker, VPC |
 
 ---
 
-## Troubleshooting
+## Khắc phục sự cố
 
-### Password Not Working
+### Mật khẩu không hoạt động
+
+
 
 ```bash
 # Check env var is set
@@ -343,7 +397,11 @@ curl -H "Authorization: Bearer your_password" \
   http://localhost:5055/health
 ```
 
-### 401 Unauthorized Errors
+
+
+### 401 Lỗi trái phép
+
+
 
 ```bash
 # Check header format
@@ -354,14 +412,18 @@ curl -v -H "Authorization: Bearer your_password" \
 echo "Password length: $(echo -n $OPEN_NOTEBOOK_PASSWORD | wc -c)"
 ```
 
-### Cannot Access After Setting Password
 
-1. Clear browser cache and cookies
-2. Try incognito/private mode
-3. Check browser console for errors
-4. Verify password is correct in environment
 
-### Security Testing
+### Không thể truy cập sau khi đặt mật khẩu
+
+1. Xóa bộ nhớ cache và cookie của trình duyệt
+2. Thử chế độ ẩn danh/riêng tư
+3. Kiểm tra lỗi bảng điều khiển trình duyệt
+4. Xác minh mật khẩu chính xác trong môi trường
+
+### Kiểm tra bảo mật
+
+
 
 ```bash
 # Without password (should fail)
@@ -376,21 +438,23 @@ curl -H "Authorization: Bearer your_password" \
 curl http://localhost:5055/health
 ```
 
----
 
-## Reporting Security Issues
-
-If you discover security vulnerabilities:
-
-1. **Do NOT open public issues**
-2. Contact maintainers directly
-3. Provide detailed information
-4. Allow time for fixes before disclosure
 
 ---
 
-## Related
+## Báo cáo vấn đề bảo mật
 
-- **[Reverse Proxy](reverse-proxy.md)** - HTTPS and SSL setup
-- **[Advanced Configuration](advanced.md)** - Ports, timeouts, and SSL settings
-- **[Environment Reference](environment-reference.md)** - All configuration options
+Nếu bạn phát hiện ra lỗ hổng bảo mật:
+
+1. **KHÔNG mở các vấn đề công khai**
+2. Liên hệ trực tiếp với người bảo trì
+3. Cung cấp thông tin chi tiết
+4. Dành thời gian sửa lỗi trước khi tiết lộ
+
+---
+
+## Có liên quan
+
+- **[Reverse Proxy](reverse-proxy.md)** - Thiết lập HTTPS và SSL
+- **[Cấu hình nâng cao](advanced.md)** - Cổng, thời gian chờ và cài đặt SSL
+- **[Environment Reference](environment-reference.md)** - Tất cả các tùy chọn cấu hình

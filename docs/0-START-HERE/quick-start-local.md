@@ -1,30 +1,30 @@
-# Quick Start - Local & Private (5 minutes)
+# Hướng Dẫn Nhanh - Cục Bộ & Riêng Tư (5 phút)
 
-Get Open Notebook running with **100% local AI** using Ollama. No cloud API keys needed, completely private.
+Chạy Open Notebook với **AI cục bộ 100%** sử dụng Ollama. Không cần khóa API đám mây, hoàn toàn riêng tư.
 
-## Prerequisites
+## Điều Kiện Tiên Quyết
 
-1. **Docker Desktop** installed
-   - [Download here](https://www.docker.com/products/docker-desktop/)
-   - Already have it? Skip to step 2
+1. **Docker Desktop** đã cài đặt
+   - [Tải tại đây](https://www.docker.com/products/docker-desktop/)
+   - Đã có rồi? Bỏ qua bước 2
 
-2. **Local LLM** - Choose one:
-   - **Ollama** (recommended): [Download here](https://ollama.ai/)
-   - **LM Studio** (GUI alternative): [Download here](https://lmstudio.ai)
+2. **LLM Cục Bộ** - Chọn một:
+   - **Ollama** (khuyến nghị): [Tải tại đây](https://ollama.ai/)
+   - **LM Studio** (giao diện thay thế): [Tải tại đây](https://lmstudio.ai)
 
-## Step 1: Choose Your Setup (1 min)
+## Bước 1: Chọn Cài Đặt (1 phút)
 
-### Local Machine (Same Computer)
-Everything runs on your machine. Recommended for testing/learning.
+### Máy Cục Bộ (Cùng Máy Tính)
+Mọi thứ chạy trên máy của bạn. Khuyến nghị cho thử nghiệm/học tập.
 
-### Remote Server (Raspberry Pi, NAS, Cloud VM)
-Run on a different computer, access from another. Needs network configuration.
+### Máy Chủ Từ Xa (Raspberry Pi, NAS, Cloud VM)
+Chạy trên máy tính khác, truy cập từ máy khác. Cần cấu hình mạng.
 
 ---
 
-## Step 2: Create Configuration (1 min)
+## Bước 2: Tạo Cấu Hình (1 phút)
 
-Create a new folder `open-notebook-local` and add this file:
+Tạo thư mục mới `open-notebook-local` và thêm file này:
 
 **docker-compose.yml**:
 ```yaml
@@ -41,13 +41,13 @@ services:
     image: lfnovo/open_notebook:v1-latest-single
     pull_policy: always
     ports:
-      - "8502:8502"  # Web UI (React frontend)
-      - "5055:5055"  # API (required!)
+      - "8502:8502"  # Giao diện Web (React frontend)
+      - "5055:5055"  # API (bắt buộc!)
     environment:
-      # Encryption key for credential storage (required)
-      - OPEN_NOTEBOOK_ENCRYPTION_KEY=change-me-to-a-secret-string
+      # Khóa mã hóa cho lưu trữ credential (bắt buộc)
+      - OPEN_NOTEBOOK_ENCRYPTION_KEY=thay-doi-thanh-chuoi-bi-mat
 
-      # Database (required)
+      # Cơ sở dữ liệu (bắt buộc)
       - SURREAL_URL=ws://surrealdb:8000/rpc
       - SURREAL_USER=root
       - SURREAL_PASSWORD=password
@@ -67,233 +67,233 @@ services:
     volumes:
       - ./ollama_models:/root/.ollama
     environment:
-      # Optional: set GPU support if available
+      # Tùy chọn: bật hỗ trợ GPU nếu có
       - OLLAMA_NUM_GPU=0
     restart: always
 
 ```
 
-**Edit the file:**
-- Replace `change-me-to-a-secret-string` with your own secret (any string works)
+**Chỉnh sửa file:**
+- Thay `thay-doi-thanh-chuoi-bi-mat` bằng chuỗi bí mật của bạn (bất kỳ chuỗi nào đều được)
 
 ---
 
-## Step 3: Start Services (1 min)
+## Bước 3: Khởi Động Dịch Vụ (1 phút)
 
-Open terminal in your `open-notebook-local` folder:
+Mở terminal trong thư mục `open-notebook-local`:
 
 ```bash
 docker compose up -d
 ```
 
-Wait 10-15 seconds for all services to start.
+Chờ 10-15 giây để tất cả dịch vụ khởi động.
 
 ---
 
-## Step 4: Download a Model (2-3 min)
+## Bước 4: Tải Mô Hình (2-3 phút)
 
-Ollama needs at least one language model. Pick one:
+Ollama cần ít nhất một mô hình ngôn ngữ. Chọn một:
 
 ```bash
-# Fastest & smallest (recommended for testing)
+# Nhanh nhất & nhỏ nhất (khuyến nghị cho thử nghiệm)
 docker exec open-notebook-local-ollama-1 ollama pull mistral
 
-# OR: Better quality but slower
+# HOẶC: Chất lượng tốt hơn nhưng chậm hơn
 docker exec open-notebook-local-ollama-1 ollama pull neural-chat
 
-# OR: Even better quality, more VRAM needed
+# HOẶC: Chất lượng tốt hơn nữa, cần nhiều VRAM hơn
 docker exec open-notebook-local-ollama-1 ollama pull llama2
 ```
 
-This downloads the model (will take 1-5 minutes depending on your internet).
+Lệnh này tải mô hình (sẽ mất 1-5 phút tùy tốc độ mạng).
 
 ---
 
-## Step 5: Access Open Notebook (instant)
+## Bước 5: Truy Cập Open Notebook (ngay lập tức)
 
-Open your browser:
+Mở trình duyệt:
 ```
 http://localhost:8502
 ```
 
-You should see the Open Notebook interface.
+Bạn sẽ thấy giao diện Open Notebook.
 
 ---
 
-## Step 6: Configure Ollama Provider (1 min)
+## Bước 6: Cấu Hình Nhà Cung Cấp Ollama (1 phút)
 
-1. Go to **Settings** → **API Keys**
-2. Click **Add Credential**
-3. Select provider: **Ollama**
-4. Give it a name (e.g., "Local Ollama")
-5. Enter the base URL: `http://ollama:11434`
-6. Click **Save**
-7. Click **Test Connection** — should show success
-8. Click **Discover Models** → **Register Models**
-
----
-
-## Step 7: Configure Local Model (1 min)
-
-1. Go to **Settings** → **Models**
-2. Set:
-   - **Language Model**: `ollama/mistral` (or whichever model you downloaded)
-   - **Embedding Model**: `ollama/nomic-embed-text` (auto-downloads if missing)
-3. Click **Save**
+1. Vào **Cài đặt** → **Khóa API**
+2. Nhấn **Thêm Credential**
+3. Chọn nhà cung cấp: **Ollama**
+4. Đặt tên (ví dụ: "Ollama Cục Bộ")
+5. Nhập URL cơ sở: `http://ollama:11434`
+6. Nhấn **Lưu**
+7. Nhấn **Kiểm Tra Kết Nối** — sẽ hiển thị thành công
+8. Nhấn **Khám Phá Mô Hình** → **Đăng Ký Mô Hình**
 
 ---
 
-## Step 8: Create Your First Notebook (1 min)
+## Bước 7: Cấu Hình Mô Hình Cục Bộ (1 phút)
 
-1. Click **New Notebook**
-2. Name: "My Private Research"
-3. Click **Create**
-
----
-
-## Step 9: Add Local Content (1 min)
-
-1. Click **Add Source**
-2. Choose **Text**
-3. Paste some text or a local document
-4. Click **Add**
+1. Vào **Cài đặt** → **Mô hình**
+2. Đặt:
+   - **Mô hình Ngôn ngữ**: `ollama/mistral` (hoặc mô hình bạn đã tải)
+   - **Mô hình Nhúng**: `ollama/nomic-embed-text` (tự động tải nếu thiếu)
+3. Nhấn **Lưu**
 
 ---
 
-## Step 10: Chat With Your Content (1 min)
+## Bước 8: Tạo Notebook Đầu Tiên (1 phút)
 
-1. Go to **Chat**
-2. Type: "What did you learn from this?"
-3. Click **Send**
-4. Watch as the local Ollama model responds!
-
----
-
-## Verification Checklist
-
-- [ ] Docker is running
-- [ ] You can access `http://localhost:8502`
-- [ ] Ollama credential is configured and tested
-- [ ] Models are registered
-- [ ] You created a notebook
-- [ ] Chat works with local model
-
-**All checked?** You have a completely **private, offline** research assistant!
+1. Nhấn **Notebook Mới**
+2. Tên: "Nghiên Cứu Riêng Tư"
+3. Nhấn **Tạo**
 
 ---
 
-## Advantages of Local Setup
+## Bước 9: Thêm Nội Dung Cục Bộ (1 phút)
 
-- **No API costs** - Free forever
-- **No internet required** - True offline capability
-- **Privacy first** - Your data never leaves your machine
-- **No subscriptions** - No monthly bills
-
-**Trade-off:** Slower than cloud models (depends on your CPU/GPU)
+1. Nhấn **Thêm Nguồn**
+2. Chọn **Văn Bản**
+3. Dán văn bản hoặc tài liệu cục bộ
+4. Nhấn **Thêm**
 
 ---
 
-## Troubleshooting
+## Bước 10: Chat Với Nội Dung (1 phút)
+
+1. Vào **Chat**
+2. Gõ: "Bạn đã học được gì từ nội dung này?"
+3. Nhấn **Gửi**
+4. Xem mô hình Ollama cục bộ trả lời!
+
+---
+
+## Danh Sách Kiểm Tra
+
+- [ ] Docker đang chạy
+- [ ] Có thể truy cập `http://localhost:8502`
+- [ ] Credential Ollama đã cấu hình và kiểm tra
+- [ ] Mô hình đã đăng ký
+- [ ] Đã tạo notebook
+- [ ] Chat hoạt động với mô hình cục bộ
+
+**Tất cả đã đánh dấu?** Bạn đã có trợ lý nghiên cứu hoàn toàn **riêng tư, ngoại tuyến**!
+
+---
+
+## Ưu Điểm Cài Đặt Cục Bộ
+
+- **Không tốn phí API** - Miễn phí mãi mãi
+- **Không cần internet** - Khả năng ngoại tuyến thực sự
+- **Quyền riêng tư hàng đầu** - Dữ liệu không bao giờ rời máy
+- **Không đăng ký** - Không hóa đơn hàng tháng
+
+**Đánh đổi:** Chậm hơn mô hình đám mây (phụ thuộc CPU/GPU)
+
+---
+
+## Khắc Phục Sự Cố
 
 ### "ollama: command not found"
 
-Docker image name might be different:
+Tên image Docker có thể khác:
 ```bash
-docker ps  # Find the Ollama container name
-docker exec <container_name> ollama pull mistral
+docker ps  # Tìm tên container Ollama
+docker exec <tên_container> ollama pull mistral
 ```
 
-### Model Download Stuck
+### Tải Mô Hình Bị Treo
 
-Check internet connection and restart:
+Kiểm tra kết nối internet và khởi động lại:
 ```bash
 docker compose restart ollama
 ```
 
-Then retry the model pull command.
+Sau đó thử lại lệnh pull mô hình.
 
-### "Address already in use" Error
+### Lỗi "Địa chỉ đã được sử dụng"
 
 ```bash
 docker compose down
 docker compose up -d
 ```
 
-### Low Performance
+### Hiệu Suất Thấp
 
-Check if GPU is available:
+Kiểm tra GPU có sẵn không:
 ```bash
-# Show available GPUs
+# Hiển thị GPU có sẵn
 docker exec open-notebook-local-ollama-1 ollama ps
 
-# Enable GPU in docker-compose.yml:
+# Bật GPU trong docker-compose.yml:
 # - OLLAMA_NUM_GPU=1
 ```
 
-Then restart: `docker compose restart ollama`
+Sau đó khởi động lại: `docker compose restart ollama`
 
-### Adding More Models
+### Thêm Mô Hình
 
 ```bash
-# List available models
+# Liệt kê mô hình có sẵn
 docker exec open-notebook-local-ollama-1 ollama list
 
-# Pull additional model
+# Pull thêm mô hình
 docker exec open-notebook-local-ollama-1 ollama pull neural-chat
 ```
 
 ---
 
-## Next Steps
+## Bước Tiếp Theo
 
-**Now that it's running:**
+**Bây giờ đã chạy:**
 
-1. **Add Your Own Content**: PDFs, documents, articles (see 3-USER-GUIDE)
-2. **Explore Features**: Podcasts, transformations, search
-3. **Full Documentation**: [See all features](../3-USER-GUIDE/index.md)
-4. **Scale Up**: Deploy to a server with better hardware for faster responses
-5. **Benchmark Models**: Try different models to find the speed/quality tradeoff you prefer
-
----
-
-## Alternative: Using LM Studio Instead of Ollama
-
-**Prefer a GUI?** LM Studio is easier for non-technical users:
-
-1. Download LM Studio: https://lmstudio.ai
-2. Open the app, download a model from the library
-3. Go to "Local Server" tab, start server (port 1234)
-4. In Open Notebook, go to **Settings** → **API Keys**
-5. Click **Add Credential** → Select **OpenAI-Compatible**
-6. Enter base URL: `http://host.docker.internal:1234/v1`
-7. Enter API key: `lm-studio` (placeholder)
-8. Click **Save**, then **Test Connection**
-9. Configure in Settings → Models → Select your LM Studio model
-
-**Note**: LM Studio runs outside Docker, use `host.docker.internal` to connect.
+1. **Thêm Nội Dung Của Bạn**: PDF, tài liệu, bài viết (xem 3-HƯỚNG-DẪN-SỬ-DỤNG)
+2. **Khám Phá Tính Năng**: Podcast, biến đổi, tìm kiếm
+3. **Tài Liệu Đầy Đủ**: [Xem tất cả tính năng](../3-USER-GUIDE/index.md)
+4. **Nâng Cấp**: Triển khai trên máy chủ có phần cứng tốt hơn để phản hồi nhanh hơn
+5. **Đánh Giá Mô Hình**: Thử các mô hình khác để tìm sự đánh đổi tốc độ/chất lượng bạn thích
 
 ---
 
-## Going Further
+## Thay Thế: Sử Dụng LM Studio Thay Ollama
 
-- **Switch models**: Change in Settings → Models anytime
-- **Add more models**:
-  - Ollama: Run `ollama pull <model>`, then re-discover models from the credential
-  - LM Studio: Download from the app library
-- **Deploy to server**: Same docker-compose.yml works anywhere
-- **Use cloud hybrid**: Keep some local models, add cloud provider credentials for complex tasks
+**Thích giao diện?** LM Studio dễ hơn cho người dùng không chuyên kỹ thuật:
 
----
+1. Tải LM Studio: https://lmstudio.ai
+2. Mở ứng dụng, tải mô hình từ thư viện
+3. Vào tab "Local Server", khởi động server (cổng 1234)
+4. Trong Open Notebook, vào **Cài đặt** → **Khóa API**
+5. Nhấn **Thêm Credential** → Chọn **Tương Thích OpenAI**
+6. Nhập URL cơ sở: `http://host.docker.internal:1234/v1`
+7. Nhập khóa API: `lm-studio` (giữ chỗ)
+8. Nhấn **Lưu**, sau đó **Kiểm Tra Kết Nối**
+9. Cấu hình trong Cài đặt → Mô hình → Chọn mô hình LM Studio
 
-## Common Model Choices
-
-| Model | Speed | Quality | VRAM | Best For |
-|-------|-------|---------|------|----------|
-| **mistral** | Fast | Good | 4GB | Testing, general use |
-| **neural-chat** | Medium | Better | 6GB | Balanced, recommended |
-| **llama2** | Slow | Best | 8GB+ | Complex reasoning |
-| **phi** | Very Fast | Fair | 2GB | Minimal hardware |
+**Lưu ý**: LM Studio chạy ngoài Docker, sử dụng `host.docker.internal` để kết nối.
 
 ---
 
-**Need Help?** Join our [Discord community](https://discord.gg/37XJPXfz2w) - many users run local setups!
+## Tìm Hiểu Thêm
+
+- **Đổi mô hình**: Thay đổi trong Cài đặt → Mô hình bất cứ lúc nào
+- **Thêm mô hình**:
+  - Ollama: Chạy `ollama pull <mô_hình>`, sau đó khám phá lại mô hình từ credential
+  - LM Studio: Tải từ thư viện ứng dụng
+- **Triển khai server**: Cùng docker-compose.yml hoạt động ở mọi nơi
+- **Hybrid đám mây**: Giữ một số mô hình cục bộ, thêm credential nhà cung cấp đám mây cho tác vụ phức tạp
+
+---
+
+## Lựa Chọn Mô Hình Phổ Biến
+
+| Mô hình | Tốc độ | Chất lượng | VRAM | Phù hợp cho |
+|---------|--------|-----------|------|-------------|
+| **mistral** | Nhanh | Tốt | 4GB | Thử nghiệm, sử dụng chung |
+| **neural-chat** | Trung bình | Tốt hơn | 6GB | Cân bằng, khuyến nghị |
+| **llama2** | Chậm | Tốt nhất | 8GB+ | Suy luận phức tạp |
+| **phi** | Rất nhanh | Khá | 2GB | Phần cứng tối thiểu |
+
+---
+
+**Cần Trợ Giúp?** Tham gia [cộng đồng Discord](https://discord.gg/37XJPXfz2w) - nhiều người dùng chạy cài đặt cục bộ!

@@ -1,23 +1,27 @@
-# AI & Chat Issues - Model Configuration & Quality
+# Vấn đề về AI & Trò chuyện - Cấu hình & Chất lượng mô hình
 
-Problems with AI models, chat, and response quality.
+Các vấn đề với mô hình AI, trò chuyện và chất lượng phản hồi.
 
-> **Note:** Open Notebook now shows descriptive error messages for AI provider failures. Instead of a generic "An unexpected error occurred", you'll see specific messages like "Authentication failed. Please check your API key" or "Rate limit exceeded. Please wait a moment and try again." These messages help you diagnose and fix issues faster.
+> **Lưu ý:** Mở Notebook hiện hiển thị thông báo lỗi mô tả về lỗi của nhà cung cấp AI. Thay vì thông báo chung chung là "Đã xảy ra lỗi không mong muốn", bạn sẽ thấy các thông báo cụ thể như "Xác thực không thành công. Vui lòng kiểm tra khóa API của bạn" hoặc "Vượt quá giới hạn tốc độ. Vui lòng đợi một lát và thử lại". Những thông báo này giúp bạn chẩn đoán và khắc phục sự cố nhanh hơn.
 
 ---
 
-## "Failed to send message" Error
+## Lỗi "Gửi tin nhắn không thành công"
 
-**Symptom:** Chat shows "Failed to send message" toast. Logs show:
+**Triệu chứng:** Trò chuyện hiển thị bánh mì nướng "Không thể gửi tin nhắn". Nhật ký hiển thị:
+
 ```
 Error executing chat: Model is not a LanguageModel: None
 ```
 
-**Cause:** No valid language model configured for chat
 
-**Solutions:**
 
-### Solution 1: Check Default Model Configuration
+**Lý do:** Không có mô hình ngôn ngữ hợp lệ nào được định cấu hình để trò chuyện
+
+**Giải pháp:**
+
+### Giải pháp 1: Kiểm tra cấu hình model mặc định
+
 ```
 1. Go to Settings → Models
 2. Scroll to "Default Models" section
@@ -26,7 +30,10 @@ Error executing chat: Model is not a LanguageModel: None
 5. Click Save
 ```
 
-### Solution 2: Verify Model Names (Ollama Users)
+
+
+### Giải pháp 2: Xác minh tên model (Người dùng Ollama)
+
 ```bash
 # Get exact model names
 ollama list
@@ -39,7 +46,10 @@ ollama list
 # NOT "gemma3" or "gemma3-12b"
 ```
 
-### Solution 3: Re-add Missing Models
+
+
+### Giải pháp 3: Thêm lại các mẫu bị thiếu
+
 ```
 1. Note the exact model names from your provider
 2. Go to Settings → Models
@@ -48,7 +58,10 @@ ollama list
 5. Set new defaults
 ```
 
-### Solution 4: Check Model Still Exists
+
+
+### Giải pháp 4: Kiểm tra Model vẫn tồn tại
+
 ```bash
 # For Ollama: verify model is installed
 ollama list
@@ -57,19 +70,22 @@ ollama list
 # and you have access to the model
 ```
 
-> **Tip:** This error often occurs when you delete a model from Ollama but forget to update the default models in Open Notebook. Always re-configure defaults after removing models.
+
+
+> **Mẹo:** Lỗi này thường xảy ra khi bạn xóa một mẫu khỏi Ollama nhưng quên cập nhật các mẫu mặc định trong Open Notebook. Luôn định cấu hình lại mặc định sau khi xóa mô hình.
 
 ---
 
-## "Models not available" or "Models not showing"
+## "Không có mẫu" hoặc "Mẫu không hiển thị"
 
-**Symptom:** Settings → Models shows empty, or "No models configured"
+**Triệu chứng:** Cài đặt → Kiểu máy hiển thị trống hoặc "Không có kiểu máy nào được định cấu hình"
 
-**Cause:** No credential configured, or credential has invalid API key
+**Lý do:** Không có thông tin xác thực nào được định cấu hình hoặc thông tin xác thực có khóa API không hợp lệ
 
-**Solutions:**
+**Giải pháp:**
 
-### Solution 1: Add Credential via Settings UI
+### Giải pháp 1: Thêm thông tin xác thực qua Giao diện người dùng cài đặt
+
 ```
 1. Go to Settings → API Keys
 2. Click "Add Credential"
@@ -80,7 +96,10 @@ ollama list
 7. Go to Settings → Models to verify
 ```
 
-### Solution 2: Check Key is Valid
+
+
+### Giải pháp 2: Kiểm tra Key có hợp lệ không
+
 ```
 1. Go to Settings → API Keys
 2. Click "Test Connection" on your credential
@@ -89,7 +108,10 @@ ollama list
    - Delete the credential and create a new one
 ```
 
-### Solution 3: Switch Provider
+
+
+### Giải pháp 3: Chuyển đổi nhà cung cấp
+
 ```
 1. Go to Settings → API Keys
 2. Add a credential for a different provider
@@ -97,24 +119,30 @@ ollama list
 4. Go to Settings → Models to select the new provider's models
 ```
 
+
+
 ---
 
-## "Invalid API key" or "Unauthorized"
+## "Khóa API không hợp lệ" hoặc "Trái phép"
 
-**Symptom:** Error when trying to chat: "Invalid API key"
+**Triệu chứng:** Lỗi khi cố gắng trò chuyện: "Khóa API không hợp lệ"
 
-**Cause:** Credential has wrong, expired, or revoked API key
+**Lý do:** Thông tin xác thực có khóa API sai, hết hạn hoặc bị thu hồi
 
-**Solutions:**
+**Giải pháp:**
 
-### Step 1: Test Your Credential
+### Bước 1: Kiểm tra thông tin xác thực của bạn
+
 ```
 1. Go to Settings → API Keys
 2. Click "Test Connection" on your credential
 3. If it fails, proceed to Step 2
 ```
 
-### Step 2: Get Fresh Key
+
+
+### Bước 2: Lấy Fresh Key
+
 ```
 Go to provider's dashboard:
 - OpenAI: https://platform.openai.com/api-keys (starts with sk-proj-)
@@ -124,7 +152,10 @@ Go to provider's dashboard:
 Generate new key and copy exactly (no extra spaces)
 ```
 
-### Step 3: Update Credential
+
+
+### Bước 3: Cập nhật thông tin xác thực
+
 ```
 1. Go to Settings → API Keys
 2. Delete the old credential
@@ -134,24 +165,30 @@ Generate new key and copy exactly (no extra spaces)
 6. Re-discover and register models if needed
 ```
 
-### Step 4: Verify in UI
+
+
+### Bước 4: Xác minh trong UI
+
 ```
 1. Go to Settings → Models
 2. Verify models are available
 3. Try a test chat
 ```
 
+
+
 ---
 
-## Chat Returns Generic/Bad Responses
+## Trò chuyện Trả về các phản hồi chung/xấu
 
-**Symptom:** AI responses are shallow, generic, or wrong
+**Triệu chứng:** Phản hồi của AI rất nông cạn, chung chung hoặc sai
 
-**Cause:** Bad context, vague question, or wrong model
+**Lý do:** Ngữ cảnh sai, câu hỏi mơ hồ hoặc mô hình sai
 
-**Solutions:**
+**Giải pháp:**
 
-### Solution 1: Check Context
+### Giải pháp 1: Kiểm tra ngữ cảnh
+
 ```
 1. In Chat, click "Select Sources"
 2. Verify sources you want are CHECKED
@@ -160,7 +197,10 @@ Generate new key and copy exactly (no extra spaces)
 5. Try chat again
 ```
 
-### Solution 2: Ask Better Question
+
+
+### Giải pháp 2: Đặt câu hỏi hay hơn
+
 ```
 Bad:     "What do you think?"
 Good:    "Based on the paper's methodology, what are 3 limitations?"
@@ -169,7 +209,10 @@ Bad:     "Tell me about X"
 Good:    "Summarize X in 3 bullet points with page citations"
 ```
 
-### Solution 3: Use Stronger Model
+
+
+### Giải pháp 3: Sử dụng Model mạnh hơn
+
 ```
 OpenAI:
   Current: gpt-4o-mini → Switch to: gpt-4o
@@ -183,23 +226,29 @@ To change:
 3. Try chat again
 ```
 
-### Solution 4: Add More Sources
+
+
+### Giải pháp 4: Thêm nguồn khác
+
 ```
 If:  "Response seems incomplete"
 Try: Add more relevant sources to provide context
 ```
 
+
+
 ---
 
-## Chat is Very Slow
+## Trò chuyện rất chậm
 
-**Symptom:** Chat responses take minutes
+**Triệu chứng:** Phản hồi trò chuyện mất vài phút
 
-**Cause:** Large context, slow model, or overloaded API
+**Nguyên nhân:** Ngữ cảnh lớn, mô hình chậm hoặc API quá tải
 
-**Solutions:**
+**Giải pháp:**
 
-### Solution 1: Use Faster Model
+### Giải pháp 1: Sử dụng Model nhanh hơn
+
 ```bash
 Fastest: Groq (any model)
 Fast: OpenAI gpt-4o-mini
@@ -209,7 +258,10 @@ Slow: Anthropic claude-3-5-sonnet
 Switch in: Settings → Models
 ```
 
-### Solution 2: Reduce Context
+
+
+### Giải pháp 2: Giảm ngữ cảnh
+
 ```
 1. Chat → Select Sources
 2. Uncheck sources you don't need
@@ -217,7 +269,10 @@ Switch in: Settings → Models
 4. Save and try again
 ```
 
-### Solution 3: Increase Timeout
+
+
+### Giải pháp 3: Tăng thời gian chờ
+
 ```bash
 # In .env:
 API_CLIENT_TIMEOUT=600  # 10 minutes
@@ -226,7 +281,10 @@ API_CLIENT_TIMEOUT=600  # 10 minutes
 docker compose restart
 ```
 
-### Solution 4: Check System Load
+
+
+### Giải pháp 4: Kiểm tra tải hệ thống
+
 ```bash
 # See if API is overloaded:
 docker stats
@@ -236,15 +294,19 @@ docker stats
 # Restart: docker compose restart
 ```
 
+
+
 ---
 
-## Chat Doesn't Remember History
+## Trò chuyện không nhớ lịch sử
 
-**Symptom:** Each message treated as separate, no context between questions
+**Triệu chứng:** Mỗi tin nhắn được coi là riêng biệt, không có ngữ cảnh giữa các câu hỏi
 
-**Cause:** Chat history not saved or new chat started
+**Lý do:** Lịch sử trò chuyện chưa được lưu hoặc cuộc trò chuyện mới đã bắt đầu
 
-**Solution:**
+**Giải pháp:**
+
+
 
 ```
 1. Make sure you're in same Chat (not new Chat)
@@ -254,55 +316,61 @@ docker stats
 5. If you start new Chat, history is separate
 ```
 
+
+
 ---
 
-## "Rate limit exceeded"
+## "Vượt quá giới hạn tỷ lệ"
 
-**Symptom:** Error: "Rate limit exceeded" or "Too many requests"
+**Triệu chứng:** Lỗi: "Vượt quá giới hạn tốc độ" hoặc "Quá nhiều yêu cầu"
 
-**Cause:** Hit provider's API rate limit
+**Lý do:** Đạt giới hạn tốc độ API của nhà cung cấp
 
-**Solutions:**
+**Giải pháp:**
 
-### For Cloud Providers (OpenAI, Anthropic, etc.)
+### Dành cho nhà cung cấp đám mây (OpenAI, Anthropic, v.v.)
 
-**Immediate:**
-- Wait 1-2 minutes
-- Try again
+**Ngay lập tức:**
+- Đợi 1-2 phút
+- Thử lại
 
-**Short term:**
-- Use cheaper/smaller model
-- Reduce concurrent operations
-- Space out requests
+**Ngắn hạn:**
+- Sử dụng mô hình rẻ hơn/nhỏ hơn
+- Giảm các hoạt động đồng thời
+- Yêu cầu giãn cách
 
-**Long term:**
-- Upgrade your account
-- Switch to different provider
-- Use Ollama (local, no limits)
+**Dài hạn:**
+- Nâng cấp tài khoản của bạn
+- Chuyển sang nhà cung cấp khác
+- Sử dụng Ollama (địa phương, không giới hạn)
 
-### Check Account Status
+### Kiểm tra trạng thái tài khoản
+
 ```
 OpenAI: https://platform.openai.com/account/usage/overview
 Anthropic: https://console.anthropic.com/account/billing/overview
 Google: Google Cloud Console
 ```
 
-### For Ollama (Local)
-- No rate limits
-- Use `ollama pull mistral` for best model
-- Restart if hitting resource limits
+
+
+### Dành cho Ollama (Địa phương)
+- Không giới hạn tỷ lệ
+- Sử dụng `ollama pull mistral` để có mô hình tốt nhất
+- Khởi động lại nếu đạt giới hạn tài nguyên
 
 ---
 
-## "Context length exceeded" or "Token limit"
+## "Vượt quá độ dài ngữ cảnh" hoặc "Giới hạn mã thông báo"
 
-**Symptom:** Error about too many tokens
+**Triệu chứng:** Lỗi về quá nhiều token
 
-**Cause:** Sources too large for model
+**Nguyên nhân:** Nguồn quá lớn cho mô hình
 
-**Solutions:**
+**Giải pháp:**
 
-### Solution 1: Use Model with Longer Context
+### Giải pháp 1: Sử dụng Model với ngữ cảnh dài hơn
+
 ```
 Current: GPT-4o (128K tokens) → Switch to: Claude (200K tokens)
 Current: Claude Haiku (200K) → Switch to: Gemini (1M tokens)
@@ -310,31 +378,40 @@ Current: Claude Haiku (200K) → Switch to: Gemini (1M tokens)
 To change: Settings → Models
 ```
 
-### Solution 2: Reduce Context
+
+
+### Giải pháp 2: Giảm ngữ cảnh
+
 ```
 1. Select fewer sources
 2. Or use "Summary Only" instead of "Full Content"
 3. Or split large documents into smaller pieces
 ```
 
-### Solution 3: For Ollama (Local)
+
+
+### Giải pháp 3: Dành cho Ollama (Local)
+
 ```bash
 # Use smaller model:
 ollama pull phi  # Very small
 # Instead of: ollama pull neural-chat  # Large
 ```
 
+
+
 ---
 
-## "API call failed" or Timeout
+## "Cuộc gọi API không thành công" hoặc Hết thời gian chờ
 
-**Symptom:** Generic API error, response times out
+**Triệu chứng:** Lỗi API chung, hết thời gian phản hồi
 
-**Cause:** Provider API down, network issue, or slow service
+**Nguyên nhân:** API nhà cung cấp không hoạt động, sự cố mạng hoặc dịch vụ chậm
 
-**Solutions:**
+**Giải pháp:**
 
-### Check Provider Status
+### Kiểm tra trạng thái nhà cung cấp
+
 ```
 OpenAI: https://status.openai.com/
 Anthropic: Check website
@@ -342,20 +419,29 @@ Google: Google Cloud Status
 Groq: Check website
 ```
 
-### Retry Operation
+
+
+### Thử lại thao tác
+
 ```
 1. Wait 30 seconds
 2. Try again
 ```
 
-### Use Different Model/Provider
+
+
+### Sử dụng Model/Nhà cung cấp khác
+
 ```
 1. Settings → Models
 2. Try different provider
 3. If OpenAI down, use Anthropic
 ```
 
-### Check Network
+
+
+### Kiểm tra mạng
+
 ```bash
 # Verify internet working:
 ping google.com
@@ -365,17 +451,20 @@ curl https://api.openai.com/v1/models \
   -H "Authorization: Bearer YOUR_KEY"
 ```
 
+
+
 ---
 
-## Responses Include Hallucinations
+## Phản hồi bao gồm ảo giác
 
-**Symptom:** AI makes up facts that aren't in sources
+**Triệu chứng:** AI tạo ra những sự thật không có trong nguồn
 
-**Cause:** Sources not in context, or model guessing
+**Lý do:** Nguồn không đúng ngữ cảnh hoặc đoán theo mô hình
 
-**Solutions:**
+**Giải pháp:**
 
-### Solution 1: Verify Context
+### Giải pháp 1: Xác minh bối cảnh
+
 ```
 1. Click citation in response
 2. Check source actually says that
@@ -383,30 +472,39 @@ curl https://api.openai.com/v1/models \
 4. Add source to context and try again
 ```
 
-### Solution 2: Request Citations
+
+
+### Giải pháp 2: Yêu cầu trích dẫn
+
 ```
 Ask: "Answer this with citations to specific pages"
 
 The AI will be more careful if asked for citations
 ```
 
-### Solution 3: Use Stronger Model
+
+
+### Giải pháp 3: Sử dụng Model mạnh hơn
+
 ```
 Weaker models hallucinate more
 Switch to: GPT-4o or Claude Sonnet
 ```
 
+
+
 ---
 
-## High API Costs
+## Chi phí API cao
 
-**Symptom:** API bills are higher than expected
+**Triệu chứng:** Hóa đơn API cao hơn dự kiến
 
-**Cause:** Using expensive model, large context, many requests
+**Lý do:** Sử dụng model đắt tiền, bối cảnh rộng, nhiều request
 
-**Solutions:**
+**Giải pháp:**
 
-### Use Cheaper Model
+### Sử dụng mẫu rẻ hơn
+
 ```
 Expensive: gpt-4o
 Cheaper: gpt-4o-mini (10x cheaper)
@@ -417,7 +515,10 @@ Cheaper: Claude Haiku (5x cheaper)
 Groq: Ultra cheap but fewer models
 ```
 
-### Reduce Context
+
+
+### Giảm ngữ cảnh
+
 ```
 In Chat:
 1. Select fewer sources
@@ -425,7 +526,10 @@ In Chat:
 3. Ask more specific questions
 ```
 
-### Switch to Ollama (Free)
+
+
+### Chuyển sang Ollama (Miễn phí)
+
 ```bash
 # Install Ollama
 # Run: ollama serve
@@ -434,11 +538,13 @@ In Chat:
 # Cost: Free!
 ```
 
+
+
 ---
 
-## Still Having Chat Issues?
+## Vẫn gặp sự cố khi trò chuyện?
 
-- Try [Quick Fixes](quick-fixes.md)
-- Try [Chat Effectively Guide](../3-USER-GUIDE/chat-effectively.md)
-- Check logs: `docker compose logs api | grep -i "error"`
-- Ask for help: [Troubleshooting Index](index.md#getting-help)
+- Hãy thử [Sửa nhanh](quick-fixes.md)
+- Hãy thử [Hướng dẫn trò chuyện hiệu quả](../3-USER-GUIDE/chat-performancely.md)
+- Kiểm tra log: `docker soạn log api | grep -i "lỗi"`
+- Yêu cầu trợ giúp: [Chỉ mục khắc phục sự cố](index.md#getting-help)

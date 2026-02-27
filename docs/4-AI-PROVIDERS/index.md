@@ -1,199 +1,211 @@
-# AI Providers - Comparison & Selection Guide
+# Nhà cung cấp AI - Hướng dẫn so sánh và lựa chọn
 
-Open Notebook supports 15+ AI providers. This guide helps you **choose the right provider** for your needs.
+Open Notebook hỗ trợ hơn 15 nhà cung cấp AI. Hướng dẫn này giúp bạn **chọn nhà cung cấp phù hợp** cho nhu cầu của bạn.
 
-> 💡 **Just want to set up a provider?** Skip to the [Configuration Guide](../5-CONFIGURATION/ai-providers.md) for detailed setup instructions.
+> 💡 **Chỉ muốn thiết lập nhà cung cấp?** Hãy chuyển đến [Hướng dẫn cấu hình](../5-CONFIGUration/ai-providers.md) để biết hướng dẫn thiết lập chi tiết.
 
 ---
 
-## Quick Decision: Which Provider?
+## Quyết định nhanh: Nhà cung cấp nào?
 
-### Cloud Providers (Easiest)
+### Nhà cung cấp đám mây (Dễ nhất)
 
-**OpenAI (Recommended)**
-- Cost: ~$0.03-0.15 per 1K tokens
-- Speed: Very fast
-- Quality: Excellent
-- Best for: Most users (best quality/price balance)
+**OpenAI (Được khuyến nghị)**
+- Chi phí: ~0,03-0,15 USD cho mỗi 1K mã thông báo
+- Tốc độ: Rất nhanh
+- Chất lượng: Tuyệt vời
+- Tốt nhất cho: Hầu hết người dùng (cân bằng chất lượng/giá cả tốt nhất)
 
-→ [Setup Guide](../5-CONFIGURATION/ai-providers.md#openai)
+→ [Hướng dẫn thiết lập](../5-CONFIGUTURE/ai-providers.md#openai)
 
-**Anthropic (Claude)**
-- Cost: ~$0.80-3.00 per 1M tokens
-- Speed: Fast
-- Quality: Excellent
-- Best for: Long context (200K tokens), reasoning, latest AI
-- Advantage: Superior long-context handling
+**Nhân loại (Claude)**
+- Chi phí: ~$0,80-3,00 cho mỗi 1M token
+- Tốc độ: Nhanh
+- Chất lượng: Tuyệt vời
+- Tốt nhất cho: Ngữ cảnh dài (200K token), lý luận, AI mới nhất
+- Ưu điểm: Xử lý ngữ cảnh dài vượt trội
 
-→ [Setup Guide](../5-CONFIGURATION/ai-providers.md#anthropic-claude)
+→ [Hướng dẫn thiết lập](../5-CONFIGUTURE/ai-providers.md#anthropic-claude)
 
-**Google Gemini**
-- Cost: ~$0.075-0.30 per 1K tokens
-- Speed: Very fast
-- Quality: Good to excellent
-- Best for: Multimodal (images, audio, video)
-- Advantage: Longest context (up to 2M tokens)
+**Google Song Tử**
+- Chi phí: ~ 0,075-0,30 USD cho mỗi 1K mã thông báo
+- Tốc độ: Rất nhanh
+- Chất lượng: Tốt đến xuất sắc
+- Tốt nhất cho: Đa phương thức (hình ảnh, âm thanh, video)
+- Ưu điểm: Bối cảnh dài nhất (lên tới 2 triệu token)
 
-→ [Setup Guide](../5-CONFIGURATION/ai-providers.md#google-gemini)
+→ [Hướng dẫn thiết lập](../5-CONFIGUTURE/ai-providers.md#google-gemini)
 
-**Groq (Ultra-Fast)**
-- Cost: ~$0.05 per 1M tokens (cheapest)
-- Speed: Ultra-fast (fastest available)
-- Quality: Good
-- Best for: Budget-conscious, transformations, speed-critical tasks
-- Disadvantage: Limited model selection
+**Groq (Siêu nhanh)**
+- Chi phí: ~0,05 USD cho mỗi 1 triệu token (rẻ nhất)
+- Tốc độ: Cực nhanh (nhanh nhất hiện có)
+- Chất lượng: Tốt
+- Tốt nhất cho: Có ý thức về ngân sách, chuyển đổi, các nhiệm vụ quan trọng về tốc độ
+- Nhược điểm: Lựa chọn mẫu mã hạn chế
 
-→ [Setup Guide](../5-CONFIGURATION/ai-providers.md#groq)
+→ [Hướng dẫn thiết lập](../5-CONFIGUTURE/ai-providers.md#groq)
 
-**OpenRouter (100+ Models)**
-- Cost: Pay-per-model (varies widely)
-- Speed: Varies by model
-- Quality: Varies by model
-- Best for: Model comparison, testing, unified billing
-- Advantage: One API key for 100+ models from different providers
+**OpenRouter (Hơn 100 mẫu)**
+- Chi phí: Trả tiền cho mỗi mô hình (rất khác nhau)
+- Tốc độ: Khác nhau tùy theo model
+- Chất lượng: Tùy từng mẫu
+- Tốt nhất cho: So sánh mô hình, thử nghiệm, thanh toán thống nhất
+- Ưu điểm: Một khóa API cho hơn 100 mô hình từ các nhà cung cấp khác nhau
 
-→ [Setup Guide](../5-CONFIGURATION/ai-providers.md#openrouter)
+→ [Hướng dẫn thiết lập](../5-CONFIGUration/ai-providers.md#openrouter)
 
-### Local / Self-Hosted (Free)
+### Cục bộ / Tự lưu trữ (Miễn phí)
 
-**Ollama (Recommended for Local)**
-- Cost: Free (electricity only)
-- Speed: Depends on hardware (slow on CPU, fast on GPU)
-- Quality: Good (open-source models)
-- Setup: 10 minutes
-- Best for: Privacy-first, offline use
-- Privacy: 100% local, nothing leaves your machine
+**Ollama (Được đề xuất cho địa phương)**
+- Chi phí: Miễn phí (chỉ tiền điện)
+- Tốc độ: Phụ thuộc vào phần cứng (chậm CPU, nhanh GPU)
+- Chất lượng: Tốt (mô hình mã nguồn mở)
+- Thiết lập: 10 phút
+- Tốt nhất cho: Sử dụng ngoại tuyến, ưu tiên quyền riêng tư
+- Quyền riêng tư: 100% cục bộ, không có gì rời khỏi máy của bạn
 
-→ [Setup Guide](../5-CONFIGURATION/ai-providers.md#ollama-recommended-for-local)
+→ [Hướng dẫn thiết lập](../5-CONFIGUration/ai-providers.md#ollama-recommends-for-local)
 
-**LM Studio (Alternative)**
-- Cost: Free (electricity only)
-- Speed: Depends on hardware
-- Quality: Good (same models as Ollama)
-- Setup: 15 minutes (GUI interface)
-- Best for: Non-technical users who prefer GUI over CLI
-- Privacy: 100% local
+**LM Studio (Thay thế)**
+- Chi phí: Miễn phí (chỉ tiền điện)
+- Tốc độ: Phụ thuộc vào phần cứng
+- Chất lượng: Tốt (cùng model với Ollama)
+- Thiết lập: 15 phút (giao diện GUI)
+- Tốt nhất cho: Người dùng không rành về kỹ thuật thích GUI hơn CLI
+- Quyền riêng tư: 100% địa phương
 
-→ [Setup Guide](../5-CONFIGURATION/ai-providers.md#lm-studio-local-alternative)
+→ [Hướng dẫn thiết lập](../5-CONFIGUration/ai-providers.md#lm-studio-local-alternative)
 
-### Enterprise
+###Doanh nghiệp
 
 **Azure OpenAI**
-- Cost: Same as OpenAI (usage-based)
-- Speed: Very fast
-- Quality: Excellent (same models as OpenAI)
-- Setup: 10 minutes (more complex)
-- Best for: Enterprise, compliance (HIPAA, SOC2), VPC integration
+- Chi phí: Tương tự như OpenAI (dựa trên mức sử dụng)
+- Tốc độ: Rất nhanh
+- Chất lượng: Xuất sắc (cùng model với OpenAI)
+- Thiết lập: 10 phút (phức tạp hơn)
+- Tốt nhất cho: Doanh nghiệp, tuân thủ (HIPAA, SOC2), tích hợp VPC
 
-→ [Setup Guide](../5-CONFIGURATION/ai-providers.md#azure-openai)
-
----
-
-## Comparison Table
-
-| Provider | Speed | Cost | Quality | Privacy | Setup | Context |
-|----------|-------|------|---------|---------|-------|---------|
-| **OpenAI** | Very Fast | $$ | Excellent | Low | 5 min | 128K |
-| **Anthropic** | Fast | $$ | Excellent | Low | 5 min | 200K |
-| **Google** | Very Fast | $$ | Good-Excellent | Low | 5 min | 2M |
-| **Groq** | Ultra Fast | $ | Good | Low | 5 min | 32K |
-| **OpenRouter** | Varies | Varies | Varies | Low | 5 min | Varies |
-| **Ollama** | Slow-Medium | Free | Good | Max | 10 min | Varies |
-| **LM Studio** | Slow-Medium | Free | Good | Max | 15 min | Varies |
-| **Azure** | Very Fast | $$ | Excellent | High | 10 min | 128K |
+→ [Hướng dẫn thiết lập](../5-CONFIGUration/ai-providers.md#azure-openai)
 
 ---
 
-## Choosing Your Provider
+## Bảng so sánh
 
-### I want the easiest setup
-→ **OpenAI** — Most popular, best community support
-
-### I have unlimited budget
-→ **OpenAI** — Best quality
-
-### I want to save money
-→ **Groq** — Cheapest cloud ($0.05 per 1M tokens)
-
-### I want privacy/offline
-→ **Ollama** — Free, local, private
-
-### I want a GUI (not CLI)
-→ **LM Studio** — Desktop app
-
-### I'm in an enterprise
-→ **Azure OpenAI** — Compliance, support
-
-### I need long context (200K+ tokens)
-→ **Anthropic** — Best long-context model
-
-### I need multimodal (images, audio, video)
-→ **Google Gemini** — Best multimodal support
-
-### I want access to many models with one API key
-→ **OpenRouter** — 100+ models, unified billing
+| Nhà cung cấp | Tốc độ | Chi phí | Chất lượng | Quyền riêng tư | Thiết lập | Bối cảnh |
+|----------|-------|------|----------|--------|-------|--------|
+| **OpenAI** | Rất nhanh | $$ | Xuất sắc | Thấp | 5 phút | 128K |
+| **Nhân loại** | Nhanh | $$ | Xuất sắc | Thấp | 5 phút | 200K |
+| **Google** | Rất nhanh | $$ | Tốt-Xuất sắc | Thấp | 5 phút | 2 triệu |
+| **Ngớ ngẩn** | Cực Nhanh | $ | Tốt | Thấp | 5 phút | 32K |
+| **OpenRouter** | Khác nhau | Khác nhau | Khác nhau | Thấp | 5 phút | Khác nhau |
+| **Ollama** | Chậm-Trung bình | Miễn phí | Tốt | Tối đa | 10 phút | Khác nhau |
+| **LM Studio** | Chậm-Trung bình | Miễn phí | Tốt | Tối đa | 15 phút | Khác nhau |
+| **Azure** | Rất nhanh | $$ | Xuất sắc | Cao | 10 phút | 128K |
 
 ---
 
-## Ready to Set Up Your Provider?
+## Chọn nhà cung cấp của bạn
 
-Now that you've chosen a provider, follow the detailed setup instructions:
+### Tôi muốn thiết lập dễ dàng nhất
+→ **OpenAI** — Phổ biến nhất, hỗ trợ cộng đồng tốt nhất
 
-→ **[AI Providers Configuration Guide](../5-CONFIGURATION/ai-providers.md)**
+### Tôi có ngân sách không giới hạn
+→ **OpenAI** — Chất lượng tốt nhất
 
-This guide includes:
-- Step-by-step setup instructions for each provider via the Settings UI
-- How to add credentials, test connections, and discover models
-- Model selection and recommendations
-- Provider-specific troubleshooting
-- Hardware requirements (for local providers)
-- Cost optimization tips
+### Tôi muốn tiết kiệm tiền
+→ **Groq** — Đám mây rẻ nhất ($0,05 trên 1M token)
+
+### Tôi muốn quyền riêng tư/ngoại tuyến
+→ **Ollama** — Miễn phí, địa phương, riêng tư
+
+### Tôi muốn có GUI (không phải CLI)
+→ **LM Studio** — Ứng dụng dành cho máy tính để bàn
+
+### Tôi đang ở doanh nghiệp
+→ **Azure OpenAI** — Tuân thủ, hỗ trợ
+
+### Tôi cần ngữ cảnh dài (hơn 200K mã thông báo)
+→ **Nhân loại** — Mô hình ngữ cảnh dài tốt nhất
+
+### Tôi cần đa phương thức (hình ảnh, âm thanh, video)
+→ **Google Gemini** — Hỗ trợ đa phương thức tốt nhất
+
+### Tôi muốn truy cập vào nhiều mô hình bằng một khóa API
+→ **OpenRouter** — Hơn 100 mẫu, thanh toán thống nhất
 
 ---
 
-## Cost Estimator
+## Bạn đã sẵn sàng thiết lập nhà cung cấp của mình chưa?
+
+Bây giờ bạn đã chọn nhà cung cấp, hãy làm theo hướng dẫn thiết lập chi tiết:
+
+→ **[Hướng dẫn cấu hình nhà cung cấp AI](../5-CONFIGUration/ai-providers.md)**
+
+Hướng dẫn này bao gồm:
+- Hướng dẫn thiết lập từng bước cho từng nhà cung cấp thông qua Giao diện người dùng Cài đặt
+- Cách thêm thông tin xác thực, kiểm tra kết nối và khám phá mô hình
+- Lựa chọn mô hình và đề xuất
+- Khắc phục sự cố dành riêng cho nhà cung cấp
+- Yêu cầu phần cứng (đối với nhà cung cấp địa phương)
+- Mẹo tối ưu hóa chi phí
+
+---
+
+## Công cụ ước tính chi phí
 
 ### OpenAI
+
 ```
 Light use (10 chats/day): $1-5/month
 Medium use (50 chats/day): $10-30/month
 Heavy use (all-day use): $50-100+/month
 ```
 
-### Anthropic
+
+
+### Nhân học
+
 ```
 Light use: $1-3/month
 Medium use: $5-20/month
 Heavy use: $20-50+/month
 ```
 
+
+
 ### Groq
+
 ```
 Light use: $0-1/month
 Medium use: $2-5/month
 Heavy use: $5-20/month
 ```
 
-### Ollama
+
+
+###Ollama
+
 ```
 Any use: Free (electricity only)
 8GB GPU running 24/7: ~$10/month electricity
 ```
 
----
 
-## Next Steps
-
-1. **You've chosen a provider** (from this comparison guide)
-2. **Follow the setup guide**: [AI Providers Configuration](../5-CONFIGURATION/ai-providers.md)
-3. **Add your credential** in Settings → API Keys
-4. **Test your connection** and discover models
-5. **Start using Open Notebook!**
 
 ---
 
-## Need Help?
+## Các bước tiếp theo
 
-- **Setup issues?** See [AI Providers Configuration](../5-CONFIGURATION/ai-providers.md) for detailed troubleshooting per provider
-- **General problems?** Check [Troubleshooting Guide](../6-TROUBLESHOOTING/index.md)
-- **Questions?** Join [Discord community](https://discord.gg/37XJPXfz2w)
+1. **Bạn đã chọn nhà cung cấp** (từ hướng dẫn so sánh này)
+2. **Làm theo hướng dẫn thiết lập**: [Cấu hình nhà cung cấp AI](../5-CONFIGUration/ai-providers.md)
+3. **Thêm thông tin xác thực của bạn** trong Cài đặt → Khóa API
+4. **Kiểm tra kết nối của bạn** và khám phá các mô hình
+5. **Bắt đầu sử dụng Open Notebook!**
+
+---
+
+## Cần trợ giúp?
+
+- **Vấn đề về thiết lập?** Xem [Cấu hình nhà cung cấp AI](../5-CONFIGUTURE/ai-providers.md) để biết cách khắc phục sự cố chi tiết cho mỗi nhà cung cấp
+- **Các vấn đề chung?** Kiểm tra [Hướng dẫn khắc phục sự cố](../6-KHẮC PHỤC SỰ CỐ/index.md)
+- **Câu hỏi?** Tham gia [cộng đồng Discord](https://discord.gg/37XJPXfz2w)

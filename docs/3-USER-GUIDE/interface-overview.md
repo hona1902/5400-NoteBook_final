@@ -1,256 +1,256 @@
-# Interface Overview - Finding Your Way Around
+# Tổng Quan Giao Diện - Tìm Đường Đi Của Bạn
 
-Open Notebook uses a clean three-panel layout. This guide shows you where everything is.
+Open Notebook sử dụng bố cục ba bảng điều khiển rõ ràng. Hướng dẫn này cho bạn thấy mọi thứ ở đâu.
 
 ---
 
-## The Main Layout
+## Bố Cục Chính
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  [Logo]  Notebooks  Search  Podcasts  Models  Settings      │
+│  [Logo]  Sổ tay  Tìm kiếm  Podcast  Mô hình  Cài đặt        │
 ├──────────────┬──────────────┬───────────────────────────────┤
 │              │              │                               │
-│   SOURCES    │    NOTES     │           CHAT                │
+│  NGUỒN       │  GHI CHÚ     │           TRÒ CHUYỆN          │
 │              │              │                               │
-│  Your docs   │  Your        │   Talk to AI about            │
-│  PDFs, URLs  │  insights    │   your sources                │
-│  Videos      │  summaries   │                               │
+│  Tài liệu    │  Thông tin   │   Nói chuyện với AI về        │
+│  PDF, URL    │  chi tiết    │   các nguồn của bạn           │
+│  Video       │  tóm tắt     │                               │
 │              │              │                               │
-│  [+Add]      │  [+Write]    │   [Type here...]              │
+│  [+Thêm]     │  [+Viết]     │   [Nhập vào đây...]           │
 │              │              │                               │
 └──────────────┴──────────────┴───────────────────────────────┘
 ```
 
 ---
 
-## Navigation Bar
+## Thanh Điều Hướng
 
-The top navigation takes you to main sections:
+Thanh điều hướng ở trên cùng đưa bạn đến các phần chính:
 
-| Icon | Page | What It Does |
+| Biểu tượng | Trang | Chức Năng |
 |------|------|--------------|
-| **Notebooks** | Main workspace | Your research projects |
-| **Search** | Ask & Search | Query across all notebooks |
-| **Podcasts** | Audio generation | Manage podcast profiles |
-| **Models** | AI configuration | Set up providers and models |
-| **Settings** | Preferences | App configuration |
+| **Sổ tay (Notebooks)** | Không gian làm việc chính | Các dự án nghiên cứu của bạn |
+| **Tìm kiếm (Search)** | Hỏi & Tìm kiếm | Truy vấn trên tất cả các sổ tay |
+| **Podcast** | Tạo âm thanh | Quản lý hồ sơ podcast |
+| **Mô hình (Models)** | Cấu hình AI | Thiết lập nhà cung cấp và mô hình |
+| **Cài đặt (Settings)** | Tùy chọn | Cấu hình ứng dụng |
 
 ---
 
-## Left Panel: Sources
+## Bảng Điều Khiển Bên Trái: Nguồn (Sources)
 
-Your research materials live here.
+Tài liệu nghiên cứu của bạn ở đây.
 
-### What You'll See
+### Những Gì Bạn Sẽ Thấy
 
 ```
 ┌─────────────────────────┐
-│  Sources (5)            │
-│  [+ Add Source]         │
+│  Nguồn (5)              │
+│  [+ Thêm Nguồn]         │
 ├─────────────────────────┤
 │  ┌─────────────────┐    │
 │  │ 📄 Paper.pdf    │    │
-│  │ 🟢 Full Content │    │
+│  │ 🟢 Toàn Bộ NK   │    │
 │  │ [⋮ Menu]        │    │
 │  └─────────────────┘    │
 │                         │
 │  ┌─────────────────┐    │
 │  │ 🔗 Article URL  │    │
-│  │ 🟡 Summary Only │    │
+│  │ 🟡 Chỉ Tóm Tắt  │    │
 │  │ [⋮ Menu]        │    │
 │  └─────────────────┘    │
 └─────────────────────────┘
 ```
 
-### Source Card Elements
+### Yếu Tố Thẻ Nguồn
 
-- **Icon** - File type (PDF, URL, video, etc.)
-- **Title** - Document name
-- **Context indicator** - What AI can see:
-  - 🟢 Full Content
-  - 🟡 Summary Only
-  - ⛔ Not in Context
-- **Menu (⋮)** - Edit, transform, delete
+- **Biểu tượng** - Loại tệp (PDF, URL, video, v.v.)
+- **Tiêu đề** - Tên tài liệu
+- **Chỉ báo Ngữ cảnh** - Những gì AI có thể xem (NK = Nội dung):
+  - 🟢 Toàn Bộ Nội Dung
+  - 🟡 Chỉ Tóm Tắt
+  - ⛔ Không Nằm Trong Ngữ Cảnh
+- **Menu (⋮)** - Chỉnh sửa, chuyển đổi, xóa
 
-### Add Source Button
+### Nút Thêm Nguồn
 
-Click to add:
-- File upload (PDF, DOCX, etc.)
-- Web URL
-- YouTube video
-- Plain text
+Nhấp để thêm:
+- Tải tệp lên (PDF, DOCX, v.v.)
+- URL Web
+- Video YouTube
+- Văn bản thuần túy
 
 ---
 
-## Middle Panel: Notes
+## Bảng Điều Khiển Ở Giữa: Ghi Chú (Notes)
 
-Your insights and AI-generated content.
+Thông tin chi tiết và nội dung do AI tạo ra của bạn.
 
-### What You'll See
+### Những Gì Bạn Sẽ Thấy
 
 ```
 ┌─────────────────────────┐
-│  Notes (3)              │
-│  [+ Write Note]         │
+│  Ghi Chú (3)            │
+│  [+ Viết Ghi Chú]       │
 ├─────────────────────────┤
 │  ┌─────────────────┐    │
-│  │ 📝 My Analysis  │    │
-│  │ Manual note     │    │
-│  │ Jan 3, 2026     │    │
+│  │ 📝 Phân tích    │    │
+│  │ Ghi chú thủ công│    │
+│  │ 3 Tháng 1, 2026 │    │
 │  └─────────────────┘    │
 │                         │
 │  ┌─────────────────┐    │
-│  │ 🤖 Summary      │    │
-│  │ From transform  │    │
-│  │ Jan 2, 2026     │    │
+│  │ 🤖 Tóm tắt      │    │
+│  │ Từ chuyển đổi   │    │
+│  │ 2 Tháng 1, 2026 │    │
 │  └─────────────────┘    │
 └─────────────────────────┘
 ```
 
-### Note Card Elements
+### Yếu Tố Thẻ Ghi Chú
 
-- **Icon** - Note type (manual 📝 or AI 🤖)
-- **Title** - Note name
-- **Origin** - How it was created
-- **Date** - When created
+- **Biểu tượng** - Loại ghi chú (thủ công 📝 hoặc AI 🤖)
+- **Tiêu đề** - Tên ghi chú
+- **Nguồn gốc** - Cách nó được tạo ra
+- **Ngày tháng** - Khi được tạo ra
 
-### Write Note Button
+### Nút Viết Ghi Chú
 
-Click to:
-- Create manual note
-- Add your own insights
-- Markdown supported
+Nhấp để:
+- Tạo ghi chú thủ công
+- Thêm thông tin chi tiết của riêng bạn
+- Hỗ trợ Markdown
 
 ---
 
-## Right Panel: Chat
+## Bảng Điều Khiển Bên Phải: Trò Chuyện (Chat)
 
-Your AI conversation space.
+Không gian trò chuyện AI của bạn.
 
-### What You'll See
+### Những Gì Bạn Sẽ Thấy
 
 ```
 ┌───────────────────────────────┐
-│  Chat                         │
-│  Session: Research Discussion │
-│  [+ New Session] [Sessions ▼] │
+│  Trò Chuyện                   │
+│  Phiên: Thảo luận Nghiên cứu  │
+│  [+ Phiên mới] [Phiên ▼]      │
 ├───────────────────────────────┤
 │                               │
-│  You: What's the main         │
-│       finding?                │
+│  Bạn: Điểm chính               │
+│       là gì?                  │
 │                               │
-│  AI: Based on the paper [1],  │
-│      the main finding is...   │
-│      [Save as Note]           │
+│  AI: Dựa trên bài báo [1],    │
+│      điểm chính là...         │
+│      [Lưu làm Ghi chú]        │
 │                               │
-│  You: Tell me more about      │
-│       the methodology.        │
+│  Bạn: Kể thêm cho tôi về      │
+│       phương pháp luận.       │
 │                               │
 ├───────────────────────────────┤
-│  Context: 3 sources (12K tok) │
+│  Ngữ cảnh: 3 nguồn (12K tok)  │
 ├───────────────────────────────┤
-│  [Type your message...]  [↑]  │
+│  [Nhập tin nhắn...]      [↑]  │
 └───────────────────────────────┘
 ```
 
-### Chat Elements
+### Yếu Tố Trò Chuyện
 
-- **Session selector** - Switch between conversations
-- **Message history** - Your conversation
-- **Save as Note** - Keep good responses
-- **Context indicator** - What AI can see
-- **Input field** - Type your questions
+- **Bộ chọn phiên** - Chuyển đổi giữa các cuộc trò chuyện
+- **Lịch sử tin nhắn** - Cuộc trò chuyện của bạn
+- **Lưu làm Ghi chú** - Giữ lại các phản hồi tốt
+- **Chỉ báo Ngữ cảnh** - Những gì AI có thể thấy
+- **Trường nhập liệu** - Nhập câu hỏi của bạn
 
 ---
 
-## Context Indicators
+## Chỉ Báo Ngữ Cảnh
 
-These show what AI can access:
+Chúng hiển thị những gì AI có thể truy cập:
 
-### Token Counter
+### Bộ Đếm Token
 
 ```
-Context: 3 sources (12,450 tokens)
+Ngữ cảnh: 3 nguồn (12.450 tokens)
          ↑          ↑
-         Sources    Approximate cost indicator
-         included
+         Các nguồn  Chỉ báo chi phí ước tính
+         được bao gồm
 ```
 
-### Per-Source Indicators
+### Chỉ Báo Trên Từng Nguồn
 
-| Indicator | Meaning | AI Access |
+| Chỉ Báo | Ý Nghĩa | Quyền Truy Cập AI |
 |-----------|---------|-----------|
-| 🟢 Full Content | Complete text | Everything |
-| 🟡 Summary Only | AI summary | Key points only |
-| ⛔ Not in Context | Excluded | Nothing |
+| 🟢 Toàn Bộ Nội Dung | Toàn bộ văn bản | Mọi thứ |
+| 🟡 Chỉ Tóm Tắt | AI tóm tắt | Chỉ các điểm chính |
+| ⛔ Không Nằm Trong Ngữ Cảnh | Đã loại trừ | Không có gì |
 
-Click any source to change its context level.
+Nhấp vào bất kỳ nguồn nào để thay đổi mức độ ngữ cảnh của nó.
 
 ---
 
-## Podcasts Tab
+## Tab Podcast
 
-Inside a notebook, switch to Podcasts:
+Bên trong sổ tay, chuyển sang Podcast:
 
 ```
 ┌───────────────────────────────┐
-│  [Chat]  [Podcasts]           │
+│  [Trò Chuyện] [Podcast]       │
 ├───────────────────────────────┤
-│  Episode Profile: [Select ▼]  │
+│  Hồ Sơ Tập: [Chọn ▼]          │
 │                               │
-│  Speakers:                    │
+│  Người Nói:                   │
 │  ├─ Host: Alex (OpenAI)       │
 │  └─ Guest: Sam (Google)       │
 │                               │
-│  Include:                     │
+│  Bao Gồm:                     │
 │  ☑ Paper.pdf                  │
-│  ☑ My Analysis (note)         │
-│  ☐ Background article         │
+│  ☑ Phân tích của tôi (nốt)    │
+│  ☐ Bài báo nền                │
 │                               │
-│  [Generate Podcast]           │
+│  [Tạo Podcast]                │
 └───────────────────────────────┘
 ```
 
 ---
 
-## Settings Page
+## Trang Cài Đặt (Settings)
 
-Access via navigation bar → Settings:
+Truy cập qua thanh điều hướng → Cài đặt:
 
-### Key Sections
+### Các Phần Chính
 
-| Section | What It Controls |
+| Phần | Gì Nó Kiểm Soát |
 |---------|------------------|
-| **Processing** | Document and URL extraction engines |
-| **Embedding** | Auto-embed settings |
-| **Files** | Auto-delete uploads after processing |
-| **YouTube** | Preferred transcript languages |
+| **Xử Lý (Processing)** | Các công cụ trích xuất tài liệu và URL |
+| **Nhúng (Embedding)** | Cài đặt tự động nhúng |
+| **Tệp (Files)** | Tự động xóa tải lên sau khi xử lý |
+| **YouTube** | Ngôn ngữ phiên âm ưu tiên |
 
 ---
 
-## Models Page
+## Trang Mô Hình (Models)
 
-Configure AI providers:
+Cấu hình các nhà cung cấp AI:
 
 ```
 ┌───────────────────────────────────────┐
-│  Models                               │
+│  Các Mô Hình                          │
 ├───────────────────────────────────────┤
-│  Language Models                      │
+│  Mô Hình Ngôn Ngữ                     │
 │  ┌─────────────────────────────────┐  │
-│  │ GPT-4o (OpenAI)         [Edit]  │  │
+│  │ GPT-4o (OpenAI)         [Chỉnh] │  │
 │  │ Claude Sonnet (Anthropic)       │  │
 │  │ Llama 3.3 (Ollama)      [⭐]    │  │
 │  └─────────────────────────────────┘  │
-│  [+ Add Model]                        │
+│  [+ Thêm Mô Hình]                     │
 │                                       │
-│  Embedding Models                     │
+│  Mô Hình Nhúng (Embedding)            │
 │  ┌─────────────────────────────────┐  │
 │  │ text-embedding-3-small  [⭐]    │  │
 │  └─────────────────────────────────┘  │
 │                                       │
-│  Text-to-Speech                       │
+│  Chuyển Văn Bản Thành Giọng Nói       │
 │  ┌─────────────────────────────────┐  │
 │  │ OpenAI TTS             [⭐]     │  │
 │  │ Google TTS                      │  │
@@ -258,120 +258,120 @@ Configure AI providers:
 └───────────────────────────────────────┘
 ```
 
-- **⭐** = Default model for that category
-- **[Edit]** = Modify configuration
-- **[+ Add]** = Add new model
+- **⭐** = Mô hình mặc định cho danh mục đó
+- **[Chỉnh]** = Sửa đổi cấu hình
+- **[+ Thêm]** = Thêm mô hình mới
 
 ---
 
-## Search Page
+## Trang Tìm Kiếm (Search)
 
-Query across all notebooks:
+Truy vấn trên tất cả các sổ tay:
 
 ```
 ┌───────────────────────────────────────┐
-│  Search                               │
+│  Tìm Kiếm                             │
 ├───────────────────────────────────────┤
-│  [What are you looking for?    ] [🔍] │
+│  [Bạn đang tìm gì?             ] [🔍] │
 │                                       │
-│  Search type: [Text ▼] [Vector ▼]     │
-│  Search in:   [Sources] [Notes]       │
+│  Loại TK: [Văn bản ▼] [Vector ▼]      │
+│  Tìm trong:[Nguồn] [Ghi chú]          │
 ├───────────────────────────────────────┤
-│  Results (15)                         │
+│  Kết quả (15)                         │
 │                                       │
-│  📄 Paper.pdf - Notebook: Research    │
-│     "...the transformer model..."     │
+│  📄 Paper.pdf - Sổ tay: Nghiên cứu    │
+│     "...mô hình transformer..."       │
 │                                       │
-│  📝 My Analysis - Notebook: Research  │
-│     "...key findings include..."      │
+│  📝 Phân tích - Sổ tay: Nghiên cứu    │
+│     "...các phát hiện chính gồm..."   │
 └───────────────────────────────────────┘
 ```
 
 ---
 
-## Common Actions
+## Các Hành Động Chung
 
-### Create a Notebook
-
-```
-Notebooks page → [+ New Notebook] → Enter name → Create
-```
-
-### Add a Source
+### Tạo Sổ Tay
 
 ```
-Inside notebook → [+ Add Source] → Choose type → Upload/paste → Wait for processing
+Trang Sổ tay → [+ Sổ tay Mới] → Nhập tên → Tạo
 ```
 
-### Ask a Question
+### Thêm Một Nguồn
 
 ```
-Inside notebook → Chat panel → Type question → Enter → Read response
+Bên trong sổ tay → [+ Thêm Nguồn] → Chọn loại → Tải lên/dán → Đợi xử lý
 ```
 
-### Save AI Response
+### Hỏi Một Câu Hỏi
 
 ```
-Get good response → Click [Save as Note] → Edit title → Save
+Bên trong sổ tay → Bảng Trò Chuyện → Nhập câu hỏi → Enter → Đọc phản hồi
 ```
 
-### Change Context Level
+### Lưu Phản Hồi AI
 
 ```
-Click source → Context dropdown → Select level → Changes apply immediately
+Nhận được phản hồi tốt → Nhấp [Lưu làm Ghi chú] → Chỉnh sửa tiêu đề → Lưu
 ```
 
-### Generate Podcast
+### Thay Đổi Mức Độ Ngữ Cảnh
 
 ```
-Podcasts tab → Select profile → Choose sources → [Generate] → Wait → Download
+Nhấp vào nguồn → Trình đơn thả xuống Ngữ cảnh → Chọn cấp độ → Các thay đổi áp dụng ngay lập tức
+```
+
+### Tạo Podcast
+
+```
+Tab Podcast → Chọn hồ sơ → Chọn các nguồn → [Tạo] → Đợi → Tải xuống
 ```
 
 ---
 
-## Keyboard Shortcuts
+## Phím Tắt Bàn Phím
 
-| Key | Action |
+| Phím | Hành Động |
 |-----|--------|
-| `Enter` | Send chat message |
-| `Shift + Enter` | New line in chat |
-| `Escape` | Close dialogs |
-| `Ctrl/Cmd + F` | Browser find |
+| `Enter` | Gửi tin nhắn trò chuyện |
+| `Shift + Enter` | Dòng mới trong trò chuyện |
+| `Escape` | Đóng hộp thoại |
+| `Ctrl/Cmd + F` | Tìm kiếm trong trình duyệt |
 
 ---
 
-## Mobile View
+## Chế Độ Xem Thiết Bị Di Động
 
-On smaller screens, the three-panel layout stacks vertically:
+Trên màn hình nhỏ hơn, bố cục ba bảng điều khiển xếp dọc:
 
 ```
 ┌─────────────────┐
-│    SOURCES      │
-│    (tap to expand)
+│    NGUỒN        │
+│    (chạm mở rộng)
 ├─────────────────┤
-│    NOTES        │
-│    (tap to expand)
+│    GHI CHÚ      │
+│    (chạm mở rộng)
 ├─────────────────┤
-│    CHAT         │
-│    (always visible)
+│    TRÒ CHUYỆN   │
+│    (luôn hiển thị)
 └─────────────────┘
 ```
 
-- Panels collapse to save space
-- Tap headers to expand/collapse
-- Chat remains accessible
-- Full functionality preserved
+- Bảng điều khiển thu gọn để tiết kiệm không gian
+- Chạm vào các tiêu đề để mở rộng/thu gọn
+- Trò chuyện vẫn có thể truy cập được
+- Đầy đủ chức năng được giữ nguyên
 
 ---
 
-## Tips for Efficient Navigation
+## Mẹo Để Điều Hướng Hiệu Quả
 
-1. **Use keyboard** - Enter sends messages, Escape closes dialogs
-2. **Context first** - Set source context before chatting
-3. **Sessions** - Create new sessions for different topics
-4. **Search globally** - Use Search page to find across all notebooks
-5. **Models page** - Bookmark your preferred models
+1. **Sử dụng bàn phím** - Enter gửi thông báo, Escape đóng hộp thoại
+2. **Ngữ cảnh trước tiên** - Đặt ngữ cảnh nguồn trước khi trò chuyện
+3. **Phiên** - Tạo phiên mới cho các chủ đề khác nhau
+4. **Tìm kiếm toàn cầu** - Sử dụng trang Tìm kiếm để tìm trên tất cả các sổ tay
+5. **Trang mô hình** - Đánh dấu trang các mô hình ưa thích của bạn
 
 ---
 
-Now you know where everything is. Start with [Adding Sources](adding-sources.md) to begin your research!
+Bây giờ bạn đã biết mọi thứ ở đâu. Bắt đầu với [Thêm Các Nguồn](adding-sources.md) để bắt đầu nghiên cứu của bạn!

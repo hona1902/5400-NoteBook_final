@@ -1,19 +1,21 @@
-# Local Development Setup
+# Thiết lập phát triển cục bộ
 
-This guide walks you through setting up Open Notebook for local development. Follow these steps to get the full stack running on your machine.
+Hướng dẫn này hướng dẫn bạn cách thiết lập Open Notebook để phát triển địa phương. Hãy làm theo các bước sau để có được toàn bộ ngăn xếp chạy trên máy của bạn.
 
-## Prerequisites
+## Điều kiện tiên quyết
 
-Before you start, ensure you have the following installed:
+Trước khi bắt đầu, hãy đảm bảo bạn đã cài đặt những thứ sau:
 
-- **Python 3.11+** - Check with: `python --version`
-- **uv** (recommended) or **pip** - Install from: https://github.com/astral-sh/uv
-- **SurrealDB** - Via Docker or binary (see below)
-- **Docker** (optional) - For containerized database
-- **Node.js 18+** (optional) - For frontend development
-- **Git** - For version control
+- **Python 3.11+** - Kiểm tra bằng: `python --version`
+- **uv**(được khuyến nghị) hoặc**pip** - Cài đặt từ: https://github.com/astral-sh/uv
+- **SurrealDB** - Qua Docker hoặc nhị phân (xem bên dưới)
+- **Docker** (tùy chọn) - Dành cho cơ sở dữ liệu được đóng gói
+- **Node.js 18+** (tùy chọn) - Để phát triển giao diện người dùng
+- **Git** - Để kiểm soát phiên bản
 
-## Step 1: Clone and Initial Setup
+## Bước 1: Sao chép và thiết lập ban đầu
+
+
 
 ```bash
 # Clone the repository
@@ -24,7 +26,11 @@ cd open-notebook
 git remote add upstream https://github.com/lfnovo/open-notebook.git
 ```
 
-## Step 2: Install Python Dependencies
+
+
+## Bước 2: Cài đặt Python Dependency
+
+
 
 ```bash
 # Using uv (recommended)
@@ -34,16 +40,24 @@ uv sync
 pip install -e .
 ```
 
-## Step 3: Environment Variables
 
-Create a `.env` file in the project root with your configuration:
+
+## Bước 3: Biến môi trường
+
+Tạo tệp `.env` trong thư mục gốc của dự án với cấu hình của bạn:
+
+
 
 ```bash
 # Copy from example
 cp .env.example .env
 ```
 
-Edit `.env` with your settings:
+
+
+Chỉnh sửa `.env` bằng cài đặt của bạn:
+
+
 
 ```bash
 # Database
@@ -62,30 +76,32 @@ DEBUG=true
 LOG_LEVEL=DEBUG
 ```
 
-### AI Provider Configuration
 
-After starting the API and frontend, configure your AI provider via the Settings UI:
 
-1. Open **http://localhost:3000** → **Settings** → **API Keys**
-2. Click **Add Credential** → Select your provider
-3. Enter your API key (get from provider dashboard)
-4. Click **Save**, then **Test Connection**
-5. Click **Discover Models** → **Register Models**
+### Cấu hình nhà cung cấp AI
 
-Popular providers:
+Sau khi khởi động API và giao diện người dùng, hãy định cấu hình nhà cung cấp AI của bạn thông qua Giao diện người dùng cài đặt:
+
+1. Mở **http://localhost:3000**→**Cài đặt**→**Khóa API**2. Nhấp vào**Thêm thông tin xác thực** → Chọn nhà cung cấp của bạn
+3. Nhập khóa API của bạn (lấy từ bảng điều khiển của nhà cung cấp)
+4. Nhấp vào **Lưu**, sau đó nhấp vào **Kiểm tra kết nối**5. Nhấp vào**Khám phá mẫu**→**Đăng ký mẫu**
+
+Các nhà cung cấp phổ biến:
 - **OpenAI** - https://platform.openai.com/api-keys
-- **Anthropic (Claude)** - https://console.anthropic.com/
+- **Nhân loại (Claude)** - https://console.anthropic.com/
 - **Google** - https://ai.google.dev/
 - **Groq** - https://console.groq.com/
 
-For local development, you can also use:
-- **Ollama** - Run locally without API keys (see "Local Ollama" below)
+Để phát triển địa phương, bạn cũng có thể sử dụng:
+- **Ollama** - Chạy cục bộ mà không cần khóa API (xem "Ollama cục bộ" bên dưới)
 
-> **Note:** API key environment variables (e.g., `OPENAI_API_KEY`) are deprecated. Use the Settings UI to manage credentials instead.
+> **Lưu ý:** Các biến môi trường khóa API (ví dụ: `OPENAI_API_KEY`) không được dùng nữa. Thay vào đó, hãy sử dụng Giao diện người dùng cài đặt để quản lý thông tin xác thực.
 
-## Step 4: Start SurrealDB
+## Bước 4: Khởi động SurrealDB
 
-### Option A: Using Docker (Recommended)
+### Tùy chọn A: Sử dụng Docker (Được khuyến nghị)
+
+
 
 ```bash
 # Start SurrealDB in memory
@@ -102,37 +118,56 @@ docker run -d --name surrealdb -p 8000:8000 \
   --bind 0.0.0.0:8000 file:/data/surreal.db
 ```
 
-### Option B: Using Make
+
+
+### Tùy chọn B: Sử dụng Make
+
+
 
 ```bash
 make database
 ```
 
-### Option C: Using Docker Compose
+
+
+### Tùy chọn C: Sử dụng Docker Compose
+
+
 
 ```bash
 docker compose up -d surrealdb
 ```
 
-### Verify SurrealDB is Running
+
+
+### Xác minh SurrealDB đang chạy
+
+
 
 ```bash
 # Should show server information
 curl http://localhost:8000/
 ```
 
-## Step 5: Run Database Migrations
 
-Database migrations run automatically when you start the API. The first startup will apply any pending migrations.
 
-To verify migrations manually:
+## Bước 5: Chạy di chuyển cơ sở dữ liệu
+
+Quá trình di chuyển cơ sở dữ liệu sẽ tự động chạy khi bạn khởi động API. Lần khởi động đầu tiên sẽ áp dụng mọi di chuyển đang chờ xử lý.
+
+Để xác minh việc di chuyển theo cách thủ công:
+
+
 
 ```bash
 # API will run migrations on startup
 uv run python -m api.main
 ```
 
-Check the logs - you should see messages like:
+
+
+Kiểm tra nhật ký - bạn sẽ thấy các thông báo như:
+
 ```
 Running migration 001_initial_schema
 Running migration 002_add_vectors
@@ -140,9 +175,13 @@ Running migration 002_add_vectors
 Migrations completed successfully
 ```
 
-## Step 6: Start the API Server
 
-In a new terminal window:
+
+## Bước 6: Khởi động API Server
+
+Trong cửa sổ terminal mới:
+
+
 
 ```bash
 # Terminal 2: Start API (port 5055)
@@ -152,13 +191,20 @@ uv run --env-file .env uvicorn api.main:app --host 0.0.0.0 --port 5055
 make api
 ```
 
-You should see:
+
+
+Bạn nên xem:
+
 ```
 INFO:     Application startup complete
 INFO:     Uvicorn running on http://0.0.0.0:5055
 ```
 
-### Verify API is Running
+
+
+### Xác minh API đang chạy
+
+
 
 ```bash
 # Check health endpoint
@@ -168,9 +214,13 @@ curl http://localhost:5055/health
 open http://localhost:5055/docs
 ```
 
-## Step 7: Start the Frontend (Optional)
 
-If you want to work on the frontend, start Next.js in another terminal:
+
+## Bước 7: Khởi động Frontend (Tùy chọn)
+
+Nếu bạn muốn làm việc trên giao diện người dùng, hãy khởi động Next.js trong một thiết bị đầu cuối khác:
+
+
 
 ```bash
 # Terminal 3: Start Next.js frontend (port 3000)
@@ -179,67 +229,91 @@ npm install  # First time only
 npm run dev
 ```
 
-You should see:
+
+
+Bạn nên xem:
+
 ```
 > next dev
   ▲ Next.js 16.x
   - Local:        http://localhost:3000
 ```
 
-### Access the Frontend
 
-Open your browser to: http://localhost:3000
 
-## Verification Checklist
+### Truy cập giao diện người dùng
 
-After setup, verify everything is working:
+Mở trình duyệt của bạn tới: http://localhost:3000
 
-- [ ] **SurrealDB**: `curl http://localhost:8000/` returns content
-- [ ] **API**: `curl http://localhost:5055/health` returns `{"status": "ok"}`
-- [ ] **API Docs**: `open http://localhost:5055/docs` works
-- [ ] **Database**: API logs show migrations completing
-- [ ] **Frontend** (optional): `http://localhost:3000` loads
+## Danh sách kiểm tra xác minh
 
-## Starting Services Together
+Sau khi thiết lập, hãy xác minh mọi thứ đều hoạt động:
 
-### Quick Start All Services
+- [ ] **SurrealDB**: `curl http://localhost:8000/` trả về nội dung
+- [ ] **API**: `curl http://localhost:5055/health` trả về `{"status": "ok"}`
+- [ ] **Tài liệu API**: `mở http://localhost:5055/docs` hoạt động
+- [ ] **Cơ sở dữ liệu**: Nhật ký API hiển thị quá trình di chuyển đã hoàn tất
+- [ ] **Giao diện người dùng** (tùy chọn): tải `http://localhost:3000`
+
+## Cùng nhau bắt đầu dịch vụ
+
+### Bắt đầu nhanh tất cả dịch vụ
+
+
 
 ```bash
 make start-all
 ```
 
-This starts SurrealDB, API, and frontend in one command.
 
-### Individual Terminals (Recommended for Development)
 
-**Terminal 1 - Database:**
+Điều này khởi động SurrealDB, API và giao diện người dùng trong một lệnh.
+
+### Thiết bị đầu cuối riêng lẻ (Được đề xuất để phát triển)
+
+**Nhà ga 1 - Cơ sở dữ liệu:**
+
 ```bash
 make database
 ```
 
-**Terminal 2 - API:**
+
+
+**Thiết bị đầu cuối 2 - API:**
+
 ```bash
 make api
 ```
 
-**Terminal 3 - Frontend:**
+
+
+**Nhà ga 3 - Giao diện người dùng:**
+
 ```bash
 cd frontend && npm run dev
 ```
 
-## Development Tools Setup
 
-### Pre-commit Hooks (Optional but Recommended)
 
-Install git hooks to automatically check code quality:
+## Thiết lập công cụ phát triển
+
+### Móc cam kết trước (Tùy chọn nhưng được khuyến nghị)
+
+Cài đặt git hook để tự động kiểm tra chất lượng mã:
+
+
 
 ```bash
 uv run pre-commit install
 ```
 
-Now your commits will be checked before they're made.
 
-### Code Quality Commands
+
+Bây giờ các cam kết của bạn sẽ được kiểm tra trước khi chúng được thực hiện.
+
+### Lệnh chất lượng mã
+
+
 
 ```bash
 # Lint Python code (auto-fix)
@@ -257,9 +331,13 @@ uv run pytest
 uv run pytest --cov=open_notebook
 ```
 
-## Common Development Tasks
 
-### Running Tests
+
+## Nhiệm vụ phát triển chung
+
+### Đang chạy thử nghiệm
+
+
 
 ```bash
 # Run all tests
@@ -272,7 +350,11 @@ uv run pytest tests/test_notebooks.py
 uv run pytest --cov=open_notebook --cov-report=html
 ```
 
-### Creating a Feature Branch
+
+
+### Tạo một nhánh tính năng
+
+
 
 ```bash
 # Create and switch to new branch
@@ -286,7 +368,11 @@ git commit -m "feat: add my feature"
 git push origin feature/my-feature
 ```
 
-### Updating from Upstream
+
+
+### Cập nhật từ thượng nguồn
+
+
 
 ```bash
 # Fetch latest changes
@@ -299,23 +385,26 @@ git rebase upstream/main
 git push origin feature/my-feature -f
 ```
 
-## Troubleshooting
 
-### "Connection refused" on SurrealDB
 
-**Problem**: API can't connect to SurrealDB
+## Khắc phục sự cố
 
-**Solutions**:
-1. Check if SurrealDB is running: `docker ps | grep surrealdb`
-2. Verify URL in `.env`: Should be `ws://localhost:8000/rpc`
-3. Restart SurrealDB: `docker stop surrealdb && docker rm surrealdb`
-4. Then restart with: `docker run -d --name surrealdb -p 8000:8000 surrealdb/surrealdb:v2 start --user root --pass password --bind 0.0.0.0:8000 memory`
+### "Kết nối bị từ chối" trên SurrealDB
 
-### "Address already in use"
+**Sự cố**: API không thể kết nối với SurrealDB
 
-**Problem**: Port 5055 or 3000 is already in use
+**Giải pháp**:
+1. Kiểm tra xem SurrealDB có đang chạy hay không: `docker ps | grep siêu thựcdb`
+2. Xác minh URL trong `.env`: Phải là `ws://localhost:8000/rpc`
+3. Khởi động lại SurrealDB: `docker stop siêu thựcdb && docker rm siêu thựcdb`
+4. Sau đó khởi động lại với: `docker run -d --name siêu thựcdb -p 8000:8000 siêu thựcdb/surrealdb:v2 start --user root --pass mật khẩu --bind 0.0.0.0:8000 bộ nhớ`
 
-**Solutions**:
+### "Địa chỉ đã được sử dụng"
+
+**Sự cố**: Cổng 5055 hoặc 3000 đã được sử dụng
+
+**Giải pháp**:
+
 ```bash
 # Find process using port
 lsof -i :5055  # Check port 5055
@@ -327,11 +416,14 @@ kill -9 <PID>
 uvicorn api.main:app --port 5056
 ```
 
-### Module not found errors
 
-**Problem**: Import errors when running API
 
-**Solutions**:
+### Lỗi không tìm thấy mô-đun
+
+**Sự cố**: Lỗi nhập khi chạy API
+
+**Giải pháp**:
+
 ```bash
 # Reinstall dependencies
 uv sync
@@ -340,29 +432,33 @@ uv sync
 pip install -e .
 ```
 
-### Database migration failures
 
-**Problem**: API fails to start with migration errors
 
-**Solutions**:
-1. Check SurrealDB is running: `curl http://localhost:8000/`
-2. Check credentials in `.env` match your SurrealDB setup
-3. Check logs for specific migration error: `make api 2>&1 | grep -i migration`
-4. Verify database exists: Check SurrealDB console at http://localhost:8000/
+### Lỗi di chuyển cơ sở dữ liệu
 
-### Migrations not applying
+**Sự cố**: API không khởi động được do lỗi di chuyển
 
-**Problem**: Database schema seems outdated
+**Giải pháp**:
+1. Kiểm tra SurrealDB đang chạy: `curl http://localhost:8000/`
+2. Kiểm tra thông tin đăng nhập trong `.env` có khớp với thiết lập SurrealDB của bạn không
+3. Kiểm tra nhật ký để tìm lỗi di chuyển cụ thể: `make api 2>&1 | grep -i di chuyển`
+4. Xác minh cơ sở dữ liệu tồn tại: Kiểm tra bảng điều khiển SurrealDB tại http://localhost:8000/
 
-**Solutions**:
-1. Restart API - migrations run on startup: `make api`
-2. Check logs show "Migrations completed successfully"
-3. Verify `/migrations/` folder exists and has files
-4. Check SurrealDB is writable and not in read-only mode
+### Di chuyển không áp dụng
 
-## Optional: Local Ollama Setup
+**Vấn đề**: Lược đồ cơ sở dữ liệu dường như đã lỗi thời
 
-For testing with local AI models:
+**Giải pháp**:
+1. Khởi động lại API - quá trình di chuyển chạy khi khởi động: `make api`
+2. Kiểm tra nhật ký hiển thị "Quá trình di chuyển đã hoàn tất thành công"
+3. Xác minh thư mục `/migrations/` tồn tại và có tệp
+4. Kiểm tra SurrealDB có thể ghi và không ở chế độ chỉ đọc
+
+## Tùy chọn: Thiết lập Ollama cục bộ
+
+Để thử nghiệm với các mô hình AI cục bộ:
+
+
 
 ```bash
 # Install Ollama from https://ollama.ai
@@ -371,15 +467,18 @@ For testing with local AI models:
 ollama pull mistral
 ```
 
-Then configure via the Settings UI:
-1. Go to **Settings** → **API Keys** → **Add Credential** → **Ollama**
-2. Enter base URL: `http://localhost:11434`
-3. Click **Save**, then **Test Connection**
-4. Click **Discover Models** → **Register Models**
 
-## Optional: Docker Development Environment
 
-Run entire stack in Docker:
+Sau đó định cấu hình thông qua Giao diện người dùng cài đặt:
+1. Đi tới **Cài đặt**→**Khóa API**→**Thêm thông tin xác thực**→**Ollama**
+2. Nhập URL cơ sở: `http://localhost:11434`
+3. Nhấp vào **Lưu**, sau đó nhấp vào **Kiểm tra kết nối**4. Nhấp vào**Khám phá mẫu**→**Đăng ký mẫu**
+
+## Tùy chọn: Môi trường phát triển Docker
+
+Chạy toàn bộ ngăn xếp trong Docker:
+
+
 
 ```bash
 # Start all services
@@ -392,25 +491,27 @@ docker compose logs -f
 docker compose down
 ```
 
-## Next Steps
 
-After setup is complete:
 
-1. **Read the Contributing Guide** - [contributing.md](contributing.md)
-2. **Explore the Architecture** - Check the documentation
-3. **Find an Issue** - Look for "good first issue" on GitHub
-4. **Set Up Pre-commit** - Install git hooks for code quality
-5. **Join Discord** - https://discord.gg/37XJPXfz2w
+## Các bước tiếp theo
 
-## Getting Help
+Sau khi thiết lập xong:
 
-If you get stuck:
+1. **Đọc Hướng dẫn đóng góp** - [contributing.md](contributing.md)
+2. **Khám phá Kiến trúc** - Kiểm tra tài liệu
+3. **Tìm vấn đề** - Tìm kiếm "vấn đề đầu tiên hay" trên GitHub
+4. **Thiết lập cam kết trước** - Cài đặt git hook để đảm bảo chất lượng mã
+5. **Tham gia Discord** - https://discord.gg/37XJPXfz2w
 
-- **Discord**: [Join our server](https://discord.gg/37XJPXfz2w) for real-time help
-- **GitHub Issues**: Check existing issues for similar problems
-- **GitHub Discussions**: Ask questions in discussions
-- **Documentation**: See [code-standards.md](code-standards.md) and [testing.md](testing.md)
+## Nhận trợ giúp
+
+Nếu bạn gặp khó khăn:
+
+- **Discord**: [Tham gia máy chủ của chúng tôi](https://discord.gg/37XJPXfz2w) để được trợ giúp theo thời gian thực
+- **Vấn đề về GitHub**: Kiểm tra các vấn đề hiện có để tìm các vấn đề tương tự
+- **Thảo luận GitHub**: Đặt câu hỏi trong các cuộc thảo luận
+- **Tài liệu**: Xem [code-standards.md](code-standards.md) và [testing.md](testing.md)
 
 ---
 
-**Ready to contribute?** Go to [contributing.md](contributing.md) for the contribution workflow.
+**Sẵn sàng đóng góp?** Hãy truy cập [contributing.md](contributing.md) để biết quy trình đóng góp.

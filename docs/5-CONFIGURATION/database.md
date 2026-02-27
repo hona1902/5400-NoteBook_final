@@ -1,17 +1,18 @@
-# Database - SurrealDB Configuration
+# Cơ sở dữ liệu - Cấu hình SurrealDB
 
-Open Notebook uses SurrealDB for its database needs. 
+Open Notebook sử dụng SurrealDB cho nhu cầu cơ sở dữ liệu của nó.
 
 ---
 
-## Default Configuration
+## Cấu hình mặc định
 
-Open Notebook should work out of the box with SurrealDB as long as the environment variables are correctly setup. 
+Open Notebook sẽ hoạt động tốt với SurrealDB miễn là các biến môi trường được thiết lập chính xác.
+
+### DB chạy trong cùng một docker soạn thảo như Open Notebook (được khuyến nghị)
+
+Ví dụ trên dành cho khi bạn đang chạy SurrealDB dưới dạng một bộ chứa docker riêng biệt, đây là phương pháp được mô tả [tại đây](../1-INSTALLATION/docker-compose.md) (và phương pháp được chúng tôi đề xuất).
 
 
-### DB running in the same docker compose as Open Notebook (recommended)
-
-The example above is for when you are running SurrealDB as a separate docker container, which is the method described [here](../1-INSTALLATION/docker-compose.md) (and our recommended method). 
 
 ```env
 SURREAL_URL="ws://surrealdb:8000/rpc"
@@ -21,9 +22,13 @@ SURREAL_NAMESPACE="open_notebook"
 SURREAL_DATABASE="open_notebook"
 ```
 
-### DB running in the host machine and Open Notebook running in Docker
 
-If ON is running in docker and SurrealDB is on your host machine, you need to point to it. 
+
+### DB chạy trên máy chủ và Open Notebook chạy trên Docker
+
+Nếu ON đang chạy trong docker và SurrealDB trên máy chủ của bạn, bạn cần trỏ tới nó.
+
+
 
 ```env
 SURREAL_URL="ws://your-machine-ip:8000/rpc" #or host.docker.internal
@@ -33,9 +38,13 @@ SURREAL_NAMESPACE="open_notebook"
 SURREAL_DATABASE="open_notebook"
 ```
 
-### Open Notebook and Surreal are running on the same machine
 
-If you are running both services locally or if you are using the deprecated [single container setup](../1-INSTALLATION/single-container.md)
+
+### Mở Notebook và Surreal đang chạy trên cùng một máy
+
+Nếu bạn đang chạy cục bộ cả hai dịch vụ hoặc nếu bạn đang sử dụng [thiết lập vùng chứa đơn](../1-INSTALLATION/single-container.md) không được dùng nữa
+
+
 
 ```env
 SURREAL_URL="ws://localhost:8000/rpc"
@@ -45,6 +54,8 @@ SURREAL_NAMESPACE="open_notebook"
 SURREAL_DATABASE="open_notebook"
 ```
 
-## Multiple databases
 
-You can have multiple namespaces in one SurrealDB instance and you can also have multiple databases in one instance. So, if you want to setup multiple open noteobok deployments for different users, you don't need to deploy multiple databases. 
+
+## Nhiều cơ sở dữ liệu
+
+Bạn có thể có nhiều không gian tên trong một phiên bản SurrealDB và bạn cũng có thể có nhiều cơ sở dữ liệu trong một phiên bản. Vì vậy, nếu muốn thiết lập nhiều triển khai noteobok mở cho những người dùng khác nhau, bạn không cần phải triển khai nhiều cơ sở dữ liệu.

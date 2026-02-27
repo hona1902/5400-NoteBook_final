@@ -1,140 +1,157 @@
-# API Reference
+# Tham chiếu API
 
-Complete REST API for Open Notebook. All endpoints are served from the API backend (default: `http://localhost:5055`).
+Hoàn thành API REST cho Sổ ghi chép mở. Tất cả các điểm cuối đều được cung cấp từ chương trình phụ trợ API (mặc định: `http://localhost:5055`).
 
-**Base URL**: `http://localhost:5055` (development) or environment-specific production URL
+**URL cơ sở**: `http://localhost:5055` (phát triển) hoặc URL sản xuất dành riêng cho môi trường
 
-**Interactive Docs**: Use FastAPI's built-in Swagger UI at `http://localhost:5055/docs` for live testing and exploration. This is the primary reference for all endpoints, request/response schemas, and real-time testing.
+**Tài liệu tương tác**: Sử dụng giao diện người dùng Swagger tích hợp của FastAPI tại `http://localhost:5055/docs` để thử nghiệm và khám phá trực tiếp. Đây là tài liệu tham khảo chính cho tất cả các điểm cuối, lược đồ yêu cầu/phản hồi và thử nghiệm theo thời gian thực.
 
 ---
 
-## Quick Start
+## Bắt đầu nhanh
 
-### 1. Authentication
+### 1. Xác thực
 
-Simple password-based (development only):
+Dựa trên mật khẩu đơn giản (chỉ dành cho phát triển):
+
+
 
 ```bash
 curl http://localhost:5055/api/notebooks \
   -H "Authorization: Bearer your_password"
 ```
 
-**⚠️ Production**: Replace with OAuth/JWT. See [Security Configuration](../5-CONFIGURATION/security.md) for details.
 
-### 2. Base API Flow
 
-Most operations follow this pattern:
-1. Create a **Notebook** (container for research)
-2. Add **Sources** (PDFs, URLs, text)
-3. Query via **Chat** or **Search**
-4. View results and **Notes**
+**⚠️ Sản xuất**: Thay thế bằng OAuth/JWT. Xem [Cấu hình bảo mật](../5-CONFIGUTURE/security.md) để biết chi tiết.
 
-### 3. Testing Endpoints
+### 2. Luồng API cơ sở
 
-Instead of memorizing endpoints, use the interactive API docs:
-- Navigate to `http://localhost:5055/docs`
-- Try requests directly in the browser
-- See request/response schemas in real-time
-- Test with your own data
+Hầu hết các hoạt động đều theo mẫu này:
+1. Tạo **Notebook** (hộp đựng nghiên cứu)
+2. Thêm **Nguồn** (PDF, URL, văn bản)
+3. Truy vấn qua **Trò chuyện**hoặc**Tìm kiếm**4. Xem kết quả và**Ghi chú**
 
----
+### 3. Điểm cuối kiểm tra
 
-## API Endpoints Overview
-
-### Main Resource Types
-
-**Notebooks** - Research projects containing sources and notes
-- `GET/POST /notebooks` - List and create
-- `GET/PUT/DELETE /notebooks/{id}` - Read, update, delete
-
-**Sources** - Content items (PDFs, URLs, text)
-- `GET/POST /sources` - List and add content
-- `GET /sources/{id}` - Fetch source details
-- `POST /sources/{id}/retry` - Retry failed processing
-- `GET /sources/{id}/download` - Download original file
-
-**Notes** - User-created or AI-generated research notes
-- `GET/POST /notes` - List and create
-- `GET/PUT/DELETE /notes/{id}` - Read, update, delete
-
-**Chat** - Conversational AI interface
-- `GET/POST /chat/sessions` - Manage chat sessions
-- `POST /chat/execute` - Send message and get response
-- `POST /chat/context/build` - Prepare context for chat
-
-**Search** - Find content by text or semantic similarity
-- `POST /search` - Full-text or vector search
-- `POST /ask` - Ask a question (search + synthesize)
-
-**Transformations** - Custom prompts for extracting insights
-- `GET/POST /transformations` - Create custom extraction rules
-- `POST /sources/{id}/insights` - Apply transformation to source
-
-**Models** - Configure AI providers
-- `GET /models` - Available models
-- `GET /models/defaults` - Current defaults
-- `POST /models/config` - Set defaults
-
-**Credentials** - Manage AI provider credentials
-- `GET/POST /credentials` - List and create credentials
-- `GET/PUT/DELETE /credentials/{id}` - CRUD operations
-- `POST /credentials/{id}/test` - Test connection
-- `POST /credentials/{id}/discover` - Discover models from provider
-- `POST /credentials/{id}/register-models` - Register discovered models
-- `GET /credentials/status` - Provider status overview
-- `GET /credentials/env-status` - Environment variable status
-- `POST /credentials/migrate-from-env` - Migrate env vars to credentials
-
-**Health & Status**
-- `GET /health` - Health check
-- `GET /commands/{id}` - Track async operations
+Thay vì ghi nhớ điểm cuối, hãy sử dụng tài liệu API tương tác:
+- Điều hướng đến `http://localhost:5055/docs`
+- Thử yêu cầu trực tiếp trên trình duyệt
+- Xem lược đồ yêu cầu/phản hồi trong thời gian thực
+- Kiểm tra với dữ liệu của riêng bạn
 
 ---
 
-## Authentication
+## Tổng quan về điểm cuối API
 
-### Current (Development)
+### Các loại tài nguyên chính
 
-All requests require password header:
+**Sổ tay** - Dự án nghiên cứu có chứa nguồn và ghi chú
+- `GET/POST /notebooks` - Liệt kê và tạo
+- `GET/PUT/DELETE /notebooks/{id}` - Đọc, cập nhật, xóa
+
+**Nguồn** - Mục nội dung (PDF, URL, văn bản)
+- `GET/POST /sources` - Liệt kê và thêm nội dung
+- `GET /sources/{id}` - Tìm nạp chi tiết nguồn
+- `POST /sources/{id}/retry` - Thử lại quá trình xử lý không thành công
+- `GET /sources/{id}/download` - Tải file gốc
+
+**Ghi chú** - Ghi chú nghiên cứu do người dùng tạo hoặc do AI tạo
+- `GET/POST /notes` - Liệt kê và tạo
+- `GET/PUT/DELETE /notes/{id}` - Đọc, cập nhật, xóa
+
+**Trò chuyện** - Giao diện AI đàm thoại
+- `GET/POST /chat/sessions` - Quản lý phiên trò chuyện
+- `POST /chat/execute` - Gửi tin nhắn và nhận phản hồi
+- `POST /chat/context/build` - Chuẩn bị ngữ cảnh cho cuộc trò chuyện
+
+**Tìm kiếm** - Tìm nội dung theo văn bản hoặc sự tương đồng về ngữ nghĩa
+- `POST /search` - Tìm kiếm toàn văn hoặc vector
+- `POST /ask` - Đặt câu hỏi (tìm kiếm + tổng hợp)
+
+**Biến đổi** - Lời nhắc tùy chỉnh để trích xuất thông tin chi tiết
+- `GET/POST /transformations` - Tạo quy tắc trích xuất tùy chỉnh
+- `POST /sources/{id}/insights` - Áp dụng chuyển đổi cho nguồn
+
+**Mô hình** - Định cấu hình nhà cung cấp AI
+- `GET /models` - Các mẫu có sẵn
+- `GET /models/defaults` - Mặc định hiện tại
+- `POST /models/config` - Đặt mặc định
+
+**Thông tin xác thực** - Quản lý thông tin xác thực của nhà cung cấp AI
+- `GET/POST /credentials` - Liệt kê và tạo thông tin xác thực
+- `GET/PUT/DELETE /credentials/{id}` - Thao tác CRUD
+- `POST /credentials/{id}/test` - Kiểm tra kết nối
+- `POST /credentials/{id}/discover` - Khám phá các mô hình từ nhà cung cấp
+- `POST /credentials/{id}/register-models` - Đăng ký các mô hình được phát hiện
+- `GET /credentials/status` - Tổng quan về trạng thái nhà cung cấp
+- `GET /credentials/env-status` - Trạng thái biến môi trường
+- `POST /credentials/migrate-from-env` - Di chuyển các biến env sang thông tin xác thực
+
+**Sức khỏe & Tình trạng**
+- `GET /health` - Kiểm tra sức khỏe
+- `GET /commands/{id}` - Theo dõi các hoạt động không đồng bộ
+
+---
+
+## Xác thực
+
+### Hiện tại (Phát triển)
+
+Tất cả các yêu cầu đều yêu cầu tiêu đề mật khẩu:
+
+
 
 ```bash
 curl -H "Authorization: Bearer your_password" http://localhost:5055/api/notebooks
 ```
 
-Password configured via `OPEN_NOTEBOOK_PASSWORD` environment variable.
 
-> **📖 See [Security Configuration](../5-CONFIGURATION/security.md)** for complete authentication setup, API examples, and production hardening.
 
-### Production
+Mật khẩu được định cấu hình thông qua biến môi trường `OPEN_NOTEBOOK_PASSWORD`.
 
-**⚠️ Not secure.** Replace with:
-- OAuth 2.0 (recommended)
-- JWT tokens
-- API keys
+> **📖 Xem [Cấu hình bảo mật](../5-CONFIGUATION/security.md)** để biết thông tin thiết lập xác thực hoàn chỉnh, ví dụ về API và tăng cường sản xuất.
 
-See [Security Configuration](../5-CONFIGURATION/security.md) for production setup.
+### Sản xuất
+
+**⚠️ Không an toàn.** Thay thế bằng:
+- OAuth 2.0 (được khuyến nghị)
+- Mã thông báo JWT
+- Khóa API
+
+Xem [Cấu hình bảo mật](../5-CONFIGUTURE/security.md) để biết thiết lập sản xuất.
 
 ---
 
-## Common Patterns
+## Các mẫu phổ biến
 
-### Pagination
+### Phân trang
+
+
 
 ```bash
 # List sources with limit/offset
 curl 'http://localhost:5055/sources?limit=20&offset=10'
 ```
 
-### Filtering & Sorting
+
+
+### Lọc & Sắp xếp
+
+
 
 ```bash
 # Filter by notebook, sort by date
 curl 'http://localhost:5055/sources?notebook_id=notebook:abc&sort_by=created&sort_order=asc'
 ```
 
-### Async Operations
 
-Some operations (source processing, podcast generation) return immediately with a command ID:
+
+### Hoạt động không đồng bộ
+
+Một số thao tác (xử lý nguồn, tạo podcast) trả về ngay lập tức bằng ID lệnh:
+
+
 
 ```bash
 # Submit async operation
@@ -145,9 +162,13 @@ curl -X POST http://localhost:5055/sources -F async_processing=true
 curl http://localhost:5055/commands/command:cmd123
 ```
 
-### Streaming Responses
 
-The `/ask` endpoint streams responses as Server-Sent Events:
+
+### Phản hồi trực tuyến
+
+Điểm cuối `/ask` phản hồi luồng dưới dạng Sự kiện do máy chủ gửi:
+
+
 
 ```bash
 curl -N 'http://localhost:5055/ask' \
@@ -159,7 +180,11 @@ curl -N 'http://localhost:5055/ask' \
 #          data: {"type":"final_answer",...}
 ```
 
-### Multipart File Upload
+
+
+### Tải lên tệp nhiều phần
+
+
 
 ```bash
 curl -X POST http://localhost:5055/sources \
@@ -168,56 +193,62 @@ curl -X POST http://localhost:5055/sources \
   -F "file=@document.pdf"
 ```
 
+
+
 ---
 
-## Error Handling
+## Xử lý lỗi
 
-All errors return JSON with status code:
+Tất cả các lỗi đều trả về JSON kèm theo mã trạng thái:
+
+
 
 ```json
 {"detail": "Notebook not found"}
 ```
 
-### Common Status Codes
 
-| Code | Meaning | Example |
-|------|---------|---------|
-| 200 | Success | Operation completed |
-| 400 | Bad Request | Invalid input |
-| 404 | Not Found | Resource doesn't exist |
-| 409 | Conflict | Resource already exists |
-| 500 | Server Error | Database/processing error |
 
----
+### Mã trạng thái chung
 
-## Tips for Developers
-
-1. **Start with interactive docs** (`http://localhost:5055/docs`) - this is the definitive reference
-2. **Enable logging** for debugging (check API logs: `docker logs`)
-3. **Streaming endpoints** require special handling (Server-Sent Events, not standard JSON)
-4. **Async operations** return immediately; always poll status before assuming completion
-5. **Vector search** requires embedding model configured (check `/models`)
-6. **Model overrides** are per-request; set in body, not config
-7. **CORS enabled** in development; configure for production
+| Mã | Ý nghĩa | Ví dụ |
+|------|----------|----------|
+| 200 | Thành công | Hoạt động hoàn thành |
+| 400 | Yêu cầu Xấu | Đầu vào không hợp lệ |
+| 404 | Không tìm thấy | Tài nguyên không tồn tại |
+| 409 | Xung đột | Tài nguyên đã tồn tại |
+| 500 | Lỗi Máy Chủ | Lỗi cơ sở dữ liệu/xử lý |
 
 ---
 
-## Learning Path
+## Lời khuyên dành cho nhà phát triển
 
-1. **Authentication**: Add `X-Password` header to all requests
-2. **Create a notebook**: `POST /notebooks` with name and description
-3. **Add a source**: `POST /sources` with file, URL, or text
-4. **Query your content**: `POST /chat/execute` to ask questions
-5. **Explore advanced features**: Search, transformations, streaming
+1. **Bắt đầu với tài liệu tương tác** (`http://localhost:5055/docs`) - đây là tài liệu tham khảo chính xác
+2. **Bật ghi nhật ký** để gỡ lỗi (kiểm tra nhật ký API: `docker log`)
+3. **Điểm cuối phát trực tuyến** yêu cầu xử lý đặc biệt (Sự kiện do máy chủ gửi, không phải JSON tiêu chuẩn)
+4. **Hoạt động không đồng bộ** trả về ngay lập tức; luôn thăm dò trạng thái trước khi giả định hoàn thành
+5. **Tìm kiếm vectơ** yêu cầu cấu hình mô hình nhúng (kiểm tra `/models`)
+6. **Ghi đè mô hình** là theo yêu cầu; cài đặt trong body chứ không phải config
+7. **Đã bật CORS** trong quá trình phát triển; cấu hình cho sản xuất
 
 ---
 
-## Production Considerations
+## Lộ trình học tập
 
-- Replace password auth with OAuth/JWT (see [Security](../5-CONFIGURATION/security.md))
-- Add rate limiting via reverse proxy (Nginx, CloudFlare, Kong)
-- Enable CORS restrictions (currently allows all origins)
-- Use HTTPS via reverse proxy (see [Reverse Proxy](../5-CONFIGURATION/reverse-proxy.md))
-- Set up API versioning strategy (currently implicit)
+1. **Xác thực**: Thêm tiêu đề `X-Password` vào tất cả các yêu cầu
+2. **Tạo sổ ghi chép**: `POST /notebooks` với tên và mô tả
+3. **Thêm nguồn**: `POST /sources` với tệp, URL hoặc văn bản
+4. **Truy vấn nội dung của bạn**: `POST /chat/execute` để đặt câu hỏi
+5. **Khám phá các tính năng nâng cao**: Tìm kiếm, chuyển đổi, phát trực tuyến
 
-See [Security Configuration](../5-CONFIGURATION/security.md) and [Reverse Proxy Setup](../5-CONFIGURATION/reverse-proxy.md) for complete production setup.
+---
+
+## Cân nhắc về sản xuất
+
+- Thay thế mật khẩu xác thực bằng OAuth/JWT (xem [Security](../5-CONFIGUration/security.md))
+- Thêm giới hạn tốc độ thông qua proxy ngược (Nginx, CloudFlare, Kong)
+- Kích hoạt các hạn chế CORS (hiện cho phép tất cả các nguồn gốc)
+- Sử dụng HTTPS qua proxy ngược (xem [Proxy ngược](../5-CONFIGUration/reverse-proxy.md))
+- Thiết lập chiến lược phiên bản API (hiện đang ẩn)
+
+Xem [Cấu hình bảo mật](../5-CONFIGUATION/security.md) và [Thiết lập proxy ngược](../5-CONFIGUATION/reverse-proxy.md) để biết thiết lập sản xuất hoàn chỉnh.
