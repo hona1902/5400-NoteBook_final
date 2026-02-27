@@ -5,9 +5,9 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
+<div align="center">
   <a href="https://github.com/hona1902/5400-NoteBook_final">
-    <img src="docs/assets/<img width="395" height="454" alt="Logo-HNA" src="https://github.com/user-attachments/assets/e4d009cb-a069-446f-8996-fd2996e68472" />
-" alt="Logo">
+    <img width="395" height="454" alt="Logo-HNA" src="https://github.com/user-attachments/assets/65195bd3-b6f9-4e39-b1cc-b73467b3618c" />
   </a>
 
   <h3 align="center">ChatBot Demo</h3>
