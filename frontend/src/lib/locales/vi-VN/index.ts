@@ -163,6 +163,11 @@ export const viVN = {
     tokensLabel: "token",
     charsLabel: "ký tự",
     clickToViewFull: "Nhấn để xem toàn bộ nội dung",
+    showMore: "Xem thêm",
+    showLess: "Thu gọn",
+    moreChunks: "{count} đoạn nữa",
+    searchInContent: "Tìm trong nội dung...",
+    matchesFound: "{count} kết quả",
   },
   apiErrors: {
     notebookNotFound: "Không tìm thấy sổ tay",

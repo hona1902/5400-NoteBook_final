@@ -309,7 +309,7 @@ export function createReferenceLinkComponent(
       const content = contentMap?.get(key) || contentMap?.get(id)
 
       return (
-        <CitationHoverCard type={type} id={id} title={title} content={content}>
+        <CitationHoverCard type={type} id={id} title={title} content={content} onViewFullContent={() => onReferenceClick(type, id)}>
           <button
             onClick={(e) => {
               e.preventDefault()
@@ -479,7 +479,7 @@ export function createCompactReferenceLinkComponent(
       const content = contentMap?.get(key) || contentMap?.get(id)
 
       return (
-        <CitationHoverCard type={type} id={id} title={title} content={content}>
+        <CitationHoverCard type={type} id={id} title={title} content={content} onViewFullContent={() => onReferenceClick(type, id)}>
           <button
             onClick={(e) => {
               e.preventDefault()

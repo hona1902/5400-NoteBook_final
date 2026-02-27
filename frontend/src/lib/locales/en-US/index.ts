@@ -163,6 +163,11 @@ export const enUS = {
     tokensLabel: "tokens",
     charsLabel: "chars",
     clickToViewFull: "Click to view full content",
+    showMore: "Show more",
+    showLess: "Show less",
+    moreChunks: "{count} more passage(s)",
+    searchInContent: "Search in content...",
+    matchesFound: "{count} found",
   },
   apiErrors: {
     notebookNotFound: "Notebook not found",

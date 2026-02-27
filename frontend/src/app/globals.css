@@ -283,6 +283,19 @@
     }
   }
 
+  /* Active search highlight in citation popup */
+  .active-highlight {
+    background-color: rgb(251, 146, 60) !important; /* orange-400 */
+    outline: 2px solid rgb(249, 115, 22); /* orange-500 ring */
+    outline-offset: 1px;
+    border-radius: 2px;
+  }
+
+  .dark .active-highlight {
+    background-color: rgb(234, 88, 12) !important; /* orange-600 */
+    outline-color: rgb(251, 146, 60); /* orange-400 */
+  }
+
   /* Respect reduced motion */
   @media (prefers-reduced-motion: reduce) {
 
