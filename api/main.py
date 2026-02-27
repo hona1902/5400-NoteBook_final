@@ -277,7 +277,7 @@ app.include_router(feedback.router, prefix="/api", tags=["feedback"])
 
 @app.get("/")
 async def root():
-    return {"message": "Open Notebook API is running"}
+    return {"message": "ChatBot5400 API is running"}
 
 
 @app.get("/health")
