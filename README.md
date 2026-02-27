@@ -1,4 +1,4 @@
-<a id="readme-top"></a>
+<img width="395" height="454" alt="Logo-HNA" src="https://github.com/user-attachments/assets/2cbd019b-581d-4c7e-8763-83c924a50646" /><a id="readme-top"></a>
 
 
 
@@ -6,7 +6,8 @@
 <br />
 <div align="center">
   <a href="https://github.com/hona1902/5400-NoteBook_final">
-    <img src="docs/assets/hero.svg" alt="Logo">
+    <img src="docs/assets/<img width="395" height="454" alt="Logo-HNA" src="https://github.com/user-attachments/assets/e4d009cb-a069-446f-8996-fd2996e68472" />
+" alt="Logo">
   </a>
 
   <h3 align="center">ChatBot Demo</h3>
