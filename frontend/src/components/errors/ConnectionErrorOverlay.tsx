@@ -106,7 +106,7 @@ export function ConnectionErrorOverlay({
         <div className="text-sm">
           <p>{t.connectionErrors.seeDocumentation}</p>
           <a
-            href="https://github.com/lfnovo/open-notebook"
+            href="https://github.com/hona1902/5400-NoteBook_final"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:underline inline-flex items-center gap-1"
@@ -123,9 +123,8 @@ export function ConnectionErrorOverlay({
               <Button variant="ghost" size="sm" className="w-full justify-between">
                 <span>{t.connectionErrors.showTechnical}</span>
                 <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
-                    showDetails ? 'rotate-180' : ''
-                  }`}
+                  className={`w-4 h-4 transition-transform ${showDetails ? 'rotate-180' : ''
+                    }`}
                 />
               </Button>
             </CollapsibleTrigger>

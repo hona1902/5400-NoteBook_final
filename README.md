@@ -1,13 +1,18 @@
+<a id="readme-top"></a>
 
-
+<!-- [![Contributors][contributors-shield]][contributors-url] -->
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+<!-- [![LinkedIn][linkedin-shield]][linkedin-url] -->
 
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-<div align="center">
   <a href="https://github.com/hona1902/5400-NoteBook_final">
-    <img width="395" height="454" alt="Logo-HNA" src="https://github.com/user-attachments/assets/65195bd3-b6f9-4e39-b1cc-b73467b3618c" />
+    <img src="docs/assets/hero.svg" alt="Logo">
   </a>
 
   <h3 align="center">ChatBot Demo</h3>
@@ -51,7 +56,7 @@
 
 Trong một thế giới được thống trị bởi Trí tuệ Nhân tạo, khả năng tư duy 🧠 và tiếp thu kiến thức mới 💡 là một kỹ năng không nên là đặc quyền của số ít, cũng không nên bị giới hạn bởi một nhà cung cấp duy nhất.
 
-**ChatBot giúp bạn:**
+**ChatBot 5400 giúp bạn:**
 - 🔒 **Kiểm soát dữ liệu** - Giữ nghiên cứu của bạn riêng tư và an toàn
 - 🤖 **Chọn mô hình AI** - Hỗ trợ hơn 16 nhà cung cấp bao gồm OpenAI, Anthropic, Ollama, LM Studio và nhiều hơn nữa
 - 📚 **Tổ chức nội dung đa phương tiện** - PDF, video, âm thanh, trang web và nhiều hơn nữa
@@ -64,9 +69,9 @@ Tìm hiểu thêm về dự án tại [https://www.open-notebook.ai](https://www
 
 ---
 
-## 🆚 ChatBot so với Google Notebook LM
+## 🆚 ChatBot 5400 so với Google Notebook LM
 
-| Tính năng | ChatBot | Google Notebook LM | Ưu điểm |
+| Tính năng | ChatBot 5400 | Google Notebook LM | Ưu điểm |
 |-----------|--------------|--------------------|---------| 
 | **Quyền riêng tư & Kiểm soát** | Tự lưu trữ, dữ liệu của bạn | Chỉ trên đám mây Google | Chủ quyền dữ liệu hoàn toàn |
 | **Lựa chọn nhà cung cấp AI** | Hơn 16 nhà cung cấp (OpenAI, Anthropic, Ollama, LM Studio, v.v.) | Chỉ mô hình Google | Linh hoạt và tối ưu chi phí |
@@ -78,7 +83,7 @@ Tìm hiểu thêm về dự án tại [https://www.open-notebook.ai](https://www
 | **Tùy chỉnh** | Mã nguồn mở, tùy chỉnh hoàn toàn | Hệ thống đóng | Khả năng mở rộng không giới hạn |
 | **Chi phí** | Chỉ trả cho việc sử dụng AI | Gói miễn phí + Đăng ký hàng tháng | Minh bạch và có thể kiểm soát |
 
-**Tại sao chọn ChatBot?**
+**Tại sao chọn ChatBot 5400?**
 - 🔒 **Ưu tiên quyền riêng tư**: Nghiên cứu nhạy cảm của bạn hoàn toàn riêng tư
 - 💰 **Kiểm soát chi phí**: Chọn nhà cung cấp AI rẻ hơn hoặc chạy cục bộ với Ollama
 - 🎙️ **Podcast tốt hơn**: Kiểm soát toàn bộ kịch bản và linh hoạt đa người nói so với định dạng 2 người nói hạn chế
@@ -240,7 +245,7 @@ Nhờ thư viện [Esperanto](https://github.com/lfnovo/esperanto), chúng tôi 
 ## 📚 Tài liệu
 
 ### Bắt đầu
-- **[📖 Giới thiệu](docs/0-START-HERE/index.md)** - Tìm hiểu những gì ChatBot cung cấp
+- **[📖 Giới thiệu](docs/0-START-HERE/index.md)** - Tìm hiểu những gì ChatBot 5400 cung cấp
 - **[⚡ Bắt đầu nhanh](docs/0-START-HERE/quick-start.md)** - Thiết lập và chạy trong 5 phút
 - **[🔧 Cài đặt](docs/1-INSTALLATION/index.md)** - Hướng dẫn thiết lập toàn diện
 - **[🎯 Notebook đầu tiên](docs/0-START-HERE/first-notebook.md)** - Hướng dẫn từng bước
@@ -287,8 +292,8 @@ Xem [danh sách vấn đề mở](https://github.com/hona1902/5400-NoteBook_fina
 
 
 ## 📖 Cần trợ giúp?
-- **🤖 Trợ lý cài đặt AI**: Chúng tôi có [CustomGPT được xây dựng để giúp bạn cài đặt ChatBot](https://chatgpt.com/g/g-68776e2765b48191bd1bae3f30212631-open-notebook-installation-assistant) - nó sẽ hướng dẫn bạn qua từng bước!
-- **Mới sử dụng ChatBot?** Bắt đầu với [Hướng dẫn bắt đầu](docs/0-START-HERE/index.md)
+- **🤖 Trợ lý cài đặt AI**: Chúng tôi có [CustomGPT được xây dựng để giúp bạn cài đặt ChatBot 5400](https://chatgpt.com/g/g-68776e2765b48191bd1bae3f30212631-open-notebook-installation-assistant) - nó sẽ hướng dẫn bạn qua từng bước!
+- **Mới sử dụng ChatBot 5400?** Bắt đầu với [Hướng dẫn bắt đầu](docs/0-START-HERE/index.md)
 - **Cần trợ giúp cài đặt?** Xem [Hướng dẫn cài đặt](docs/1-INSTALLATION/index.md)
 - **Muốn xem hoạt động?** Thử [Hướng dẫn bắt đầu nhanh](docs/0-START-HERE/quick-start.md)
 
@@ -297,12 +302,12 @@ Xem [danh sách vấn đề mở](https://github.com/hona1902/5400-NoteBook_fina
 ### Tham gia cộng đồng
 - 💬 **[Máy chủ Discord](https://discord.gg/37XJPXfz2w)** - Nhận trợ giúp, chia sẻ ý tưởng và kết nối với người dùng khác
 - 🐛 **[GitHub Issues](https://github.com/hona1902/5400-NoteBook_final/issues)** - Báo cáo lỗi và yêu cầu tính năng
-- ⭐ **Gắn sao repo này** - Thể hiện sự ủng hộ và giúp người khác khám phá ChatBot
+- ⭐ **Gắn sao repo này** - Thể hiện sự ủng hộ và giúp người khác khám phá ChatBot 5400
 
 ### Đóng góp
 Chúng tôi hoan nghênh đóng góp! Chúng tôi đặc biệt cần sự giúp đỡ về:
 - **Phát triển Frontend**: Giúp cải thiện giao diện Next.js/React hiện đại của chúng tôi
-- **Kiểm thử & Sửa lỗi**: Làm cho ChatBot mạnh mẽ hơn
+- **Kiểm thử & Sửa lỗi**: Làm cho ChatBot 5400 mạnh mẽ hơn
 - **Phát triển tính năng**: Xây dựng công cụ nghiên cứu tuyệt vời nhất cùng nhau
 - **Tài liệu**: Cải thiện hướng dẫn và hướng dẫn sử dụng
 
@@ -316,7 +321,7 @@ Xem [Hướng dẫn đóng góp](CONTRIBUTING.md) để biết thông tin chi ti
 
 ## 📄 Giấy phép
 
-ChatBot được cấp phép MIT. Xem tệp [LICENSE](LICENSE) để biết chi tiết.
+ChatBot 5400 được cấp phép MIT. Xem tệp [LICENSE](LICENSE) để biết chi tiết.
 
 
 **Hỗ trợ cộng đồng**:
