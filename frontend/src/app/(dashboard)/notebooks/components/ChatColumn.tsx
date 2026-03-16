@@ -72,6 +72,14 @@ export function ChatColumn({ notebookId, contextSelections }: ChatColumnProps) {
     }
   }, [sources, notes, contextSelections, chat.tokenCount, chat.charCount])
 
+  const combinedTitleMap = useMemo(() => {
+    const map = new Map(titleMap)
+    if (chat.dynamicTitleMap) {
+      chat.dynamicTitleMap.forEach((val, key) => map.set(key, val))
+    }
+    return map
+  }, [titleMap, chat.dynamicTitleMap])
+
   // Show loading state while sources/notes are being fetched
   if (sourcesLoading || notesLoading) {
     return (
@@ -117,7 +125,7 @@ export function ChatColumn({ notebookId, contextSelections }: ChatColumnProps) {
       loadingSessions={chat.loadingSessions}
       notebookContextStats={contextStats}
       notebookId={notebookId}
-      titleMap={titleMap}
+      titleMap={combinedTitleMap}
       contentMap={chat.contentMap}
     />
   )

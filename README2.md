@@ -319,5 +319,20 @@ docker compose up -d surrealdb
 backend: uv run --env-file .env python run_api.py
 woker: uv run --env-file .env surreal-commands-worker --import-modules commands
 frontend: cd frontend && npm run dev
-git add . && git commit -m "Update Tiếng việt Full" && git push origin main
+git add . && git commit -m "Update chat components and source chat API" && git push origin main
 Kéo code về: git pull origin main
+Bước 1: Truy cập vào VPS
+ssh root@your-server-ip
+Bước 2: Di chuyển vào thư mục Open Notebook
+cd /root/5400-NoteBook_final
+Bước 3: Dừng các container đang chạy
+docker compose down
+Bước 4: Kéo code mới nhất từ GitHub
+git pull origin main
+Bước 5: Khởi động lại các container
+docker compose up -d  hoặc
+docker compose up -d --build
+
+
+Xem log trên VPS:
+docker compose logs -f

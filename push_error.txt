@@ -1,0 +1,7 @@
+remote: error: Trace: 7eea7f664eba956e3a0a4267a9d98b61feb51e1da2246cfcc12fc99ced8d38e9        
+remote: error: See https://gh.io/lfs for more information.        
+remote: error: File 5400-NoteBook_final.rar is 513.00 MB; this exceeds GitHub's file size limit of 100.00 MB        
+remote: error: GH001: Large files detected. You may want to try Git Large File Storage - https://git-lfs.github.com.        
+To https://github.com/hona1902/5400-NoteBook_final.git
+ ! [remote rejected] main -> main (pre-receive hook declined)
+error: failed to push some refs to 'https://github.com/hona1902/5400-NoteBook_final.git'

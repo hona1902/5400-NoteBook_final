@@ -478,6 +478,7 @@ export const enUS = {
     sessionCreated: "Chat session created",
     sessionUpdated: "Session updated",
     sessionDeleted: "Session deleted",
+    insightPrefix: "Insight: ",
   },
   searchPage: {
     askAndSearch: "Ask and Search",

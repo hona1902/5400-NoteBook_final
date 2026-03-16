@@ -478,6 +478,7 @@ export const viVN = {
     sessionCreated: "Đã tạo phiên trò chuyện",
     sessionUpdated: "Đã cập nhật phiên",
     sessionDeleted: "Đã xóa phiên",
+    insightPrefix: "Chi tiết: ",
   },
   searchPage: {
     askAndSearch: "Hỏi và Tìm kiếm",

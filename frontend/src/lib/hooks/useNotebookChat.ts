@@ -32,6 +32,7 @@ export function useNotebookChat({ notebookId, sources, notes, contextSelections 
   const [tokenCount, setTokenCount] = useState<number>(0)
   const [charCount, setCharCount] = useState<number>(0)
   const [contentMap, setContentMap] = useState<Map<string, string>>(new Map())
+  const [dynamicTitleMap, setDynamicTitleMap] = useState<Map<string, string>>(new Map())
   // Pending model override for when user changes model before a session exists
   const [pendingModelOverride, setPendingModelOverride] = useState<string | null>(null)
 
@@ -173,6 +174,8 @@ export function useNotebookChat({ notebookId, sources, notes, contextSelections 
     // Build contentMap from context response for citation tooltips
     // Maps individual insight/note IDs to their specific content (NotebookLM-like)
     const newContentMap = new Map<string, string>()
+    // Build dynamicTitleMap to properly resolve source_insight IDs to their document titles
+    const newTitleMap = new Map<string, string>()
     const ctx = response.context as {
       sources?: Array<{
         id?: string; title?: string;
@@ -192,6 +195,7 @@ export function useNotebookChat({ notebookId, sources, notes, contextSelections 
         const rawId = src.id.startsWith('source:') ? src.id.substring(7) : src.id
 
         // Map individual insight IDs to their specific content (for source_insight:xxx references)
+        // Also map to newTitleMap so the citation displays the source document's title
         if (src.insights && src.insights.length > 0) {
           for (const ins of src.insights) {
             if (ins.id && ins.content) {
@@ -199,6 +203,18 @@ export function useNotebookChat({ notebookId, sources, notes, contextSelections 
               newContentMap.set(ins.id, ins.content)
               newContentMap.set(insRawId, ins.content)
               newContentMap.set(`source_insight:${insRawId}`, ins.content)
+
+              if (src.title) {
+                const insightTitle = `${t.chat.insightPrefix}${src.title}`
+                newTitleMap.set(ins.id, insightTitle)
+                newTitleMap.set(insRawId, insightTitle)
+                newTitleMap.set(`source_insight:${insRawId}`, insightTitle)
+                
+                // Ensure the source itself is mapped too
+                newTitleMap.set(src.id, src.title)
+                newTitleMap.set(rawId, src.title)
+                newTitleMap.set(`source:${rawId}`, src.title)
+              }
             }
           }
         }
@@ -241,6 +257,7 @@ export function useNotebookChat({ notebookId, sources, notes, contextSelections 
       }
     }
     setContentMap(newContentMap)
+    setDynamicTitleMap(newTitleMap)
 
     // Return context directly — chunks are in a separate field, never in context
     return response.context
@@ -384,6 +401,7 @@ export function useNotebookChat({ notebookId, sources, notes, contextSelections 
     tokenCount,
     charCount,
     contentMap,
+    dynamicTitleMap,
     pendingModelOverride,
 
     // Actions

@@ -1,0 +1,160 @@
+commit 5255de414971848d1e0d7eb148bc72d3a0bc2677
+Author: Nguyễn Hoài Nam <nghoainam1902@gmail.com>
+Date:   Fri Feb 27 17:56:54 2026 +0700
+
+    Update chat components and source chat API
+
+diff --git a/frontend/src/lib/api/source-chat.ts b/frontend/src/lib/api/source-chat.ts
+index 62ba5a8..7b91ab9 100644
+--- a/frontend/src/lib/api/source-chat.ts
++++ b/frontend/src/lib/api/source-chat.ts
+@@ -1,4 +1,5 @@
+ import apiClient from './client'
++import { getApiUrl } from '@/lib/config'
+ import {
+   SourceChatSession,
+   SourceChatSessionWithMessages,
+@@ -46,7 +47,7 @@ export const sourceChatApi = {
+   },
+ 
+   // Messaging with streaming
+-  sendMessage: (sourceId: string, sessionId: string, data: SendMessageRequest) => {
++  sendMessage: async (sourceId: string, sessionId: string, data: SendMessageRequest) => {
+     // Get auth token using the same logic as apiClient interceptor
+     let token = null
+     if (typeof window !== 'undefined') {
+@@ -63,9 +64,9 @@ export const sourceChatApi = {
+       }
+     }
+ 
+-    // Use relative URL to leverage Next.js rewrites
+-    // This works both in dev (Next.js proxy) and production (Docker network)
+-    const url = `/api/sources/${sourceId}/chat/sessions/${sessionId}/messages`
++    // Use absolute URL to bypass Next.js rewrites issues with streaming
++    const apiUrl = await getApiUrl()
++    const url = `${apiUrl}/api/sources/${sourceId}/chat/sessions/${sessionId}/messages`
+ 
+     // Use fetch with ReadableStream for SSE
+     return fetch(url, {
+
+commit b7e656a31928f0543dda2feff13b333679e537fd
+Author: Luis Novo <lfnovo@gmail.com>
+Date:   Sat Oct 18 12:46:22 2025 -0300
+
+    Version 1 (#160)
+    
+    New front-end
+    Launch Chat API
+    Manage Sources
+    Enable re-embedding of all contents
+    Sources can be added without a notebook now
+    Improved settings
+    Enable model selector on all chats
+    Background processing for better experience
+    Dark mode
+    Improved Notes
+    
+    Improved Docs:
+    - Remove all Streamlit references from documentation
+    - Update deployment guides with React frontend setup
+    - Fix Docker environment variables format (SURREAL_URL, SURREAL_PASSWORD)
+    - Update docker image tag from :latest to :v1-latest
+    - Change navigation references (Settings → Models to just Models)
+    - Update development setup to include frontend npm commands
+    - Add MIGRATION.md guide for users upgrading from Streamlit
+    - Update quick-start guide with correct environment variables
+    - Add port 5055 documentation for API access
+    - Update project structure to reflect frontend/ directory
+    - Remove outdated source-chat documentation files
+
+diff --git a/frontend/src/lib/api/source-chat.ts b/frontend/src/lib/api/source-chat.ts
+new file mode 100644
+index 0000000..62ba5a8
+--- /dev/null
++++ b/frontend/src/lib/api/source-chat.ts
+@@ -0,0 +1,85 @@
++import apiClient from './client'
++import {
++  SourceChatSession,
++  SourceChatSessionWithMessages,
++  CreateSourceChatSessionRequest,
++  UpdateSourceChatSessionRequest,
++  SendMessageRequest
++} from '@/lib/types/api'
++
++export const sourceChatApi = {
++  // Session management
++  createSession: async (sourceId: string, data: Omit<CreateSourceChatSessionRequest, 'source_id'>) => {
++    // Extract clean ID without "source:" prefix for the request body
++    const cleanId = sourceId.startsWith('source:') ? sourceId.slice(7) : sourceId
++    const response = await apiClient.post<SourceChatSession>(
++      `/sources/${sourceId}/chat/sessions`,
++      { ...data, source_id: cleanId }  // Include source_id in the request body
++    )
++    return response.data
++  },
++
++  listSessions: async (sourceId: string) => {
++    const response = await apiClient.get<SourceChatSession[]>(
++      `/sources/${sourceId}/chat/sessions`
++    )
++    return response.data
++  },
++
++  getSession: async (sourceId: string, sessionId: string) => {
++    const response = await apiClient.get<SourceChatSessionWithMessages>(
++      `/sources/${sourceId}/chat/sessions/${sessionId}`
++    )
++    return response.data
++  },
++
++  updateSession: async (sourceId: string, sessionId: string, data: UpdateSourceChatSessionRequest) => {
++    const response = await apiClient.put<SourceChatSession>(
++      `/sources/${sourceId}/chat/sessions/${sessionId}`,
++      data
++    )
++    return response.data
++  },
++
++  deleteSession: async (sourceId: string, sessionId: string) => {
++    await apiClient.delete(`/sources/${sourceId}/chat/sessions/${sessionId}`)
++  },
++
++  // Messaging with streaming
++  sendMessage: (sourceId: string, sessionId: string, data: SendMessageRequest) => {
++    // Get auth token using the same logic as apiClient interceptor
++    let token = null
++    if (typeof window !== 'undefined') {
++      const authStorage = localStorage.getItem('auth-storage')
++      if (authStorage) {
++        try {
++          const { state } = JSON.parse(authStorage)
++          if (state?.token) {
++            token = state.token
++          }
++        } catch (error) {
++          console.error('Error parsing auth storage:', error)
++        }
++      }
++    }
++
++    // Use relative URL to leverage Next.js rewrites
++    // This works both in dev (Next.js proxy) and production (Docker network)
++    const url = `/api/sources/${sourceId}/chat/sessions/${sessionId}/messages`
++
++    // Use fetch with ReadableStream for SSE
++    return fetch(url, {
++      method: 'POST',
++      headers: {
++        'Content-Type': 'application/json',
++        ...(token && { 'Authorization': `Bearer ${token}` })
++      },
++      body: JSON.stringify(data)
++    }).then(response => {
++      if (!response.ok) {
++        throw new Error(`HTTP error! status: ${response.status}`)
++      }
++      return response.body
++    })
++  }
++}

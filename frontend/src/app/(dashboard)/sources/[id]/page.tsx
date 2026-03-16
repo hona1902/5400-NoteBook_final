@@ -23,22 +23,35 @@ export default function SourceDetailPage() {
   // Initialize source chat
   const chat = useSourceChat(sourceId)
 
-  // Fetch source data for title map
-  const { data: sourceData } = useSource(sourceId)
-  const titleMap = useMemo(() => {
-    const map = new Map<string, string>()
-    if (sourceData?.title) {
-      map.set(sourceData.id, sourceData.title)
-    }
-    return map
-  }, [sourceData])
-
   // Fetch source insights for contentMap
   const { data: insights = [] } = useQuery({
     queryKey: ['sourceInsights', sourceId],
     queryFn: () => insightsApi.listForSource(sourceId),
     enabled: !!sourceId
   })
+
+  // Fetch source data for title map
+  const { data: sourceData } = useSource(sourceId)
+  const titleMap = useMemo(() => {
+    const map = new Map<string, string>()
+    if (sourceData?.title) {
+      map.set(sourceData.id, sourceData.title)
+      const rawSourceId = sourceData.id.startsWith('source:') ? sourceData.id.substring(7) : sourceData.id
+      map.set(rawSourceId, sourceData.title)
+      map.set(`source:${rawSourceId}`, sourceData.title)
+
+      if (insights && insights.length > 0) {
+        const insightTitle = `${t.chat.insightPrefix}${sourceData.title}`
+        for (const insight of insights) {
+          const rawInsightId = insight.id.startsWith('source_insight:') ? insight.id.substring(15) : insight.id
+          map.set(insight.id, insightTitle)
+          map.set(rawInsightId, insightTitle)
+          map.set(`source_insight:${rawInsightId}`, insightTitle)
+        }
+      }
+    }
+    return map
+  }, [sourceData, insights, t.chat.insightPrefix])
 
   // Build contentMap from insights for citation tooltips
   const contentMap = useMemo(() => {

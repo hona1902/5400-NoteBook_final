@@ -1,4 +1,5 @@
 import apiClient from './client'
+import { getApiUrl } from '@/lib/config'
 import {
   SourceChatSession,
   SourceChatSessionWithMessages,
@@ -7,46 +8,59 @@ import {
   SendMessageRequest
 } from '@/lib/types/api'
 
+// Helper to strip prefixes for URLs, bypassing Next.js proxy url-encoding bugs with "%3A"
+const cleanId = (id: string, prefix: string) => id.startsWith(prefix) ? id.slice(prefix.length) : id
+
 export const sourceChatApi = {
   // Session management
   createSession: async (sourceId: string, data: Omit<CreateSourceChatSessionRequest, 'source_id'>) => {
-    // Extract clean ID without "source:" prefix for the request body
-    const cleanId = sourceId.startsWith('source:') ? sourceId.slice(7) : sourceId
+    // Extract clean ID without "source:" prefix for the request body and URL
+    const cSourceId = cleanId(sourceId, 'source:')
     const response = await apiClient.post<SourceChatSession>(
-      `/sources/${sourceId}/chat/sessions`,
-      { ...data, source_id: cleanId }  // Include source_id in the request body
+      `/sources/${cSourceId}/chat/sessions`,
+      { ...data, source_id: cSourceId }  // Include source_id in the request body
     )
     return response.data
   },
 
   listSessions: async (sourceId: string) => {
+    const cSourceId = cleanId(sourceId, 'source:')
     const response = await apiClient.get<SourceChatSession[]>(
-      `/sources/${sourceId}/chat/sessions`
+      `/sources/${cSourceId}/chat/sessions`
     )
     return response.data
   },
 
   getSession: async (sourceId: string, sessionId: string) => {
+    const cSourceId = cleanId(sourceId, 'source:')
+    const cSessionId = cleanId(sessionId, 'chat_session:')
     const response = await apiClient.get<SourceChatSessionWithMessages>(
-      `/sources/${sourceId}/chat/sessions/${sessionId}`
+      `/sources/${cSourceId}/chat/sessions/${cSessionId}`
     )
     return response.data
   },
 
   updateSession: async (sourceId: string, sessionId: string, data: UpdateSourceChatSessionRequest) => {
+    const cSourceId = cleanId(sourceId, 'source:')
+    const cSessionId = cleanId(sessionId, 'chat_session:')
     const response = await apiClient.put<SourceChatSession>(
-      `/sources/${sourceId}/chat/sessions/${sessionId}`,
+      `/sources/${cSourceId}/chat/sessions/${cSessionId}`,
       data
     )
     return response.data
   },
 
   deleteSession: async (sourceId: string, sessionId: string) => {
-    await apiClient.delete(`/sources/${sourceId}/chat/sessions/${sessionId}`)
+    const cSourceId = cleanId(sourceId, 'source:')
+    const cSessionId = cleanId(sessionId, 'chat_session:')
+    await apiClient.delete(`/sources/${cSourceId}/chat/sessions/${cSessionId}`)
   },
 
   // Messaging with streaming
-  sendMessage: (sourceId: string, sessionId: string, data: SendMessageRequest) => {
+  sendMessage: async (sourceId: string, sessionId: string, data: SendMessageRequest) => {
+    const cSourceId = cleanId(sourceId, 'source:')
+    const cSessionId = cleanId(sessionId, 'chat_session:')
+    
     // Get auth token using the same logic as apiClient interceptor
     let token = null
     if (typeof window !== 'undefined') {
@@ -63,9 +77,9 @@ export const sourceChatApi = {
       }
     }
 
-    // Use relative URL to leverage Next.js rewrites
-    // This works both in dev (Next.js proxy) and production (Docker network)
-    const url = `/api/sources/${sourceId}/chat/sessions/${sessionId}/messages`
+    // Use absolute URL to bypass Next.js rewrites issues with streaming
+    const apiUrl = await getApiUrl()
+    const url = `${apiUrl}/api/sources/${cSourceId}/chat/sessions/${cSessionId}/messages`
 
     // Use fetch with ReadableStream for SSE
     return fetch(url, {
